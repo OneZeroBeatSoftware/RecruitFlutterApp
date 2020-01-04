@@ -1,17 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:recruit_app/pages/companys/company_detail.dart';
-import 'package:recruit_app/pages/jobs/chat_room.dart';
 
-class JobDetail extends StatefulWidget {
+class JobManageDetail extends StatefulWidget {
   @override
-  _JobDetailState createState() {
+  _JobManageDetailState createState() {
     // TODO: implement createState
-    return _JobDetailState();
+    return _JobManageDetailState();
   }
 }
 
-class _JobDetailState extends State<JobDetail> {
+class _JobManageDetailState extends State<JobManageDetail> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -27,16 +26,19 @@ class _JobDetailState extends State<JobDetail> {
               onPressed: () {
                 Navigator.pop(context);
               }),
+          centerTitle: true,
+          title: Text('职位详情',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                  wordSpacing: 1,
+                  letterSpacing: 1,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromRGBO(37, 38, 39, 1))),
           automaticallyImplyLeading: false,
           backgroundColor: Color.fromRGBO(255, 255, 255, 1),
           actions: <Widget>[
-            IconButton(
-                icon: Image.asset(
-                  'images/ic_action_favor_off_black.png',
-                  width: 24,
-                  height: 24,
-                ),
-                onPressed: () {}),
             IconButton(
                 icon: Image.asset(
                   'images/ic_action_share_black.png',
@@ -44,13 +46,6 @@ class _JobDetailState extends State<JobDetail> {
                   height: 24,
                 ),
                 onPressed: () {}),
-            IconButton(
-                icon: Image.asset(
-                  'images/ic_action_report_black.png',
-                  width: 24,
-                  height: 24,
-                ),
-                onPressed: () {})
           ],
         ),
         body: Column(
@@ -72,7 +67,7 @@ class _JobDetailState extends State<JobDetail> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           Expanded(
-                            child: Text('apm高级产品经理',
+                            child: Text('全栈工程师',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
@@ -83,7 +78,7 @@ class _JobDetailState extends State<JobDetail> {
                                     color: Color.fromRGBO(37, 38, 39, 1))),
                           ),
                           SizedBox(width: 8),
-                          Text('20-30K•14薪',
+                          Text('20-30K',
                               style: const TextStyle(
                                   wordSpacing: 1,
                                   letterSpacing: 1,
@@ -99,7 +94,7 @@ class _JobDetailState extends State<JobDetail> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          Text('上海',
+                          Text('福州',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -108,7 +103,7 @@ class _JobDetailState extends State<JobDetail> {
                                   fontSize: 14,
                                   color: Color.fromRGBO(46, 47, 48, 1))),
                           SizedBox(width: 8),
-                          Text('5-10年',
+                          Text('3-5年',
                               style: TextStyle(
                                   wordSpacing: 1,
                                   letterSpacing: 1,
@@ -121,61 +116,6 @@ class _JobDetailState extends State<JobDetail> {
                                   letterSpacing: 1,
                                   fontSize: 14,
                                   color: Color.fromRGBO(46, 47, 48, 1))),
-                        ],
-                      ),
-                      Container(
-                        color: Color.fromRGBO(242, 242, 242, 1),
-                        height: 1,
-                        margin: EdgeInsets.only(top: 15, bottom: 15),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          ClipRRect(
-                            borderRadius: BorderRadius.all(Radius.circular(25)),
-                            child: Image.asset('images/avatar_1.png',
-                                width: 50, height: 50, fit: BoxFit.cover),
-                          ),
-                          SizedBox(width: 15),
-                          Expanded(
-                              child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Flexible(
-                                    child: Text('胡京茹',
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                            wordSpacing: 1,
-                                            letterSpacing: 1,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                            color:
-                                                Color.fromRGBO(37, 38, 39, 1))),
-                                  ),
-                                  SizedBox(width: 8),
-                                  Text('今日活跃',
-                                      style: const TextStyle(
-                                          wordSpacing: 1,
-                                          letterSpacing: 1,
-                                          fontSize: 14,
-                                          color: Color.fromRGBO(
-                                              181, 182, 183, 1))),
-                                ],
-                              ),
-                              SizedBox(height: 5),
-                              Text('腾讯•招聘者',
-                                  style: TextStyle(
-                                      wordSpacing: 1,
-                                      letterSpacing: 1,
-                                      fontSize: 14,
-                                      color: Color.fromRGBO(46, 47, 48, 1))),
-                            ],
-                          )),
                         ],
                       ),
                       Container(
@@ -321,7 +261,7 @@ class _JobDetailState extends State<JobDetail> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text('腾讯科技（上海有限公司）',
+                                Text('一零跳动有限公司',
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
@@ -366,20 +306,46 @@ class _JobDetailState extends State<JobDetail> {
             ),
             SafeArea(
               top: false,
-              child: Container(
+              child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-                  child: MaterialButton(
-                    color: Color.fromRGBO(70, 192, 182, 1),
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => ChatRoom()));
-                    },
-                    textColor: Colors.white,
-                    child: Text("立即沟通"),
-                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                    ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Expanded(
+                        flex: 1,
+                        child: MaterialButton(
+                          color: Color.fromRGBO(246, 246, 246, 1),
+                          onPressed: () {},
+                          textColor: Color.fromRGBO(85, 85, 85, 1),
+                          child: Text("编辑"),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 12),
+                          shape: const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(5.0)),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: MaterialButton(
+                          color: Color.fromRGBO(70, 192, 182, 1),
+                          onPressed: () {},
+                          textColor: Colors.white,
+                          child: Text("关闭职位"),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 12),
+                          shape: const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(5.0)),
+                          ),
+                        ),
+                      ),
+                    ],
                   )),
             ),
           ],

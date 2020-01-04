@@ -3,23 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recruit_app/model/identity_model.dart';
 import 'package:recruit_app/model/me_list.dart';
-import 'package:recruit_app/pages/mine/collection.dart';
-import 'package:recruit_app/pages/mine/comunicate.dart';
-import 'package:recruit_app/pages/mine/focus_company_list.dart';
-import 'package:recruit_app/pages/mine/job_intent.dart';
-import 'package:recruit_app/pages/mine/online_resume.dart';
-import 'package:recruit_app/pages/mine/send_resume.dart';
+import 'package:recruit_app/pages/boss/boss_collection.dart';
+import 'package:recruit_app/pages/boss/boss_comunicate.dart';
+import 'package:recruit_app/pages/boss/company_info.dart';
+import 'package:recruit_app/pages/boss/job_manage.dart';
 
-class Mine extends StatefulWidget {
+class BossMine extends StatefulWidget {
   @override
-  _MineState createState() {
+  _BossMineState createState() {
     // TODO: implement createState
-    return _MineState();
+    return _BossMineState();
   }
 }
 
-class _MineState extends State<Mine> {
-  List<Me> options = MeOptions.loadOptions();
+class _BossMineState extends State<BossMine> {
+  List<Me> options = MeOptions.loadBossOptions();
 
   @override
   Widget build(BuildContext context) {
@@ -46,13 +44,25 @@ class _MineState extends State<Mine> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(30),
+                                child: Image.asset(
+                                  'images/avatar_2.png',
+                                  width: 60,
+                                  height: 60,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 15,
+                              ),
                               Expanded(
                                   child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    '狐说',
+                                    '黄小姐',
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
@@ -63,53 +73,15 @@ class _MineState extends State<Mine> {
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  GestureDetector(
-                                    behavior: HitTestBehavior.opaque,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Image.asset(
-                                          'images/icon_compile.png',
-                                          width: 13,
-                                          height: 13,
-                                          fit: BoxFit.cover,
-                                        ),
-                                        SizedBox(
-                                          width: 8,
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            '我的在线简历',
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 13),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    onTap: () {
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>OnlineResume()));
-                                    },
+                                  Text(
+                                    '零一跳动•招聘者',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 13),
                                   ),
                                 ],
                               )),
-                              SizedBox(
-                                width: 15,
-                              ),
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(30),
-                                child: Image.asset(
-                                  'images/avatar_15.png',
-                                  width: 60,
-                                  height: 60,
-                                  fit: BoxFit.cover,
-                                ),
-                              )
                             ],
                           ),
                         ),
@@ -157,7 +129,7 @@ class _MineState extends State<Mine> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              ComunicateJob()));
+                                              BossCommunicateJob()));
                                 },
                               ),
                             ),
@@ -206,42 +178,6 @@ class _MineState extends State<Mine> {
                                       height: 5,
                                     ),
                                     Text(
-                                      '已投简历',
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          color: Colors.white70, fontSize: 12),
-                                    ),
-                                  ],
-                                ),
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              SendResumeJob()));
-                                },
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: GestureDetector(
-                                behavior: HitTestBehavior.opaque,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      '8',
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 18),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
                                       '收藏',
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
@@ -255,7 +191,39 @@ class _MineState extends State<Mine> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              CollectionJob()));
+                                              BossCollectionJob()));
+                                },
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: GestureDetector(
+                                behavior: HitTestBehavior.opaque,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      '0',
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 18),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      '影响力',
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          color: Colors.white70, fontSize: 12),
+                                    ),
+                                  ],
+                                ),
+                                onTap: () {
+
                                 },
                               ),
                             ),
@@ -297,81 +265,84 @@ class _MineState extends State<Mine> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Consumer<IdentityModel>(builder: (context,model,child){
-                  return GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Image.asset(
-                            options[index].imgPath,
-                            width: 20,
-                            height: 20,
-                            fit: BoxFit.cover,
-                          ),
-                          SizedBox(
-                            width: 15,
-                          ),
-                          Expanded(
-                            child: Text(
-                              options[index].itemName,
+                Consumer<IdentityModel>(
+                  builder: (context, model, child) {
+                    return GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Image.asset(
+                              options[index].imgPath,
+                              width: 20,
+                              height: 20,
+                              fit: BoxFit.cover,
+                            ),
+                            SizedBox(
+                              width: 15,
+                            ),
+                            Expanded(
+                              child: Text(
+                                options[index].itemName,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: TextStyle(
+                                    color: Color.fromRGBO(39, 40, 41, 1),
+                                    fontSize: 16),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 15,
+                            ),
+                            Text(
+                              options[index].itemStatus,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
-                              style: TextStyle(
-                                  color: Color.fromRGBO(39, 40, 41, 1),
-                                  fontSize: 16),
+                              style: const TextStyle(
+                                  color: Color.fromRGBO(164, 165, 166, 1),
+                                  fontSize: 14),
                             ),
-                          ),
-                          SizedBox(
-                            width: 15,
-                          ),
-                          Text(
-                            options[index].itemStatus,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            style: const TextStyle(
-                                color: Color.fromRGBO(164, 165, 166, 1),
-                                fontSize: 14),
-                          ),
-                          SizedBox(
-                            width: 15,
-                          ),
-                          Image.asset(
-                            'images/ic_arrow_gray.png',
-                            width: 10,
-                            height: 10,
-                            fit: BoxFit.cover,
-                          )
-                        ],
+                            SizedBox(
+                              width: 15,
+                            ),
+                            Image.asset(
+                              'images/ic_arrow_gray.png',
+                              width: 10,
+                              height: 10,
+                              fit: BoxFit.cover,
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                    onTap: () {
-                      if (index == 3) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => FocusCompanyList()));
-                      } else if (index == 1) {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => JobIntent()));
-                      }else if(index==5){
-                      model.changeIdentity(
-                      model.identity == Identity.employee
-                      ? Identity.boss
-                          : Identity.employee);
-                      }
-                    },
-                  );
-                },),
-                
+                      onTap: () {
+                        if (index == 3) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CompanyInfo()));
+                        } else if (index == 0) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => JobManage()));
+                        } else if (index == 4) {
+                          model.changeIdentity(
+                              model.identity == Identity.employee
+                                  ? Identity.boss
+                                  : Identity.employee);
+                        }
+                      },
+                    );
+                  },
+                ),
                 Container(
                   color: Color.fromRGBO(245, 246, 246, 1),
                   height: (index == 1 ||
                           index == 3 ||
-                          index == 4 ||index == 5 ||
+                          index == 4 ||
                           index == options.length - 1)
                       ? 1
                       : 0,

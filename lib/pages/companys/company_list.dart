@@ -29,6 +29,7 @@ class _CompanyListState extends State<CompanyList> {
         itemBuilder: (context, index) {
           if (index < _companyList.length) {
             return GestureDetector(
+              behavior: HitTestBehavior.opaque,
               child: CompanyRowItem(
                   company: _companyList[index],
                   index: index,

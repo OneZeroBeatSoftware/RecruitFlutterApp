@@ -17,6 +17,18 @@ class ChatData {
   static List<Chat> loadChats() {
     return _allChats;
   }
+
+  static const _allBossChats = <Chat>[
+    Chat(
+        sender: 'images/avatar_2.png',
+        content: '您好，请问有考虑新的工作机会吗？'),
+    Chat(
+        sender: 'images/avatar_14.png',
+        content: '嗯嗯。'),
+  ];
+  static List<Chat> loadBossChats() {
+    return _allBossChats;
+  }
 }
 
 class Chat {

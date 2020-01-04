@@ -1,10 +1,14 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:recruit_app/model/company_pic_list.dart';
 import 'package:recruit_app/model/company_welfare_list.dart';
+import 'package:recruit_app/model/job_list.dart';
+import 'package:recruit_app/pages/companys/company_job_item.dart';
 import 'package:recruit_app/pages/companys/company_pic_item.dart';
 import 'package:recruit_app/pages/companys/company_welfare_item.dart';
+import 'package:recruit_app/pages/jobs/job_detail.dart';
 
 class CompanyDetail extends StatefulWidget {
   @override
@@ -14,6 +18,13 @@ class CompanyDetail extends StatefulWidget {
 class _CompanyDetailState extends State<CompanyDetail> {
   List<WelfareData> _welfareList = WelfareList.loadWelfareList();
   List<CompanyPicData> _picList = CompanyPicList.loadCompanyPicList();
+
+  List<Job> _jobList = JobData.loadJobs();
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +86,6 @@ class _CompanyDetailState extends State<CompanyDetail> {
             ],
           ),
           SafeArea(
-            top: true,
             child: Container(
               margin: EdgeInsets.only(top: kToolbarHeight),
               child: SingleChildScrollView(
@@ -111,7 +121,6 @@ class _CompanyDetailState extends State<CompanyDetail> {
                                 Text('已上市•10000人以上•互联网',
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.center,
                                     style: TextStyle(
                                         wordSpacing: 1,
                                         letterSpacing: 1,
@@ -141,19 +150,17 @@ class _CompanyDetailState extends State<CompanyDetail> {
                         children: <Widget>[
                           Expanded(
                             child: Wrap(
+                                crossAxisAlignment: WrapCrossAlignment.center,
                                 spacing: 20,
                                 runSpacing: 10,
                                 children: <Widget>[
                                   Text('上午10:00-下午07:00',
-                                      textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontSize: 14, color: Colors.white)),
                                   Text('双休',
-                                      textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontSize: 14, color: Colors.white)),
                                   Text('弹性工作',
-                                      textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontSize: 14, color: Colors.white)),
                                 ]),
@@ -164,7 +171,6 @@ class _CompanyDetailState extends State<CompanyDetail> {
                           Text('更多福利',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.center,
                               style: TextStyle(
                                   wordSpacing: 1,
                                   letterSpacing: 1,
@@ -373,7 +379,7 @@ class _CompanyDetailState extends State<CompanyDetail> {
                                   wordSpacing: 1,
                                   letterSpacing: 1,
                                   fontSize: 14,
-                                  color:  Colors.white)),
+                                  color: Colors.white)),
                           SizedBox(
                             width: 15,
                           ),
@@ -389,10 +395,7 @@ class _CompanyDetailState extends State<CompanyDetail> {
                                     color: Colors.white)),
                           ),
                         ],
-
-
                       ),
-
                       SizedBox(
                         height: 10,
                       ),
@@ -407,7 +410,7 @@ class _CompanyDetailState extends State<CompanyDetail> {
                                   wordSpacing: 1,
                                   letterSpacing: 1,
                                   fontSize: 14,
-                                  color:  Colors.white)),
+                                  color: Colors.white)),
                           SizedBox(
                             width: 15,
                           ),
@@ -423,11 +426,7 @@ class _CompanyDetailState extends State<CompanyDetail> {
                                     color: Colors.white)),
                           ),
                         ],
-
-
                       ),
-
-
                       SizedBox(
                         height: 10,
                       ),
@@ -442,7 +441,7 @@ class _CompanyDetailState extends State<CompanyDetail> {
                                   wordSpacing: 1,
                                   letterSpacing: 1,
                                   fontSize: 14,
-                                  color:  Colors.white)),
+                                  color: Colors.white)),
                           SizedBox(
                             width: 15,
                           ),
@@ -458,10 +457,7 @@ class _CompanyDetailState extends State<CompanyDetail> {
                                     color: Colors.white)),
                           ),
                         ],
-
-
                       ),
-
                       SizedBox(
                         height: 10,
                       ),
@@ -476,7 +472,7 @@ class _CompanyDetailState extends State<CompanyDetail> {
                                   wordSpacing: 1,
                                   letterSpacing: 1,
                                   fontSize: 14,
-                                  color:  Colors.white)),
+                                  color: Colors.white)),
                           SizedBox(
                             width: 15,
                           ),
@@ -492,10 +488,7 @@ class _CompanyDetailState extends State<CompanyDetail> {
                                     color: Colors.white)),
                           ),
                         ],
-
-
                       ),
-
                       SizedBox(
                         height: 15,
                       ),
@@ -508,9 +501,8 @@ class _CompanyDetailState extends State<CompanyDetail> {
                               letterSpacing: 1,
                               fontSize: 14,
                               color: Color.fromRGBO(181, 182, 183, 1))),
-
                       SizedBox(
-                        height: 50,
+                        height: 106,
                       ),
                     ],
                   ),
@@ -518,8 +510,72 @@ class _CompanyDetailState extends State<CompanyDetail> {
               ),
             ),
           ),
+//          BottomDrawerWidget(
+//            child: buildJobDrawer(),
+//            marginTop: kToolbarHeight,
+//            smallHeight: 56,),
         ],
       ),
     );
+  }
+
+  Widget buildJobDrawer() {
+    return SafeArea(
+      bottom: false,
+      child: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: 15,
+        ),
+        margin: EdgeInsets.only(top: kToolbarHeight),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10))),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Container(
+              height: 56,
+              alignment: Alignment.centerLeft,
+              child: Text('职位',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                      wordSpacing: 1,
+                      letterSpacing: 1,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black)),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  if (index < _jobList.length) {
+                    return GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        child: CompanyJobItem(
+                            job: _jobList[index],
+                            index: index,
+                            lastItem: index == _jobList.length - 1),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => JobDetail(),
+                              ));
+                        });
+                  }
+                  return null;
+                },
+                itemCount: _jobList.length,
+                shrinkWrap: true,
+                physics: const BouncingScrollPhysics(),
+              ),
+            ),
+          ],
+        ),
+      ),);
   }
 }

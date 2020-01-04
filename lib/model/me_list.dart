@@ -5,13 +5,27 @@ class MeOptions {
     Me(imgPath: 'images/img_home_personal.png', itemName: '个人主页', itemStatus: ''),
     Me(imgPath: 'images/img_ask_reply.png', itemName: '我关注的公司', itemStatus: ''),
     Me(imgPath: 'images/img_sun.png', itemName: '提升简历曝光', itemStatus: ''),
-    Me(imgPath: 'images/img_help.png', itemName: '帮助与反馈', itemStatus: ''),
+    Me(imgPath: 'images/img_help.png', itemName: '切换角色', itemStatus: '牛人'),
     Me(imgPath: 'images/img_service.png', itemName: '我的客服', itemStatus: ''),
     Me(imgPath: 'images/img_about.png', itemName: '关于', itemStatus: ''),
   ];
 
   static List<Me> loadOptions() {
     return _allOptions;
+  }
+
+  static const _allBossOptions = <Me>[
+    Me(imgPath: 'images/img_cv.png', itemName: '职位管理', itemStatus: ''),
+    Me(imgPath: 'images/img_job_status.png', itemName: '企业管理', itemStatus: ''),
+    Me(imgPath: 'images/img_home_personal.png', itemName: '个人主页', itemStatus: ''),
+    Me(imgPath: 'images/img_sun.png', itemName: '公司主页', itemStatus: '完成度:0%'),
+    Me(imgPath: 'images/img_help.png', itemName: '切换角色', itemStatus: '老板'),
+    Me(imgPath: 'images/img_service.png', itemName: '我的客服', itemStatus: ''),
+    Me(imgPath: 'images/img_about.png', itemName: '关于', itemStatus: ''),
+  ];
+
+  static List<Me> loadBossOptions() {
+    return _allBossOptions;
   }
 }
 

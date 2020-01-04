@@ -48,6 +48,7 @@ class _SendResumeJobState extends State<SendResumeJob> {
         itemBuilder: (context, index) {
           if (index < _jobList.length) {
             return GestureDetector(
+                behavior: HitTestBehavior.opaque,
                 child: ComunicateRowItem(
                     job: _jobList[index],
                     index: index,

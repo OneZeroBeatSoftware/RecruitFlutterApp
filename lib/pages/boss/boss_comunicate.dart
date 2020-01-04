@@ -1,19 +1,18 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:recruit_app/model/job_list.dart';
-import 'package:recruit_app/pages/jobs/job_detail.dart';
-import 'package:recruit_app/pages/mine/comunicate_row_item.dart';
+import 'package:recruit_app/model/employe_list.dart';
+import 'package:recruit_app/pages/boss/boss_comunicate_item.dart';
+import 'package:recruit_app/pages/employe/employee_detail.dart';
 
-class ComunicateJob extends StatefulWidget {
+class BossCommunicateJob extends StatefulWidget {
   @override
-  _ComunicateJobState createState() {
+  _BossCommunicateJobState createState() {
     // TODO: implement createState
-    return _ComunicateJobState();
+    return _BossCommunicateJobState();
   }
 }
 
-class _ComunicateJobState extends State<ComunicateJob> {
-  List<Job> _jobList = JobData.loadJobs();
+class _BossCommunicateJobState extends State<BossCommunicateJob> {
+  List<Employee> _employeeList = EmployeeData.loadEmployees();
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +22,7 @@ class _ComunicateJobState extends State<ComunicateJob> {
       appBar: AppBar(
         elevation: 1,
         centerTitle: true,
-        title: Text('沟通过的职位',
+        title: Text('沟通过的牛人',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(
@@ -46,24 +45,23 @@ class _ComunicateJobState extends State<ComunicateJob> {
       ),
       body: ListView.builder(
         itemBuilder: (context, index) {
-          if (index < _jobList.length) {
+          if (index < _employeeList.length) {
             return GestureDetector(
                 behavior: HitTestBehavior.opaque,
-                child: ComunicateRowItem(
-                    job: _jobList[index],
-                    index: index,
-                    lastItem: index == _jobList.length - 1),
+                child: BossCommunicateItem(
+                    employee: _employeeList[index],
+                    index: index,),
                 onTap: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => JobDetail(),
+                        builder: (context) => EmployeeDetail(),
                       ));
                 });
           }
           return null;
         },
-        itemCount: _jobList.length,
+        itemCount: _employeeList.length,
         shrinkWrap: true,
         physics: const BouncingScrollPhysics(),
       ),

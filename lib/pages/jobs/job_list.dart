@@ -27,7 +27,9 @@ class _JobListState extends State<JobList> {
         body: ListView.builder(
           itemBuilder: (context, index) {
             if (index < _jobList.length) {
-              return GestureDetector(child: JobRowItem(
+              return GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  child: JobRowItem(
                   job: _jobList[index],
                   index: index,
                   lastItem: index == _jobList.length - 1),

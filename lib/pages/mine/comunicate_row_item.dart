@@ -45,7 +45,6 @@ class ComunicateRowItem extends StatelessWidget {
                       SizedBox(width: 8),
                       Text(
                           '${job.leastSalary}-${job.highestSalary}K•${job.count}薪',
-                          textAlign: TextAlign.center,
                           style: const TextStyle(
                               wordSpacing: 1,
                               letterSpacing: 1,
@@ -65,7 +64,6 @@ class ComunicateRowItem extends StatelessWidget {
                           child: Text('${job.companyName}',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.center,
                               style: TextStyle(
                                   wordSpacing: 1,
                                   letterSpacing: 1,
@@ -73,7 +71,6 @@ class ComunicateRowItem extends StatelessWidget {
                                   color: Colors.grey[600]))),
                       SizedBox(width: 8),
                       Text('${job.companyStatus}',
-                          textAlign: TextAlign.center,
                           style: TextStyle(
                               wordSpacing: 1,
                               letterSpacing: 1,

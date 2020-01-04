@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:recruit_app/model/chat_list.dart';
 import 'package:recruit_app/pages/jobs/chat_row_item.dart';
 
-class ChatRoom extends StatefulWidget {
+class BossChatRoom extends StatefulWidget {
   @override
-  _ChatRoomState createState() {
+  _BossChatRoomState createState() {
     // TODO: implement createState
-    return _ChatRoomState();
+    return _BossChatRoomState();
   }
 }
 
-class _ChatRoomState extends State<ChatRoom> {
-  List<Chat> _chatList = ChatData.loadChats();
+class _BossChatRoomState extends State<BossChatRoom> {
+  List<Chat> _chatList = ChatData.loadBossChats();
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -40,7 +40,7 @@ class _ChatRoomState extends State<ChatRoom> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Text('胡京茹',
+              Text('Bingo',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
@@ -49,7 +49,7 @@ class _ChatRoomState extends State<ChatRoom> {
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                       color: Color.fromRGBO(37, 38, 39, 1))),
-              Text('腾讯•招聘者',
+              Text('全栈工程师',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
@@ -137,7 +137,7 @@ class _ChatRoomState extends State<ChatRoom> {
                         SizedBox(
                           height: 3,
                         ),
-                        Text('发简历',
+                        Text('求简历',
                             style: const TextStyle(
                                 wordSpacing: 1,
                                 letterSpacing: 1,
@@ -156,7 +156,7 @@ class _ChatRoomState extends State<ChatRoom> {
                         SizedBox(
                           height: 3,
                         ),
-                        Text('不感兴趣',
+                        Text('不合适',
                             style: const TextStyle(
                                 wordSpacing: 1,
                                 letterSpacing: 1,
@@ -182,7 +182,7 @@ class _ChatRoomState extends State<ChatRoom> {
                               ? _chatList[0]
                               : _chatList[index - 1],
                           index: index,
-                          isBoss: false,),
+                          isBoss: true,),
                         onTap: () {},
                       );
                     }
