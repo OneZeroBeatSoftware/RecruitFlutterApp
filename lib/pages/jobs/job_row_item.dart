@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/model/job_list.dart';
+import 'package:recruit_app/pages/jobs/job_detail.dart';
 
 class JobRowItem extends StatelessWidget {
   final Job job;
@@ -13,144 +15,174 @@ class JobRowItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final jobItem = Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 5),
-          child: Card(
-            color: Colors.white,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(5.0)),
-            ),
-            clipBehavior: Clip.antiAlias,
-            semanticContainer: false,
-            child: Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Expanded(
-                        child: Text(job.jobName,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                                wordSpacing: 1,
-                                letterSpacing: 1,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black)),
-                      ),
-                      SizedBox(width: 8),
-                      Text(
-                          '${job.leastSalary}-${job.highestSalary}K•${job.count}薪',
-                          style: const TextStyle(
-                              wordSpacing: 1,
-                              letterSpacing: 1,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromRGBO(70, 192, 182, 1))),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Flexible(
-                          child: Text('${job.companyName}',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                  wordSpacing: 1,
-                                  letterSpacing: 1,
-                                  fontSize: 13,
-                                  color: Colors.grey[600]))),
-                      SizedBox(width: 8),
-                      Text('${job.companyStatus}',
-                          style: TextStyle(
-                              wordSpacing: 1,
-                              letterSpacing: 1,
-                              fontSize: 13,
-                              color: Colors.grey[600])),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Wrap(
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    spacing: 6,
-                    runSpacing: 6,
-                    children: job.label.map((item) {
-                      return new Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 4,
-                          ),
-                          decoration: new BoxDecoration(
-                            color: Colors.grey[100],
-                            borderRadius: new BorderRadius.circular(4.0),
-                          ),
-                          child: Text(item,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 10, color: Colors.grey[600])));
-                    }).toList(),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.asset(
-                          'images/avatar_${index % 16 + 1}.png',
-                          width: 20,
-                          height: 20,
-                          fit: BoxFit.cover,
+      padding: EdgeInsets.only(
+          left: ScreenUtil().setWidth(48),
+          right: ScreenUtil().setWidth(48),
+          top: ScreenUtil().setHeight(30),
+          bottom: ScreenUtil().setHeight(30)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Expanded(
+                child: Row(
+                  children: <Widget>[
+                    Flexible(
+                      child: Text(
+                        job.jobName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: ScreenUtil().setSp(36),
+                          fontWeight: FontWeight.w500,
+                          color: Color.fromRGBO(20, 20, 20, 1),
                         ),
                       ),
-                      SizedBox(
-                        width: 6,
+                    ),
+                    SizedBox(
+                      width: ScreenUtil().setWidth(14),
+                    ),
+                    Text(
+                      '候选人1/10',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: ScreenUtil().setSp(24),
+                        color: Color.fromRGBO(176, 181, 180, 1),
                       ),
-                      Flexible(
-                          child: Text(job.hr,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                  letterSpacing: 1,
-                                  wordSpacing: 1,
-                                  fontSize: 12,
-                                  color: Colors.grey[600]))),
-                      Text('•${job.hrPos}',
-                          style: TextStyle(
-                              wordSpacing: 1,
-                              letterSpacing: 1,
-                              fontSize: 12,
-                              color: Colors.grey[600])),
-                    ],
-                  ),
-                ],
+                    ),
+                  ],
+                ),
               ),
+              SizedBox(width: 4),
+              Text('${job.leastSalary}-${job.highestSalary}K',
+                  style: TextStyle(
+                      fontSize: ScreenUtil().setSp(36),
+                      fontWeight: FontWeight.w500,
+                      color: Color.fromRGBO(68, 77, 151, 1))),
+            ],
+          ),
+          SizedBox(
+            height: ScreenUtil().setHeight(20),
+          ),
+          Text(
+            '福州 仓山区 ｜ 1-3年 ｜ 本科',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: ScreenUtil().setSp(26),
+              color: Color.fromRGBO(151, 151, 151, 1),
             ),
-          ));
+          ),
+          SizedBox(
+            height: ScreenUtil().setHeight(28),
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              ClipRRect(
+                borderRadius: BorderRadius.circular(ScreenUtil().setWidth(22)),
+                child: Image.asset(
+                  'images/avatar_${index % 16 + 1}.png',
+                  width: ScreenUtil().setWidth(44),
+                  height: ScreenUtil().setWidth(44),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              SizedBox(
+                width: ScreenUtil().setWidth(12),
+              ),
+              Flexible(
+                child: Text(
+                  job.companyName,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: ScreenUtil().setSp(32),
+                    color: Color.fromRGBO(57, 57, 57, 1),
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: ScreenUtil().setWidth(12),
+              ),
+              Text(
+                '在线',
+                style: TextStyle(
+                  fontSize: ScreenUtil().setSp(24),
+                  color: Color.fromRGBO(176, 181, 180, 1),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: ScreenUtil().setHeight(10),
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Expanded(
+                child: Text(
+                  '五险一金 ｜ 包吃包住 ｜ 年底分红',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: ScreenUtil().setSp(26),
+                    color: Color.fromRGBO(151, 151, 151, 1),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: ScreenUtil().setWidth(8),
+              ),
 
-//    if (lastItem) {
-//      return card;
-//    }
+              Container(
+                alignment: Alignment.center,
+                child: Text(
+                  "立即投递",
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: ScreenUtil().setSp(26),
+                    color: Color.fromRGBO(159, 199, 235, 1),
+                  ),
+                ),
+                padding: EdgeInsets.symmetric(
+                  horizontal: ScreenUtil().setWidth(26),
+                  vertical: ScreenUtil().setHeight(12),
+                ),
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Color.fromRGBO(159, 199, 235, 1),
+                      width: ScreenUtil().setWidth(2),
+                    ),
+                    borderRadius: BorderRadius.circular(ScreenUtil().setWidth(1000))),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+
+    if (lastItem) {
+      return jobItem;
+    }
     return Column(
       children: <Widget>[
         jobItem,
-        Divider(
-          height: 4,
-          color: Colors.transparent,
+        Container(
+          margin: EdgeInsets.only(
+            left: ScreenUtil().setWidth(48),
+            right: ScreenUtil().setWidth(48),
+          ),
+          height: ScreenUtil().setHeight(1),
+          color: Color.fromRGBO(159, 199, 235, 1),
         ),
       ],
     );
