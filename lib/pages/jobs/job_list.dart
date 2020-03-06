@@ -2,7 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/model/job_list.dart';
+import 'package:recruit_app/pages/jobs/city_filter.dart';
+import 'package:recruit_app/pages/jobs/job_company_search.dart';
 import 'package:recruit_app/pages/jobs/job_detail.dart';
+import 'package:recruit_app/pages/jobs/job_filter.dart';
 import 'package:recruit_app/pages/jobs/job_row_item.dart';
 
 class JobList extends StatefulWidget {
@@ -30,7 +33,7 @@ class _JobListState extends State<JobList> {
             Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: ScreenUtil().setWidth(48),
-                vertical: ScreenUtil().setHeight(24),
+                vertical: ScreenUtil().setWidth(24),
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -48,12 +51,19 @@ class _JobListState extends State<JobList> {
                       child: Row(
                     children: <Widget>[
                       Flexible(
-                        child: Text(
-                          '洛杉矶',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: ScreenUtil().setSp(40),
-                            color: Color.fromRGBO(20, 20, 20, 1),
+                        child: GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(
+                              builder: (context) => CityFilter(),),);
+                          },
+                          child: Text(
+                            '洛杉矶',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: ScreenUtil().setSp(40),
+                              color: Color.fromRGBO(20, 20, 20, 1),
+                            ),
                           ),
                         ),
                       ),
@@ -72,39 +82,44 @@ class _JobListState extends State<JobList> {
                   SizedBox(
                     width: ScreenUtil().setWidth(10),
                   ),
-                  Container(
-                    width: ScreenUtil().setWidth(204),
-                    child: Row(
-                      children: <Widget>[
-                        Image.asset(
-                          'images/img_search_blue.png',
-                          width: ScreenUtil().setWidth(26),
-                          height: ScreenUtil().setWidth(26),
-                          fit: BoxFit.contain,
-                        ),
-                        Text(
-                          "｜搜索",
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: ScreenUtil().setSp(24),
-                            color: Color.fromRGBO(159, 199, 235, 1),
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () {
+                      Navigator.push(context,MaterialPageRoute(builder: (context)=>JobCompanySearch(searchType: SearchType.job,)));
+                    },
+                    child: Container(
+                      width: ScreenUtil().setWidth(204),
+                      child: Row(
+                        children: <Widget>[
+                          Image.asset(
+                            'images/img_search_blue.png',
+                            width: ScreenUtil().setWidth(26),
+                            height: ScreenUtil().setWidth(26),
+                            fit: BoxFit.contain,
                           ),
-                        ),
-                      ],
-                    ),
-                    padding: EdgeInsets.symmetric(
-                      horizontal: ScreenUtil().setWidth(10),
-                      vertical: ScreenUtil().setHeight(10),
-                    ),
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Color.fromRGBO(159, 199, 235, 1),
-                          width: ScreenUtil().setWidth(2),
-                        ),
-                        borderRadius:
-                            BorderRadius.circular(ScreenUtil().setWidth(1000))),
-                  ),
+                          Text(
+                            "｜搜索",
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: ScreenUtil().setSp(24),
+                              color: Color.fromRGBO(159, 199, 235, 1),
+                            ),
+                          ),
+                        ],
+                      ),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: ScreenUtil().setWidth(10),
+                        vertical: ScreenUtil().setWidth(10),
+                      ),
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Color.fromRGBO(159, 199, 235, 1),
+                            width: ScreenUtil().setWidth(2),
+                          ),
+                          borderRadius:
+                          BorderRadius.circular(ScreenUtil().setWidth(1000))),
+                    ),),
                 ],
               ),
             ),
@@ -118,14 +133,14 @@ class _JobListState extends State<JobList> {
                           left: ScreenUtil().setWidth(48),
                           right: ScreenUtil().setWidth(48),
                           top: ScreenUtil().setWidth(24),
-                          bottom: ScreenUtil().setHeight(48)),
+                          bottom: ScreenUtil().setWidth(48)),
                       child: ClipRRect(
                         borderRadius: BorderRadius.all(
                             Radius.circular(ScreenUtil().setWidth(10))),
                         child: Image.asset(
                           'images/img_job_ad.png',
                           fit: BoxFit.cover,
-                          height: ScreenUtil().setHeight(300),
+                          height: ScreenUtil().setWidth(300),
                         ),
                       ),
                     ),
@@ -134,7 +149,7 @@ class _JobListState extends State<JobList> {
                       child: Column(
                     children: <Widget>[
                       Container(
-                        height: ScreenUtil().setHeight(4),
+                        height: ScreenUtil().setWidth(4),
                         color: Color.fromRGBO(245, 245, 245, 1),
                       ),
                       Container(
@@ -142,7 +157,7 @@ class _JobListState extends State<JobList> {
                         padding: EdgeInsets.symmetric(
                           horizontal: ScreenUtil().setWidth(48),
                         ),
-                        height: ScreenUtil().setHeight(92),
+                        height: ScreenUtil().setWidth(92),
                         child: Row(
                           children: <Widget>[
                             Expanded(
@@ -269,7 +284,10 @@ class _JobListState extends State<JobList> {
                                   ),
                                 ],
                               ),
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) => JobFilter(),),);
+                              },
                             ),
                           ],
                         ),
@@ -279,7 +297,7 @@ class _JobListState extends State<JobList> {
                           left: ScreenUtil().setWidth(48),
                           right: ScreenUtil().setWidth(48),
                         ),
-                        height: ScreenUtil().setHeight(1),
+                        height: ScreenUtil().setWidth(1),
                         color: Color.fromRGBO(159, 199, 235, 1),
                       ),
                       Visibility(
@@ -290,7 +308,7 @@ class _JobListState extends State<JobList> {
                                 padding: EdgeInsets.symmetric(
                                   horizontal: ScreenUtil().setWidth(48),
                                 ),
-                                height: ScreenUtil().setHeight(92),
+                                height: ScreenUtil().setWidth(92),
                                 alignment: Alignment.center,
                                 child: Row(
                                   children: <Widget>[
@@ -326,7 +344,7 @@ class _JobListState extends State<JobList> {
                                 left: ScreenUtil().setWidth(48),
                                 right: ScreenUtil().setWidth(48),
                               ),
-                              height: ScreenUtil().setHeight(1),
+                              height: ScreenUtil().setWidth(1),
                               color: Color.fromRGBO(159, 199, 235, 1),
                             ),
                           ],

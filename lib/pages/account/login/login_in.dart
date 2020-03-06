@@ -34,8 +34,8 @@ class _LoginInState extends State<LoginIn> {
               padding: EdgeInsets.only(
                 left: ScreenUtil().setWidth(124),
                 right: ScreenUtil().setWidth(124),
-                top: ScreenUtil().setHeight(168),
-                bottom: ScreenUtil().setHeight(20),
+                top: ScreenUtil().setWidth(168),
+                bottom: ScreenUtil().setWidth(20),
               ),
               child: ListView(
                 physics: BouncingScrollPhysics(),
@@ -45,12 +45,11 @@ class _LoginInState extends State<LoginIn> {
                       border: Border(
                         bottom: BorderSide(
                           color: Color.fromRGBO(229, 229, 229, 1),
-                          width: ScreenUtil().setHeight(2),
+                          width: ScreenUtil().setWidth(2),
                         ),
                       ),
                     ),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Expanded(
                           child: TextField(
@@ -97,17 +96,16 @@ class _LoginInState extends State<LoginIn> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: ScreenUtil().setHeight(14)),
+                    margin: EdgeInsets.only(top: ScreenUtil().setWidth(14)),
                     decoration: BoxDecoration(
                       border: Border(
                         bottom: BorderSide(
                           color: Color.fromRGBO(229, 229, 229, 1),
-                          width: ScreenUtil().setHeight(2),
+                          width: ScreenUtil().setWidth(2),
                         ),
                       ),
                     ),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Expanded(
                           child: TextField(
@@ -156,8 +154,8 @@ class _LoginInState extends State<LoginIn> {
                   ),
                   Container(
                     padding: EdgeInsets.only(
-                      top: ScreenUtil().setHeight(26),
-                      bottom: ScreenUtil().setHeight(40),
+                      top: ScreenUtil().setWidth(26),
+                      bottom: ScreenUtil().setWidth(40),
                     ),
                     alignment: Alignment.centerRight,
                     child: GestureDetector(
@@ -191,7 +189,7 @@ class _LoginInState extends State<LoginIn> {
                     ),
                     padding: EdgeInsets.symmetric(
                       horizontal: ScreenUtil().setWidth(30),
-                      vertical: ScreenUtil().setHeight(20),
+                      vertical: ScreenUtil().setWidth(20),
                     ),
                     shape: RoundedRectangleBorder(
                         side: BorderSide(
@@ -201,7 +199,7 @@ class _LoginInState extends State<LoginIn> {
                         borderRadius: BorderRadius.circular(ScreenUtil().setWidth(1000))),
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: ScreenUtil().setHeight(20)),
+                    margin: EdgeInsets.only(top: ScreenUtil().setWidth(20)),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -257,7 +255,7 @@ class _LoginInState extends State<LoginIn> {
                     child: Image.asset(
                       'images/img_login_wechat.png',
                       width: ScreenUtil().setWidth(50),
-                      height: ScreenUtil().setHeight(50),
+                      height: ScreenUtil().setWidth(50),
                       fit: BoxFit.contain,
                     ),
                     onTap: () {
@@ -278,7 +276,7 @@ class _LoginInState extends State<LoginIn> {
                     child: Image.asset(
                       'images/img_login_facebook.png',
                       width: ScreenUtil().setWidth(50),
-                      height: ScreenUtil().setHeight(50),
+                      height: ScreenUtil().setWidth(50),
                       fit: BoxFit.contain,
                     ),
                     onTap: () {
@@ -299,7 +297,7 @@ class _LoginInState extends State<LoginIn> {
                     child: Image.asset(
                       'images/img_login_google.png',
                       width: ScreenUtil().setWidth(50),
-                      height: ScreenUtil().setHeight(50),
+                      height: ScreenUtil().setWidth(50),
                       fit: BoxFit.contain,
                     ),
                     onTap: () {
@@ -314,7 +312,7 @@ class _LoginInState extends State<LoginIn> {
                   ),
                 ],
               ),
-              bottom: ScreenUtil().setHeight(136),
+              bottom: ScreenUtil().setWidth(136),
             ),
           ],
         ),

@@ -6,6 +6,7 @@ import 'package:recruit_app/pages/companys/company_list.dart';
 import 'package:recruit_app/pages/employe/employe_list.dart';
 import 'package:recruit_app/pages/jobs/job_list.dart';
 import 'package:recruit_app/pages/mine/me.dart';
+import 'package:recruit_app/pages/msg/msg_list.dart';
 
 class RecruitHomeApp extends StatefulWidget {
   @override
@@ -20,7 +21,7 @@ class _RecruitHomeState extends State<RecruitHomeApp> {
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static List<Widget> _bossWidget = <Widget>[
     EmployeeList(),
-    BossMine(),
+    MsgList(),
     BossMine(),
   ];
 
@@ -93,7 +94,7 @@ class _RecruitHomeState extends State<RecruitHomeApp> {
   static List<Widget> _widgetOptions = <Widget>[
     JobList(),
     CompanyList(),
-    Mine(),
+    MsgList(),
     Mine(),
   ];
 

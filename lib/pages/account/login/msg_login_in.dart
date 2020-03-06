@@ -54,8 +54,8 @@ class _MsgLoginInState extends State<MsgLoginIn> {
           padding: EdgeInsets.only(
             left: ScreenUtil().setWidth(124),
             right: ScreenUtil().setWidth(124),
-            top: ScreenUtil().setHeight(168),
-            bottom: ScreenUtil().setHeight(20),
+            top: ScreenUtil().setWidth(168),
+            bottom: ScreenUtil().setWidth(20),
           ),
           child: ListView(
             physics: BouncingScrollPhysics(),
@@ -65,12 +65,11 @@ class _MsgLoginInState extends State<MsgLoginIn> {
                   border: Border(
                     bottom: BorderSide(
                       color: Color.fromRGBO(229, 229, 229, 1),
-                      width: ScreenUtil().setHeight(2),
+                      width: ScreenUtil().setWidth(2),
                     ),
                   ),
                 ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Expanded(
                       child: TextField(
@@ -117,19 +116,18 @@ class _MsgLoginInState extends State<MsgLoginIn> {
               ),
               Container(
                 margin: EdgeInsets.only(
-                  top: ScreenUtil().setHeight(14),
-                  bottom: ScreenUtil().setHeight(70),
+                  top: ScreenUtil().setWidth(14),
+                  bottom: ScreenUtil().setWidth(70),
                 ),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
                       color: Color.fromRGBO(229, 229, 229, 1),
-                      width: ScreenUtil().setHeight(2),
+                      width: ScreenUtil().setWidth(2),
                     ),
                   ),
                 ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Expanded(
                       child: TextField(
@@ -137,7 +135,6 @@ class _MsgLoginInState extends State<MsgLoginIn> {
                         keyboardType: TextInputType.number,
                         maxLines: 1,
                         textAlign: TextAlign.start,
-                        obscureText: true,
                         cursorColor: Color.fromRGBO(159, 199, 235, 1),
                         style: TextStyle(
                             fontSize: ScreenUtil().setSp(24),
@@ -169,7 +166,7 @@ class _MsgLoginInState extends State<MsgLoginIn> {
                 ),
                 padding: EdgeInsets.symmetric(
                   horizontal: ScreenUtil().setWidth(30),
-                  vertical: ScreenUtil().setHeight(20),
+                  vertical: ScreenUtil().setWidth(20),
                 ),
                 shape: RoundedRectangleBorder(
                     side: BorderSide(
@@ -179,7 +176,7 @@ class _MsgLoginInState extends State<MsgLoginIn> {
                     borderRadius: BorderRadius.circular(100)),
               ),
               Container(
-                margin: EdgeInsets.only(top: ScreenUtil().setHeight(20)),
+                margin: EdgeInsets.only(top: ScreenUtil().setWidth(20)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[

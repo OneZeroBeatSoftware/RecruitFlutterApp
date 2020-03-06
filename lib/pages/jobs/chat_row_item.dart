@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/model/chat_list.dart';
 import 'package:recruit_app/pages/employe/boss_chat_room_intro.dart';
 import 'package:recruit_app/pages/jobs/chat_room_intro.dart';
@@ -18,38 +19,67 @@ class ChatRowItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (index == 0) {
-
-      return isBoss?BossChatRoomIntro():ChatRoomIntro();
-    } else if ((index - 1) % 2 == 0) {
+    if (index % 2 == 0) {
       return Padding(
-        padding: EdgeInsets.only(left: 50, bottom: 15, top: 15, right: 10),
+        padding: EdgeInsets.only(
+            left: ScreenUtil().setWidth(136),
+            top: ScreenUtil().setWidth(20),
+            right: ScreenUtil().setWidth(48)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Flexible(
-              child: Container(
-                decoration: new BoxDecoration(
-                  color: Color.fromRGBO(0, 188, 173, 1),
-                  borderRadius: new BorderRadius.circular(5.0),
-                ),
-                padding: EdgeInsets.all(10),
-                child: Text(
-                  chat.content,
-                  style: TextStyle(fontSize: 15, color: Colors.white),
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  Material(
+                    child: Container(
+                      decoration: new BoxDecoration(
+                        color: Color.fromRGBO(159, 199, 235, 1),
+                        borderRadius: new BorderRadius.circular(
+                          ScreenUtil().setWidth(20),
+                        ),
+                      ),
+                      padding: EdgeInsets.all(ScreenUtil().setWidth(32)),
+                      child: Text(
+                        chat.content,
+                        style: TextStyle(
+                          height: 1.4,
+                          fontSize: ScreenUtil().setSp(28),
+                          color: Color.fromRGBO(255, 255, 255, 1),
+                        ),
+                      ),
+                    ),
+                    elevation: 3,
+                    borderRadius: BorderRadius.circular(
+                      ScreenUtil().setWidth(20),
+                    ),
+                  ),
+                  SizedBox(
+                    height: ScreenUtil().setWidth(10),
+                  ),
+                  Text(
+                    '已阅读',
+                    style: TextStyle(
+                      fontSize: ScreenUtil().setSp(22),
+                      color: Color.fromRGBO(176, 181, 180, 1),
+                    ),
+                  ),
+                ],
               ),
             ),
             SizedBox(
-              width: 10,
+              width: ScreenUtil().setWidth(12),
             ),
             ClipRRect(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(
+                ScreenUtil().setWidth(44),
+              ),
               child: Image.asset(
                 chat.sender,
-                width: 40,
-                height: 40,
+                width: ScreenUtil().setWidth(88),
+                height: ScreenUtil().setWidth(88),
                 fit: BoxFit.cover,
               ),
             ),
@@ -58,37 +88,66 @@ class ChatRowItem extends StatelessWidget {
       );
     } else {
       return Padding(
-        padding: EdgeInsets.only(right: 50, bottom: 15, top: 15, left: 10),
+        padding: EdgeInsets.only(
+            left: ScreenUtil().setWidth(48),
+            top: ScreenUtil().setWidth(20),
+            right: ScreenUtil().setWidth(136)),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             ClipRRect(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(
+                ScreenUtil().setWidth(44),
+              ),
               child: Image.asset(
                 chat.sender,
-                width: 40,
-                height: 40,
+                width: ScreenUtil().setWidth(88),
+                height: ScreenUtil().setWidth(88),
                 fit: BoxFit.cover,
               ),
             ),
             SizedBox(
-              width: 10,
+              width: ScreenUtil().setWidth(12),
             ),
             Flexible(
-              child: Container(
-                decoration: new BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: new BorderRadius.circular(5.0),
-                ),
-                padding: EdgeInsets.all(10),
-                child: Text(
-                  chat.content,
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Color.fromRGBO(0, 188, 173, 1),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Material(
+                    borderRadius: BorderRadius.circular(
+                      ScreenUtil().setWidth(20),
+                    ),
+                    child: Container(
+                      decoration: new BoxDecoration(
+                        color: Color.fromRGBO(159, 199, 235, 1),
+                        borderRadius: new BorderRadius.circular(
+                          ScreenUtil().setWidth(20),
+                        ),
+                      ),
+                      padding: EdgeInsets.all(ScreenUtil().setWidth(32)),
+                      child: Text(
+                        chat.content,
+                        style: TextStyle(
+                          height: 1.4,
+                          fontSize: ScreenUtil().setSp(28),
+                          color: Color.fromRGBO(255, 255, 255, 1),
+                        ),
+                      ),
+                    ),
+                    elevation: 3,
                   ),
-                ),
+                  SizedBox(
+                    height: ScreenUtil().setWidth(10),
+                  ),
+                  Text(
+                    '已阅读',
+                    style: TextStyle(
+                      fontSize: ScreenUtil().setSp(22),
+                      color: Color.fromRGBO(176, 181, 180, 1),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
