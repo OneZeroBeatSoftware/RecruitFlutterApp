@@ -53,8 +53,8 @@ class _RegisterState extends State<Register> {
           padding: EdgeInsets.only(
             left: ScreenUtil().setWidth(124),
             right: ScreenUtil().setWidth(124),
-            top: ScreenUtil().setHeight(168),
-            bottom: ScreenUtil().setHeight(20),
+            top: ScreenUtil().setWidth(168),
+            bottom: ScreenUtil().setWidth(20),
           ),
           child: ListView(
             physics: BouncingScrollPhysics(),
@@ -64,12 +64,11 @@ class _RegisterState extends State<Register> {
                   border: Border(
                     bottom: BorderSide(
                       color: Color.fromRGBO(229, 229, 229, 1),
-                      width: ScreenUtil().setHeight(2),
+                      width: ScreenUtil().setWidth(2),
                     ),
                   ),
                 ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Expanded(
                       child: TextField(
@@ -94,17 +93,16 @@ class _RegisterState extends State<Register> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: ScreenUtil().setHeight(14)),
+                margin: EdgeInsets.only(top: ScreenUtil().setWidth(14)),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
                       color: Color.fromRGBO(229, 229, 229, 1),
-                      width: ScreenUtil().setHeight(2),
+                      width: ScreenUtil().setWidth(2),
                     ),
                   ),
                 ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Expanded(
                       child: TextField(
@@ -131,18 +129,17 @@ class _RegisterState extends State<Register> {
               ),
               Container(
                 margin: EdgeInsets.only(
-                  top: ScreenUtil().setHeight(14),
+                  top: ScreenUtil().setWidth(14),
                 ),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
                       color: Color.fromRGBO(229, 229, 229, 1),
-                      width: ScreenUtil().setHeight(2),
+                      width: ScreenUtil().setWidth(2),
                     ),
                   ),
                 ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Expanded(
                       child: TextField(
@@ -168,17 +165,16 @@ class _RegisterState extends State<Register> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: ScreenUtil().setHeight(14)),
+                margin: EdgeInsets.only(top: ScreenUtil().setWidth(14)),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
                       color: Color.fromRGBO(229, 229, 229, 1),
-                      width: ScreenUtil().setHeight(2),
+                      width: ScreenUtil().setWidth(2),
                     ),
                   ),
                 ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Expanded(
                       child: TextField(
@@ -223,19 +219,18 @@ class _RegisterState extends State<Register> {
               ),
               Container(
                 margin: EdgeInsets.only(
-                  top: ScreenUtil().setHeight(14),
-                  bottom: ScreenUtil().setHeight(70),
+                  top: ScreenUtil().setWidth(14),
+                  bottom: ScreenUtil().setWidth(70),
                 ),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
                       color: Color.fromRGBO(229, 229, 229, 1),
-                      width: ScreenUtil().setHeight(2),
+                      width: ScreenUtil().setWidth(2),
                     ),
                   ),
                 ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Expanded(
                       child: TextField(
@@ -273,7 +268,7 @@ class _RegisterState extends State<Register> {
                 ),
                 padding: EdgeInsets.symmetric(
                   horizontal: ScreenUtil().setWidth(30),
-                  vertical: ScreenUtil().setHeight(20),
+                  vertical: ScreenUtil().setWidth(20),
                 ),
                 shape: RoundedRectangleBorder(
                     side: BorderSide(
@@ -283,7 +278,7 @@ class _RegisterState extends State<Register> {
                     borderRadius: BorderRadius.circular(ScreenUtil().setWidth(1000))),
               ),
               Container(
-                margin: EdgeInsets.only(top: ScreenUtil().setHeight(20)),
+                margin: EdgeInsets.only(top: ScreenUtil().setWidth(20)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[

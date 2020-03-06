@@ -11,7 +11,7 @@ class CommonAppBar extends StatefulWidget implements PreferredSizeWidget {
 
   CommonAppBar(
       {this.leading,
-      this.leftText,
+      this.leftText='',
       this.center,
       this.rightAction,
       this.backgroundColor,
@@ -30,15 +30,14 @@ class _CommonAppBarState extends State<CommonAppBar> {
   Widget build(BuildContext context) {
     return Container(
       color: widget.backgroundColor,
-      child: Stack(
+      child: SafeArea(child: Stack(
         children: <Widget>[
           Align(
             alignment: Alignment.centerLeft,
             child: GestureDetector(
               onTap:widget.leftListener,
               behavior: HitTestBehavior.opaque,
-              child: SafeArea(
-                  child: Padding(
+              child: Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: ScreenUtil().setWidth(24),
                 ),
@@ -48,7 +47,7 @@ class _CommonAppBarState extends State<CommonAppBar> {
                     Image.asset(
                       widget.leading,
                       width: ScreenUtil().setWidth(20),
-                      height: ScreenUtil().setHeight(36),
+                      height: ScreenUtil().setWidth(36),
                       fit: BoxFit.contain,
                     ),
                     SizedBox(
@@ -67,7 +66,7 @@ class _CommonAppBarState extends State<CommonAppBar> {
                     ),
                   ],
                 ),
-              )),
+              ),
             ),
           ),
           Align(
@@ -79,7 +78,7 @@ class _CommonAppBarState extends State<CommonAppBar> {
             child: widget.rightAction,
           ),
         ],
-      ),
+      ),),
     );
   }
 }

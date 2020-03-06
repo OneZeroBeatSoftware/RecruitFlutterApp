@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:recruit_app/model/chat_list.dart';
+import 'package:recruit_app/pages/employe/boss_chat_room_intro.dart';
 import 'package:recruit_app/pages/jobs/chat_row_item.dart';
 
 class BossChatRoom extends StatefulWidget {
@@ -174,6 +175,9 @@ class _BossChatRoomState extends State<BossChatRoom> {
                 child: ListView.builder(
                   controller: _scrollController,
                   itemBuilder: (context, index) {
+                    if(index==0){
+                      return BossChatRoomIntro();
+                    }
                     if (index < (_chatList.length + 1)) {
                       return GestureDetector(
                         behavior: HitTestBehavior.opaque,

@@ -12,16 +12,16 @@ class LoginType extends StatelessWidget {
         alignment: Alignment.center,
         children: <Widget>[
           Positioned(
-            top: ScreenUtil().setHeight(360),
+            top: ScreenUtil().setWidth(360),
             child: Image.asset(
               'images/img_splash_earth.png',
               width: ScreenUtil().setWidth(360),
-              height: ScreenUtil().setHeight(360),
+              height: ScreenUtil().setWidth(360),
               fit: BoxFit.contain,
             ),
           ),
           Positioned(
-            bottom: ScreenUtil().setHeight(358),
+            bottom: ScreenUtil().setWidth(358),
             child: Text(
               'SLOGAN',
               style: TextStyle(
@@ -31,7 +31,7 @@ class LoginType extends StatelessWidget {
             ),
           ),
           Positioned(
-            bottom: ScreenUtil().setHeight(126),
+            bottom: ScreenUtil().setWidth(126),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
@@ -53,7 +53,7 @@ class LoginType extends StatelessWidget {
                   ),
                   padding: EdgeInsets.symmetric(
                     horizontal: ScreenUtil().setWidth(70),
-                    vertical: ScreenUtil().setHeight(14),
+                    vertical: ScreenUtil().setWidth(14),
                   ),
                   shape: RoundedRectangleBorder(
                       side: BorderSide(
@@ -83,7 +83,7 @@ class LoginType extends StatelessWidget {
                   ),
                   padding: EdgeInsets.symmetric(
                     horizontal: ScreenUtil().setWidth(70),
-                    vertical: ScreenUtil().setHeight(14),
+                    vertical: ScreenUtil().setWidth(14),
                   ),
                   shape: RoundedRectangleBorder(
                       side: BorderSide(

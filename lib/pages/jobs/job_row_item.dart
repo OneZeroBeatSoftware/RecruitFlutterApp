@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/model/job_list.dart';
-import 'package:recruit_app/pages/jobs/job_detail.dart';
 
 class JobRowItem extends StatelessWidget {
   final Job job;
@@ -18,8 +17,8 @@ class JobRowItem extends StatelessWidget {
       padding: EdgeInsets.only(
           left: ScreenUtil().setWidth(48),
           right: ScreenUtil().setWidth(48),
-          top: ScreenUtil().setHeight(30),
-          bottom: ScreenUtil().setHeight(30)),
+          top: ScreenUtil().setWidth(30),
+          bottom: ScreenUtil().setWidth(30)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -67,7 +66,7 @@ class JobRowItem extends StatelessWidget {
             ],
           ),
           SizedBox(
-            height: ScreenUtil().setHeight(20),
+            height: ScreenUtil().setWidth(20),
           ),
           Text(
             '福州 仓山区 ｜ 1-3年 ｜ 本科',
@@ -79,7 +78,7 @@ class JobRowItem extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: ScreenUtil().setHeight(28),
+            height: ScreenUtil().setWidth(28),
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -121,7 +120,7 @@ class JobRowItem extends StatelessWidget {
             ],
           ),
           SizedBox(
-            height: ScreenUtil().setHeight(10),
+            height: ScreenUtil().setWidth(10),
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -155,7 +154,7 @@ class JobRowItem extends StatelessWidget {
                 ),
                 padding: EdgeInsets.symmetric(
                   horizontal: ScreenUtil().setWidth(26),
-                  vertical: ScreenUtil().setHeight(12),
+                  vertical: ScreenUtil().setWidth(12),
                 ),
                 decoration: BoxDecoration(
                     border: Border.all(
@@ -181,7 +180,7 @@ class JobRowItem extends StatelessWidget {
             left: ScreenUtil().setWidth(48),
             right: ScreenUtil().setWidth(48),
           ),
-          height: ScreenUtil().setHeight(1),
+          height: ScreenUtil().setWidth(1),
           color: Color.fromRGBO(159, 199, 235, 1),
         ),
       ],
