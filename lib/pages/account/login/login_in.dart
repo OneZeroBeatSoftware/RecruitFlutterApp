@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:recruit_app/model/user_model.dart';
 import 'package:recruit_app/pages/account/login/msg_login_in.dart';
 import 'package:recruit_app/pages/account/pwd/reset_pwd.dart';
 import 'package:recruit_app/pages/account/register/register.dart';
 import 'package:recruit_app/pages/account/register/third_register.dart';
 import 'package:recruit_app/pages/home/recruit_home_app.dart';
+import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 
 class LoginIn extends StatefulWidget {
@@ -13,6 +16,8 @@ class LoginIn extends StatefulWidget {
 }
 
 class _LoginInState extends State<LoginIn> {
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _pwdController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,7 +76,7 @@ class _LoginInState extends State<LoginIn> {
                                 color: Color.fromRGBO(176, 181, 180, 1),
                               ),
                             ),
-                            onChanged: (text) {},
+                            controller: _phoneController,
                           ),
                         ),
                         GestureDetector(
@@ -127,7 +132,7 @@ class _LoginInState extends State<LoginIn> {
                                 color: Color.fromRGBO(176, 181, 180, 1),
                               ),
                             ),
-                            onChanged: (text) {},
+                            controller: _pwdController,
                           ),
                         ),
                         GestureDetector(
@@ -170,15 +175,31 @@ class _LoginInState extends State<LoginIn> {
                       onTap: () {},
                     ),
                   ),
-                  MaterialButton(
+                  Consumer<UserModel>(builder: (context,model,child)=>MaterialButton(
                     elevation: 0,
                     color: Colors.white,
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => RecruitHomeApp()),
-                      );
+                      FocusScope.of(context).requestFocus(FocusNode());
+                      String phone = _phoneController.text;
+                      String pwd = _pwdController.text;
+                      if (phone.isEmpty) {
+                        Utils.showToast('请填写登录手机号');
+                        return;
+                      }
+                      if (pwd.isEmpty) {
+                        Utils.showToast('请填写登录密码');
+                        return;
+                      }
+                      model.login(context, phone, pwd).then((value){
+                        if(value!=null){
+                          Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => RecruitHomeApp()),
+                          );
+                        }
+                      });
                     },
                     textColor: Color.fromRGBO(159, 199, 235, 1),
                     child: Text(
@@ -197,7 +218,7 @@ class _LoginInState extends State<LoginIn> {
                           width: ScreenUtil().setWidth(2),
                         ),
                         borderRadius: BorderRadius.circular(ScreenUtil().setWidth(1000))),
-                  ),
+                  ),),
                   Container(
                     margin: EdgeInsets.only(top: ScreenUtil().setWidth(20)),
                     child: Row(

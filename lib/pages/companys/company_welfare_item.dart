@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/model/company_welfare_list.dart';
 
 class CompanyWelfareItem extends StatelessWidget {
@@ -13,19 +14,24 @@ class CompanyWelfareItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final welfareItem = Container(
       alignment: Alignment.center,
-      width: 100,
-      padding: const EdgeInsets.all(5),
+      padding: EdgeInsets.symmetric(horizontal:ScreenUtil().setWidth(32),vertical: ScreenUtil().setWidth(26)),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(6),
+          borderRadius: BorderRadius.circular(ScreenUtil().setWidth(12)),
           border: Border.all(
-              width: 1.5,
-              color: Color.fromRGBO(255, 255, 255, 0.5),
+              width: ScreenUtil().setWidth(1),
+              color: Color.fromRGBO(255, 255, 255, 1),
               style: BorderStyle.solid)),
-      child: Text(
-        '${welfareData.welfare}',
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: TextStyle(fontSize: 14, color: Colors.white),
+      child: Row(
+        children: <Widget>[
+          Image.asset(welfareData.imgPath,width: ScreenUtil().setWidth(40),height: ScreenUtil().setWidth(40),fit: BoxFit.contain,),
+          SizedBox(width: ScreenUtil().setWidth(14),),
+          Text(
+            '${welfareData.welfare}',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(fontSize: ScreenUtil().setSp(24), color: Colors.white),
+          ),
+        ],
       ),
     );
 
@@ -37,7 +43,7 @@ class CompanyWelfareItem extends StatelessWidget {
       children: <Widget>[
         welfareItem,
         SizedBox(
-          width: 8,
+          width: ScreenUtil().setWidth(16),
         ),
       ],
     );

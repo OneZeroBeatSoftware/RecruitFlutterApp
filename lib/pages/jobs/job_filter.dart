@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/entity/edu_level_entity.dart';
+import 'package:recruit_app/entity/work_date_entity.dart';
 import 'package:recruit_app/model/job_filter_data.dart';
 import 'package:recruit_app/pages/jobs/job_filter_item.dart';
+import 'package:recruit_app/utils/net_utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 
 class JobFilter extends StatefulWidget {
@@ -11,6 +14,16 @@ class JobFilter extends StatefulWidget {
 
 class _JobFilterState extends State<JobFilter> {
   List<JobFilterData> _jobFilterData = JobFilterList.loadJobFilterData();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((i) {
+      getEduLevel();
+      getWorkDate();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,9 +65,9 @@ class _JobFilterState extends State<JobFilter> {
               jobFilterData: _jobFilterData[idx],
               index: idx,
               lastItem: idx == _jobFilterData.length - 1,
-              onTap: (item){
+              onTap: (item) {
                 setState(() {
-                  item.isChecked=!item.isChecked;
+                  item.isChecked = !item.isChecked;
                 });
               },
             );
@@ -65,5 +78,35 @@ class _JobFilterState extends State<JobFilter> {
         physics: BouncingScrollPhysics(),
       ),
     );
+  }
+
+  void getEduLevel() async {
+    EduLevelEntity eduLevelEntity = await NetUtils.getEduLevel(context);
+    if(eduLevelEntity.data!=null){
+      _jobFilterData.add(JobFilterData(
+          filterName: '学历要求',
+          filterSubData: eduLevelEntity.data
+              .map((item) => JobFilterSubData(
+              filterName: item.educationName, isChecked: false))
+              .toList()));
+      setState(() {
+        _jobFilterData;
+      });
+    }
+  }
+
+  void getWorkDate() async {
+    WorkDateEntity workDateEntity = await NetUtils.getWorkDate(context);
+    if(workDateEntity.data!=null){
+      _jobFilterData.add(JobFilterData(
+          filterName: '经验要求',
+          filterSubData: workDateEntity.data
+              .map((item) => JobFilterSubData(
+              filterName: item.workDateName, isChecked: false))
+              .toList()));
+      setState(() {
+        _jobFilterData;
+      });
+    }
   }
 }

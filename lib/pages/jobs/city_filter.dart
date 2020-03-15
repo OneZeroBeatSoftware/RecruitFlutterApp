@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/model/job_filter_data.dart';
 import 'package:recruit_app/pages/jobs/area_filter_dialog.dart';
 import 'package:recruit_app/pages/jobs/job_filter_item.dart';
+import 'package:recruit_app/utils/net_utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 
 class CityFilter extends StatefulWidget {
@@ -26,6 +27,9 @@ class _CityFilterState extends State<CityFilter> {
 //          letter: item.filterName));
 //    });
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((call){
+      NetUtils.getCityList(context);
+    });
   }
 
   @override
@@ -149,7 +153,7 @@ class _CityFilterState extends State<CityFilter> {
 //              });
               showGeneralDialog(
                 context: context,
-                pageBuilder: (context, animation1, animation2) {},
+                pageBuilder: (context, animation1, animation2) { return null;},
                 barrierColor: Colors.black.withOpacity(0.4),
                 barrierDismissible: true,
                 barrierLabel: "Dismiss",
@@ -247,7 +251,7 @@ class _CityFilterState extends State<CityFilter> {
 
                           showGeneralDialog(
                             context: context,
-                            pageBuilder: (context, animation1, animation2) {},
+                            pageBuilder: (context, animation1, animation2) {return null;},
                             barrierColor: Colors.black.withOpacity(0.4),
                             barrierDismissible: true,
                             barrierLabel: "Dismiss",

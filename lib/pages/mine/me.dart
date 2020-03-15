@@ -4,8 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:recruit_app/model/identity_model.dart';
 import 'package:recruit_app/model/me_list.dart';
+import 'package:recruit_app/pages/mine/black_list.dart';
+import 'package:recruit_app/pages/mine/collection.dart';
+import 'package:recruit_app/pages/mine/communicate.dart';
 import 'package:recruit_app/pages/mine/focus_company_list.dart';
 import 'package:recruit_app/pages/mine/job_intent.dart';
+import 'package:recruit_app/pages/mine/mine_interview.dart';
+import 'package:recruit_app/pages/mine/online_resume.dart';
+import 'package:recruit_app/pages/mine/send_resume.dart';
 import 'package:recruit_app/pages/setting/setting.dart';
 
 class Mine extends StatefulWidget {
@@ -35,7 +41,12 @@ class _MineState extends State<Mine> {
                 height: 24,
               ),
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>Setting(), ),);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Setting(),
+                  ),
+                );
               }),
         ],
         backgroundColor: Color.fromRGBO(68, 77, 151, 1),
@@ -117,7 +128,12 @@ class _MineState extends State<Mine> {
                               ),
                             ],
                           ),
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SendResumeJob()));
+                          },
                         ),
                       ),
                       Container(
@@ -155,7 +171,12 @@ class _MineState extends State<Mine> {
                               ),
                             ],
                           ),
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MineInterView()));
+                          },
                         ),
                       ),
                       Container(
@@ -193,7 +214,12 @@ class _MineState extends State<Mine> {
                               ),
                             ],
                           ),
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CommunicateJob()));
+                          },
                         ),
                       ),
                     ],
@@ -269,12 +295,22 @@ class _MineState extends State<Mine> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => FocusCompanyList()));
+                                  builder: (context) => Collection()));
                         } else if (index == 1) {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => JobIntent()));
+                        } else if (index == 0) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => OnlineResume()));
+                        } else if (index == 3) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => BlackList()));
                         } else if (index == 4) {
                           model.changeIdentity(
                               model.identity == Identity.employee

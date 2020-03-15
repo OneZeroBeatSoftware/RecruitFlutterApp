@@ -60,7 +60,7 @@ class JobFilterList {
   ];
 
   static List<JobFilterData> loadJobFilterData() {
-    return _allJobFilterData;
+    return [];
   }
 }
 

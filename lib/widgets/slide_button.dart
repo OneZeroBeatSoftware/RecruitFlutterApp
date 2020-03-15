@@ -2,16 +2,16 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class SlideButton extends StatefulWidget {
-  Widget child;
-  List<Widget> buttons;
-  GlobalKey<SlideButtonState> key;
-  double singleButtonWidth;
+  final Widget child;
+  final List<Widget> buttons;
+  final GlobalKey<SlideButtonState> key;
+  final double singleButtonWidth;
 
-  VoidCallback onSlideStarted;
+  final VoidCallback onSlideStarted;
 
-  VoidCallback onSlideCompleted;
+  final VoidCallback onSlideCompleted;
 
-  VoidCallback onSlideCanceled;
+  final VoidCallback onSlideCanceled;
 
   SlideButton(
       {this.key,

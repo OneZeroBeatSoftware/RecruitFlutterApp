@@ -1,7 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyrefresh/ball_pulse_footer.dart';
+import 'package:flutter_easyrefresh/bezier_bounce_footer.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:flutter_easyrefresh/material_footer.dart';
+import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recruit_app/model/job_list.dart';
+import 'package:provider/provider.dart';
+import 'package:recruit_app/entity/job_list_entity.dart';
+import 'package:recruit_app/model/job_model.dart';
 import 'package:recruit_app/pages/jobs/city_filter.dart';
 import 'package:recruit_app/pages/jobs/job_company_search.dart';
 import 'package:recruit_app/pages/jobs/job_detail.dart';
@@ -17,9 +24,21 @@ class JobList extends StatefulWidget {
 }
 
 class _JobListState extends State<JobList> {
-  List<Job> _jobList = JobData.loadJobs();
-
   int _selectFilterType = 0;
+  JobModel _jobModel;
+  int _pageIndex = 1;
+
+  EasyRefreshController _refreshController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _refreshController = EasyRefreshController();
+    WidgetsBinding.instance.addPostFrameCallback((call) {
+      _jobModel = Provider.of<JobModel>(context);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,8 +73,12 @@ class _JobListState extends State<JobList> {
                         child: GestureDetector(
                           behavior: HitTestBehavior.opaque,
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(
-                              builder: (context) => CityFilter(),),);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CityFilter(),
+                              ),
+                            );
                           },
                           child: Text(
                             '洛杉矶',
@@ -85,7 +108,12 @@ class _JobListState extends State<JobList> {
                   GestureDetector(
                     behavior: HitTestBehavior.opaque,
                     onTap: () {
-                      Navigator.push(context,MaterialPageRoute(builder: (context)=>JobCompanySearch(searchType: SearchType.job,)));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => JobCompanySearch(
+                                    searchType: SearchType.job,
+                                  )));
                     },
                     child: Container(
                       width: ScreenUtil().setWidth(204),
@@ -117,15 +145,28 @@ class _JobListState extends State<JobList> {
                             color: Color.fromRGBO(159, 199, 235, 1),
                             width: ScreenUtil().setWidth(2),
                           ),
-                          borderRadius:
-                          BorderRadius.circular(ScreenUtil().setWidth(1000))),
-                    ),),
+                          borderRadius: BorderRadius.circular(
+                              ScreenUtil().setWidth(1000))),
+                    ),
+                  ),
                 ],
               ),
             ),
             Expanded(
-              child: CustomScrollView(
-                physics: BouncingScrollPhysics(),
+              child: EasyRefresh.custom(
+                controller: _refreshController,
+                firstRefresh: true,
+                header: MaterialHeader(),
+                footer: ClassicalFooter(infoColor: Color.fromRGBO(159, 199, 235, 1)),
+                onRefresh: () async {
+                  _pageIndex = 1;
+                   getJobList();
+                  _refreshController.resetLoadState();
+                },
+                onLoad: () async {
+                   getJobList();
+                  _refreshController.resetLoadState();
+                },
                 slivers: <Widget>[
                   SliverToBoxAdapter(
                     child: Padding(
@@ -184,6 +225,7 @@ class _JobListState extends State<JobList> {
                                         setState(() {
                                           _selectFilterType = 0;
                                         });
+                                        _refreshController.callRefresh();
                                       },
                                     ),
                                     SizedBox(
@@ -207,6 +249,7 @@ class _JobListState extends State<JobList> {
                                         setState(() {
                                           _selectFilterType = 1;
                                         });
+                                        _refreshController.callRefresh();
                                       },
                                     ),
                                     SizedBox(
@@ -230,6 +273,7 @@ class _JobListState extends State<JobList> {
                                         setState(() {
                                           _selectFilterType = 2;
                                         });
+                                        _refreshController.callRefresh();
                                       },
                                     ),
                                     SizedBox(
@@ -285,8 +329,12 @@ class _JobListState extends State<JobList> {
                                 ],
                               ),
                               onTap: () {
-                                Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) => JobFilter(),),);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => JobFilter(),
+                                  ),
+                                );
                               },
                             ),
                           ],
@@ -321,13 +369,16 @@ class _JobListState extends State<JobList> {
                                     SizedBox(
                                       width: ScreenUtil().setWidth(12),
                                     ),
-                                    Expanded(child:  Text(
-                                      "区域规划",
-                                      style: TextStyle(
-                                        fontSize: ScreenUtil().setSp(28),
-                                        color: Color.fromRGBO(159, 199, 235, 1),
+                                    Expanded(
+                                      child: Text(
+                                        "区域规划",
+                                        style: TextStyle(
+                                          fontSize: ScreenUtil().setSp(28),
+                                          color:
+                                              Color.fromRGBO(159, 199, 235, 1),
+                                        ),
                                       ),
-                                    ),),
+                                    ),
                                     SizedBox(
                                       width: ScreenUtil().setWidth(12),
                                     ),
@@ -352,25 +403,35 @@ class _JobListState extends State<JobList> {
                       ),
                     ],
                   )),
-                  SliverList(
-                      delegate: SliverChildBuilderDelegate((context, index) {
-                    if (index < _jobList.length) {
-                      return GestureDetector(
-                          behavior: HitTestBehavior.opaque,
-                          child: JobRowItem(
-                              job: _jobList[index],
-                              index: index,
-                              lastItem: index == _jobList.length - 1),
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => JobDetail(),
-                                ));
-                          });
-                    }
-                    return null;
-                  }, childCount: _jobList.length)),
+                  _jobModel == null
+                      ? SliverToBoxAdapter(
+                          child: Container(
+                            height: ScreenUtil().setWidth(400),
+                            alignment: Alignment.center,
+                            child: CupertinoActivityIndicator(),
+                          ),
+                        )
+                      : SliverList(
+                          delegate:
+                              SliverChildBuilderDelegate((context, index) {
+                          if (index < _jobModel.jobList.length) {
+                            return GestureDetector(
+                                behavior: HitTestBehavior.opaque,
+                                child: JobRowItem(
+                                    job: _jobModel.jobList[index],
+                                    index: index,
+                                    lastItem:
+                                        index == _jobModel.jobList.length - 1),
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => JobDetail(jobId:_jobModel.jobList[index].id),
+                                      ));
+                                });
+                          }
+                          return null;
+                        }, childCount: _jobModel.jobList.length)),
                 ],
               ),
             ),
@@ -378,5 +439,19 @@ class _JobListState extends State<JobList> {
         ),
       ),
     );
+  }
+
+   getJobList() async {
+    JobListEntity _jobEntity = await _jobModel.getJobList(
+        context,
+        _selectFilterType == 1,
+        _selectFilterType == 2,
+        _selectFilterType == 0,
+        '',
+        _pageIndex,
+        15);
+    if (_jobEntity != null && _jobEntity.data.records.length > 0) {
+      _pageIndex++;
+    }
   }
 }
