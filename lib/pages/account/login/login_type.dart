@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:recruit_app/model/user_model.dart';
 import 'package:recruit_app/pages/account/login/login_in.dart';
+import 'package:recruit_app/utils/net_utils.dart';
+
+import '../../../application.dart';
 
 class LoginType extends StatelessWidget {
+  void initSetting(BuildContext context) async {
+    await Application.initSp();
+    UserModel userModel = Provider.of<UserModel>(context);
+    userModel.initUser();
+  }
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context, width: 750, height: 1334);
+    NetUtils.init();
+    initSetting(context);
     return Scaffold(
       backgroundColor: Color.fromRGBO(232, 255, 254, 1),
       body: Stack(
@@ -60,7 +72,8 @@ class LoginType extends StatelessWidget {
                         color: Color.fromRGBO(159, 199, 235, 1),
                         width: ScreenUtil().setWidth(2),
                       ),
-                      borderRadius: BorderRadius.circular(ScreenUtil().setWidth(1000))),
+                      borderRadius:
+                          BorderRadius.circular(ScreenUtil().setWidth(1000))),
                 ),
                 SizedBox(
                   width: ScreenUtil().setWidth(64),
@@ -90,7 +103,8 @@ class LoginType extends StatelessWidget {
                         color: Color.fromRGBO(159, 199, 235, 1),
                         width: ScreenUtil().setWidth(2),
                       ),
-                      borderRadius: BorderRadius.circular(ScreenUtil().setWidth(1000))),
+                      borderRadius:
+                          BorderRadius.circular(ScreenUtil().setWidth(1000))),
                 ),
               ],
             ),

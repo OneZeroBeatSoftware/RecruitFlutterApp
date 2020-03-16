@@ -1,9 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recruit_app/model/chat_list.dart';
-import 'package:recruit_app/pages/employe/boss_chat_room_intro.dart';
-import 'package:recruit_app/pages/jobs/chat_room_intro.dart';
 import 'package:recruit_app/pages/msg/notify_detail.dart';
 
 class NotifyItem extends StatelessWidget {

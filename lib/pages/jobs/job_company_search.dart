@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:recruit_app/model/company_list.dart';
-import 'package:recruit_app/model/job_list.dart';
+import 'package:recruit_app/model/job_model.dart';
 import 'package:recruit_app/pages/companys/company_detail.dart';
 import 'package:recruit_app/pages/companys/company_row_item.dart';
 import 'package:recruit_app/pages/jobs/city_filter.dart';
@@ -22,7 +23,6 @@ class JobCompanySearch extends StatefulWidget {
 
 class _JobCompanySearchState extends State<JobCompanySearch> {
   List<Company> _companyList = CompanyData.loadCompany();
-  List<Job> _jobList = JobData.loadJobs();
 
   @override
   Widget build(BuildContext context) {
@@ -377,48 +377,50 @@ class _JobCompanySearchState extends State<JobCompanySearch> {
                 ),
               ),
               Expanded(
-                child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    if (index <
-                        (widget.searchType == SearchType.job
-                            ? _jobList.length
-                            : _companyList.length)) {
-                      return widget.searchType == SearchType.job
-                          ? GestureDetector(
-                              behavior: HitTestBehavior.opaque,
-                              child: JobRowItem(
-                                  job: _jobList[index],
-                                  index: index,
-                                  lastItem: index == _jobList.length - 1),
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => JobDetail(),
-                                    ));
-                              })
-                          : GestureDetector(
-                              behavior: HitTestBehavior.opaque,
-                              child: CompanyRowItem(
-                                  company: _companyList[index],
-                                  index: index,
-                                  lastItem: index == _companyList.length - 1),
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => CompanyDetail(),
-                                    ));
-                              },
-                            );
-                    }
-                    return null;
-                  },
-                  itemCount: widget.searchType == SearchType.job
-                      ? _jobList.length
-                      : _companyList.length,
-                  physics: const BouncingScrollPhysics(),
-                ),
+                child: Consumer<JobModel>(builder: (context,model,child){
+                  return ListView.builder(
+                    itemBuilder: (context, index) {
+                      if (index <
+                          (widget.searchType == SearchType.job
+                              ? model.jobList.length
+                              : _companyList.length)) {
+                        return widget.searchType == SearchType.job
+                            ? GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            child: JobRowItem(
+                                job: model.jobList[index],
+                                index: index,
+                                lastItem: index == model.jobList.length - 1),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => JobDetail(jobId:model.jobList[index].id),
+                                  ));
+                            })
+                            : GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          child: CompanyRowItem(
+                              company: _companyList[index],
+                              index: index,
+                              lastItem: index == _companyList.length - 1),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CompanyDetail(),
+                                ));
+                          },
+                        );
+                      }
+                      return null;
+                    },
+                    itemCount: widget.searchType == SearchType.job
+                        ? model.jobList.length
+                        : _companyList.length,
+                    physics: const BouncingScrollPhysics(),
+                  );
+                }),
               ),
             ],
           ),

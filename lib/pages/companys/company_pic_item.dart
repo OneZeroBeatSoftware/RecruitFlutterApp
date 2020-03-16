@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/model/company_pic_list.dart';
 
 class CompanyPicItem extends StatelessWidget {
@@ -11,8 +12,8 @@ class CompanyPicItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final picItem = ClipRRect(
-      borderRadius: BorderRadius.circular(10),
-      child: Image.asset(picData.picPath,width: 250,height: 150,fit: BoxFit.cover,),
+      borderRadius: BorderRadius.circular(ScreenUtil().setWidth(20)),
+      child: Image.asset(picData.picPath,width: ScreenUtil().setWidth(300),height: ScreenUtil().setWidth(200),fit: BoxFit.cover,),
     );
 
     if(isLastItem){
@@ -23,7 +24,7 @@ class CompanyPicItem extends StatelessWidget {
       children: <Widget>[
         picItem,
         SizedBox(
-          width: 8,
+          width: ScreenUtil().setWidth(12),
         ),
       ],
     );

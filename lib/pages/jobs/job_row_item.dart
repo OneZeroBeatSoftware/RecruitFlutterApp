@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recruit_app/model/job_list.dart';
+import 'package:recruit_app/entity/job_list_entity.dart';
 
 class JobRowItem extends StatelessWidget {
-  final Job job;
+  final JobListDataRecord job;
   final int index;
   final bool lastItem;
 
@@ -13,7 +13,8 @@ class JobRowItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final jobItem = Padding(
+    final jobItem = Container(
+      color: Colors.white,
       padding: EdgeInsets.only(
           left: ScreenUtil().setWidth(48),
           right: ScreenUtil().setWidth(48),
@@ -46,7 +47,7 @@ class JobRowItem extends StatelessWidget {
                       width: ScreenUtil().setWidth(14),
                     ),
                     Text(
-                      '候选人1/10',
+                      '候选人${job.candidatesCurrent}/${job.candidatesTotal}',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -58,7 +59,7 @@ class JobRowItem extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 4),
-              Text('${job.leastSalary}-${job.highestSalary}K',
+              Text('${job.minSalary}-${job.maxSalary}K',
                   style: TextStyle(
                       fontSize: ScreenUtil().setSp(36),
                       fontWeight: FontWeight.w500,
@@ -69,7 +70,7 @@ class JobRowItem extends StatelessWidget {
             height: ScreenUtil().setWidth(20),
           ),
           Text(
-            '福州 仓山区 ｜ 1-3年 ｜ 本科',
+            '${job.workAddress} ｜ ${job.workDateName} ｜ ${job.educationName}',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
@@ -126,20 +127,26 @@ class JobRowItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Expanded(
-                child: Text(
-                  '五险一金 ｜ 包吃包住 ｜ 年底分红',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: ScreenUtil().setSp(26),
-                    color: Color.fromRGBO(151, 151, 151, 1),
-                  ),
-                ),
-              ),
+                  child: Wrap(
+                children: job.treatments
+                    .asMap()
+                    .keys
+                    .map(
+                      (index) => Text(
+                        '${job.treatments[index].treatmentName}${index == (job.treatments.length - 1) ? "" : " ｜ "}',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: ScreenUtil().setSp(26),
+                          color: Color.fromRGBO(151, 151, 151, 1),
+                        ),
+                      ),
+                    )
+                    .toList(),
+              )),
               SizedBox(
-                height: ScreenUtil().setWidth(8),
+                width: ScreenUtil().setWidth(8),
               ),
-
               Container(
                 alignment: Alignment.center,
                 child: Text(
@@ -161,7 +168,8 @@ class JobRowItem extends StatelessWidget {
                       color: Color.fromRGBO(159, 199, 235, 1),
                       width: ScreenUtil().setWidth(2),
                     ),
-                    borderRadius: BorderRadius.circular(ScreenUtil().setWidth(1000))),
+                    borderRadius:
+                        BorderRadius.circular(ScreenUtil().setWidth(1000))),
               ),
             ],
           ),

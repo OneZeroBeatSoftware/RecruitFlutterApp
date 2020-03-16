@@ -14,6 +14,7 @@ class CompanyRowItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final companyItem = Container(
+      color: Colors.white,
       padding: EdgeInsets.only(
         top: ScreenUtil().setWidth(32),
         left: ScreenUtil().setWidth(48),

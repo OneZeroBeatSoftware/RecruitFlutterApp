@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:recruit_app/entity/user_entity.dart';
+import 'package:recruit_app/model/user_model.dart';
+import 'package:recruit_app/pages/account/login/login_type.dart';
 import 'package:recruit_app/pages/setting/account_bind_setting.dart';
 import 'package:recruit_app/pages/setting/notify_setting.dart';
 import 'package:recruit_app/pages/setting/private_setting.dart';
@@ -13,6 +17,15 @@ class Setting extends StatefulWidget {
 }
 
 class _SettingState extends State<Setting> {
+  UserModel userModel;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((callback){
+      userModel=Provider.of<UserModel>(context);
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -259,7 +272,12 @@ class _SettingState extends State<Setting> {
             child: MaterialButton(
               elevation: 0,
               color: Colors.white,
-              onPressed: () {},
+              onPressed: () async{
+                UserEntity userEntity =await userModel.logout(context);
+                if(userEntity!=null){
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>LoginType()), (check)=>false);
+                }
+              },
               textColor: Color.fromRGBO(159, 199, 235, 1),
               child: Text(
                 "退出登录",
