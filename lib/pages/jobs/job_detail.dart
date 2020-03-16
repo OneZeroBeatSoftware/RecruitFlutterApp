@@ -6,6 +6,7 @@ import 'package:recruit_app/entity/job_detail_entity.dart';
 import 'package:recruit_app/model/job_model.dart';
 import 'package:recruit_app/pages/companys/company_detail.dart';
 import 'package:recruit_app/pages/jobs/chat_room.dart';
+import 'package:recruit_app/pages/jobs/list_menu_dialog.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 
 class JobDetail extends StatefulWidget {
@@ -21,6 +22,8 @@ class JobDetail extends StatefulWidget {
 }
 
 class _JobDetailState extends State<JobDetail> {
+  bool _isCollected=false;
+  List<String> _reports=[];
   JobModel _jobModel;
 
   JobDetailData _jobDetailData;
@@ -29,6 +32,9 @@ class _JobDetailState extends State<JobDetail> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    for (int i1 = 0; i1 < 20; i1++) {
+      _reports.add('广告骚扰');
+    }
     WidgetsBinding.instance.addPostFrameCallback((i) {
       _jobModel = Provider.of<JobModel>(context);
       getJobDetail(widget.jobId);
@@ -72,9 +78,13 @@ class _JobDetailState extends State<JobDetail> {
             children: <Widget>[
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
-                onTap: () {},
+                onTap: () {
+                  setState(() {
+                    _isCollected=!_isCollected;
+                  });
+                },
                 child: Image.asset(
-                  'images/img_heart_focus.png',
+                  _isCollected?'images/img_heart_focus.png':'images/img_heart_unfocus.png',
                   width: ScreenUtil().setWidth(36),
                   height: ScreenUtil().setWidth(36),
                 ),
@@ -84,7 +94,41 @@ class _JobDetailState extends State<JobDetail> {
               ),
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
-                onTap: () {},
+                onTap: () {
+                  showGeneralDialog(
+                    context: context,
+                    pageBuilder: (context, animation1, animation2) { return null;},
+                    barrierColor: Colors.black.withOpacity(0.4),
+                    barrierDismissible: true,
+                    barrierLabel: "Dismiss",
+                    transitionDuration: Duration(milliseconds: 300),
+                    transitionBuilder: (context, animation1, animation2, widget) {
+                      final curvedValue =
+                          Curves.easeInOut.transform(animation1.value) - 1.0;
+                      return Transform(
+                        transform:
+                        Matrix4.translationValues(0.0, curvedValue * -300, 0.0),
+                        child: Opacity(
+                          opacity: animation1.value,
+                          child: ListMenuDialog(
+                            title: '举报',
+                            cancel: () {
+                              Navigator.pop(context);
+                            },
+                            confirm: () {
+                              Navigator.pop(context);
+                            },
+                            itemSelected: (){
+                              Navigator.pop(context);
+
+                            },
+                            lists: _reports,
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
                 child: Image.asset(
                   'images/img_report.png',
                   width: ScreenUtil().setWidth(36),
@@ -186,8 +230,8 @@ class _JobDetailState extends State<JobDetail> {
                                         color: Color.fromRGBO(95, 94, 94, 1))),
                                 SizedBox(width: 12),
                                 Expanded(
-                                  child: Row(children: _jobDetailData.treatments.asMap().keys.map((index)=> Text(
-                                  '${_jobDetailData.treatments[index]}${index==(_jobDetailData.treatments.length-1)?"":" ｜ "}',
+                                  child: Wrap(children: _jobDetailData.treatments.asMap().keys.map((index)=> Text(
+                                  '${_jobDetailData.treatments[index].treatmentName}${index==(_jobDetailData.treatments.length-1)?"":" ｜ "}',
                                     textAlign: TextAlign.right,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
@@ -288,7 +332,7 @@ class _JobDetailState extends State<JobDetail> {
                                   ),
                                 ),
                                 child: Text(
-                                  item,
+                                  item.tagName,
                                   textAlign: TextAlign.center,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,

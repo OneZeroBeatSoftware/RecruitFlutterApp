@@ -34,12 +34,16 @@ jobDetailDataFromJson(JobDetailData data, Map<String, dynamic> json) {
 		data.position = new JobDetailDataPosition().fromJson(json['position']);
 	}
 	if (json['jobTags'] != null) {
-		data.jobTags = new List<dynamic>();
-		data.jobTags.addAll(json['jobTags']);
+		data.jobTags = new List<JobDetailDataTags>();
+		(json['jobTags'] as List).forEach((v) {
+			data.jobTags.add(new JobDetailDataTags().fromJson(v));
+		});
 	}
 	if (json['treatments'] != null) {
-		data.treatments = new List<dynamic>();
-		data.treatments.addAll(json['treatments']);
+		data.treatments = new List<JobDetailDataTreatments>();
+		(json['treatments'] as List).forEach((v) {
+			data.treatments.add(new JobDetailDataTreatments().fromJson(v));
+		});
 	}
 	return data;
 }
@@ -56,10 +60,10 @@ Map<String, dynamic> jobDetailDataToJson(JobDetailData entity) {
 		data['position'] = entity.position.toJson();
 	}
 	if (entity.jobTags != null) {
-		data['jobTags'] =  [];
+		data['jobTags'] =  entity.jobTags.map((v) => v.toJson()).toList();
 	}
 	if (entity.treatments != null) {
-		data['treatments'] =  [];
+		data['treatments'] =  entity.treatments.map((v) => v.toJson()).toList();
 	}
 	return data;
 }
@@ -216,5 +220,55 @@ Map<String, dynamic> jobDetailDataPositionToJson(JobDetailDataPosition entity) {
 	data['positionName'] = entity.positionName;
 	data['state'] = entity.state;
 	data['pid'] = entity.pid;
+	return data;
+}
+
+jobDetailDataTreatmentsFromJson(JobDetailDataTreatments data, Map<String, dynamic> json) {
+	if (json['id'] != null) {
+		data.id = json['id']?.toString();
+	}
+	if (json['treatmentName'] != null) {
+		data.treatmentName = json['treatmentName']?.toString();
+	}
+	if (json['content'] != null) {
+		data.content = json['content']?.toString();
+	}
+	if (json['state'] != null) {
+		data.state = json['state']?.toString();
+	}
+	return data;
+}
+
+Map<String, dynamic> jobDetailDataTreatmentsToJson(JobDetailDataTreatments entity) {
+	final Map<String, dynamic> data = new Map<String, dynamic>();
+	data['id'] = entity.id;
+	data['treatmentName'] = entity.treatmentName;
+	data['content'] = entity.content;
+	data['state'] = entity.state;
+	return data;
+}
+
+jobDetailDataTagsFromJson(JobDetailDataTags data, Map<String, dynamic> json) {
+	if (json['id'] != null) {
+		data.id = json['id']?.toString();
+	}
+	if (json['jobId'] != null) {
+		data.jobId = json['jobId']?.toString();
+	}
+	if (json['tagName'] != null) {
+		data.tagName = json['tagName']?.toString();
+	}
+	if (json['state'] != null) {
+		data.state = json['state']?.toString();
+	}
+	return data;
+}
+
+Map<String, dynamic> jobDetailDataTagsToJson(JobDetailDataTags entity) {
+	final Map<String, dynamic> data = new Map<String, dynamic>();
+	data['id'] = entity.id;
+	data['jobId'] = entity.jobId;
+	data['tagName'] = entity.tagName;
+	data['state'] = entity.state;
 	return data;
 }

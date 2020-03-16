@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/model/job_filter_data.dart';
-import 'package:recruit_app/pages/jobs/area_filter_dialog.dart';
+import 'package:recruit_app/pages/jobs/list_menu_dialog.dart';
 import 'package:recruit_app/pages/jobs/job_filter_item.dart';
 import 'package:recruit_app/utils/net_utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
@@ -18,6 +18,7 @@ class _CityFilterState extends State<CityFilter> {
   final ScrollController _scrollController = ScrollController();
 
 //  GlobalKey stackKey = GlobalKey(debugLabel: 'stackCity');
+  List<String> _area=[];
 
   @override
   void initState() {
@@ -27,6 +28,9 @@ class _CityFilterState extends State<CityFilter> {
 //          letter: item.filterName));
 //    });
     super.initState();
+    for (int i = 0; i < 20; i++) {
+      _area.add('奥兰治县');
+    }
     WidgetsBinding.instance.addPostFrameCallback((call){
       NetUtils.getCityList(context);
     });
@@ -166,7 +170,7 @@ class _CityFilterState extends State<CityFilter> {
                         Matrix4.translationValues(0.0, curvedValue * -300, 0.0),
                     child: Opacity(
                       opacity: animation1.value,
-                      child: AreaFilterDialog(
+                      child: ListMenuDialog(
                         title: '洛杉矶',
                         cancel: () {
                           Navigator.pop(context);
@@ -174,6 +178,10 @@ class _CityFilterState extends State<CityFilter> {
                         confirm: () {
                           Navigator.pop(context);
                         },
+                        itemSelected: (){
+                          Navigator.pop(context);
+                        },
+                        lists: _area,
                       ),
                     ),
                   );
@@ -266,7 +274,7 @@ class _CityFilterState extends State<CityFilter> {
                                     0.0, curvedValue * -300, 0.0),
                                 child: Opacity(
                                   opacity: animation1.value,
-                                  child: AreaFilterDialog(
+                                  child: ListMenuDialog(
                                     title: '洛杉矶',
                                     cancel: () {
                                       Navigator.pop(context);
@@ -274,6 +282,10 @@ class _CityFilterState extends State<CityFilter> {
                                     confirm: () {
                                       Navigator.pop(context);
                                     },
+                                    itemSelected: (){
+                                      Navigator.pop(context);
+                                    },
+                                    lists: _area,
                                   ),
                                 ),
                               );

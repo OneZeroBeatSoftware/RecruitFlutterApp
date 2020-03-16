@@ -104,8 +104,10 @@ jobListDataRecordFromJson(JobListDataRecord data, Map<String, dynamic> json) {
 		data.candidatesCurrent = json['candidatesCurrent']?.toInt();
 	}
 	if (json['treatments'] != null) {
-		data.treatments = new List<dynamic>();
-		data.treatments.addAll(json['treatments']);
+		data.treatments = new List<JobListDataTreatments>();
+		(json['treatments'] as List).forEach((v) {
+			data.treatments.add(new JobListDataTreatments().fromJson(v));
+		});
 	}
 	return data;
 }
@@ -128,7 +130,32 @@ Map<String, dynamic> jobListDataRecordToJson(JobListDataRecord entity) {
 	data['candidatesTotal'] = entity.candidatesTotal;
 	data['candidatesCurrent'] = entity.candidatesCurrent;
 	if (entity.treatments != null) {
-		data['treatments'] =  [];
+		data['treatments'] =  entity.treatments.map((v) => v.toJson()).toList();
 	}
+	return data;
+}
+
+jobListDataTreatmentsFromJson(JobListDataTreatments data, Map<String, dynamic> json) {
+	if (json['id'] != null) {
+		data.id = json['id']?.toString();
+	}
+	if (json['treatmentName'] != null) {
+		data.treatmentName = json['treatmentName']?.toString();
+	}
+	if (json['content'] != null) {
+		data.content = json['content']?.toString();
+	}
+	if (json['state'] != null) {
+		data.state = json['state']?.toString();
+	}
+	return data;
+}
+
+Map<String, dynamic> jobListDataTreatmentsToJson(JobListDataTreatments entity) {
+	final Map<String, dynamic> data = new Map<String, dynamic>();
+	data['id'] = entity.id;
+	data['treatmentName'] = entity.treatmentName;
+	data['content'] = entity.content;
+	data['state'] = entity.state;
 	return data;
 }

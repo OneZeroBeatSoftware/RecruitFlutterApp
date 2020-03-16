@@ -10,8 +10,8 @@ class JobDetailData with JsonConvert<JobDetailData> {
 	JobDetailDataJob job;
 	JobDetailDataIndustry industry;
 	JobDetailDataPosition position;
-	List<dynamic> jobTags;
-	List<dynamic> treatments;
+	List<JobDetailDataTags> jobTags;
+	List<JobDetailDataTreatments> treatments;
 }
 
 class JobDetailDataJob with JsonConvert<JobDetailDataJob> {
@@ -53,4 +53,18 @@ class JobDetailDataPosition with JsonConvert<JobDetailDataPosition> {
 	String positionName;
 	int state;
 	String pid;
+}
+
+class JobDetailDataTreatments with JsonConvert<JobDetailDataTreatments> {
+	String id;
+	String treatmentName;
+	String content;
+	String state;
+}
+
+class JobDetailDataTags with JsonConvert<JobDetailDataTags> {
+	String id;
+	String jobId;
+	String tagName;
+	String state;
 }

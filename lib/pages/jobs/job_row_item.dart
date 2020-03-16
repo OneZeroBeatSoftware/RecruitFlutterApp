@@ -127,13 +127,13 @@ class JobRowItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Expanded(
-                  child: Row(
+                  child: Wrap(
                 children: job.treatments
                     .asMap()
                     .keys
                     .map(
                       (index) => Text(
-                        '${job.treatments[index]}${index == (job.treatments.length - 1) ? "" : " ｜ "}',
+                        '${job.treatments[index].treatmentName}${index == (job.treatments.length - 1) ? "" : " ｜ "}',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -145,7 +145,7 @@ class JobRowItem extends StatelessWidget {
                     .toList(),
               )),
               SizedBox(
-                height: ScreenUtil().setWidth(8),
+                width: ScreenUtil().setWidth(8),
               ),
               Container(
                 alignment: Alignment.center,

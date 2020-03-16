@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class AreaFilterDialog extends Dialog {
+class ListMenuDialog extends Dialog {
   final String title;
+  final List<String> lists;
   final Function() confirm;
+  final Function() itemSelected;
   final Function() cancel;
 
-  AreaFilterDialog({this.title = '', this.confirm, this.cancel});
+  ListMenuDialog({this.title = '', this.confirm, this.cancel,this.lists,this.itemSelected,});
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +100,7 @@ class AreaFilterDialog extends Dialog {
                   child: ListView.builder(
                     padding: EdgeInsets.all(0),
                     itemBuilder: (context, index) {
-                      if (index < 20) {
+                      if (index < lists.length) {
                         return GestureDetector(
                             behavior: HitTestBehavior.opaque,
                             child: Container(
@@ -116,7 +118,7 @@ class AreaFilterDialog extends Dialog {
                                 ),
                               ),
                               child: Text(
-                                '奥兰治县',
+                                lists[index],
                                 textAlign: TextAlign.center,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -126,13 +128,11 @@ class AreaFilterDialog extends Dialog {
                                 ),
                               ),
                             ),
-                            onTap: () {
-                              Navigator.pop(context);
-                            });
+                            onTap: itemSelected,);
                       }
                       return null;
                     },
-                    itemCount: 20,
+                    itemCount: lists.length,
                     physics: const BouncingScrollPhysics(),
                   ),
                 ),

@@ -30,5 +30,12 @@ class JobListDataRecord with JsonConvert<JobListDataRecord> {
 	String workDateName;
 	int candidatesTotal;
 	int candidatesCurrent;
-	List<dynamic> treatments;
+	List<JobListDataTreatments> treatments;
+}
+
+class JobListDataTreatments with JsonConvert<JobListDataTreatments> {
+	String id;
+	String treatmentName;
+	String content;
+	String state;
 }

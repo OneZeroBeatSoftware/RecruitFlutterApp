@@ -29,13 +29,16 @@ class JsonConvert<T> {
 			return jobDetailDataFromJson(data as JobDetailData, json) as T;			case JobDetailDataJob:
 			return jobDetailDataJobFromJson(data as JobDetailDataJob, json) as T;			case JobDetailDataIndustry:
 			return jobDetailDataIndustryFromJson(data as JobDetailDataIndustry, json) as T;			case JobDetailDataPosition:
-			return jobDetailDataPositionFromJson(data as JobDetailDataPosition, json) as T;			case UserEntity:
+			return jobDetailDataPositionFromJson(data as JobDetailDataPosition, json) as T;			case JobDetailDataTreatments:
+			return jobDetailDataTreatmentsFromJson(data as JobDetailDataTreatments, json) as T;			case JobDetailDataTags:
+			return jobDetailDataTagsFromJson(data as JobDetailDataTags, json) as T;			case UserEntity:
 			return userEntityFromJson(data as UserEntity, json) as T;			case WorkDateEntity:
 			return workDateEntityFromJson(data as WorkDateEntity, json) as T;			case WorkDateData:
 			return workDateDataFromJson(data as WorkDateData, json) as T;			case JobListEntity:
 			return jobListEntityFromJson(data as JobListEntity, json) as T;			case JobListData:
 			return jobListDataFromJson(data as JobListData, json) as T;			case JobListDataRecord:
-			return jobListDataRecordFromJson(data as JobListDataRecord, json) as T;			case EduLevelEntity:
+			return jobListDataRecordFromJson(data as JobListDataRecord, json) as T;			case JobListDataTreatments:
+			return jobListDataTreatmentsFromJson(data as JobListDataTreatments, json) as T;			case EduLevelEntity:
 			return eduLevelEntityFromJson(data as EduLevelEntity, json) as T;			case EduLevelData:
 			return eduLevelDataFromJson(data as EduLevelData, json) as T;    }
     return data as T;
@@ -47,13 +50,16 @@ class JsonConvert<T> {
 			return jobDetailDataToJson(data as JobDetailData);			case JobDetailDataJob:
 			return jobDetailDataJobToJson(data as JobDetailDataJob);			case JobDetailDataIndustry:
 			return jobDetailDataIndustryToJson(data as JobDetailDataIndustry);			case JobDetailDataPosition:
-			return jobDetailDataPositionToJson(data as JobDetailDataPosition);			case UserEntity:
+			return jobDetailDataPositionToJson(data as JobDetailDataPosition);			case JobDetailDataTreatments:
+			return jobDetailDataTreatmentsToJson(data as JobDetailDataTreatments);			case JobDetailDataTags:
+			return jobDetailDataTagsToJson(data as JobDetailDataTags);			case UserEntity:
 			return userEntityToJson(data as UserEntity);			case WorkDateEntity:
 			return workDateEntityToJson(data as WorkDateEntity);			case WorkDateData:
 			return workDateDataToJson(data as WorkDateData);			case JobListEntity:
 			return jobListEntityToJson(data as JobListEntity);			case JobListData:
 			return jobListDataToJson(data as JobListData);			case JobListDataRecord:
-			return jobListDataRecordToJson(data as JobListDataRecord);			case EduLevelEntity:
+			return jobListDataRecordToJson(data as JobListDataRecord);			case JobListDataTreatments:
+			return jobListDataTreatmentsToJson(data as JobListDataTreatments);			case EduLevelEntity:
 			return eduLevelEntityToJson(data as EduLevelEntity);			case EduLevelData:
 			return eduLevelDataToJson(data as EduLevelData);    }
     return data as T;
@@ -65,13 +71,16 @@ class JsonConvert<T> {
 			return JobDetailData().fromJson(json);			case 'JobDetailDataJob':
 			return JobDetailDataJob().fromJson(json);			case 'JobDetailDataIndustry':
 			return JobDetailDataIndustry().fromJson(json);			case 'JobDetailDataPosition':
-			return JobDetailDataPosition().fromJson(json);			case 'UserEntity':
+			return JobDetailDataPosition().fromJson(json);			case 'JobDetailDataTreatments':
+			return JobDetailDataTreatments().fromJson(json);			case 'JobDetailDataTags':
+			return JobDetailDataTags().fromJson(json);			case 'UserEntity':
 			return UserEntity().fromJson(json);			case 'WorkDateEntity':
 			return WorkDateEntity().fromJson(json);			case 'WorkDateData':
 			return WorkDateData().fromJson(json);			case 'JobListEntity':
 			return JobListEntity().fromJson(json);			case 'JobListData':
 			return JobListData().fromJson(json);			case 'JobListDataRecord':
-			return JobListDataRecord().fromJson(json);			case 'EduLevelEntity':
+			return JobListDataRecord().fromJson(json);			case 'JobListDataTreatments':
+			return JobListDataTreatments().fromJson(json);			case 'EduLevelEntity':
 			return EduLevelEntity().fromJson(json);			case 'EduLevelData':
 			return EduLevelData().fromJson(json);    }
     return null;
@@ -84,13 +93,16 @@ class JsonConvert<T> {
 			return List<JobDetailData>();			case 'JobDetailDataJob':
 			return List<JobDetailDataJob>();			case 'JobDetailDataIndustry':
 			return List<JobDetailDataIndustry>();			case 'JobDetailDataPosition':
-			return List<JobDetailDataPosition>();			case 'UserEntity':
+			return List<JobDetailDataPosition>();			case 'JobDetailDataTreatments':
+			return List<JobDetailDataTreatments>();			case 'JobDetailDataTags':
+			return List<JobDetailDataTags>();			case 'UserEntity':
 			return List<UserEntity>();			case 'WorkDateEntity':
 			return List<WorkDateEntity>();			case 'WorkDateData':
 			return List<WorkDateData>();			case 'JobListEntity':
 			return List<JobListEntity>();			case 'JobListData':
 			return List<JobListData>();			case 'JobListDataRecord':
-			return List<JobListDataRecord>();			case 'EduLevelEntity':
+			return List<JobListDataRecord>();			case 'JobListDataTreatments':
+			return List<JobListDataTreatments>();			case 'EduLevelEntity':
 			return List<EduLevelEntity>();			case 'EduLevelData':
 			return List<EduLevelData>();    }
     return null;
