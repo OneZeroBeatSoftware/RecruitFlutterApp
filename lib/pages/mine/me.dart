@@ -55,184 +55,189 @@ class _MineState extends State<Mine> {
         physics: BouncingScrollPhysics(),
         slivers: <Widget>[
           SliverToBoxAdapter(
-            child: Container(
-              padding: EdgeInsets.only(
-                  left: ScreenUtil().setWidth(48),
-                  right: ScreenUtil().setWidth(48),
-                  bottom: ScreenUtil().setWidth(48),
-                  top: ScreenUtil().setWidth(30)),
-              color: Color.fromRGBO(68, 77, 151, 1),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Row(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.only(
+                     left: ScreenUtil().setWidth(48),
+                     right: ScreenUtil().setWidth(48),
+                     bottom: ScreenUtil().setWidth(48),
+                     top: ScreenUtil().setWidth(30)),
+                  color: Color.fromRGBO(68, 77, 151, 1),
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Expanded(
-                        child: Text(
-                          '哈哈哈哈哈登',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: ScreenUtil().setSp(48),
-                              fontWeight: FontWeight.bold),
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Expanded(
+                            child: Text(
+                              '哈哈哈哈哈登',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                 color: Colors.white,
+                                 fontSize: ScreenUtil().setSp(48),
+                                 fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          SizedBox(
+                            width: ScreenUtil().setWidth(15),
+                          ),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(
+                              ScreenUtil().setWidth(70),
+                            ),
+                            child: Image.asset(
+                              'images/img_icon_harden.png',
+                              width: ScreenUtil().setWidth(140),
+                              height: ScreenUtil().setWidth(140),
+                              fit: BoxFit.cover,
+                            ),
+                          )
+                        ],
                       ),
                       SizedBox(
-                        width: ScreenUtil().setWidth(15),
+                        height: ScreenUtil().setWidth(56),
                       ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(
-                          ScreenUtil().setWidth(70),
-                        ),
-                        child: Image.asset(
-                          'images/img_icon_harden.png',
-                          width: ScreenUtil().setWidth(140),
-                          height: ScreenUtil().setWidth(140),
-                          fit: BoxFit.cover,
-                        ),
-                      )
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            flex: 1,
+                            child: GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              child: Row(
+                                children: <Widget>[
+                                  Text(
+                                    '已投递',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      color: Color.fromRGBO(227, 226, 226, 1),
+                                      fontSize: ScreenUtil().setSp(28),
+                                    ),
+                                  ),
+                                  Text(
+                                    '(18)',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      color: Color.fromRGBO(227, 226, 226, 1),
+                                      fontSize: ScreenUtil().setSp(28),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              onTap: () {
+                                Navigator.push(
+                                   context,
+                                   MaterialPageRoute(
+                                      builder: (context) => SendResumeJob()));
+                              },
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.symmetric(
+                              horizontal: ScreenUtil().setWidth(10),
+                            ),
+                            width: ScreenUtil().setWidth(1),
+                            height: ScreenUtil().setHeight(28),
+                            color: Colors.white,
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    '待面试',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      color: Color.fromRGBO(227, 226, 226, 1),
+                                      fontSize: ScreenUtil().setSp(28),
+                                    ),
+                                  ),
+                                  Text(
+                                    '(15)',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      color: Color.fromRGBO(227, 226, 226, 1),
+                                      fontSize: ScreenUtil().setSp(28),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              onTap: () {
+                                Navigator.push(
+                                   context,
+                                   MaterialPageRoute(
+                                      builder: (context) => MineInterView()));
+                              },
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.symmetric(
+                              horizontal: ScreenUtil().setWidth(10),
+                            ),
+                            width: ScreenUtil().setWidth(1),
+                            height: ScreenUtil().setHeight(28),
+                            color: Colors.white,
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: <Widget>[
+                                  Text(
+                                    '沟通过',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      color: Color.fromRGBO(227, 226, 226, 1),
+                                      fontSize: ScreenUtil().setSp(28),
+                                    ),
+                                  ),
+                                  Text(
+                                    '(13)',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      color: Color.fromRGBO(227, 226, 226, 1),
+                                      fontSize: ScreenUtil().setSp(28),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              onTap: () {
+                                Navigator.push(
+                                   context,
+                                   MaterialPageRoute(
+                                      builder: (context) => CommunicateJob()));
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
-                  SizedBox(
-                    height: ScreenUtil().setWidth(56),
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                        flex: 1,
-                        child: GestureDetector(
-                          behavior: HitTestBehavior.opaque,
-                          child: Row(
-                            children: <Widget>[
-                              Text(
-                                '已投递',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  color: Color.fromRGBO(227, 226, 226, 1),
-                                  fontSize: ScreenUtil().setSp(28),
-                                ),
-                              ),
-                              Text(
-                                '(18)',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  color: Color.fromRGBO(227, 226, 226, 1),
-                                  fontSize: ScreenUtil().setSp(28),
-                                ),
-                              ),
-                            ],
-                          ),
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SendResumeJob()));
-                          },
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(
-                          horizontal: ScreenUtil().setWidth(10),
-                        ),
-                        width: ScreenUtil().setWidth(1),
-                        height: ScreenUtil().setHeight(28),
-                        color: Colors.white,
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: GestureDetector(
-                          behavior: HitTestBehavior.opaque,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                '待面试',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  color: Color.fromRGBO(227, 226, 226, 1),
-                                  fontSize: ScreenUtil().setSp(28),
-                                ),
-                              ),
-                              Text(
-                                '(15)',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  color: Color.fromRGBO(227, 226, 226, 1),
-                                  fontSize: ScreenUtil().setSp(28),
-                                ),
-                              ),
-                            ],
-                          ),
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => MineInterView()));
-                          },
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(
-                          horizontal: ScreenUtil().setWidth(10),
-                        ),
-                        width: ScreenUtil().setWidth(1),
-                        height: ScreenUtil().setHeight(28),
-                        color: Colors.white,
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: GestureDetector(
-                          behavior: HitTestBehavior.opaque,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              Text(
-                                '沟通过',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  color: Color.fromRGBO(227, 226, 226, 1),
-                                  fontSize: ScreenUtil().setSp(28),
-                                ),
-                              ),
-                              Text(
-                                '(13)',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  color: Color.fromRGBO(227, 226, 226, 1),
-                                  fontSize: ScreenUtil().setSp(28),
-                                ),
-                              ),
-                            ],
-                          ),
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => CommunicateJob()));
-                          },
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
+                ),
+                SizedBox(height: ScreenUtil().setHeight(30)),
+              ],
             ),
           ),
           SliverList(
               delegate: SliverChildBuilderDelegate((context, index) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Consumer<IdentityModel>(
                   builder: (context, model, child) {
@@ -241,7 +246,7 @@ class _MineState extends State<Mine> {
                       child: Padding(
                         padding: EdgeInsets.symmetric(
                           horizontal: ScreenUtil().setWidth(48),
-                          vertical: ScreenUtil().setWidth(40),
+                          vertical: ScreenUtil().setHeight(20),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -326,6 +331,10 @@ class _MineState extends State<Mine> {
                   height: (index == 3 || index == options.length - 1)
                       ? ScreenUtil().setWidth(1)
                       : 0,
+                  width: ScreenUtil().setWidth(654),
+                  margin: EdgeInsets.only(top: ScreenUtil().setHeight((index == 3 || index == options.length - 1)
+                     ? 20 : 0)),
+                  
                 )
               ],
             );
