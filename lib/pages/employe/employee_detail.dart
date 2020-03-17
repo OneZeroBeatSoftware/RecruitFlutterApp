@@ -5,6 +5,11 @@ import 'package:recruit_app/pages/employe/resume_edu_item.dart';
 import 'package:recruit_app/pages/employe/resume_intent_item.dart';
 import 'package:recruit_app/pages/employe/resume_project_item.dart';
 import 'package:recruit_app/pages/employe/resume_work_item.dart';
+import 'package:recruit_app/widgets/common_appbar_widget.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/pages/jobs/list_menu_dialog.dart';
+import 'package:recruit_app/pages/employe/employee_experience.dart';
+import 'package:recruit_app/pages/employe/employee_experience2.dart';
 
 class EmployeeDetail extends StatefulWidget {
   @override
@@ -15,302 +20,323 @@ class EmployeeDetail extends StatefulWidget {
 }
 
 class _EmployeeDetailState extends State<EmployeeDetail> {
+  bool _isCollected=false;
+  List<String> _reports=[];
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    
+    List<Experience> workExperiences = [];
+    for(int i = 0; i < 2; i++)  {
+        workExperiences.add(Experience('星网锐捷', '2018.10-至今', <String>['地产设计', '插画师', '设计部门']));
+    }
+    
+    List<Experience> projectExperiences = [];
+    for(int i = 0; i < 1; i++)  {
+      projectExperiences.add(Experience('ERP系统', '2020年7月30日', <String>['地产设计', '现场执行', '策划']));
+    }
+    
+    List<Experience2> educationExperiences = [];
+    for(int i = 0; i < 3; i++)  {
+      educationExperiences.add(Experience2('杜克大学(研究生，设计学)', '2012-2016'));
+    }
+    
     return Scaffold(
         backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-        appBar: AppBar(
-          leading: IconButton(
-              icon: Image.asset(
-                'images/ic_back_arrow.png',
-                width: 24,
-                height: 24,
+        appBar: CommonAppBar(
+          leading: 'images/img_arrow_left_black.png',
+          leftListener: () {
+            Navigator.pop(context);
+          },
+          center: Container(
+             alignment: Alignment.center,
+             child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(
+                height: ScreenUtil().setHeight(7),
               ),
-              onPressed: () {
-                Navigator.pop(context);
-              }),
-          automaticallyImplyLeading: false,
+    
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(28),
+                    child: Image.asset('images/avatar_14.png', width: ScreenUtil().setWidth(44), height: ScreenUtil().setWidth(44)),
+                  ),
+                  SizedBox(
+                    width: ScreenUtil().setWidth(24),
+                  ),
+                  Align(
+                     alignment: Alignment.centerRight,
+                     child: Text("哈登",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                           fontSize: ScreenUtil().setSp(36),
+                           fontWeight: FontWeight.bold,
+                           color: Color.fromRGBO(20, 20, 20, 1)))),
+                ],),
+              SizedBox(
+                height: 3,
+              ),
+              Text('在线',
+                 maxLines: 1,
+                 overflow: TextOverflow.ellipsis,
+                 style: TextStyle(
+                    fontSize: 12, color: Color.fromRGBO(159, 199, 235, 1))),
+            ],
+          )),
           backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-          actions: <Widget>[
-            IconButton(
-                icon: Image.asset(
-                  'images/ic_action_favor_off_black.png',
-                  width: 24,
-                  height: 24,
+          rightAction: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () {
+                  setState(() {
+                    _isCollected=!_isCollected;
+                  });
+                },
+                child: Image.asset(
+                  _isCollected?'images/img_heart_focus.png':'images/img_heart_unfocus.png',
+                  width: ScreenUtil().setWidth(36),
+                  height: ScreenUtil().setWidth(36),
                 ),
-                onPressed: () {}),
-            IconButton(
-                icon: Image.asset(
-                  'images/ic_action_share_black.png',
-                  width: 24,
-                  height: 24,
+              ),
+              SizedBox(
+                width: ScreenUtil().setWidth(24),
+              ),
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () {
+                  showGeneralDialog(
+                    context: context,
+                    pageBuilder: (context, animation1, animation2) { return null;},
+                    barrierColor: Colors.black.withOpacity(0.4),
+                    barrierDismissible: true,
+                    barrierLabel: "Dismiss",
+                    transitionDuration: Duration(milliseconds: 300),
+                    transitionBuilder: (context, animation1, animation2, widget) {
+                      final curvedValue =
+                         Curves.easeInOut.transform(animation1.value) - 1.0;
+                      return Transform(
+                        transform:
+                        Matrix4.translationValues(0.0, curvedValue * -300, 0.0),
+                        child: Opacity(
+                          opacity: animation1.value,
+                          child: ListMenuDialog(
+                            title: '举报',
+                            cancel: () {
+                              Navigator.pop(context);
+                            },
+                            confirm: () {
+                              Navigator.pop(context);
+                            },
+                            itemSelected: (){
+                              Navigator.pop(context);
+                      
+                            },
+                            lists: _reports,
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+                child: Image.asset(
+                  'images/img_report.png',
+                  width: ScreenUtil().setWidth(36),
+                  height: ScreenUtil().setWidth(36),
                 ),
-                onPressed: () {}),
-            IconButton(
-                icon: Image.asset(
-                  'images/ic_action_report_black.png',
-                  width: 24,
-                  height: 24,
+              ),
+              SizedBox(
+                width: ScreenUtil().setWidth(24),
+              ),
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () {},
+                child: Image.asset(
+                  'images/img_share.png',
+                  width: ScreenUtil().setWidth(36),
+                  height: ScreenUtil().setWidth(36),
                 ),
-                onPressed: () {})
-          ],
+              ),
+              SizedBox(
+                width: ScreenUtil().setWidth(48),
+              ),
+            ],
+          ),
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            Container(margin: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
+               color: Color.fromRGBO(245, 245, 245, 1), constraints: BoxConstraints.expand(height: ScreenUtil().setHeight(1))),
             Expanded(
               child: SingleChildScrollView(
                 physics: BouncingScrollPhysics(),
                 child: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 15.0, right: 15, top: 18, bottom: 18),
+                  padding: EdgeInsets.all(ScreenUtil().setWidth(48)),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  'Bingo',
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromRGBO(37, 38, 39, 1),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 8,
-                                ),
-                                Text(
-                                  '一零跳动•全栈工程师',
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    wordSpacing: 1,
-                                    letterSpacing: 1,
-                                    fontSize: 14,
-                                    color: Color.fromRGBO(108, 111, 111, 1),
-                                  ),
-                                ),
-                              ],
+                          Text(
+                            'Bingo',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: ScreenUtil().setSp(40),
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromRGBO(20, 20, 20, 1),
                             ),
                           ),
-                          SizedBox(width: 8),
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(28),
-                            child: Image.asset(
-                              'images/avatar_14.png',
-                              width: 56,
-                              height: 56,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(vertical: 15),
-                        color: Color.fromRGBO(242, 243, 244, 1),
-                        height: 1,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Expanded(
-                            child: Text(
-                              '在职-暂不考虑',
+                          Row(children: <Widget>[
+                            Text(
+                              '期望薪资',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                wordSpacing: 1,
-                                letterSpacing: 1,
-                                fontSize: 16,
-                                color: Color.fromRGBO(40, 40, 40, 1),
+                              style: TextStyle(
+                                fontSize: ScreenUtil().setSp(22),
+                                fontWeight: FontWeight.w300,
+                                color: Color.fromRGBO(176,181,180,1),
                               ),
                             ),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            '1个月前活跃',
-                            style: const TextStyle(
-                              wordSpacing: 1,
-                              letterSpacing: 1,
-                              fontSize: 14,
-                              color: Color.fromRGBO(159, 159, 159, 1),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Text('6年',
+                            SizedBox(width: ScreenUtil().setWidth(12)),
+                            Text(
+                              '5.5-7k',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                  wordSpacing: 1,
-                                  letterSpacing: 1,
-                                  fontSize: 14,
-                                  color: Color.fromRGBO(109, 110, 111, 1))),
-                          SizedBox(width: 8),
-                          Text('本科',
-                              style: TextStyle(
-                                  wordSpacing: 1,
-                                  letterSpacing: 1,
-                                  fontSize: 14,
-                                  color: Color.fromRGBO(109, 110, 111, 1))),
-                          SizedBox(width: 8),
-                          Text('28岁',
-                              style: TextStyle(
-                                  wordSpacing: 1,
-                                  letterSpacing: 1,
-                                  fontSize: 14,
-                                  color: Color.fromRGBO(109, 110, 111, 1))),
+                                fontSize: ScreenUtil().setSp(36),
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromRGBO(68,77,151,1),
+                              ),
+                            ),
+                          ])
                         ],
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        'PC、H5、Nodejs、小程序、移动端，掌握大前端所有技术栈；能够实现类Element-ui组件库，设计Vue组件；掌握Vue/React源码，MVVM库原理；了解Koa2源码，定制MVC开发框架；前端监控、性能优化、安全；自动化测试、发布、运维。',
-                        style: TextStyle(
-                          wordSpacing: 2,
-                          letterSpacing: 1,
-                          fontSize: 14,
-                          color: Color.fromRGBO(99, 100, 102, 1),
-                        ),
+                      SizedBox(height: ScreenUtil().setHeight(14)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Text("福州 仓山",
+                            style: TextStyle(color: Color.fromRGBO(95,94,94,1), fontSize: ScreenUtil().setSp(24))
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Text("男",
+                                 style: TextStyle(color: Color.fromRGBO(95,94,94,1), fontSize: ScreenUtil().setSp(24))
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: ScreenUtil().setWidth(12)),
+                              ),
+                              Container(color: Color.fromRGBO(127, 127, 127, 1),
+                                 height: ScreenUtil().setHeight(20),
+                                 width: ScreenUtil().setWidth(1)
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: ScreenUtil().setWidth(12)),
+                              ),
+                              Text("10年经验",
+                                 style: TextStyle(color: Color.fromRGBO(95,94,94,1), fontSize: ScreenUtil().setSp(24))
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: ScreenUtil().setWidth(12)),
+                              ),
+                              Container(color: Color.fromRGBO(127, 127, 127, 1),
+                                 height: ScreenUtil().setHeight(20),
+                                 width: ScreenUtil().setWidth(1)
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: ScreenUtil().setWidth(12)),
+                              ),
+                              Text("研究生",
+                                 style: TextStyle(color: Color.fromRGBO(95,94,94,1), fontSize: ScreenUtil().setSp(24))
+                              ),
+                              
+                            ],
+                          )
+                        ],
                       ),
                       Container(
-                        margin: EdgeInsets.symmetric(vertical: 15),
-                        color: Color.fromRGBO(242, 243, 244, 1),
-                        height: 1,
+                        margin: EdgeInsets.only(top: ScreenUtil().setHeight(48), bottom: ScreenUtil().setHeight(29)),
+                        color: Color.fromRGBO(159,199,235,1),
+                        height: ScreenUtil().setHeight(1),
                       ),
-                      RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                                text: '•',
-                                style: const TextStyle(
-                                    wordSpacing: 1,
-                                    letterSpacing: 1,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromRGBO(0, 193, 178, 1))),
-                            TextSpan(
-                                text: '  求职期望',
-                                style: TextStyle(
-                                    wordSpacing: 1,
-                                    letterSpacing: 1,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromRGBO(56, 58, 58, 1))),
-                          ],
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Text("个人信息",
+                             style: TextStyle(color: Color.fromRGBO(57,57,57,1), fontSize: ScreenUtil().setSp(36),fontWeight: FontWeight.w500)
+                          ),
+                          Text("离职-随时到岗",
+                             style: TextStyle(color: Color.fromRGBO(95,94,94,1), fontSize: ScreenUtil().setSp(24), fontWeight: FontWeight.w300)
+                          ),
+                        ],
                       ),
-                      ResumeIntentItem(),
+                      SizedBox(height: ScreenUtil().setHeight(30)),
+                      Text("工作经历",
+                        style: TextStyle(color: Color.fromRGBO(95,94,94,1), fontSize: ScreenUtil().setSp(28)),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: workExperiences,
+                        
+                      ),
                       Container(
-                        margin: EdgeInsets.only(bottom: 15),
-                        color: Color.fromRGBO(242, 243, 244, 1),
-                        height: 1,
+                        margin: EdgeInsets.only(top: ScreenUtil().setHeight(38), bottom: ScreenUtil().setHeight(41)),
+                        color: Color.fromRGBO(159,199,235,1),
+                        height: ScreenUtil().setHeight(1),
                       ),
-                      RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                                text: '•',
-                                style: const TextStyle(
-                                    wordSpacing: 1,
-                                    letterSpacing: 1,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromRGBO(0, 193, 178, 1))),
-                            TextSpan(
-                                text: '  工作经历',
-                                style: TextStyle(
-                                    wordSpacing: 1,
-                                    letterSpacing: 1,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromRGBO(56, 58, 58, 1))),
-                          ],
-                        ),
+                      Text("项目经历",
+                        style: TextStyle(color: Color.fromRGBO(95,94,94,1), fontSize: ScreenUtil().setSp(28)),
                       ),
-                      ResumeWorkItem(),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: projectExperiences,
+                      ),
                       Container(
-                        margin: EdgeInsets.only(bottom: 15),
-                        color: Color.fromRGBO(242, 243, 244, 1),
-                        height: 1,
+                        margin: EdgeInsets.only(top: ScreenUtil().setHeight(44), bottom: ScreenUtil().setHeight(41)),
+                        color: Color.fromRGBO(159,199,235,1),
+                        height: ScreenUtil().setHeight(1),
                       ),
-                      RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                                text: '•',
-                                style: const TextStyle(
-                                    wordSpacing: 1,
-                                    letterSpacing: 1,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromRGBO(0, 193, 178, 1))),
-                            TextSpan(
-                                text: '  项目经历',
-                                style: TextStyle(
-                                    wordSpacing: 1,
-                                    letterSpacing: 1,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromRGBO(56, 58, 58, 1))),
-                          ],
-                        ),
+                      Text("教育经历",
+                        style: TextStyle(color: Color.fromRGBO(95,94,94,1), fontSize: ScreenUtil().setSp(28)),
                       ),
-                      ResumeProjectItem(),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: educationExperiences,
+                      ),
                       Container(
-                        margin: EdgeInsets.only(bottom: 15),
-                        color: Color.fromRGBO(242, 243, 244, 1),
-                        height: 1,
+                        margin: EdgeInsets.only(top: ScreenUtil().setHeight(44), bottom: ScreenUtil().setHeight(41)),
+                        color: Color.fromRGBO(159,199,235,1),
+                        height: ScreenUtil().setHeight(1),
                       ),
-                      RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                                text: '•',
-                                style: const TextStyle(
-                                    wordSpacing: 1,
-                                    letterSpacing: 1,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromRGBO(0, 193, 178, 1))),
-                            TextSpan(
-                                text: '  教育经历',
-                                style: TextStyle(
-                                    wordSpacing: 1,
-                                    letterSpacing: 1,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromRGBO(56, 58, 58, 1))),
-                          ],
-                        ),
+                      Text("个人主页",
+                        style: TextStyle(color: Color.fromRGBO(95,94,94,1), fontSize: ScreenUtil().setSp(28)),
                       ),
-                      ResumeEduItem(),
+                      SizedBox(height: ScreenUtil().setHeight(12)),
+                      Text("wwww.onezerobeat.com",
+                        style: TextStyle(color: Color.fromRGBO(95,94,94,1), fontSize: ScreenUtil().setSp(28)),
+                      ),
                       Container(
-                        height: 15,
+                        margin: EdgeInsets.only(top: ScreenUtil().setHeight(40), bottom: ScreenUtil().setHeight(59)),
+                        color: Color.fromRGBO(159,199,235,1),
+                        height: ScreenUtil().setHeight(1),
                       ),
                     ],
                   ),
@@ -320,18 +346,23 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
             SafeArea(
               top: false,
               child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(14)),
                   child: MaterialButton(
-                    color: Color.fromRGBO(70, 192, 182, 1),
+                    minWidth: ScreenUtil().setWidth(652),
                     onPressed: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => BossChatRoom()));
                     },
-                    textColor: Colors.white,
+                    textColor: Color.fromRGBO(159,199,235,1),
                     child: Text("立即沟通"),
                     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
                     shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                      borderRadius: BorderRadius.all(Radius.circular(40)),
+                       side: const BorderSide(
+                         color: Color.fromRGBO(159, 199, 235, 1),
+                         width: 1
+                       )
                     ),
                   )),
             ),
