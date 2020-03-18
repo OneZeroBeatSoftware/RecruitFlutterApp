@@ -55,6 +55,7 @@ class _MineState extends State<Mine> {
         slivers: <Widget>[
           SliverToBoxAdapter(
             child: Container(
+              margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(20)),
               padding: EdgeInsets.only(
                   left: ScreenUtil().setWidth(48),
                   right: ScreenUtil().setWidth(48),
@@ -229,6 +230,7 @@ class _MineState extends State<Mine> {
           ),
           SliverList(
               delegate: SliverChildBuilderDelegate((context, index) {
+                bool isBetweenDivider = (index == 3 || index == options.length - 1);
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -240,7 +242,7 @@ class _MineState extends State<Mine> {
                       child: Padding(
                         padding: EdgeInsets.symmetric(
                           horizontal: ScreenUtil().setWidth(48),
-                          vertical: ScreenUtil().setWidth(40),
+                          vertical: ScreenUtil().setWidth(20),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -322,9 +324,8 @@ class _MineState extends State<Mine> {
                 ),
                 Container(
                   color: Color.fromRGBO(159, 199, 235, 1),
-                  height: (index == 3 || index == options.length - 1)
-                      ? ScreenUtil().setWidth(1)
-                      : 0,
+                  height: isBetweenDivider ? ScreenUtil().setWidth(1) : 0,
+                  margin: EdgeInsets.only(top: ScreenUtil().setHeight(isBetweenDivider ? 10 : 0), bottom: ScreenUtil().setHeight(isBetweenDivider ? 10 : 0)),
                 )
               ],
             );
