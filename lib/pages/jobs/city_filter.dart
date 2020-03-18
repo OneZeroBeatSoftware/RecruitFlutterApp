@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/entity/city_entity.dart';
 import 'package:recruit_app/model/job_filter_data.dart';
 import 'package:recruit_app/pages/jobs/list_menu_dialog.dart';
 import 'package:recruit_app/pages/jobs/job_filter_item.dart';
@@ -12,7 +13,7 @@ class CityFilter extends StatefulWidget {
 }
 
 class _CityFilterState extends State<CityFilter> {
-  var _cityFilterData = CityFilterList.loadCityFilterData();
+  var _cityFilterData = [];
 
 //  var letterFilterData = List<LetterFilterData>();
   final ScrollController _scrollController = ScrollController();
@@ -32,7 +33,7 @@ class _CityFilterState extends State<CityFilter> {
       _area.add('奥兰治县');
     }
     WidgetsBinding.instance.addPostFrameCallback((call){
-      NetUtils.getCityList(context);
+      getCity();
     });
   }
 
@@ -275,7 +276,7 @@ class _CityFilterState extends State<CityFilter> {
                                 child: Opacity(
                                   opacity: animation1.value,
                                   child: ListMenuDialog(
-                                    title: '洛杉矶',
+                                    title: item.filterName,
                                     cancel: () {
                                       Navigator.pop(context);
                                     },
@@ -284,6 +285,7 @@ class _CityFilterState extends State<CityFilter> {
                                     },
                                     itemSelected: (){
                                       Navigator.pop(context);
+                                      Navigator.pop(context,item.filterName);
                                     },
                                     lists: _area,
                                   ),
@@ -356,6 +358,25 @@ class _CityFilterState extends State<CityFilter> {
         ],
       ),
     );
+  }
+
+  void getCity() async {
+    CityEntity cityEntity = await NetUtils.getCityList(context);
+    if (cityEntity.statusCode==200&&cityEntity.data != null) {
+      cityEntity.data.forEach((item){
+        _cityFilterData.add(JobFilterData(
+            filterName: item.initial,
+            filterSubData: item.cities
+                .map((subItem) => JobFilterSubData(
+                filterName: subItem.cityName, isChecked: false))
+                .toList()));
+      });
+
+      setState(() {
+        // ignore: unnecessary_statements
+        _cityFilterData;
+      });
+    }
   }
 }
 

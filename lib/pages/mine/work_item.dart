@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/model/mine_work_list.dart';
 
 class WorkItem extends StatelessWidget {
@@ -9,8 +10,9 @@ class WorkItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
+    return Container(
+      color: Colors.white,
+      padding: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(17)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -23,63 +25,37 @@ class WorkItem extends StatelessWidget {
                 child: Text(workData.companyName,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style: TextStyle(
                         wordSpacing: 1,
                         letterSpacing: 1,
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromRGBO(37, 38, 39, 1))),
+                        fontSize: ScreenUtil().setSp(28),
+                        color: Color.fromRGBO(95, 94, 94, 1))),
               ),
               SizedBox(
-                width: 8,
+                width: ScreenUtil().setWidth(16),
               ),
               Text(workData.during,
                   style: TextStyle(
                       wordSpacing: 1,
                       letterSpacing: 1,
-                      fontSize: 14,
-                      color: Color.fromRGBO(159, 160, 161, 1))),
-              SizedBox(width: 15),
-              Image.asset('images/ic_arrow_gray.png',
-                  width: 10, height: 10, fit: BoxFit.cover)
+                      fontSize: ScreenUtil().setSp(22),
+                      color: Color.fromRGBO(176, 181, 180, 1))),
+              SizedBox(width: ScreenUtil().setWidth(14)),
+              Image.asset(
+                'images/img_arrow_right_blue.png',
+                width: ScreenUtil().setWidth(10),
+                height: ScreenUtil().setWidth(20),
+                fit: BoxFit.cover,
+              )
             ],
           ),
-          SizedBox(height: 5),
+          SizedBox(height: ScreenUtil().setWidth(5)),
           Text('${workData.pos}',
               style: TextStyle(
                   wordSpacing: 1,
                   letterSpacing: 1,
-                  fontSize: 14,
-                  color: Color.fromRGBO(136, 138, 138, 1))),
-          SizedBox(height: 8),
-          Text('${workData.content}',
-              style: TextStyle(
-                  wordSpacing: 1,
-                  letterSpacing: 1,
-                  fontSize: 14,
-                  color: Color.fromRGBO(136, 138, 138, 1))),
-          SizedBox(
-            height: 8,
-          ),
-          Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
-            spacing: 6,
-            runSpacing: 6,
-            children: workData.label.map((item) {
-              return new Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
-                  ),
-                  decoration: new BoxDecoration(
-                    color: Colors.grey[100],
-                    borderRadius: new BorderRadius.circular(3.0),
-                  ),
-                  child: Text(item,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 10, color: Colors.grey[600])));
-            }).toList(),
-          ),
+                  fontSize: ScreenUtil().setSp(24),
+                  color: Color.fromRGBO(176, 181, 180, 1))),
         ],
       ),
     );

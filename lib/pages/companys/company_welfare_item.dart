@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recruit_app/model/company_welfare_list.dart';
+import 'package:recruit_app/entity/company_detail_entity.dart';
 
 class CompanyWelfareItem extends StatelessWidget {
-  final WelfareData welfareData;
+  final CompanyDetailDataWelfare welfareData;
   final int index;
   final bool isLastItem;
 
@@ -23,10 +23,10 @@ class CompanyWelfareItem extends StatelessWidget {
               style: BorderStyle.solid)),
       child: Row(
         children: <Widget>[
-          Image.asset(welfareData.imgPath,width: ScreenUtil().setWidth(40),height: ScreenUtil().setWidth(40),fit: BoxFit.contain,),
-          SizedBox(width: ScreenUtil().setWidth(14),),
+//          Image.asset(welfareData.imgPath,width: ScreenUtil().setWidth(40),height: ScreenUtil().setWidth(40),fit: BoxFit.contain,),
+//          SizedBox(width: ScreenUtil().setWidth(14),),
           Text(
-            '${welfareData.welfare}',
+            '${welfareData.welfareName}',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(fontSize: ScreenUtil().setSp(24), color: Colors.white),

@@ -1,9 +1,11 @@
 import 'dart:ui';
 
+import 'package:common_utils/common_utils.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/entity/company_detail_entity.dart';
 import 'package:recruit_app/model/company_pic_list.dart';
-import 'package:recruit_app/model/company_welfare_list.dart';
 import 'package:recruit_app/model/job_list.dart';
 import 'package:recruit_app/pages/companys/company_job_item.dart';
 import 'package:recruit_app/pages/companys/company_pic_item.dart';
@@ -21,10 +23,12 @@ class CompanyDetail extends StatefulWidget {
 }
 
 class _CompanyDetailState extends State<CompanyDetail> {
-  List<WelfareData> _welfareList = WelfareList.loadWelfareList();
   List<CompanyPicData> _picList = CompanyPicList.loadCompanyPicList();
 
   List<Job> _jobList = JobData.loadJobs();
+
+  CompanyDetailData _detailData;
+  bool _isFocus=false;
 
   @override
   void initState() {
@@ -63,7 +67,12 @@ class _CompanyDetailState extends State<CompanyDetail> {
           ],
         ),
       ),
-      body: SafeArea(
+      body:_detailData == null
+          ? Container(
+        height: ScreenUtil().setWidth(400),
+        alignment: Alignment.center,
+        child: CupertinoActivityIndicator(),
+      ) : SafeArea(
         child: Container(
           child: SingleChildScrollView(
             physics: BouncingScrollPhysics(),
@@ -95,7 +104,7 @@ class _CompanyDetailState extends State<CompanyDetail> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text('福建艾乐科技有限公司',
+                          Text('${_detailData.company.companyName}',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -105,7 +114,7 @@ class _CompanyDetailState extends State<CompanyDetail> {
                           SizedBox(
                             height: ScreenUtil().setWidth(12),
                           ),
-                          Text('已上市 · 800人 · O2O',
+                          Text('${_detailData.company.operateState} · ${_detailData.scale} · ${_detailData.company.scope}',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -115,23 +124,31 @@ class _CompanyDetailState extends State<CompanyDetail> {
                         ],
                       )),
                       SizedBox(width: ScreenUtil().setWidth(30)),
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: ScreenUtil().setWidth(14),
-                            vertical: ScreenUtil().setWidth(10)),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                              color: Colors.white,
-                              width: ScreenUtil().setWidth(2)),
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(ScreenUtil().setWidth(10))),
+                      GestureDetector(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: ScreenUtil().setWidth(14),
+                              vertical: ScreenUtil().setWidth(10)),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: Colors.white,
+                                width: ScreenUtil().setWidth(2)),
+                            borderRadius: BorderRadius.all(
+                                Radius.circular(ScreenUtil().setWidth(10))),
+                          ),
+                          child: Text(
+                            _isFocus?'+  关注':'未关注',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: ScreenUtil().setSp(16)),
+                          ),
                         ),
-                        child: Text(
-                          '+ 关注',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: ScreenUtil().setSp(16)),
-                        ),
+                        behavior: HitTestBehavior.opaque,
+                        onTap: (){
+                          setState(() {
+                            _isFocus=!_isFocus;
+                          });
+                        },
                       ),
                     ],
                   ),
@@ -148,11 +165,14 @@ class _CompanyDetailState extends State<CompanyDetail> {
                         width: ScreenUtil().setWidth(8),
                       ),
                       Expanded(
-                        child:   Text('AM 09:00 - PM 06:00',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                fontSize: ScreenUtil().setSp(24), color: Colors.white)),
+                        child: Text(
+//                          'AM 09:00 - PM 06:00',
+                          '${_detailData.company.startDate} - ${_detailData.company.endDate}',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontSize: ScreenUtil().setSp(24),
+                              color: Colors.white),),
                       ),
                       SizedBox(
                         width: ScreenUtil().setWidth(30),
@@ -184,13 +204,13 @@ class _CompanyDetailState extends State<CompanyDetail> {
                         physics: BouncingScrollPhysics(),
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
-                        itemCount: _welfareList.length,
+                        itemCount: _detailData.welfare.length,
                         itemBuilder: (context, index) {
-                          if (index < _welfareList.length) {
+                          if (index < _detailData.welfare.length) {
                             return CompanyWelfareItem(
-                              welfareData: _welfareList[index],
+                              welfareData: _detailData.welfare[index],
                               index: index,
-                              isLastItem: index == _welfareList.length - 1,
+                              isLastItem: index == _detailData.welfare.length - 1,
                             );
                           }
                           return null;
@@ -212,7 +232,7 @@ class _CompanyDetailState extends State<CompanyDetail> {
                     height: ScreenUtil().setWidth(30),
                   ),
                   Text(
-                      '深圳市腾讯计算机系统有限公司成立于1998年11月，由马化腾、张志东、许晨晔、陈一丹、曾李青五位创始人共同创立。是中国最大的互联网综合服务提供商之一，也是中国服务用户最多的互联网企业之一。\n腾讯多元化的服务包括：社交和通信服务QQ及微信/WeChat、社交网络平台QQ空间、腾讯游戏旗下QQ游戏平台、门户网站腾讯网、腾讯新闻客户端和网络视频服务腾讯视频等。\n2004年腾讯公司在香港联交所主板公开上市（股票代号00700），董事会主席兼首席执行官是马化腾。',
+                      '${_detailData.company.companySummary}',
                       style: TextStyle(
                           wordSpacing: 2,
                           letterSpacing: 1,
@@ -376,7 +396,7 @@ class _CompanyDetailState extends State<CompanyDetail> {
                         height: ScreenUtil().setWidth(30),
                       ),
                       Expanded(
-                        child: Text('福建艾乐科技有限公司',
+                        child: Text('${_detailData.company.companyName}',
                             textAlign: TextAlign.end,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -407,7 +427,7 @@ class _CompanyDetailState extends State<CompanyDetail> {
                         width: ScreenUtil().setWidth(30),
                       ),
                       Expanded(
-                        child: Text('马化腾',
+                        child: Text('${_detailData.company.legalPerson}',
                             textAlign: TextAlign.end,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -438,7 +458,7 @@ class _CompanyDetailState extends State<CompanyDetail> {
                         width: ScreenUtil().setWidth(30),
                       ),
                       Expanded(
-                        child: Text('2000-02-24',
+                        child: Text('${DateUtil.formatDateMs(_detailData.company.registerDate,format: "yyyy-MM-dd")}',
                             textAlign: TextAlign.end,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -469,7 +489,7 @@ class _CompanyDetailState extends State<CompanyDetail> {
                         width: ScreenUtil().setWidth(30),
                       ),
                       Expanded(
-                        child: Text('200万美元',
+                        child: Text('${_detailData.company.registerCapital}',
                             textAlign: TextAlign.end,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -563,6 +583,11 @@ class _CompanyDetailState extends State<CompanyDetail> {
   }
 
   void getCompanyDetail(String companyId) async {
-    await NetUtils.getCompanyDetail(context, companyId);
+    CompanyDetailEntity companyDetailEntity=await NetUtils.getCompanyDetail(context, companyId);
+    if (companyDetailEntity.statusCode==200&&companyDetailEntity.data != null) {
+      setState(() {
+        _detailData=companyDetailEntity.data;
+      });
+    }
   }
 }

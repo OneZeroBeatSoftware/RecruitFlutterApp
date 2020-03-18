@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/pages/msg/msg_interview_item.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
-import 'package:recruit_app/widgets/common_switch_widget.dart';
 import 'package:recruit_app/widgets/slide_button.dart';
 
 class MineInterView extends StatefulWidget {

@@ -7,6 +7,7 @@ class CommonAppBar extends StatefulWidget implements PreferredSizeWidget {
   final Widget center;
   final Widget rightAction;
   final Color backgroundColor;
+  final BoxBorder border;
   final Function() leftListener;
 
   CommonAppBar(
@@ -15,7 +16,7 @@ class CommonAppBar extends StatefulWidget implements PreferredSizeWidget {
       this.center,
       this.rightAction,
       this.backgroundColor,
-      this.leftListener});
+      this.leftListener, this.border});
 
   @override
   _CommonAppBarState createState() => _CommonAppBarState();
@@ -29,7 +30,7 @@ class _CommonAppBarState extends State<CommonAppBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: widget.backgroundColor,
+      decoration: BoxDecoration(color: widget.backgroundColor,border: widget.border??Border()),
       child: SafeArea(child: Stack(
         children: <Widget>[
           Align(

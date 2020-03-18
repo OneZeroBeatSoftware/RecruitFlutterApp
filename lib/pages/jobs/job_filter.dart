@@ -82,7 +82,7 @@ class _JobFilterState extends State<JobFilter> {
 
   void getEduLevel() async {
     EduLevelEntity eduLevelEntity = await NetUtils.getEduLevel(context);
-    if(eduLevelEntity.data!=null){
+    if(eduLevelEntity.statusCode==200&&eduLevelEntity.data!=null){
       _jobFilterData.add(JobFilterData(
           filterName: '学历要求',
           filterSubData: eduLevelEntity.data
@@ -90,6 +90,7 @@ class _JobFilterState extends State<JobFilter> {
               filterName: item.educationName, isChecked: false))
               .toList()));
       setState(() {
+        // ignore: unnecessary_statements
         _jobFilterData;
       });
     }
@@ -97,7 +98,7 @@ class _JobFilterState extends State<JobFilter> {
 
   void getWorkDate() async {
     WorkDateEntity workDateEntity = await NetUtils.getWorkDate(context);
-    if(workDateEntity.data!=null){
+    if(workDateEntity.statusCode==200&&workDateEntity.data!=null){
       _jobFilterData.add(JobFilterData(
           filterName: '经验要求',
           filterSubData: workDateEntity.data
@@ -105,6 +106,7 @@ class _JobFilterState extends State<JobFilter> {
               filterName: item.workDateName, isChecked: false))
               .toList()));
       setState(() {
+        // ignore: unnecessary_statements
         _jobFilterData;
       });
     }

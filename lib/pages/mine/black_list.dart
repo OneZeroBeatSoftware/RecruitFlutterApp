@@ -1,15 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 import 'package:recruit_app/model/company_list.dart';
-import 'package:recruit_app/model/job_list.dart';
-import 'package:recruit_app/model/job_model.dart';
-import 'package:recruit_app/pages/companys/company_row_item.dart';
-import 'package:recruit_app/pages/jobs/job_detail.dart';
-import 'package:recruit_app/pages/jobs/job_row_item.dart';
 import 'package:recruit_app/pages/mine/black_list_item.dart';
-import 'package:recruit_app/pages/mine/communicate_row_item.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/slide_button.dart';
 
@@ -55,19 +48,11 @@ class _BlackListSate extends State<BlackList> {
                 itemBuilder: (context, index) {
                   if (index < _companyList.length) {
                     var btnKey = GlobalKey<SlideButtonState>();
-                    return SlideButton(
-                      key: btnKey,
-                      singleButtonWidth: ScreenUtil().setWidth(116),
-                      child: BlackListItem(
-                          company: _companyList[index],
-                          index: index,
-                          lastItem: index == _companyList.length - 1),
-                      buttons: <Widget>[
-                        buildAction(btnKey, Colors.red, () {
-                          btnKey.currentState.close();
-                        }),
-                      ],
-                    );
+                    return BlackListItem(
+                        btnKey: btnKey,
+                        company: _companyList[index],
+                        index: index,
+                        lastItem: index == _companyList.length - 1);
                   }
                   return null;
                 },
@@ -78,23 +63,5 @@ class _BlackListSate extends State<BlackList> {
             ),
           ],
         ));
-  }
-
-  InkWell buildAction(
-      GlobalKey<SlideButtonState> key, Color color, GestureTapCallback tap) {
-    return InkWell(
-      onTap: tap,
-      child: Container(
-        alignment: Alignment.center,
-        width: ScreenUtil().setWidth(116),
-        color: color,
-        child: Image.asset(
-          'images/img_del_white.png',
-          width: ScreenUtil().setWidth(30),
-          height: ScreenUtil().setWidth(38),
-          fit: BoxFit.contain,
-        ),
-      ),
-    );
   }
 }

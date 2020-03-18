@@ -5,6 +5,8 @@ import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:recruit_app/entity/city_entity.dart';
+import 'package:recruit_app/entity/company_detail_entity.dart';
 import 'package:recruit_app/entity/edu_level_entity.dart';
 import 'package:recruit_app/entity/job_detail_entity.dart';
 import 'package:recruit_app/entity/job_list_entity.dart';
@@ -124,28 +126,28 @@ class NetUtils {
       'jobName': jobName,
       'pageIndex': pageIndex,
       'pageSize': pageSize
-    });
+    },isShowLoading: false);
     return JobListEntity().fromJson(response.data);
   }
 
   /// 求职者获取岗位详情
   static Future<JobDetailEntity> getJobDetail(BuildContext context, String id) async {
-    var response = await _get(context, '/job/details/${id}', params: {
+    var response = await _get(context, '/job/details/$id', params: {
     });
     return JobDetailEntity().fromJson(response.data);
   }
 
   /// 求职者获取公司详情
-  static Future<JobListEntity> getCompanyDetail(BuildContext context, String id) async {
-    var response = await _get(context, '/company/details/${id}', params: {
+  static Future<CompanyDetailEntity> getCompanyDetail(BuildContext context, String id) async {
+    var response = await _get(context, '/company/details/$id', params: {
     });
-    return JobListEntity().fromJson(response.data);
+    return CompanyDetailEntity().fromJson(response.data);
   }
 
   /// 获取城市列表
-  static Future<String> getCityList(BuildContext context) async {
+  static Future<CityEntity> getCityList(BuildContext context) async {
     var response = await _get(context, '/city/list', params: {});
-    return null;
+    return CityEntity().fromJson(response.data);
   }
 
   /// 获取工作时间相关

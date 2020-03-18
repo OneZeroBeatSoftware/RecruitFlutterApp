@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/model/job_list.dart';
 import 'package:recruit_app/pages/jobs/job_detail.dart';
-import 'package:recruit_app/pages/mine/communicate_row_item.dart';
 import 'package:recruit_app/pages/mine/send_resume_item.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 

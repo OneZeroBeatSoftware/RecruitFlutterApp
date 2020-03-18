@@ -433,7 +433,7 @@ class CityFilterList {
   ];
 
   static List<JobFilterData> loadCityFilterData() {
-    return _allCityFilterData;
+    return [];
   }
 }
 

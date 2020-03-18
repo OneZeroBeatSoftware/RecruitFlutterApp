@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SlideButton extends StatefulWidget {
   final Widget child;
@@ -68,9 +69,12 @@ class SlideButtonState extends State<SlideButton>
     return WillPopScope(child: Stack(
       children: <Widget>[
         Positioned.fill(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: widget.buttons,
+            child: Padding(
+              padding: EdgeInsets.all(ScreenUtil().setWidth(4)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: widget.buttons,
+              ),
             )),
         RawGestureDetector(
           gestures: gestures,

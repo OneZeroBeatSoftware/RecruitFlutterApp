@@ -7,10 +7,9 @@ import 'package:recruit_app/model/me_list.dart';
 import 'package:recruit_app/pages/mine/black_list.dart';
 import 'package:recruit_app/pages/mine/collection.dart';
 import 'package:recruit_app/pages/mine/communicate.dart';
-import 'package:recruit_app/pages/mine/focus_company_list.dart';
 import 'package:recruit_app/pages/mine/job_intent.dart';
 import 'package:recruit_app/pages/mine/mine_interview.dart';
-import 'package:recruit_app/pages/mine/online_resume.dart';
+import 'package:recruit_app/pages/mine/resume_list.dart';
 import 'package:recruit_app/pages/mine/send_resume.dart';
 import 'package:recruit_app/pages/setting/setting.dart';
 
@@ -141,7 +140,7 @@ class _MineState extends State<Mine> {
                           horizontal: ScreenUtil().setWidth(10),
                         ),
                         width: ScreenUtil().setWidth(1),
-                        height: ScreenUtil().setHeight(28),
+                        height: ScreenUtil().setWidth(28),
                         color: Colors.white,
                       ),
                       Expanded(
@@ -184,7 +183,7 @@ class _MineState extends State<Mine> {
                           horizontal: ScreenUtil().setWidth(10),
                         ),
                         width: ScreenUtil().setWidth(1),
-                        height: ScreenUtil().setHeight(28),
+                        height: ScreenUtil().setWidth(28),
                         color: Colors.white,
                       ),
                       Expanded(
@@ -305,7 +304,7 @@ class _MineState extends State<Mine> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => OnlineResume()));
+                                  builder: (context) => ResumeList()));
                         } else if (index == 3) {
                           Navigator.push(
                               context,

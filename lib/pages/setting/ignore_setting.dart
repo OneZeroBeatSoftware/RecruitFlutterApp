@@ -85,7 +85,7 @@ class _IgnoreSettingState extends State<IgnoreSetting> {
               slivers: <Widget>[
                 SliverToBoxAdapter(
                   child: SizedBox(
-                    height: ScreenUtil().setHeight(18),
+                    height: ScreenUtil().setWidth(18),
                   ),
                 ),
                 SliverList(
@@ -155,7 +155,7 @@ class _IgnoreSettingState extends State<IgnoreSetting> {
                 ),
                 SliverToBoxAdapter(
                   child: SizedBox(
-                    height: ScreenUtil().setHeight(18),
+                    height: ScreenUtil().setWidth(18),
                   ),
                 ),
                 SliverToBoxAdapter(

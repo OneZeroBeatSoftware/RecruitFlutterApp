@@ -16,8 +16,8 @@ class LoginIn extends StatefulWidget {
 }
 
 class _LoginInState extends State<LoginIn> {
-  final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _pwdController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController(text:'test');
+  final TextEditingController _pwdController = TextEditingController(text:'111111');
   @override
   Widget build(BuildContext context) {
     return Scaffold(

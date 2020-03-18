@@ -69,7 +69,7 @@ class RemindDialog extends Dialog {
                       ),
                     ),
                   ),
-                  Padding(
+                  Visibility(child: Padding(
                     padding: EdgeInsets.only(
                       left: ScreenUtil().setWidth(30),
                       right: ScreenUtil().setWidth(30),
@@ -85,7 +85,7 @@ class RemindDialog extends Dialog {
                         fontSize: ScreenUtil().setSp(26),
                       ),
                     ),
-                  ),
+                  ),visible: content!=null&&content.isNotEmpty,),
                   Container(
                     margin: EdgeInsets.only(top: ScreenUtil().setWidth(48),),
                     color: Color.fromRGBO(177, 177, 179, 1),
@@ -113,7 +113,7 @@ class RemindDialog extends Dialog {
                               ),
                             ),
                           ),
-                          onTap: confirm,
+                          onTap: cancel,
                         ),
                       ),
                       Container(
