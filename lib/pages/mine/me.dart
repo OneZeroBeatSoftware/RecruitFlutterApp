@@ -111,7 +111,7 @@ class _MineState extends State<Mine> {
                               child: Row(
                                 children: <Widget>[
                                   Text(
-                                    '已投递',
+                                    '沟通过',
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
@@ -134,7 +134,8 @@ class _MineState extends State<Mine> {
                                 Navigator.push(
                                    context,
                                    MaterialPageRoute(
-                                      builder: (context) => SendResumeJob()));
+                                    builder: (context) => CommunicateJob())
+                                    );
                               },
                             ),
                           ),
@@ -154,7 +155,7 @@ class _MineState extends State<Mine> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   Text(
-                                    '待面试',
+                                    '已投递',
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
@@ -177,7 +178,8 @@ class _MineState extends State<Mine> {
                                 Navigator.push(
                                    context,
                                    MaterialPageRoute(
-                                      builder: (context) => MineInterView()));
+                                   
+                                builder: (context) => SendResumeJob()));
                               },
                             ),
                           ),
@@ -197,7 +199,7 @@ class _MineState extends State<Mine> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: <Widget>[
                                   Text(
-                                    '沟通过',
+                                    '待面试',
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
@@ -220,7 +222,7 @@ class _MineState extends State<Mine> {
                                 Navigator.push(
                                    context,
                                    MaterialPageRoute(
-                                      builder: (context) => CommunicateJob()));
+                                      builder: (context) => MineInterView()));
                               },
                             ),
                           ),
