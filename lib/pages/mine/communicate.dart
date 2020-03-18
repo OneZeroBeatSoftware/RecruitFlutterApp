@@ -7,6 +7,9 @@ import 'package:recruit_app/pages/mine/communicate_row_item.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 
 class CommunicateJob extends StatefulWidget {
+  VoidCallback onItemClicked;
+  CommunicateJob({this.onItemClicked});
+  
   @override
   _CommunicateJobState createState() {
     // TODO: implement createState
@@ -52,11 +55,16 @@ class _CommunicateJobState extends State<CommunicateJob> {
                       index: index,
                       lastItem: index == _jobList.length - 1),
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => JobDetail(),
-                        ));
+                    if(widget.onItemClicked != null) {
+                      widget.onItemClicked();
+                    } else {
+                      //默认跳转行为
+                      Navigator.push(
+                         context,
+                         MaterialPageRoute(
+                           builder: (context) => JobDetail(),
+                      ));
+                    }
                   });
             }
             return null;

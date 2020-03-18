@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:recruit_app/model/employe_list.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class EmployeeRowItem extends StatelessWidget {
   final Employee employee;
@@ -14,131 +15,162 @@ class EmployeeRowItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final employeeItem = Container(
       color: Colors.white,
-      padding: const EdgeInsets.all(15.0),
-      child: Column(
+      padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(48), vertical: ScreenUtil().setWidth(40)),
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      '${employee.name}',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromRGBO(37, 38, 39, 1),
-                      ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(ScreenUtil().setWidth(22)),
+                    child: Image.asset(
+                      'images/avatar_${index % 16 + 1}.png',
+                      width: ScreenUtil().setWidth(44),
+                      height: ScreenUtil().setWidth(44),
+                      fit: BoxFit.cover,
                     ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Text(
-                        '${employee.exp} ${employee.degree} ${employee.salary}',
-                        style: const TextStyle(
-                          wordSpacing: 1,
-                          letterSpacing: 1,
-                          fontSize: 14,
-                          color: Color.fromRGBO(53, 54, 55, 1),
-                        )),
-                  ],
-                ),
-              ),
-              SizedBox(width: 8),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(28),
-                child: Image.asset(
-                  'images/avatar_${index % 16 + 1}.png',
-                  width: 50,
-                  height: 50,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Image.asset(
-                'images/ic_card_work_exp_icon.png',
-                width: 17,
-                height: 18,
-                fit: BoxFit.cover,
-              ),
-              SizedBox(width: 10),
-              Expanded(
-                  child: Text('${employee.company}•${employee.pos}',
-                      maxLines: 1,
+                  ),
+                  SizedBox.fromSize(size: Size(ScreenUtil().setWidth(12), ScreenUtil().setHeight(12))),
+                  Container(
+                    child:Text(
+                      employee.name,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        wordSpacing: 1,
-                        letterSpacing: 1,
-                        fontSize: 14,
-                        color: Color.fromRGBO(53, 54, 55, 1),
-                      ))),
-              SizedBox(width: 10),
-              Text('${employee.during}',
+                         fontSize: ScreenUtil().setSp(36),
+                         fontWeight: FontWeight.w500,
+                         color: Color.fromRGBO(20,20,20,1)),
+                    ),
+                    constraints: BoxConstraints(minWidth: ScreenUtil().setWidth(50), maxWidth: ScreenUtil().setWidth(350)),
+                    
+                  ),
+                  SizedBox.fromSize(size: Size(ScreenUtil().setWidth(12), ScreenUtil().setHeight(12))),
+                  Text(
+                    "在线",
+                    style: TextStyle(
+                       fontSize: ScreenUtil().setSp(24),
+                       fontWeight: FontWeight.w300,
+                       color: Color.fromRGBO(176,181,180,1)),
+                  ),
+                
+                ],
+              ),
+              Container(
+                margin: EdgeInsets.only(top: ScreenUtil().setHeight(16), left: ScreenUtil().setWidth(56)),
+                child:Text(
+                  employee.pos,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      wordSpacing: 1,
-                      letterSpacing: 1,
-                      fontSize: 14,
-                      color: Color.fromRGBO(180, 181, 182, 1))),
+                     fontSize: ScreenUtil().setSp(32),
+                     fontWeight: FontWeight.w500,
+                     color: Color.fromRGBO(57,57,57,1)),
+                ),
+                constraints: BoxConstraints(minWidth: ScreenUtil().setWidth(150), maxWidth: ScreenUtil().setWidth(350)),
+              
+              ),
+              SizedBox.fromSize(size: Size(ScreenUtil().setWidth(1), ScreenUtil().setWidth(10))),
+              Container(height: ScreenUtil().setHeight(36), child:
+                Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(left: ScreenUtil().setWidth(56)),
+                    ),
+                    Text(
+                      '男',
+                      style: TextStyle(
+                         fontSize: ScreenUtil().setSp(26),
+                         fontWeight: FontWeight.w300,
+                         color: Color.fromRGBO(95,94,94,1)),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: ScreenUtil().setWidth(12)),
+                    ),
+                    Container(color: Color.fromRGBO(127, 127, 127, 1),
+                      height: ScreenUtil().setHeight(20),
+                      width: ScreenUtil().setWidth(1)
+                    )
+                    ,
+                    Padding(
+                      padding: EdgeInsets.only(left: ScreenUtil().setWidth(12)),
+                    ),
+                    Text(
+                      '5年经验',
+                      style: TextStyle(
+                         fontSize: ScreenUtil().setSp(26),
+                         fontWeight: FontWeight.w300,
+                         color: Color.fromRGBO(95,94,94,1)),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: ScreenUtil().setWidth(12)),
+                    ),
+                    Container(color: Color.fromRGBO(127, 127, 127, 1),
+                       height: ScreenUtil().setHeight(20),
+                       width: ScreenUtil().setWidth(1)
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: ScreenUtil().setWidth(12)),
+                    ),
+                    Text(
+                      '研究生',
+                      style: TextStyle(
+                         fontSize: ScreenUtil().setSp(26),
+                         fontWeight: FontWeight.w300,
+                         color: Color.fromRGBO(95,94,94,1)),
+                    ),
+                  ],
+                )
+              ),
             ],
           ),
-          SizedBox(
-            height: 15,
-          ),
-          Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
-            spacing: 6,
-            runSpacing: 6,
-            children: employee.label.map((item) {
-              return new Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                "5.5-7K",
+                style: TextStyle(
+                  color: Color.fromRGBO(68,77,151,1),
+                  fontSize: ScreenUtil().setSp(40),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox.fromSize(size: Size(1, ScreenUtil().setHeight(54))),
+              Container(
+                constraints: BoxConstraints.tight(Size(ScreenUtil().setWidth(160), ScreenUtil().setHeight(46))),
+                alignment: Alignment.center,
+                child: Text(
+                  "立即沟通",
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: ScreenUtil().setSp(26),
+                    color: Color.fromRGBO(159, 199, 235, 1),
                   ),
-                  decoration: new BoxDecoration(
-                    color: Colors.grey[100],
-                    borderRadius: new BorderRadius.circular(4.0),
-                  ),
-                  child: Text(item,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 10, color: Colors.grey[600])));
-            }).toList(),
+                ),
+                decoration: BoxDecoration(
+                   border: Border.all(
+                     color: Color.fromRGBO(159, 199, 235, 1),
+                     width: ScreenUtil().setWidth(2),
+                   ),
+                   borderRadius: BorderRadius.circular(ScreenUtil().setWidth(1000))),
+              ),
+            ],
           ),
-          SizedBox(
-            height: 15,
-          ),
-          Text(employee.resume,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                  letterSpacing: 1,
-                  wordSpacing: 2,
-                  fontSize: 14,
-                  color: Color.fromRGBO(93, 94, 95, 1))),
         ],
+      
       ),
     );
     return Column(
       children: <Widget>[
         employeeItem,
         Container(
-          height: 10,
-          color: Colors.transparent,
+          width: ScreenUtil().setWidth(654),
+          height: ScreenUtil().setHeight(1),
+          color: Color.fromRGBO(159,199,235,1),
         ),
       ],
     );

@@ -33,7 +33,7 @@ class _JobManageState extends State<JobManage> {
           automaticallyImplyLeading: false,
           backgroundColor: Color.fromRGBO(255, 255, 255, 1),
           centerTitle: true,
-          title: Text('职位管理',
+          title: Text('岗位管理',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
