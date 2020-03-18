@@ -336,7 +336,7 @@ class _BossMineState extends State<BossMine> {
                              Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                   builder: (context) => Blacklist()));
+                                   builder: (context) => BossCollectionJob(title: '黑名单')));
                            }
                            else if (index == 5) {
                              model.changeIdentity(

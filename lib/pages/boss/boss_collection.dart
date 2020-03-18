@@ -8,6 +8,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'boss_comunicate_item.dart';
 
 class BossCollectionJob extends StatefulWidget {
+    String title;
+    
+    BossCollectionJob({this.title = '收藏夹'});
+    
   @override
   _BossCollectionJobSate createState() {
     // TODO: implement createState
@@ -26,7 +30,7 @@ class _BossCollectionJobSate extends State<BossCollectionJob> {
       appBar: AppBar(
         elevation: 1,
         centerTitle: true,
-        title: Text('收藏夹',
+        title: Text(widget.title,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(
