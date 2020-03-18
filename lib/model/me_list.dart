@@ -13,13 +13,14 @@ class MeOptions {
   }
 
   static const _allBossOptions = <Me>[
-    Me(imgPath: 'images/img_cv.png', itemName: '职位管理', itemStatus: ''),
-    Me(imgPath: 'images/img_job_status.png', itemName: '企业管理', itemStatus: ''),
-    Me(imgPath: 'images/img_home_personal.png', itemName: '个人主页', itemStatus: ''),
-    Me(imgPath: 'images/img_sun.png', itemName: '公司主页', itemStatus: '完成度:0%'),
-    Me(imgPath: 'images/img_help.png', itemName: '切换角色', itemStatus: '老板'),
-    Me(imgPath: 'images/img_service.png', itemName: '我的客服', itemStatus: ''),
-    Me(imgPath: 'images/img_about.png', itemName: '关于', itemStatus: ''),
+    Me(imgPath: 'images/boss_me_co_info_icon.png', itemName: '公司信息', itemStatus: ''),
+    Me(imgPath: 'images/boss_me_post_recruit_icon.png', itemName: '发布招聘', itemStatus: ''),
+    Me(imgPath: 'images/boss_me_post_mrg.png', itemName: '管理岗位', itemStatus: ''),
+//    Me(imgPath: 'images/img_home_personal.png', itemName: '公司相册', itemStatus: ''),
+    Me(imgPath: 'images/img_love_gray.png', itemName: '收藏夹', itemStatus: '完成度:0%'),
+    Me(imgPath: 'images/img_blacklist_gray.png', itemName: '黑名单', itemStatus: ''),
+    Me(imgPath: 'images/boss_me_help_icon.png', itemName: '帮助与反馈', itemStatus: '老板'),
+    Me(imgPath: 'images/boss_me_about_icon.png', itemName: '关于', itemStatus: ''),
   ];
 
   static List<Me> loadBossOptions() {
