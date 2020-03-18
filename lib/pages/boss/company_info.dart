@@ -46,21 +46,6 @@ class _CompanyInfoState extends State<CompanyInfo> {
              ],
            )),
         backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-        rightAction: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () {
-              },
-              child: Image.asset(
-                'images/img_heart_focus.png',
-                width: ScreenUtil().setWidth(36),
-                height: ScreenUtil().setWidth(36),
-              ),
-            ),
-          ],
-        ),
       ),
       body: SafeArea(
         top: false,
