@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:recruit_app/model/employe_list.dart';
 import 'package:recruit_app/pages/employe/employee_detail.dart';
+import 'package:recruit_app/widgets/slide_button.dart';
+import 'package:recruit_app/pages/boss/employee_star_item.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'boss_comunicate_item.dart';
 
@@ -23,7 +26,7 @@ class _BossCollectionJobSate extends State<BossCollectionJob> {
       appBar: AppBar(
         elevation: 1,
         centerTitle: true,
-        title: Text('我收藏的牛人',
+        title: Text('收藏夹',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(
@@ -44,28 +47,63 @@ class _BossCollectionJobSate extends State<BossCollectionJob> {
         automaticallyImplyLeading: false,
         backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       ),
-      body: ListView.builder(
-        itemBuilder: (context, index) {
-          if (index < _employeeList.length) {
-            return GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                child: BossCommunicateItem(
-                    employee: _employeeList[index],
-                    index: index,),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => EmployeeDetail(),
-                      ));
-                });
-          }
-          return null;
-        },
-        itemCount: _employeeList.length,
-        shrinkWrap: true,
-        physics: const BouncingScrollPhysics(),
-      ),
+      body: Column(children: <Widget>[
+          Expanded(child: ListView.builder(
+              itemBuilder: (context, index) {
+                  if (index < _employeeList.length) {
+                      var btnKey = GlobalKey<SlideButtonState>();
+                      return   SlideButton(
+                          key: btnKey,
+                          singleButtonWidth: ScreenUtil().setWidth(116),
+                          child: GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              child: EmployeeStarItem(
+                                 employee: _employeeList[index],
+                                 index: index,
+                                 lastItem: index == _employeeList.length - 1),
+                              onTap: () {
+                                  Navigator.push(
+                                     context,
+                                     MaterialPageRoute(
+                                         builder: (context) => EmployeeDetail(),
+                                     ));
+                              },
+                          ),
+                          buttons: <Widget>[
+                              buildAction(btnKey, Colors.red, () {
+                                  btnKey.currentState.close();
+                              }),
+                          ],
+                      );
+                  }
+                  return null;
+              },
+              itemCount: _employeeList.length,
+              shrinkWrap: true,
+              physics: const BouncingScrollPhysics(),
+          ),)
+          
+      ],),
     );
   }
+
+
+  InkWell buildAction(
+     GlobalKey<SlideButtonState> key, Color color, GestureTapCallback tap) {
+      return InkWell(
+          onTap: tap,
+          child: Container(
+              alignment: Alignment.center,
+              width: ScreenUtil().setWidth(116),
+              color: color,
+              child: Image.asset(
+                  'images/img_del_white.png',
+                  width: ScreenUtil().setWidth(30),
+                  height: ScreenUtil().setWidth(38),
+                  fit: BoxFit.contain,
+              ),
+          ),
+      );
+  }
+  
 }
