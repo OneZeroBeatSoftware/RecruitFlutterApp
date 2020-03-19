@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:recruit_app/model/company_attr.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
-import 'package:recruit_app/widgets/me_divider.dart';
+import 'package:recruit_app/widgets/profile_divider.dart';
+import 'package:recruit_app/pages/boss/company_introduction.dart';
+import 'package:recruit_app/pages/boss/company_base_info.dart';
 
 class CompanyInfo extends StatefulWidget {
   @override
@@ -85,7 +87,11 @@ class _CompanyInfoState extends State<CompanyInfo> {
                               SizedBox(width: ScreenUtil().setWidth(12)),
                               GestureDetector(
                                 child: Image.asset('images/img_edit_resume_gray.png', width: ScreenUtil().setWidth(30), height: ScreenUtil().setWidth(30)),
-                                onTap: () {print("dsd");},
+                                onTap: () {
+                                  Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) => CompanyBaseInfo()
+                                  ));
+                                },
                               ),
                             ],),
                             SizedBox(height: ScreenUtil().setHeight(20)),
@@ -114,7 +120,15 @@ class _CompanyInfoState extends State<CompanyInfo> {
                               fontWeight: FontWeight.bold,
                               letterSpacing: 1
                             ),),
-                          Image.asset('images/img_edit_resume_gray.png', width: ScreenUtil().setWidth(30), height: ScreenUtil().setWidth(30))
+                          GestureDetector(
+                            child: Image.asset('images/img_edit_resume_gray.png', width: ScreenUtil().setWidth(30), height: ScreenUtil().setWidth(30)),
+                            onTap: () {
+                              Navigator.push(context,
+                                 MaterialPageRoute(
+                                    builder: (context) => CompanyIntroduction()
+                                 ));
+                            },
+                          )
                         ]
                       ),
                       SizedBox(height: ScreenUtil().setSp(40)),
