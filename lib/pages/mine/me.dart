@@ -55,7 +55,7 @@ class _MineState extends State<Mine> {
         slivers: <Widget>[
           SliverToBoxAdapter(
             child: Container(
-              margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(20)),
+              margin: EdgeInsets.only(bottom: ScreenUtil().setWidth(30)),
               padding: EdgeInsets.only(
                   left: ScreenUtil().setWidth(48),
                   right: ScreenUtil().setWidth(48),
@@ -325,7 +325,7 @@ class _MineState extends State<Mine> {
                 Container(
                   color: Color.fromRGBO(159, 199, 235, 1),
                   height: isBetweenDivider ? ScreenUtil().setWidth(1) : 0,
-                  margin: EdgeInsets.only(top: ScreenUtil().setHeight(isBetweenDivider ? 10 : 0), bottom: ScreenUtil().setHeight(isBetweenDivider ? 10 : 0)),
+                  margin: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(isBetweenDivider ? 20 : 0), horizontal: ScreenUtil().setWidth(48)),
                 )
               ],
             );
