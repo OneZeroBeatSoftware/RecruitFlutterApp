@@ -109,7 +109,7 @@ class _MineState extends State<Mine> {
                           child: Row(
                             children: <Widget>[
                               Text(
-                                '已投递',
+                                '沟通过',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
@@ -119,6 +119,49 @@ class _MineState extends State<Mine> {
                               ),
                               Text(
                                 '(18)',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: Color.fromRGBO(227, 226, 226, 1),
+                                  fontSize: ScreenUtil().setSp(28),
+                                ),
+                              ),
+                            ],
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CommunicateJob()));
+                          },
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(
+                          horizontal: ScreenUtil().setWidth(10),
+                        ),
+                        width: ScreenUtil().setWidth(1),
+                        height: ScreenUtil().setWidth(28),
+                        color: Colors.white,
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                '已投递',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: Color.fromRGBO(227, 226, 226, 1),
+                                  fontSize: ScreenUtil().setSp(28),
+                                ),
+                              ),
+                              Text(
+                                '(15)',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
@@ -149,53 +192,10 @@ class _MineState extends State<Mine> {
                         child: GestureDetector(
                           behavior: HitTestBehavior.opaque,
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                '待面试',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  color: Color.fromRGBO(227, 226, 226, 1),
-                                  fontSize: ScreenUtil().setSp(28),
-                                ),
-                              ),
-                              Text(
-                                '(15)',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  color: Color.fromRGBO(227, 226, 226, 1),
-                                  fontSize: ScreenUtil().setSp(28),
-                                ),
-                              ),
-                            ],
-                          ),
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => MineInterView()));
-                          },
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(
-                          horizontal: ScreenUtil().setWidth(10),
-                        ),
-                        width: ScreenUtil().setWidth(1),
-                        height: ScreenUtil().setWidth(28),
-                        color: Colors.white,
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: GestureDetector(
-                          behavior: HitTestBehavior.opaque,
-                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
                               Text(
-                                '沟通过',
+                                '待面试',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
@@ -218,7 +218,7 @@ class _MineState extends State<Mine> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => CommunicateJob()));
+                                    builder: (context) => MineInterView()));
                           },
                         ),
                       ),
