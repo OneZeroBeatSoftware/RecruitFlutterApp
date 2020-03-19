@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:recruit_app/entity/user_entity.dart';
+import 'package:recruit_app/model/identity_model.dart';
 import 'package:recruit_app/model/user_model.dart';
 import 'package:recruit_app/pages/account/login/login_type.dart';
 import 'package:recruit_app/pages/setting/account_bind_setting.dart';
@@ -18,11 +19,14 @@ class Setting extends StatefulWidget {
 
 class _SettingState extends State<Setting> {
   UserModel userModel;
+  IdentityModel identityModel;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((callback){
+      identityModel=Provider.of<IdentityModel>(context);
       userModel=Provider.of<UserModel>(context);
     });
   }
@@ -246,7 +250,7 @@ class _SettingState extends State<Setting> {
                   context: context,
                   builder: (context) {
                     return RemindDialog(
-                      title: '您将切换至BOSS身份',
+                      title: '您将切换至${identityModel.identity==Identity.boss?"应聘者":"招聘者"}身份',
                       titleColor: Color.fromRGBO(57, 57, 57, 1),
                       content: '系统将为您切换对应功能',
                       contentColor: Color.fromRGBO(57, 57, 57, 1),
@@ -259,6 +263,11 @@ class _SettingState extends State<Setting> {
                       },
                       confirm: (){
                         Navigator.pop(context);
+                        Navigator.pop(context);
+                        identityModel.changeIdentity(
+                            identityModel.identity == Identity.employee
+                                ? Identity.boss
+                                : Identity.employee);
                       },
                     );
                   });

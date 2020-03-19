@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/pages/jobs/job_detail.dart';
 import 'package:recruit_app/pages/msg/msg_chat_item.dart';
 import 'package:recruit_app/pages/msg/msg_interview_item.dart';
 import 'package:recruit_app/pages/msg/msg_notify.dart';
@@ -147,7 +148,9 @@ class _MsgListState extends State<MsgList> {
                       } else if (_firstType && !_secondType) {
                         return MsgChatItem(btnKey: key);
                       } else if (!_firstType && _secondType) {
-                        return MsgInterviewItem(btnKey: key);
+                        return GestureDetector(onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>JobDetail(jobDetailType: JobDetailType.interview,)));
+                        },behavior: HitTestBehavior.opaque,child: MsgInterviewItem(btnKey: key),);
                       } else if (!_firstType && !_secondType) {
                         return GestureDetector(
                           behavior: HitTestBehavior.opaque,

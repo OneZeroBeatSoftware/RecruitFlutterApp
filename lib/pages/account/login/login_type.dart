@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:recruit_app/model/identity_model.dart';
 import 'package:recruit_app/model/user_model.dart';
 import 'package:recruit_app/pages/account/login/login_in.dart';
 import 'package:recruit_app/utils/net_utils.dart';
@@ -18,6 +19,7 @@ class LoginType extends StatelessWidget {
     ScreenUtil.init(context, width: 750, height: 1334);
     NetUtils.init();
     initSetting(context);
+    IdentityModel identityModel=Provider.of<IdentityModel>(context);
     return Scaffold(
       backgroundColor: Color.fromRGBO(232, 255, 254, 1),
       body: Stack(
@@ -44,13 +46,14 @@ class LoginType extends StatelessWidget {
           ),
           Positioned(
             bottom: ScreenUtil().setWidth(126),
-            child: Row(
+            child:  Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 MaterialButton(
                   elevation: 1,
                   color: Colors.white,
                   onPressed: () {
+                    identityModel.changeIdentity(Identity.boss);
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => LoginIn()),
@@ -73,7 +76,7 @@ class LoginType extends StatelessWidget {
                         width: ScreenUtil().setWidth(2),
                       ),
                       borderRadius:
-                          BorderRadius.circular(ScreenUtil().setWidth(1000))),
+                      BorderRadius.circular(ScreenUtil().setWidth(1000))),
                 ),
                 SizedBox(
                   width: ScreenUtil().setWidth(64),
@@ -82,6 +85,7 @@ class LoginType extends StatelessWidget {
                   elevation: 1,
                   color: Colors.white,
                   onPressed: () {
+                    identityModel.changeIdentity(Identity.employee);
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => LoginIn()),
@@ -104,7 +108,7 @@ class LoginType extends StatelessWidget {
                         width: ScreenUtil().setWidth(2),
                       ),
                       borderRadius:
-                          BorderRadius.circular(ScreenUtil().setWidth(1000))),
+                      BorderRadius.circular(ScreenUtil().setWidth(1000))),
                 ),
               ],
             ),

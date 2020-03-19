@@ -18,6 +18,16 @@ class LoginIn extends StatefulWidget {
 class _LoginInState extends State<LoginIn> {
   final TextEditingController _phoneController = TextEditingController(text:'test');
   final TextEditingController _pwdController = TextEditingController(text:'111111');
+
+  UserModel userModel;
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((callback){
+      userModel=Provider.of<UserModel>(context);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -175,7 +185,7 @@ class _LoginInState extends State<LoginIn> {
                       onTap: () {},
                     ),
                   ),
-                  Consumer<UserModel>(builder: (context,model,child)=>MaterialButton(
+                  MaterialButton(
                     elevation: 0,
                     color: Colors.white,
                     onPressed: () {
@@ -190,7 +200,7 @@ class _LoginInState extends State<LoginIn> {
                         Utils.showToast('请填写登录密码');
                         return;
                       }
-                      model.login(context, phone, pwd).then((value){
+                      userModel.login(context, phone, pwd).then((value){
                         if(value!=null){
                           Navigator.pop(context);
                           Navigator.push(
@@ -218,7 +228,7 @@ class _LoginInState extends State<LoginIn> {
                           width: ScreenUtil().setWidth(2),
                         ),
                         borderRadius: BorderRadius.circular(ScreenUtil().setWidth(1000))),
-                  ),),
+                  ),
                   Container(
                     margin: EdgeInsets.only(top: ScreenUtil().setWidth(20)),
                     child: Row(

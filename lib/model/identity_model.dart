@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 enum Identity {boss, employee}
 
-class IdentityModel extends ChangeNotifier{
+class IdentityModel with ChangeNotifier{
   Identity _identity=Identity.employee;
   int _selectedIndex = 0;
   Identity get identity {

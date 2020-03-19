@@ -4,9 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:recruit_app/model/identity_model.dart';
 import 'package:recruit_app/model/me_list.dart';
+import 'package:recruit_app/pages/mine/about_soft.dart';
 import 'package:recruit_app/pages/mine/black_list.dart';
 import 'package:recruit_app/pages/mine/collection.dart';
 import 'package:recruit_app/pages/mine/communicate.dart';
+import 'package:recruit_app/pages/mine/help_report.dart';
 import 'package:recruit_app/pages/mine/job_intent.dart';
 import 'package:recruit_app/pages/mine/mine_interview.dart';
 import 'package:recruit_app/pages/mine/resume_list.dart';
@@ -235,91 +237,91 @@ class _MineState extends State<Mine> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Consumer<IdentityModel>(
-                  builder: (context, model, child) {
-                    return GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: ScreenUtil().setWidth(48),
-                          vertical: ScreenUtil().setWidth(20),
+                GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: ScreenUtil().setWidth(48),
+                      vertical: ScreenUtil().setWidth(20),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Image.asset(
+                          options[index].imgPath,
+                          width: ScreenUtil().setWidth(40),
+                          height: ScreenUtil().setWidth(40),
+                          fit: BoxFit.cover,
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Image.asset(
-                              options[index].imgPath,
-                              width: ScreenUtil().setWidth(40),
-                              height: ScreenUtil().setWidth(40),
-                              fit: BoxFit.cover,
-                            ),
-                            SizedBox(
-                              width: ScreenUtil().setWidth(20),
-                            ),
-                            Expanded(
-                              child: Text(
-                                options[index].itemName,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                                style: TextStyle(
-                                    color: Color.fromRGBO(57, 57, 57, 1),
-                                    fontSize: ScreenUtil().setSp(32)),
-                              ),
-                            ),
-                            SizedBox(
-                              width: ScreenUtil().setWidth(20),
-                            ),
-                            Text(
-                              options[index].itemStatus,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              style: TextStyle(
-                                color: Color.fromRGBO(194, 203, 202, 1),
-                                fontSize: ScreenUtil().setSp(24),
-                              ),
-                            ),
-                            SizedBox(
-                              width: ScreenUtil().setWidth(20),
-                            ),
-                            Image.asset(
-                              'images/img_arrow_right_blue.png',
-                              width: ScreenUtil().setWidth(10),
-                              height: ScreenUtil().setWidth(20),
-                              fit: BoxFit.cover,
-                            )
-                          ],
+                        SizedBox(
+                          width: ScreenUtil().setWidth(20),
                         ),
-                      ),
-                      onTap: () {
-                        if (index == 2) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Collection()));
-                        } else if (index == 1) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => JobIntent()));
-                        } else if (index == 0) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ResumeList()));
-                        } else if (index == 3) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => BlackList()));
-                        } else if (index == 4) {
-                          model.changeIdentity(
-                              model.identity == Identity.employee
-                                  ? Identity.boss
-                                  : Identity.employee);
-                        }
-                      },
-                    );
+                        Expanded(
+                          child: Text(
+                            options[index].itemName,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: TextStyle(
+                                color: Color.fromRGBO(57, 57, 57, 1),
+                                fontSize: ScreenUtil().setSp(32)),
+                          ),
+                        ),
+                        SizedBox(
+                          width: ScreenUtil().setWidth(20),
+                        ),
+                        Text(
+                          options[index].itemStatus,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: TextStyle(
+                            color: Color.fromRGBO(194, 203, 202, 1),
+                            fontSize: ScreenUtil().setSp(24),
+                          ),
+                        ),
+                        SizedBox(
+                          width: ScreenUtil().setWidth(20),
+                        ),
+                        Image.asset(
+                          'images/img_arrow_right_blue.png',
+                          width: ScreenUtil().setWidth(10),
+                          height: ScreenUtil().setWidth(20),
+                          fit: BoxFit.cover,
+                        )
+                      ],
+                    ),
+                  ),
+                  onTap: () {
+                    if (index == 2) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Collection()));
+                    } else if (index == 1) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => JobIntent()));
+                    } else if (index == 0) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ResumeList()));
+                    } else if (index == 3) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BlackList()));
+                    } else if (index == 4) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => HelpReport()));
+                    } else if (index == 5) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AboutSoft()));                        }
                   },
                 ),
                 Container(

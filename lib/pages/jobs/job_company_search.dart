@@ -15,7 +15,7 @@ enum SearchType { job, company }
 class JobCompanySearch extends StatefulWidget {
   final SearchType searchType;
 
-  const JobCompanySearch({Key key, this.searchType}) : super(key: key);
+  const JobCompanySearch({Key key, this.searchType=SearchType.job}) : super(key: key);
 
   @override
   _JobCompanySearchState createState() => _JobCompanySearchState();

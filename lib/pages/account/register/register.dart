@@ -13,6 +13,8 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  UserModel userModel;
+
   Timer _timer;
   var _countDownTime = 0;
   TextEditingController _nameController = TextEditingController();
@@ -41,6 +43,14 @@ class _RegisterState extends State<Register> {
     if (_timer != null) {
       _timer.cancel();
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((callback){
+      userModel=Provider.of<UserModel>(context);
+    });
   }
 
   @override
@@ -266,68 +276,65 @@ class _RegisterState extends State<Register> {
                   ],
                 ),
               ),
-              Consumer<UserModel>(
-                builder: (context, model, child) => MaterialButton(
-                  elevation: 0,
-                  color: Colors.white,
-                  onPressed: () {
-                    FocusScope.of(context).requestFocus(FocusNode());
-                    String phone = _phoneController.text;
-                    String pwd = _pwdController.text;
-                    String name = _nameController.text;
-                    String pwd2 = _pwd2Controller.text;
-                    if (name.isEmpty) {
-                      Utils.showToast('请填写用户名');
-                      return;
+              MaterialButton(
+                elevation: 0,
+                color: Colors.white,
+                onPressed: () {
+                  FocusScope.of(context).requestFocus(FocusNode());
+                  String phone = _phoneController.text;
+                  String pwd = _pwdController.text;
+                  String name = _nameController.text;
+                  String pwd2 = _pwd2Controller.text;
+                  if (name.isEmpty) {
+                    Utils.showToast('请填写用户名');
+                    return;
+                  }
+                  if (pwd.isEmpty) {
+                    Utils.showToast('请填写密码');
+                    return;
+                  }
+                  if (pwd.length < 6) {
+                    Utils.showToast('密码长度不得少于6位');
+                    return;
+                  }
+                  if (pwd2.isEmpty) {
+                    Utils.showToast('请确认密码');
+                    return;
+                  }
+                  if (pwd != pwd2) {
+                    Utils.showToast('两次密码输入不一致');
+                    return;
+                  }
+                  if (phone.isEmpty) {
+                    Utils.showToast('请填写手机号');
+                    return;
+                  }
+                  userModel.register(
+                      context, name, pwd, pwd2, phone, '163@163.com')
+                      .then((value) {
+                    if (value != null) {
+                      Navigator.pop(context);
                     }
-                    if (pwd.isEmpty) {
-                      Utils.showToast('请填写密码');
-                      return;
-                    }
-                    if (pwd.length < 6) {
-                      Utils.showToast('密码长度不得少于6位');
-                      return;
-                    }
-                    if (pwd2.isEmpty) {
-                      Utils.showToast('请确认密码');
-                      return;
-                    }
-                    if (pwd != pwd2) {
-                      Utils.showToast('两次密码输入不一致');
-                      return;
-                    }
-                    if (phone.isEmpty) {
-                      Utils.showToast('请填写手机号');
-                      return;
-                    }
-                    model
-                        .register(
-                            context, name, pwd, pwd2, phone, '163@163.com')
-                        .then((value) {
-                      if (value != null) {
-                        Navigator.pop(context);
-                      }
-                    });
-                  },
-                  textColor: Color.fromRGBO(159, 199, 235, 1),
-                  child: Text(
-                    "注 册",
-                    style: TextStyle(
-                      fontSize: ScreenUtil().setSp(36),
-                    ),
+                  });
+                },
+                textColor: Color.fromRGBO(159, 199, 235, 1),
+                child: Text(
+                  "注 册",
+                  style: TextStyle(
+                    fontSize: ScreenUtil().setSp(36),
                   ),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: ScreenUtil().setWidth(30),
-                    vertical: ScreenUtil().setWidth(20),
-                  ),
-                  shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                        color: Color.fromRGBO(159, 199, 235, 1),
-                        width: ScreenUtil().setWidth(2),
-                      ),
-                      borderRadius:
-                          BorderRadius.circular(ScreenUtil().setWidth(1000))),
                 ),
+                padding: EdgeInsets.symmetric(
+                  horizontal: ScreenUtil().setWidth(30),
+                  vertical: ScreenUtil().setWidth(20),
+                ),
+                shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                      color: Color.fromRGBO(159, 199, 235, 1),
+                      width: ScreenUtil().setWidth(2),
+                    ),
+                    borderRadius:
+                    BorderRadius.circular(ScreenUtil().setWidth(1000))),
               ),
               Container(
                 margin: EdgeInsets.only(top: ScreenUtil().setWidth(20)),

@@ -8,11 +8,16 @@ import 'package:recruit_app/pages/companys/company_detail.dart';
 import 'package:recruit_app/pages/jobs/chat_room.dart';
 import 'package:recruit_app/pages/jobs/list_menu_dialog.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
+import 'package:recruit_app/widgets/craft_date_time_picker.dart';
+import 'package:recruit_app/widgets/remind_dialog.dart';
+
+enum JobDetailType {job, interview}
 
 class JobDetail extends StatefulWidget {
   final String jobId;
+  final JobDetailType jobDetailType;
 
-  const JobDetail({Key key, this.jobId = '1'}) : super(key: key);
+  const JobDetail({Key key, this.jobId = '1', this.jobDetailType=JobDetailType.job}) : super(key: key);
 
   @override
   _JobDetailState createState() {
@@ -24,6 +29,8 @@ class JobDetail extends StatefulWidget {
 class _JobDetailState extends State<JobDetail> {
   bool _isCollected=false;
   List<String> _reports=[];
+  List<String> _reasons=[];
+
   JobModel _jobModel;
 
   JobDetailData _jobDetailData;
@@ -34,6 +41,7 @@ class _JobDetailState extends State<JobDetail> {
     super.initState();
     for (int i1 = 0; i1 < 20; i1++) {
       _reports.add('广告骚扰');
+      _reasons.add('已找到工作');
     }
     WidgetsBinding.instance.addPostFrameCallback((i) {
       _jobModel = Provider.of<JobModel>(context);
@@ -464,7 +472,8 @@ class _JobDetailState extends State<JobDetail> {
                     height: ScreenUtil().setWidth(1),
                     color: Color.fromRGBO(245, 245, 245, 1),
                   ),
-                  SafeArea(
+
+                  Visibility(child: SafeArea(
                     top: false,
                     child: Container(
                         padding: EdgeInsets.symmetric(
@@ -478,10 +487,10 @@ class _JobDetailState extends State<JobDetail> {
                                     builder: (context) => ChatRoom()));
                           },
                           textColor: Color.fromRGBO(159, 199, 235, 1),
-                          child: Text("立即沟通"),
+                          child: Text("立即沟通",style: TextStyle(fontSize: ScreenUtil().setSp(32),),),
                           padding: EdgeInsets.symmetric(
                               horizontal: ScreenUtil().setWidth(30),
-                              vertical: ScreenUtil().setWidth(14)),
+                              vertical: ScreenUtil().setWidth(16)),
                           shape: RoundedRectangleBorder(
                               side: BorderSide(
                                 color: Color.fromRGBO(159, 199, 235, 1),
@@ -490,11 +499,139 @@ class _JobDetailState extends State<JobDetail> {
                               borderRadius: BorderRadius.circular(
                                   ScreenUtil().setWidth(1000))),
                         )),
-                  ),
+                  ),visible: widget.jobDetailType==JobDetailType.job,),
+                  Visibility(child: SafeArea(
+                    top: false,
+                    child: Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: ScreenUtil().setWidth(48),
+                            vertical: ScreenUtil().setWidth(16)),
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(child: MaterialButton(
+                              onPressed: () {
+                                cancelInterview();
+                              },
+                              elevation: 0,
+                              color: Color.fromRGBO(227, 226, 226, 1),
+                              textColor: Color.fromRGBO(255, 255, 255, 1),
+                              child: Text("取消面试",maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: ScreenUtil().setSp(32),),),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: ScreenUtil().setWidth(30),
+                                  vertical: ScreenUtil().setWidth(16)),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      ScreenUtil().setWidth(1000))),
+                            ),flex: 118,),
+                            SizedBox(width: ScreenUtil().setWidth(32),),
+                            Expanded(child: MaterialButton(
+                              onPressed: () {
+                                adJustInterviewTime();
+                              },
+                              elevation: 0,
+                              textColor: Color.fromRGBO(159, 199, 235, 1),
+                              child: Text("申请调整时间",maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: ScreenUtil().setSp(32),),),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: ScreenUtil().setWidth(30),
+                                  vertical: ScreenUtil().setWidth(16)),
+                              shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                    color: Color.fromRGBO(159, 199, 235, 1),
+                                    width: ScreenUtil().setWidth(2),
+                                  ),
+                                  borderRadius: BorderRadius.circular(
+                                      ScreenUtil().setWidth(1000))),
+                            ),flex: 193,),
+                          ],
+                        )),
+                  ),visible: widget.jobDetailType==JobDetailType.interview,),
+
                 ],
               ));
   }
 
+  /// 取消面试
+  void cancelInterview(){
+    showGeneralDialog(
+      context: context,
+      pageBuilder: (context, animation1, animation2) { return null;},
+      barrierColor: Colors.black.withOpacity(0.4),
+      barrierDismissible: true,
+      barrierLabel: "Dismiss",
+      transitionDuration: Duration(milliseconds: 300),
+      transitionBuilder: (context, animation1, animation2, widget) {
+        final curvedValue =
+            Curves.easeInOut.transform(animation1.value) - 1.0;
+        return Transform(
+          transform:
+          Matrix4.translationValues(0.0, curvedValue * -300, 0.0),
+          child: Opacity(
+            opacity: animation1.value,
+            child: ListMenuDialog(
+              title: '原因',
+              cancel: () {
+                Navigator.pop(context);
+              },
+              confirm: () {
+                Navigator.pop(context);
+              },
+              itemSelected: (){
+                Navigator.pop(context);
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return RemindDialog(
+                      title: '确定取消本次面试吗？',
+                      titleColor: Color.fromRGBO(
+                          51, 51, 51, 1),
+                      cancelText: '再想想',
+                      cancelColor: Color.fromRGBO(
+                          142, 190, 245, 1),
+                      confirmText: '确定',
+                      confirmColor: Color.fromRGBO(
+                          142, 190, 245, 1),
+                      cancel: () {
+                        Navigator.pop(context);
+                      },
+                      confirm: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ChatRoom()));
+                      },
+                    );
+                  },);
+              },
+              lists: _reasons,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  /// 调整时间
+  void adJustInterviewTime() {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (context) {
+        return CraftDateTimePicker(
+          title: '申请调整时间',
+          initialTime: DateTime.now(),
+          confirm: (datetime) {
+            Navigator.pop(context);
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ChatRoom()));
+          },
+        );
+      },
+    );
+  }
+
+  /// 获取工作详情
   void getJobDetail(String jobId) async {
     JobDetailEntity jobDetailEntity =
         await _jobModel.getJobDetail(context, jobId);

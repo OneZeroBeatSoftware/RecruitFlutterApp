@@ -6,12 +6,13 @@ import 'package:recruit_app/model/me_list.dart';
 import 'package:recruit_app/pages/boss/boss_collection.dart';
 import 'package:recruit_app/pages/boss/company_info.dart';
 import 'package:recruit_app/pages/boss/job_manage.dart';
+import 'package:recruit_app/pages/mine/about_soft.dart';
+import 'package:recruit_app/pages/mine/help_report.dart';
 import 'package:recruit_app/pages/setting/setting.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/pages/mine/communicate.dart';
 import 'package:recruit_app/pages/mine/mine_interview.dart';
 import 'package:recruit_app/pages/boss/company_post_recruit.dart';
-import 'package:recruit_app/pages/boss/black_list.dart';
 import 'package:recruit_app/pages/employe/employee_detail.dart';
 
 class BossMine extends StatefulWidget {
@@ -255,97 +256,98 @@ class _BossMineState extends State<BossMine> {
                  mainAxisAlignment: MainAxisAlignment.start,
                  crossAxisAlignment: CrossAxisAlignment.center,
                  children: <Widget>[
-                   Consumer<IdentityModel>(
-                     builder: (context, model, child) {
-                       return GestureDetector(
-                         behavior: HitTestBehavior.opaque,
-                         child: Padding(
-                           padding: EdgeInsets.symmetric(
-                             horizontal: ScreenUtil().setWidth(48),
-                             vertical: ScreenUtil().setHeight(20),
+                   GestureDetector(
+                     behavior: HitTestBehavior.opaque,
+                     child: Padding(
+                       padding: EdgeInsets.symmetric(
+                         horizontal: ScreenUtil().setWidth(48),
+                         vertical: ScreenUtil().setHeight(20),
+                       ),
+                       child: Row(
+                         mainAxisAlignment: MainAxisAlignment.start,
+                         crossAxisAlignment: CrossAxisAlignment.center,
+                         children: <Widget>[
+                           Image.asset(
+                             options[index].imgPath,
+                             width: ScreenUtil().setWidth(40),
+                             height: ScreenUtil().setWidth(40),
+                             fit: BoxFit.cover,
                            ),
-                           child: Row(
-                             mainAxisAlignment: MainAxisAlignment.start,
-                             crossAxisAlignment: CrossAxisAlignment.center,
-                             children: <Widget>[
-                               Image.asset(
-                                 options[index].imgPath,
-                                 width: ScreenUtil().setWidth(40),
-                                 height: ScreenUtil().setWidth(40),
-                                 fit: BoxFit.cover,
-                               ),
-                               SizedBox(
-                                 width: ScreenUtil().setWidth(20),
-                               ),
-                               Expanded(
-                                 child: Text(
-                                   options[index].itemName,
-                                   overflow: TextOverflow.ellipsis,
-                                   maxLines: 1,
-                                   style: TextStyle(
-                                      color: Color.fromRGBO(57, 57, 57, 1),
-                                      fontSize: ScreenUtil().setSp(32)),
-                                 ),
-                               ),
-                               SizedBox(
-                                 width: ScreenUtil().setWidth(20),
-                               ),
-                               Text(
-                                 options[index].itemStatus,
-                                 overflow: TextOverflow.ellipsis,
-                                 maxLines: 1,
-                                 style: TextStyle(
-                                   color: Color.fromRGBO(194, 203, 202, 1),
-                                   fontSize: ScreenUtil().setSp(24),
-                                 ),
-                               ),
-                               SizedBox(
-                                 width: ScreenUtil().setWidth(20),
-                               ),
-                               Image.asset(
-                                 'images/img_arrow_right_blue.png',
-                                 width: ScreenUtil().setWidth(10),
-                                 height: ScreenUtil().setWidth(20),
-                                 fit: BoxFit.cover,
-                               )
-                             ],
+                           SizedBox(
+                             width: ScreenUtil().setWidth(20),
                            ),
-                         ),
-                         onTap: () {
-                           if (index == 0) {
-                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                   builder: (context) => CompanyInfo()));
-                           } else if (index == 1) {
-                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                   builder: (context) => CompanyPostRecruit()));
-                           } else if (index == 2) {
-                             Navigator.push(
+                           Expanded(
+                             child: Text(
+                               options[index].itemName,
+                               overflow: TextOverflow.ellipsis,
+                               maxLines: 1,
+                               style: TextStyle(
+                                   color: Color.fromRGBO(57, 57, 57, 1),
+                                   fontSize: ScreenUtil().setSp(32)),
+                             ),
+                           ),
+                           SizedBox(
+                             width: ScreenUtil().setWidth(20),
+                           ),
+                           Text(
+                             options[index].itemStatus,
+                             overflow: TextOverflow.ellipsis,
+                             maxLines: 1,
+                             style: TextStyle(
+                               color: Color.fromRGBO(194, 203, 202, 1),
+                               fontSize: ScreenUtil().setSp(24),
+                             ),
+                           ),
+                           SizedBox(
+                             width: ScreenUtil().setWidth(20),
+                           ),
+                           Image.asset(
+                             'images/img_arrow_right_blue.png',
+                             width: ScreenUtil().setWidth(10),
+                             height: ScreenUtil().setWidth(20),
+                             fit: BoxFit.cover,
+                           )
+                         ],
+                       ),
+                     ),
+                     onTap: () {
+                       if (index == 0) {
+                         Navigator.push(
                              context,
                              MaterialPageRoute(
-                             builder: (context) => JobManage()));
-                           } else if (index == 3) {
-                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                   builder: (context) => BossCollectionJob()));
-                           } else if (index == 4) {
-                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                   builder: (context) => BossCollectionJob(title: '黑名单')));
-                           }
-                           else if (index == 5) {
-                             model.changeIdentity(
-                                model.identity == Identity.employee
-                                   ? Identity.boss
-                                   : Identity.employee);
-                           }
-                         },
-                       );
+                                 builder: (context) => CompanyInfo()));
+                       } else if (index == 1) {
+                         Navigator.push(
+                             context,
+                             MaterialPageRoute(
+                                 builder: (context) => CompanyPostRecruit()));
+                       } else if (index == 2) {
+                         Navigator.push(
+                             context,
+                             MaterialPageRoute(
+                                 builder: (context) => JobManage()));
+                       } else if (index == 3) {
+                         Navigator.push(
+                             context,
+                             MaterialPageRoute(
+                                 builder: (context) => BossCollectionJob()));
+                       } else if (index == 4) {
+                         Navigator.push(
+                             context,
+                             MaterialPageRoute(
+                                 builder: (context) => BossCollectionJob(title: '黑名单')));
+                       }
+                       else if (index == 5) {
+                         Navigator.push(
+                             context,
+                             MaterialPageRoute(
+                                 builder: (context) => HelpReport()));
+                       } else if (index == 6) {
+                         Navigator.push(
+                             context,
+                             MaterialPageRoute(
+                                 builder: (context) => AboutSoft()));
+                       }
                      },
                    ),
                    Container(

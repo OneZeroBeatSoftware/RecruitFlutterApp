@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recruit_app/model/company_list.dart';
 import 'package:recruit_app/model/employe_list.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class EmployeeStarItem extends StatelessWidget {
 	final Employee employee;

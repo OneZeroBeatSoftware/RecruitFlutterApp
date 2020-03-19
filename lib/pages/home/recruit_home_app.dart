@@ -195,28 +195,23 @@ class _RecruitHomeState extends State<RecruitHomeApp> {
 
   @override
   Widget build(BuildContext context) {
+    IdentityModel identityModel=Provider.of<IdentityModel>(context);
     return Scaffold(
-      body: Consumer<IdentityModel>(builder: (context, model, child) {
-        return model.identity == Identity.boss
-            ? _bossWidget.elementAt(model.selectedIndex)
-            : _widgetOptions.elementAt(model.selectedIndex);
-      }),
-      bottomNavigationBar: Consumer<IdentityModel>(
-        builder: (context, model, child) {
-          return BottomNavigationBar(
-            items:
-            model.identity == Identity.boss ? _bossBottoms : _widgetBottoms,
-            type: BottomNavigationBarType.fixed,
-            backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-            currentIndex: model.selectedIndex,
-            unselectedItemColor: Color.fromRGBO(67, 67, 67, 1),
-            selectedItemColor: Color.fromRGBO(52, 52, 52, 1),
-            selectedFontSize: 13,
-            unselectedFontSize: 12,
-            onTap: (index) {
-              model.changeSelectTap(index);
-            },
-          );
+      body: identityModel.identity == Identity.boss
+          ? _bossWidget.elementAt(identityModel.selectedIndex)
+          : _widgetOptions.elementAt(identityModel.selectedIndex),
+      bottomNavigationBar: BottomNavigationBar(
+        items:
+        identityModel.identity == Identity.boss ? _bossBottoms : _widgetBottoms,
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+        currentIndex: identityModel.selectedIndex,
+        unselectedItemColor: Color.fromRGBO(67, 67, 67, 1),
+        selectedItemColor: Color.fromRGBO(52, 52, 52, 1),
+        selectedFontSize: 13,
+        unselectedFontSize: 12,
+        onTap: (index) {
+          identityModel.changeSelectTap(index);
         },
       ),
     );

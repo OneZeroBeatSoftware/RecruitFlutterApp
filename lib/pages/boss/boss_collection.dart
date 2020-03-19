@@ -5,7 +5,6 @@ import 'package:recruit_app/widgets/slide_button.dart';
 import 'package:recruit_app/pages/boss/employee_star_item.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'boss_comunicate_item.dart';
 
 class BossCollectionJob extends StatefulWidget {
     String title;
