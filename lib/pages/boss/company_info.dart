@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:recruit_app/model/company_attr.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
-import 'package:recruit_app/widgets/me_divider.dart';
+import 'package:recruit_app/widgets/profile_divider.dart';
+import 'package:recruit_app/pages/boss/company_introduction.dart';
+import 'package:recruit_app/pages/boss/company_work_time.dart';
+import 'package:recruit_app/pages/boss/company_base_info.dart';
 
 class CompanyInfo extends StatefulWidget {
   @override
@@ -46,21 +49,6 @@ class _CompanyInfoState extends State<CompanyInfo> {
              ],
            )),
         backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-        rightAction: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () {
-              },
-              child: Image.asset(
-                'images/img_heart_focus.png',
-                width: ScreenUtil().setWidth(36),
-                height: ScreenUtil().setWidth(36),
-              ),
-            ),
-          ],
-        ),
       ),
       body: SafeArea(
         top: false,
@@ -100,7 +88,11 @@ class _CompanyInfoState extends State<CompanyInfo> {
                               SizedBox(width: ScreenUtil().setWidth(12)),
                               GestureDetector(
                                 child: Image.asset('images/img_edit_resume_gray.png', width: ScreenUtil().setWidth(30), height: ScreenUtil().setWidth(30)),
-                                onTap: () {print("dsd");},
+                                onTap: () {
+                                  Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) => CompanyBaseInfo()
+                                  ));
+                                },
                               ),
                             ],),
                             SizedBox(height: ScreenUtil().setHeight(20)),
@@ -129,7 +121,15 @@ class _CompanyInfoState extends State<CompanyInfo> {
                               fontWeight: FontWeight.bold,
                               letterSpacing: 1
                             ),),
-                          Image.asset('images/img_edit_resume_gray.png', width: ScreenUtil().setWidth(30), height: ScreenUtil().setWidth(30))
+                          GestureDetector(
+                            child: Image.asset('images/img_edit_resume_gray.png', width: ScreenUtil().setWidth(30), height: ScreenUtil().setWidth(30)),
+                            onTap: () {
+                              Navigator.push(context,
+                                 MaterialPageRoute(
+                                    builder: (context) => CompanyIntroduction()
+                                 ));
+                            },
+                          )
                         ]
                       ),
                       SizedBox(height: ScreenUtil().setSp(40)),
@@ -166,7 +166,14 @@ class _CompanyInfoState extends State<CompanyInfo> {
                       Container(margin: EdgeInsets.only(top: ScreenUtil().setHeight(40)),
                          color: Color.fromRGBO(159,199,235,1),
                          constraints: BoxConstraints.expand(height: ScreenUtil().setHeight(1))),
-                      Item("工作时间", "AM 09:00 -m 06:00", canClick: true),
+                      Item("工作时间", "AM 09:00 -m 06:00",
+                         canClick: true,
+                         onClick: () {
+                            Navigator.push(context, MaterialPageRoute(
+                              builder: (context) => CompanyWorkTime()
+                            ));
+                         }
+                      ),
                       
                       Item("员工福利", "", canClick: true, rightIcon:
                         Image.asset('images/boss_me_post_mrg.png',
@@ -251,14 +258,14 @@ class Item extends StatelessWidget {
         if(this.onClick != null) {
           this.onClick();
         }
-      } ,
+      },
       child: Padding(
         padding: EdgeInsets.only(top: ScreenUtil().setHeight(40)),
-       child: Row(
-         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-         children: widgets,
-       ),
-      ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: widgets,
+        ),
+      )
     );
   }
 }

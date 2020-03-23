@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recruit_app/model/job_manage_list.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/widgets/vertical_divider.dart';
 
 class JobManageItem extends StatelessWidget {
   final JobManageData jobManageData;
@@ -10,79 +12,87 @@ class JobManageItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextStyle row2TextStyle = TextStyle(
+      color: Color.fromRGBO(95,94,94,1),
+      fontSize: ScreenUtil().setWidth(26),
+      fontWeight: FontWeight.w300
+    );
+    
     // TODO: implement build
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          SizedBox(
-            height: 15,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(
+             left: ScreenUtil().setHeight(48),
+            top: ScreenUtil().setHeight(38),
+            right: ScreenUtil().setHeight(38),
+            bottom: ScreenUtil().setHeight(32),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
+          child: Column(
             children: <Widget>[
-              Expanded(
-                  child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Text(jobManageData.jobName, style: TextStyle(
+                      color: Color.fromRGBO(1,51,51,1),
+                      fontSize: ScreenUtil().setSp(36),
+                      fontWeight: FontWeight.w400
+                    ),),
+                    SizedBox(width: ScreenUtil().setWidth(28)),
+                    Text("候选人" + jobManageData.candidateCount.toString() + "/" + jobManageData.candidateTotal.toString(),
+                      style: TextStyle(
+                      color: Color.fromRGBO(176,181,180,1),
+                      fontWeight: FontWeight.w300,
+                      fontSize: ScreenUtil().setSp(24),
+                       letterSpacing: 1
+                    ),),
+                  ],
+                ),
+                Text(jobManageData.salary, style: TextStyle(
+                  color: Color.fromRGBO(68,77,151,1),
+                  fontSize: ScreenUtil().setSp(36),
+                  fontWeight: FontWeight.w500
+                  
+                ))
+              ],),
+              SizedBox(height: ScreenUtil().setHeight(15)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Flexible(
-                        child: Text(
-                          '${jobManageData.jobName}',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            wordSpacing: 1,
-                            letterSpacing: 1,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromRGBO(38, 38, 38, 1),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 8),
-                      Text(
-                        '${jobManageData.salary}',
-                        style: const TextStyle(
-                          wordSpacing: 1,
-                          letterSpacing: 1,
-                          fontSize: 14,
-                          color: Color.fromRGBO(67, 67, 67, 1),
-                        ),
-                      ),
+                      Text(jobManageData.address, style: row2TextStyle),
+                      ProfileVerticalDivider(),
+                      Text(jobManageData.exp, style: row2TextStyle),
+                      ProfileVerticalDivider(),
+                      Text(jobManageData.degree, style: row2TextStyle),
                     ],
                   ),
-                  SizedBox(height: 8),
-                  Text(
-                    '${jobManageData.address}  ${jobManageData.degree}  ${jobManageData.exp}',
-                    style: TextStyle(
-                      wordSpacing: 1,
-                      letterSpacing: 1,
-                      fontSize: 14,
-                      color: Color.fromRGBO(154, 154, 154, 1),
-                    ),
-                  ),
-                ],
-              )),
-              SizedBox(width: 15),
-              Image.asset('images/ic_arrow_gray.png',
-                  width: 10, height: 10, fit: BoxFit.cover)
+                  Row(children: <Widget>[
+                    Text("已隐藏", style: TextStyle(
+                      color: Color.fromRGBO(59,199,235,1),
+                      fontSize: ScreenUtil().setSp(24),
+                      fontWeight: FontWeight.w300
+                    ),),
+                    SizedBox(width: ScreenUtil().setWidth(18)),
+                    Image.asset('images/img_arrow_right_blue.png',
+                       width:ScreenUtil().setWidth(12),
+                       height: ScreenUtil().setHeight(20)
+                    )
+                  ],),
+                ],),
             ],
           ),
-          Container(
-            margin: EdgeInsets.only(top: 15),
-            height: 1,
-            color: Color.fromRGBO(242, 242, 242, 1),
-          ),
-        ],
-      ),
+        ),
+        Container(
+          height: ScreenUtil().setHeight(3),
+          color: Color.fromRGBO(245, 245, 245, 1),
+        ),
+      ],
     );
   }
 }

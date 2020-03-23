@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:recruit_app/model/job_manage_list.dart';
 import 'package:recruit_app/pages/boss/job_manage_detail.dart';
 import 'package:recruit_app/pages/boss/job_manage_item.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/widgets/common_appbar_widget.dart';
 
 class JobManage extends StatefulWidget {
   @override
@@ -20,33 +22,38 @@ class _JobManageState extends State<JobManage> {
     // TODO: implement build
     return Scaffold(
         backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-        appBar: AppBar(
-          leading: IconButton(
-              icon: Image.asset(
-                'images/ic_back_arrow.png',
-                width: 24,
-                height: 24,
-              ),
-              onPressed: () {
+        appBar: CommonAppBar(
+            leading: 'images/img_arrow_left_black.png',
+            leftListener: () {
                 Navigator.pop(context);
-              }),
-          automaticallyImplyLeading: false,
-          backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-          centerTitle: true,
-          title: Text('岗位管理',
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                  wordSpacing: 1,
-                  letterSpacing: 1,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromRGBO(37, 38, 39, 1))),
+            },
+            center: Container(
+               alignment: Alignment.center,
+               child: Column(
+                   crossAxisAlignment: CrossAxisAlignment.center,
+                   mainAxisAlignment: MainAxisAlignment.center,
+                   children: <Widget>[
+                       SizedBox(
+                           height: ScreenUtil().setHeight(7),
+                       ),
+                       Text('岗位管理',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                             fontSize: ScreenUtil().setSp(36), color: Color.fromRGBO(68,77,151,1), fontWeight: FontWeight.bold)),
+                       SizedBox(
+                           height: 3,
+                       ),
+                   ],
+               )),
+            backgroundColor: Color.fromRGBO(255, 255, 255, 1),
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+              Container(margin: EdgeInsets.only(top: ScreenUtil().setHeight(20)),
+                 color: Color.fromRGBO(245, 245, 245, 1), constraints: BoxConstraints.expand(height: ScreenUtil().setHeight(1))),
             Expanded(
               child: ListView.builder(
                 itemBuilder: (context, index) {
@@ -70,22 +77,6 @@ class _JobManageState extends State<JobManage> {
                 shrinkWrap: true,
                 physics: const BouncingScrollPhysics(),
               ),
-            ),
-            SafeArea(
-              top: false,
-              child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-                  child: MaterialButton(
-                    color: Color.fromRGBO(70, 192, 182, 1),
-                    onPressed: () {
-                    },
-                    textColor: Colors.white,
-                    child: Text("发布新职位"),
-                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                    ),
-                  )),
             ),
           ],
         ));
