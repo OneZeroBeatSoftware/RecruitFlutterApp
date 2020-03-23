@@ -1,16 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recruit_app/pages/mine/report.dart';
+import 'package:recruit_app/pages/mine/feedback.dart';
 import 'package:recruit_app/pages/msg/service_chat_room.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 
-class HelpReport extends StatefulWidget {
+class HelpFeedback extends StatefulWidget {
   @override
-  _HelpReportState createState() => _HelpReportState();
+  _HelpFeedbackState createState() => _HelpFeedbackState();
 }
 
-class _HelpReportState extends State<HelpReport> {
+class _HelpFeedbackState extends State<HelpFeedback> {
   @override
   void initState() {
     // TODO: implement initState
@@ -137,7 +137,7 @@ class _HelpReportState extends State<HelpReport> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => Report()));
+                        builder: (context) => CraftFeedback()));
             },
           ),
         ],

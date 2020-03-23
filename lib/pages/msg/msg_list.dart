@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/pages/jobs/chat_room.dart';
 import 'package:recruit_app/pages/jobs/job_detail.dart';
 import 'package:recruit_app/pages/msg/msg_chat_item.dart';
 import 'package:recruit_app/pages/msg/msg_interview_item.dart';
@@ -144,9 +145,13 @@ class _MsgListState extends State<MsgList> {
                     delegate: SliverChildBuilderDelegate((cxt, idx) {
                       var key = GlobalKey<SlideButtonState>();
                       if (_firstType && _secondType) {
-                        return MsgChatItem(btnKey: key);
+                        return GestureDetector(onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>ChatRoom()));
+                        },behavior: HitTestBehavior.opaque,child: MsgChatItem(btnKey: key),);
                       } else if (_firstType && !_secondType) {
-                        return MsgChatItem(btnKey: key);
+                        return GestureDetector(onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>ChatRoom()));
+                        },behavior: HitTestBehavior.opaque,child: MsgChatItem(btnKey: key),);
                       } else if (!_firstType && _secondType) {
                         return GestureDetector(onTap: (){
                           Navigator.push(context, MaterialPageRoute(builder: (context)=>JobDetail(jobDetailType: JobDetailType.interview,)));

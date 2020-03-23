@@ -8,7 +8,7 @@ import 'package:recruit_app/pages/mine/about_soft.dart';
 import 'package:recruit_app/pages/mine/black_list.dart';
 import 'package:recruit_app/pages/mine/collection.dart';
 import 'package:recruit_app/pages/mine/communicate.dart';
-import 'package:recruit_app/pages/mine/help_report.dart';
+import 'package:recruit_app/pages/mine/help_feedback.dart';
 import 'package:recruit_app/pages/mine/job_intent.dart';
 import 'package:recruit_app/pages/mine/mine_interview.dart';
 import 'package:recruit_app/pages/mine/resume_list.dart';
@@ -316,7 +316,7 @@ class _MineState extends State<Mine> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => HelpReport()));
+                              builder: (context) => HelpFeedback()));
                     } else if (index == 5) {
                       Navigator.push(
                           context,

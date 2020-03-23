@@ -7,8 +7,10 @@ import 'package:recruit_app/model/job_model.dart';
 import 'package:recruit_app/pages/companys/company_detail.dart';
 import 'package:recruit_app/pages/jobs/chat_room.dart';
 import 'package:recruit_app/pages/jobs/list_menu_dialog.dart';
+import 'package:recruit_app/pages/jobs/report.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/craft_date_time_picker.dart';
+import 'package:recruit_app/widgets/craft_share_board.dart';
 import 'package:recruit_app/widgets/remind_dialog.dart';
 
 enum JobDetailType {job, interview}
@@ -128,7 +130,7 @@ class _JobDetailState extends State<JobDetail> {
                             },
                             itemSelected: (){
                               Navigator.pop(context);
-
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>Report()));
                             },
                             lists: _reports,
                           ),
@@ -148,7 +150,9 @@ class _JobDetailState extends State<JobDetail> {
               ),
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
-                onTap: () {},
+                onTap: () {
+                  shareJob();
+                },
                 child: Image.asset(
                   'images/img_share.png',
                   width: ScreenUtil().setWidth(36),
@@ -548,6 +552,18 @@ class _JobDetailState extends State<JobDetail> {
 
                 ],
               ));
+  }
+
+  /// 分享
+  void shareJob(){
+    showCupertinoModalPopup(
+      context: context,
+      builder: (context) {
+        return ShareBoard(
+          title: '分享',
+        );
+      },
+    );
   }
 
   /// 取消面试

@@ -137,7 +137,7 @@ class _CompanyDetailState extends State<CompanyDetail> {
                                 Radius.circular(ScreenUtil().setWidth(10))),
                           ),
                           child: Text(
-                            _isFocus?'+  关注':'未关注',
+                            _isFocus?'+  关注':'已关注',
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: ScreenUtil().setSp(16)),

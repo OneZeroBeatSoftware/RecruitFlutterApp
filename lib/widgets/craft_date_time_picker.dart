@@ -165,7 +165,7 @@ class _CraftDateTimePickerState extends State<CraftDateTimePicker> {
                       onTap: () {
                         if (widget.confirm != null) {
                           widget.confirm(DateTime(int.parse(_years[_yearPos]),
-                              int.parse(_months[_monthPos])));
+                              int.parse(_months[_monthPos]),int.parse(_days[_dayPos]),int.parse(_hours[_hourPos]),int.parse(_minutes[_minPos]),),);
                         }
                       },
                       child: Text(

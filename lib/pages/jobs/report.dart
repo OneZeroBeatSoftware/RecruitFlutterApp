@@ -3,7 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 
+enum ReportType {
+  job,company
+}
 class Report extends StatefulWidget {
+  final ReportType reportType;
+
+  Report({this.reportType=ReportType.job});
+
   @override
   _ReportState createState() => _ReportState();
 }
@@ -35,7 +42,7 @@ class _ReportState extends State<Report> {
           Navigator.pop(context);
         },
         center: Text(
-          '反馈',
+          '提交证据',
           style: TextStyle(
               color: Color.fromRGBO(68, 77, 151, 1),
               fontSize: ScreenUtil().setSp(36),
@@ -49,7 +56,7 @@ class _ReportState extends State<Report> {
           child: Padding(
             padding: EdgeInsets.only(right: ScreenUtil().setWidth(20)),
             child: Text(
-              '提交',
+              '确定',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
@@ -76,7 +83,7 @@ class _ReportState extends State<Report> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Text(
-                  '反馈内容',
+                  '请说明举报的具体原因',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: TextStyle(
@@ -102,7 +109,7 @@ class _ReportState extends State<Report> {
                       color: Color.fromRGBO(95, 94, 94, 1)),
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor: Color.fromRGBO(255, 248, 248, 1),
+                    fillColor: Color.fromRGBO(245, 245, 245, 1),
                     contentPadding: EdgeInsets.all(
                       ScreenUtil().setWidth(20),
                     ),
@@ -114,7 +121,7 @@ class _ReportState extends State<Report> {
                         ),
                       ),
                     ),
-                    hintText: '请简要说明您遇到的问题和意见，以便我们为您提供更好的帮助',
+                    hintText: '说明你遇到的问题',
                     hintStyle: TextStyle(
                       fontSize: ScreenUtil().setSp(24),
                       color: Color.fromRGBO(95, 94, 94, 1),
@@ -143,7 +150,7 @@ class _ReportState extends State<Report> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Text(
-                  '图片上传',
+                  '图片上传（提供证据截图）',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: TextStyle(
