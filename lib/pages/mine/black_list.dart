@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/model/company_list.dart';
+import 'package:recruit_app/pages/companys/company_detail.dart';
 import 'package:recruit_app/pages/mine/black_list_item.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/slide_button.dart';
@@ -48,11 +49,18 @@ class _BlackListSate extends State<BlackList> {
                 itemBuilder: (context, index) {
                   if (index < _companyList.length) {
                     var btnKey = GlobalKey<SlideButtonState>();
-                    return BlackListItem(
+                    return GestureDetector(
+                      behavior: HitTestBehavior.opaque, child: BlackListItem(
                         btnKey: btnKey,
                         company: _companyList[index],
                         index: index,
-                        lastItem: index == _companyList.length - 1);
+                        lastItem: index == _companyList.length - 1), onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CompanyDetail(),
+                          ));
+                    },);
                   }
                   return null;
                 },

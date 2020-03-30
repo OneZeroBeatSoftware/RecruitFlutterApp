@@ -1,20 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
-import 'package:recruit_app/entity/user_entity.dart';
-import 'package:recruit_app/model/identity_model.dart';
-import 'package:recruit_app/model/user_model.dart';
-import 'package:recruit_app/pages/account/login/login_type.dart';
 import 'package:recruit_app/pages/jobs/chat_setting_remark.dart';
 import 'package:recruit_app/pages/jobs/report.dart';
-import 'package:recruit_app/pages/setting/account_bind_setting.dart';
-import 'package:recruit_app/pages/setting/notify_setting.dart';
-import 'package:recruit_app/pages/setting/private_setting.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/common_switch_widget.dart';
 import 'package:recruit_app/widgets/list_menu_dialog.dart';
-import 'package:recruit_app/widgets/remind_dialog.dart';
 
 class ChatSetting extends StatefulWidget {
   @override

@@ -127,7 +127,7 @@ class JobRowItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Expanded(
-                  child: Wrap(
+                  child: job.treatments!=null?Wrap(
                 children: job.treatments
                     .asMap()
                     .keys
@@ -143,7 +143,7 @@ class JobRowItem extends StatelessWidget {
                       ),
                     )
                     .toList(),
-              )),
+              ):Container()),
               SizedBox(
                 width: ScreenUtil().setWidth(8),
               ),

@@ -4,7 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:recruit_app/model/company_list.dart';
 import 'package:recruit_app/model/job_model.dart';
+import 'package:recruit_app/pages/companys/company_detail.dart';
 import 'package:recruit_app/pages/companys/company_row_item.dart';
+import 'package:recruit_app/pages/jobs/job_detail.dart';
 import 'package:recruit_app/pages/jobs/job_row_item.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/slide_button.dart';
@@ -132,18 +134,37 @@ class _CollectionSate extends State<Collection> {
                           : _jobModel.jobList.length)) {
                     var btnKey = GlobalKey<SlideButtonState>();
 
-                    return   SlideButton(
+                    return SlideButton(
                       key: btnKey,
                       singleButtonWidth: ScreenUtil().setWidth(116),
                       child: _selectFilterType == 0
-                          ? CompanyRowItem(
-                          company: _companyList[index],
-                          index: index,
-                          lastItem: index == _companyList.length - 1)
-                          : JobRowItem(
-                          job: _jobModel.jobList[index],
-                          index: index,
-                          lastItem: index == _jobModel.jobList.length - 1),
+                          ? GestureDetector(onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CompanyDetail(),
+                            ));
+                      },
+                        behavior: HitTestBehavior.opaque,
+                        child: CompanyRowItem(
+                            company: _companyList[index],
+                            index: index,
+                            lastItem: index == _companyList.length - 1),)
+                          : GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        child: JobRowItem(
+                            job: _jobModel.jobList[index],
+                            index: index,
+                            lastItem: index == _jobModel.jobList.length - 1),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    JobDetail(
+                                        jobId: _jobModel.jobList[index].id),
+                              ));
+                        },),
                       buttons: <Widget>[
                         buildAction(btnKey, Colors.red, () {
                           btnKey.currentState.close();

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/pages/jobs/job_detail.dart';
 import 'package:recruit_app/pages/msg/msg_interview_item.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/slide_button.dart';
@@ -42,7 +43,9 @@ class _MineInterViewState extends State<MineInterView> {
               itemBuilder: (context, idx) {
                 var key = GlobalKey<SlideButtonState>();
                 if (idx < 10) {
-                  return MsgInterviewItem(btnKey: key);
+                  return GestureDetector(onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>JobDetail(jobDetailType: JobDetailType.interview,)));
+                  },behavior: HitTestBehavior.opaque,child: MsgInterviewItem(btnKey: key),);
                 }
                 return null;
               },

@@ -1,10 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recruit_app/pages/mine/industry_type.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
-import 'package:recruit_app/widgets/craft_date_picker.dart';
-import 'package:recruit_app/widgets/remind_dialog.dart';
 
 class ChatRemarkSetting extends StatefulWidget {
   @override
