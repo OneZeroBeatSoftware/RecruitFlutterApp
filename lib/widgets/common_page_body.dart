@@ -1,10 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:recruit_app/model/company_attr.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recruit_app/widgets/common_appbar_widget.dart';
-import 'package:recruit_app/widgets/profile_divider.dart';
-import 'package:recruit_app/pages/boss/company_base_info.dart';
 import 'package:recruit_app/widgets/common_appbar_divider.dart';
 
 class CommonPageBody extends StatelessWidget {

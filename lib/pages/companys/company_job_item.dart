@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/model/job_list.dart';
 
 class CompanyJobItem extends StatelessWidget {
@@ -12,104 +13,76 @@ class CompanyJobItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final jobItem = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: <Widget>[
-        SizedBox(height: 15,),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Expanded(
-              child: Text(job.jobName,
+    final jobItem = Container(
+      padding: EdgeInsets.symmetric(
+        vertical: ScreenUtil().setWidth(40),
+      ),
+      decoration: BoxDecoration(
+        border: Border(
+            bottom: BorderSide(
+                color: Color.fromRGBO(159, 199, 235, 1),
+                width: ScreenUtil().setWidth(1))),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: Text(
+                  job.jobName,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                      wordSpacing: 1,
-                      letterSpacing: 1,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black)),
-            ),
-            SizedBox(width: 8),
-            Text('${job.leastSalary}-${job.highestSalary}K•${job.count}薪',
-                style: const TextStyle(
-                    wordSpacing: 1,
-                    letterSpacing: 1,
-                    fontSize: 14,
+                  style: TextStyle(
+                    fontSize: ScreenUtil().setSp(32),
                     fontWeight: FontWeight.bold,
-                    color: Color.fromRGBO(70, 192, 182, 1))),
-          ],
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Wrap(
-          spacing: 6,
-          runSpacing: 6,
-          children: job.label.map((item) {
-            return new Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 4,
+                    color: Color.fromRGBO(57, 57, 57, 1),
+                  ),
+                ),
+              ),
+              SizedBox(width: 8),
+              Text(
+                '${job.leastSalary}-${job.highestSalary}K',
+                style: TextStyle(
+                  fontSize: ScreenUtil().setSp(32),
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromRGBO(68, 77, 151, 1),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: ScreenUtil().setWidth(12),
+          ),
+          Wrap(
+            spacing: ScreenUtil().setWidth(12),
+            runSpacing: ScreenUtil().setWidth(12),
+            children: job.label.map((item) {
+              return new Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: ScreenUtil().setWidth(16),
+                  vertical: ScreenUtil().setWidth(6),
                 ),
                 decoration: new BoxDecoration(
-                  color: Colors.grey[100],
-                  borderRadius: new BorderRadius.circular(4.0),
+                  color: Color.fromRGBO(248, 248, 248, 1),
+                  borderRadius:
+                      new BorderRadius.circular(ScreenUtil().setWidth(8)),
                 ),
-                child: Text(item,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 10, color: Colors.grey[600])));
-          }).toList(),
-        ),
-        SizedBox(
-          height: 15,
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.asset(
-                'images/avatar_${index % 16 + 1}.png',
-                width: 20,
-                height: 20,
-                fit: BoxFit.cover,
-              ),
-            ),
-            SizedBox(
-              width: 6,
-            ),
-            Flexible(
-                child: Text(job.hr,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        letterSpacing: 1,
-                        wordSpacing: 1,
-                        fontSize: 12,
-                        color: Colors.grey[600]))),
-            Text('•${job.hrPos}',
-                style: TextStyle(
-                    wordSpacing: 1,
-                    letterSpacing: 1,
-                    fontSize: 12,
-                    color: Colors.grey[600])),
-          ],
-        ),
-        SizedBox(height: 15,),
-      ],
+                child: Text(
+                  item,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: ScreenUtil().setSp(24),
+                    color: Color.fromRGBO(95, 94, 94, 1),
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+        ],
+      ),
     );
-    return Column(
-      children: <Widget>[
-        jobItem,
-        Container(
-          color: Color.fromRGBO(248, 248, 248, 1),
-          height: 2,
-        ),
-      ],
-    );
+    return jobItem;
   }
 }

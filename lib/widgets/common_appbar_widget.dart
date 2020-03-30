@@ -43,6 +43,7 @@ class _CommonAppBarState extends State<CommonAppBar> {
                   horizontal: ScreenUtil().setWidth(24),
                 ),
                 child: Row(
+                  mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Image.asset(

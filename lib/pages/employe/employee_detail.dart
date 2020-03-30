@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:recruit_app/pages/employe/boss_chat_room.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recruit_app/pages/jobs/list_menu_dialog.dart';
+import 'package:recruit_app/widgets/list_menu_dialog.dart';
 import 'package:recruit_app/pages/employe/employee_experience.dart';
 import 'package:recruit_app/pages/employe/employee_experience2.dart';
 
@@ -129,7 +129,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                             confirm: () {
                               Navigator.pop(context);
                             },
-                            itemSelected: (){
+                            itemSelected: (index){
                               Navigator.pop(context);
                       
                             },

@@ -6,7 +6,7 @@ import 'package:recruit_app/entity/job_detail_entity.dart';
 import 'package:recruit_app/model/job_model.dart';
 import 'package:recruit_app/pages/companys/company_detail.dart';
 import 'package:recruit_app/pages/jobs/chat_room.dart';
-import 'package:recruit_app/pages/jobs/list_menu_dialog.dart';
+import 'package:recruit_app/widgets/list_menu_dialog.dart';
 import 'package:recruit_app/pages/jobs/report.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/craft_date_time_picker.dart';
@@ -128,7 +128,7 @@ class _JobDetailState extends State<JobDetail> {
                             confirm: () {
                               Navigator.pop(context);
                             },
-                            itemSelected: (){
+                            itemSelected: (index){
                               Navigator.pop(context);
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>Report()));
                             },
@@ -591,7 +591,7 @@ class _JobDetailState extends State<JobDetail> {
               confirm: () {
                 Navigator.pop(context);
               },
-              itemSelected: (){
+              itemSelected: (index){
                 Navigator.pop(context);
                 showDialog(
                   context: context,

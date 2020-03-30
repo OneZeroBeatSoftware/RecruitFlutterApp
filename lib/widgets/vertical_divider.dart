@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:recruit_app/model/job_manage_list.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProfileVerticalDivider extends StatelessWidget {

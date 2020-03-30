@@ -2,9 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
-import 'package:recruit_app/widgets/common_appbar_divider.dart';
 import 'package:recruit_app/widgets/common_page_body.dart';
-import 'package:recruit_app/style/profile_style.dart';
 
 class CompanyIntroduction extends StatefulWidget {
 	@override

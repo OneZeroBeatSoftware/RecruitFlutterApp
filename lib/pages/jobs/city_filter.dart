@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/entity/city_entity.dart';
 import 'package:recruit_app/model/job_filter_data.dart';
-import 'package:recruit_app/pages/jobs/list_menu_dialog.dart';
+import 'package:recruit_app/widgets/list_menu_dialog.dart';
 import 'package:recruit_app/pages/jobs/job_filter_item.dart';
 import 'package:recruit_app/utils/net_utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
@@ -179,7 +179,7 @@ class _CityFilterState extends State<CityFilter> {
                         confirm: () {
                           Navigator.pop(context);
                         },
-                        itemSelected: (){
+                        itemSelected: (index){
                           Navigator.pop(context);
                         },
                         lists: _area,
@@ -283,7 +283,7 @@ class _CityFilterState extends State<CityFilter> {
                                     confirm: () {
                                       Navigator.pop(context);
                                     },
-                                    itemSelected: (){
+                                    itemSelected: (index){
                                       Navigator.pop(context);
                                       Navigator.pop(context,item.filterName);
                                     },

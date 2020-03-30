@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/model/job_type_data.dart';
-import 'package:recruit_app/pages/jobs/list_menu_dialog.dart';
+import 'package:recruit_app/widgets/list_menu_dialog.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 
@@ -185,7 +185,7 @@ class _JobTypeState extends State<JobType> {
                                         confirm: () {
                                           Navigator.pop(context);
                                         },
-                                        itemSelected: () {
+                                        itemSelected: (index) {
                                           setState(() {
                                             _selNum++;
                                             item.isChecked = true;

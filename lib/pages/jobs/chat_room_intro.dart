@@ -1,165 +1,163 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ChatRoomIntro extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-        child: Card(
-          elevation: 0,
-          color: Colors.white,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(5.0)),
+        padding: EdgeInsets.only(
+            left: ScreenUtil().setWidth(48),
+            right: ScreenUtil().setWidth(48),
+            top: ScreenUtil().setWidth(28),
+            bottom: ScreenUtil().setWidth(20)),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius:
+                BorderRadius.all(Radius.circular(ScreenUtil().setWidth(20))),
+            boxShadow: [
+              BoxShadow(
+                  color: Color.fromRGBO(65, 123, 176, 0.1),
+                  offset: Offset(0, ScreenUtil().setWidth(6)),
+                  blurRadius: 8,
+                  spreadRadius: ScreenUtil().setWidth(12))
+            ],
           ),
-          clipBehavior: Clip.antiAlias,
-          semanticContainer: false,
           child: Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding:
+                EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(36)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
+                SizedBox(
+                  height: ScreenUtil().setWidth(24),
+                ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Expanded(
-                      child: Text('apm高级产品经理',
+                      child: Text('品牌设计师',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
+                          style: TextStyle(
                               wordSpacing: 1,
                               letterSpacing: 1,
-                              fontSize: 16,
+                              fontSize: ScreenUtil().setSp(32),
                               fontWeight: FontWeight.bold,
-                              color: Colors.black)),
+                              color: Color.fromRGBO(20, 20, 20, 1))),
                     ),
-                    SizedBox(width: 8),
-                    Text('20-30K•14薪',
-                        style: const TextStyle(
+                    SizedBox(width: ScreenUtil().setWidth(16)),
+                    Text('5.5-7K',
+                        style: TextStyle(
                             wordSpacing: 1,
                             letterSpacing: 1,
-                            fontSize: 14,
+                            fontSize: ScreenUtil().setSp(32),
                             fontWeight: FontWeight.bold,
-                            color: Color.fromRGBO(70, 192, 182, 1))),
+                            color: Color.fromRGBO(68, 77, 151, 1))),
                   ],
                 ),
                 SizedBox(
-                  height: 8,
+                  height: ScreenUtil().setWidth(20),
                 ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Flexible(
-                        child: Text('腾讯科技',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                wordSpacing: 1,
-                                letterSpacing: 1,
-                                fontSize: 13,
-                                color: Colors.grey[600]))),
-                    SizedBox(width: 8),
-                    Text('已上市',
+                Wrap(
+                  spacing: ScreenUtil().setWidth(12),
+                  runSpacing: ScreenUtil().setWidth(12),
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: ScreenUtil().setWidth(24),
+                          vertical: ScreenUtil().setWidth(4)),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(
+                          ScreenUtil().setWidth(1000),
+                        ),
+                        border: Border.all(
+                          color: Color.fromRGBO(159, 199, 235, 1),
+                          width: ScreenUtil().setWidth(1),
+                        ),
+                      ),
+                      child: Text(
+                        '福州仓山',
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                            wordSpacing: 1,
-                            letterSpacing: 1,
-                            fontSize: 13,
-                            color: Colors.grey[600])),
-                  ],
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                Wrap(spacing: 6, runSpacing: 6, children: <Widget>[
-                  Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
-                      decoration: new BoxDecoration(
-                        color: Colors.grey[100],
-                        borderRadius: new BorderRadius.circular(4.0),
-                      ),
-                      child: Text('策略产品',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 10, color: Colors.grey[600]))),
-                  Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
-                      decoration: new BoxDecoration(
-                        color: Colors.grey[100],
-                        borderRadius: new BorderRadius.circular(4.0),
-                      ),
-                      child: Text('性能管理',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 10, color: Colors.grey[600]))),
-                  Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
-                      decoration: new BoxDecoration(
-                        color: Colors.grey[100],
-                        borderRadius: new BorderRadius.circular(4.0),
-                      ),
-                      child: Text('性能监控',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 10, color: Colors.grey[600]))),
-                ]),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: Image.asset(
-                        'images/avatar_1.png',
-                        width: 30,
-                        height: 30,
-                        fit: BoxFit.cover,
+                          fontSize: ScreenUtil().setSp(22),
+                          color: Color.fromRGBO(159, 199, 235, 1),
+                        ),
                       ),
                     ),
-                    SizedBox(
-                      width: 6,
-                    ),
-                    Flexible(
-                        child: Text('胡京茹',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                letterSpacing: 1,
-                                wordSpacing: 1,
-                                fontSize: 12,
-                                color: Colors.grey[600]))),
-                    Text('•招聘者',
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: ScreenUtil().setWidth(24),
+                          vertical: ScreenUtil().setWidth(4)),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(
+                          ScreenUtil().setWidth(1000),
+                        ),
+                        border: Border.all(
+                          color: Color.fromRGBO(159, 199, 235, 1),
+                          width: ScreenUtil().setWidth(1),
+                        ),
+                      ),
+                      child: Text(
+                        '1-3年',
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                            wordSpacing: 1,
-                            letterSpacing: 1,
-                            fontSize: 12,
-                            color: Colors.grey[600])),
+                          fontSize: ScreenUtil().setSp(22),
+                          color: Color.fromRGBO(159, 199, 235, 1),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: ScreenUtil().setWidth(24),
+                          vertical: ScreenUtil().setWidth(4)),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(
+                          ScreenUtil().setWidth(1000),
+                        ),
+                        border: Border.all(
+                          color: Color.fromRGBO(159, 199, 235, 1),
+                          width: ScreenUtil().setWidth(1),
+                        ),
+                      ),
+                      child: Text(
+                        '本科',
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: ScreenUtil().setSp(22),
+                          color: Color.fromRGBO(159, 199, 235, 1),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
                 Container(
-                  color: Color.fromRGBO(232, 234, 235, 1),
-                  height: 1,
-                  margin: EdgeInsets.symmetric(vertical: 10),
-                ),
-                Text(
-                  '12月16日 20:49 由你发起沟通',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      fontSize: 13, color: Color.fromRGBO(184, 186, 188, 1)),
+                  margin: EdgeInsets.only(top: ScreenUtil().setWidth(24)),
+                  padding:
+                      EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(20)),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      top: BorderSide(
+                        color: Color.fromRGBO(159, 199, 235, 1),
+                        width: ScreenUtil().setWidth(1),
+                      ),
+                    ),
+                  ),
+                  child: Text(
+                    '1月12日09:51由他发起的沟通',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontSize: ScreenUtil().setSp(24), color: Color.fromRGBO(176, 181, 180, 1)),
+                  ),
                 ),
               ],
             ),

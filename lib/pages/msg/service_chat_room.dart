@@ -47,9 +47,6 @@ class _ServiceChatRoomState extends State<ServiceChatRoom> {
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Color.fromRGBO(20, 20, 20, 1))),
-              SizedBox(
-                height: 8,
-              ),
               Text('在线',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,

@@ -17,6 +17,230 @@ class ChatRowItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (index == 1) {
+      return Padding(
+        padding: EdgeInsets.only(
+            left: ScreenUtil().setWidth(136),
+            top: ScreenUtil().setWidth(20),
+            bottom: ScreenUtil().setWidth(40),
+            right: ScreenUtil().setWidth(48)),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(
+                      Radius.circular(ScreenUtil().setWidth(20))),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Color.fromRGBO(65, 123, 176, 0.1),
+                        offset: Offset(0, ScreenUtil().setWidth(6)),
+                        blurRadius: 8,
+                        spreadRadius: ScreenUtil().setWidth(12))
+                  ],
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: ScreenUtil().setWidth(28),
+                        vertical: ScreenUtil().setWidth(36),
+                      ),
+                      child: Text(
+                        '我想与您交换电话号码可以吗？',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          height: 1.5,
+                          fontSize: ScreenUtil().setSp(26),
+                          color: Color.fromRGBO(95, 94, 94, 1),
+                        ),
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            color: Color.fromRGBO(159, 199, 235, 1),
+                            width: ScreenUtil().setWidth(1),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Container(
+                            height: ScreenUtil().setWidth(76),
+                            alignment: Alignment.center,
+                            child: Text(
+                              '拒绝',
+                              textAlign: TextAlign.center,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  color: Color.fromRGBO(159, 199, 235, 1),
+                                  fontSize: ScreenUtil().setSp(26)),
+                            ),
+                          ),
+                        ),
+                        Container(
+                            height: ScreenUtil().setWidth(76),
+                            color: Color.fromRGBO(159, 199, 235, 1),
+                            width: ScreenUtil().setWidth(1)),
+                        Expanded(
+                          child: Container(
+                            height: ScreenUtil().setWidth(76),
+                            alignment: Alignment.center,
+                            child: Text(
+                              '接受',
+                              textAlign: TextAlign.center,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  color: Color.fromRGBO(159, 199, 235, 1),
+                                  fontSize: ScreenUtil().setSp(26)),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              width: ScreenUtil().setWidth(12),
+            ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(
+                ScreenUtil().setWidth(44),
+              ),
+              child: Image.asset(
+                chat.sender,
+                width: ScreenUtil().setWidth(88),
+                height: ScreenUtil().setWidth(88),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    if (index == 3) {
+      return Padding(
+        padding: EdgeInsets.only(
+            left: ScreenUtil().setWidth(48),
+            top: ScreenUtil().setWidth(20),
+            right: ScreenUtil().setWidth(136)),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            ClipRRect(
+              borderRadius: BorderRadius.circular(
+                ScreenUtil().setWidth(44),
+              ),
+              child: Image.asset(
+                chat.sender,
+                width: ScreenUtil().setWidth(88),
+                height: ScreenUtil().setWidth(88),
+                fit: BoxFit.cover,
+              ),
+            ),
+            SizedBox(
+              width: ScreenUtil().setWidth(12),
+            ),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(
+                      Radius.circular(ScreenUtil().setWidth(20))),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Color.fromRGBO(65, 123, 176, 0.1),
+                        offset: Offset(0, ScreenUtil().setWidth(6)),
+                        blurRadius: 8,
+                        spreadRadius: ScreenUtil().setWidth(12))
+                  ],
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: ScreenUtil().setWidth(28),
+                        vertical: ScreenUtil().setWidth(36),
+                      ),
+                      child: Text(
+                        '我想邀请您2月10号下午3:30参加公司面试品牌设计师岗位',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          height: 1.5,
+                          fontSize: ScreenUtil().setSp(26),
+                          color: Color.fromRGBO(95, 94, 94, 1),
+                        ),
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            color: Color.fromRGBO(159, 199, 235, 1),
+                            width: ScreenUtil().setWidth(1),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Container(
+                            height: ScreenUtil().setWidth(76),
+                            alignment: Alignment.center,
+                            child: Text(
+                              '已拒绝',
+                              textAlign: TextAlign.center,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  color: Color.fromRGBO(159, 199, 235, 1),
+                                  fontSize: ScreenUtil().setSp(26)),
+                            ),
+                          ),
+                        ),
+                        Container(
+                            height: ScreenUtil().setWidth(76),
+                            color: Color.fromRGBO(159, 199, 235, 1),
+                            width: ScreenUtil().setWidth(1)),
+                        Expanded(
+                          child: Container(
+                            height: ScreenUtil().setWidth(76),
+                            alignment: Alignment.center,
+                            child: Text(
+                              '接受',
+                              textAlign: TextAlign.center,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  color: Color.fromRGBO(176, 181, 180, 1),
+                                  fontSize: ScreenUtil().setSp(26)),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
     if (index % 2 == 0) {
       return Padding(
         padding: EdgeInsets.only(

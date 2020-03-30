@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recruit_app/widgets/common_appbar_widget.dart';
 
 class CommonAppBarDivider extends StatelessWidget {
 	
