@@ -47,6 +47,7 @@ class _CityFilterState extends State<CityFilter> {
 
   @override
   Widget build(BuildContext context) {
+    double wrapWidth=(ScreenUtil.screenWidthDp-ScreenUtil().setWidth(96)-ScreenUtil().setWidth(36))/3;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CommonAppBar(
@@ -192,7 +193,7 @@ class _CityFilterState extends State<CityFilter> {
             child: Container(
               margin:
                   EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(48)),
-              width: ScreenUtil().setWidth(206),
+              width: wrapWidth,
               height: ScreenUtil().setWidth(50),
               alignment: Alignment.center,
               padding: EdgeInsets.symmetric(

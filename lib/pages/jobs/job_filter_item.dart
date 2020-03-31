@@ -14,6 +14,7 @@ class JobFilterItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double wrapWidth=(ScreenUtil.screenWidthDp-ScreenUtil().setWidth(96)-ScreenUtil().setWidth(36))/3;
     final filterItem = Padding(
       padding: EdgeInsets.only(
         left: ScreenUtil().setWidth(48),
@@ -44,7 +45,7 @@ class JobFilterItem extends StatelessWidget {
                   (item) => GestureDetector(behavior: HitTestBehavior.opaque,onTap: (){
                     onTap(item);
                   },child: Container(
-                    width: ScreenUtil().setWidth(206),
+                    width: wrapWidth,
                     height: ScreenUtil().setWidth(50),
                     alignment: Alignment.center,
                     padding: EdgeInsets.symmetric(

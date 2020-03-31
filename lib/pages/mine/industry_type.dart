@@ -32,6 +32,7 @@ class _IndustryTypeState extends State<IndustryType> {
 
   @override
   Widget build(BuildContext context) {
+    double wrapWidth=(ScreenUtil.screenWidthDp-ScreenUtil().setWidth(96)-ScreenUtil().setWidth(36))/3;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -210,7 +211,7 @@ class _IndustryTypeState extends State<IndustryType> {
                         }
                       },
                       child: Container(
-                        width: ScreenUtil().setWidth(206),
+                        width: wrapWidth,
                         height: ScreenUtil().setWidth(50),
                         alignment: Alignment.center,
                         padding: EdgeInsets.symmetric(
