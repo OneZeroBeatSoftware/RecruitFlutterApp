@@ -21,6 +21,92 @@ class ProfileStyle {
 	static Widget divider = ProfileDivider(marginBottom: 40);
 }
 
+class ProfileDivider2 extends StatelessWidget {
+	@override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Container(
+       height: ScreenUtil().setHeight(1),
+	    decoration: BoxDecoration(
+		    color: Color.fromRGBO(159,199,235,1),
+	    ),
+    );
+  }
+}
+
+class ProfileInput extends StatelessWidget {
+	String title;
+	String value;
+	String placeholder = '';
+	ProfileInput({this.title, this.value, this.placeholder = '请输入内容'});
+	
+	@override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+	return Column(
+		crossAxisAlignment: CrossAxisAlignment.start,
+		children: <Widget>[
+			Text(title, style: ProfileStyle.titleStyle),
+			SizedBox(height: ScreenUtil().setHeight(10)),
+			TextField(
+				style: ProfileStyle.valueStyle,
+				decoration: InputDecoration(
+					hintText: placeholder,
+					border: InputBorder.none,
+				),
+			),
+			SizedBox(height: ScreenUtil().setHeight(10)),
+			ProfileDivider2(),
+			SizedBox(height: ScreenUtil().setHeight(40)),
+		],
+	);
+  }
+}
+
+class ProfileText extends StatelessWidget {
+	String title;
+	String value;
+	bool canClick;
+	VoidCallback onClick;
+	ProfileText({this.title, this.value, this.canClick = false, this.onClick});
+	
+	@override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+	List<Widget> bottomW = <Widget>[];
+	bottomW.add(Text(value));
+	
+	if(canClick) {
+		bottomW.add(Image.asset('images/img_arrow_right_blue.png',
+		   width:ScreenUtil().setWidth(12),
+		   height: ScreenUtil().setHeight(20)
+		));
+	}
+	
+	return Column(
+		crossAxisAlignment: CrossAxisAlignment.start,
+		children: <Widget>[
+			Text(title, style: ProfileStyle.titleStyle),
+			SizedBox(height: ScreenUtil().setHeight(10)),
+			GestureDetector(
+				onTap: () {
+					if(canClick && onClick != null) {
+						onClick();
+					}
+				},
+				child: Row(
+					mainAxisAlignment: MainAxisAlignment.spaceBetween,
+					children: bottomW,
+				),
+			),
+			SizedBox(height: ScreenUtil().setHeight(20)),
+			ProfileDivider2(),
+			SizedBox(height: ScreenUtil().setHeight(40)),
+		],
+	);
+  }
+}
+
 class ProfileItem extends StatelessWidget {
 	String title;
 	String value;
@@ -43,6 +129,7 @@ class ProfileItem extends StatelessWidget {
 					}
 			    },
 		    ),
+		    ProfileStyle.divider,
 	    ],
     );
   }
@@ -62,30 +149,27 @@ class NextLevel extends StatelessWidget {
 			tailWs.add(valueW);
 			tailWs.add(SizedBox(width: ScreenUtil().setWidth(10)));
 		}
-		
-		tailWs.add(
-		   GestureDetector(
-			   child: Image.asset('images/img_arrow_right_blue.png',
-				   width:ScreenUtil().setWidth(14),
-				   height: ScreenUtil().setHeight(22)
-				),
-			    onTap: () {
-			   	    if(onClick != null) {
-			   	    	onClick();
-			        }
-			    },
-			)
-		);
+		tailWs.add(Image.asset('images/img_arrow_right_blue.png',
+		   width:ScreenUtil().setWidth(14),
+		   height: ScreenUtil().setHeight(22)));
 		
 		// TODO: implement build
-		return Row(
-			mainAxisAlignment: MainAxisAlignment.spaceBetween,
-			children: <Widget>[
-				this.titleW,
-				Row(
-					children: tailWs,
-				),
-			],
+		return GestureDetector(
+			onTap: () {
+				if(onClick != null) {
+					onClick();
+				}
+			},
+			child: Row(
+				mainAxisAlignment: MainAxisAlignment.spaceBetween,
+				
+				children: <Widget>[
+					this.titleW,
+					Row(
+						children: tailWs,
+					),
+				],
+			),
 		);
 	}
 	

@@ -3,8 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/common_page_body.dart';
 import 'package:recruit_app/style/profile_style.dart';
-
-
+import 'package:recruit_app/widgets/menu_list_dialog.dart';
+import 'package:recruit_app/pages/mine/industry_type.dart';
+import 'package:recruit_app/pages/boss/company_business_license.dart';
+import 'package:recruit_app/pages/boss/company_name.dart';
 
 class CompanyBaseInfo extends StatefulWidget {
 	@override
@@ -16,6 +18,7 @@ class CompanyBaseInfo extends StatefulWidget {
 }
 
 class _State extends State<CompanyBaseInfo> {
+	String _industry = 'o2o';
 	
 	@override
   Widget build(BuildContext context) {
@@ -84,32 +87,43 @@ class _State extends State<CompanyBaseInfo> {
 				    title: "公司名称",
 				    value: "福建一零跳动",
 				    onClick: () {
-				    
+					    Navigator.push<String>(
+					       context,
+					       MaterialPageRoute(
+						      builder: (context) => CompanyName())
+					    ).then((value){
+					    });
 				    },
 			    ),
-			    ProfileStyle.divider,
 			    ProfileItem(
 				    title: "公司规模",
 				    value: "900人",
 				    onClick: () {
-				    
+				    	chooseScopeUnit();
 				    },
 			    ),
-			    ProfileStyle.divider,
 			    ProfileItem(
 				    title: "所在行业",
-				    value: "020",
+				    value: _industry,
 				    onClick: () {
-				    
+					    Navigator.push<String>(
+					       context,
+					       MaterialPageRoute(
+						      builder: (context) => IndustryType())
+					    ).then((value){
+					    });
 				    },
 			    ),
-			    ProfileStyle.divider,
 			    NextLevel(
 			       titleW: Text("营业执照",
 			          style: ProfileStyle.titleStyle,
 			       ),
 				    onClick: () {
-			     
+					    Navigator.push<String>(
+					       context,
+					       MaterialPageRoute(
+						      builder: (context) => CraftBusinessLicense())
+					    );
 				    },
 				    valueW: Text('已验证', style: TextStyle(
 					    color: Color.fromRGBO(176,181,180,1))
@@ -120,5 +134,19 @@ class _State extends State<CompanyBaseInfo> {
 	    ),
     );
   }
+  
+	
+	chooseScopeUnit() {
+		MenuListDialog.showMenu(context, DialogConfig (
+		   title: '公司规模',
+		   menus: <String> [
+			   '1000-2000',
+			   '2000-3000',
+		   ]
+		
+		)
+		);
+	}
+	
 }
 

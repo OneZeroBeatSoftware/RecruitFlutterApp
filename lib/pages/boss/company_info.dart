@@ -7,6 +7,12 @@ import 'package:recruit_app/widgets/profile_divider.dart';
 import 'package:recruit_app/pages/boss/company_introduction.dart';
 import 'package:recruit_app/pages/boss/company_work_time.dart';
 import 'package:recruit_app/pages/boss/company_base_info.dart';
+import 'package:recruit_app/pages/boss/company_welfare.dart';
+import 'package:recruit_app/pages/boss/company_legal_person.dart';
+import 'package:recruit_app/pages/boss/company_register_capital.dart';
+import 'package:recruit_app/pages/boss/company_unified_credit_code.dart';
+import 'package:recruit_app/pages/boss/company_business_scope.dart';
+import 'package:recruit_app/widgets/menu_list_dialog.dart';
 
 class CompanyInfo extends StatefulWidget {
   @override
@@ -179,20 +185,45 @@ class _CompanyInfoState extends State<CompanyInfo> {
                         Image.asset('images/boss_me_post_mrg.png',
                            width:ScreenUtil().setWidth(28),
                            height: ScreenUtil().setWidth(28)
-                        )
+                        ),
+                        onClick: () {
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context)=> CompanyWelfare()
+                          ));
+                        },
                       ),
                       Item2("定期体检", "阶段性职业健康检查"),
                       Item2("加班补助", "正常工作时间之外的工资报酬"),
                       Item2("年终奖金", "年末给予员工奖励"),
                       ProfileDivider(),
                       
-                      Item("公司注册信息", "", canClick: true),
-                      Item2("企业法人", "小茗同学"),
-                      Item2("注册资金", "100亿美金"),
-                      Item2("注册时间", "2020-01-01"),
-                      Item2("经营状态", "存续（在营业、开业、在册）"),
-                      Item2("统一信用代码", "189887D9ADD12ND23"),
-                      Item2("经营范围", "计算机软硬件的开发及销售；网络技术、网络产品的研发及销售。（依法须经批准，经相关部门批准后放可开展经营活动）"),
+                      Item("公司注册信息", ""),
+                      Item2("企业法人", "小茗同学", canClick: true, onClick: () {
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context)=> CompanyLegalPerson()
+                        ));
+                      }),
+                      Item2("注册资金", "100亿美金", canClick: true, onClick: () {
+                        Navigator.push(context, MaterialPageRoute(
+                           builder: (context)=> CompanyRegisterCapital()
+                        ));
+                      }),
+                      Item2("注册时间", "2020-01-01", canClick: true, onClick: () {
+                        print("object3");
+                      }),
+                      Item2("经营状态", "存续（在营业、开业、在册）", canClick: true, onClick: () {
+                        chooseCompanyStatus();
+                      }),
+                      Item2("统一信用代码", "189887D9ADD12ND23", canClick: true, onClick: () {
+                        Navigator.push(context, MaterialPageRoute(
+                           builder: (context)=> CompanyUnifiedCreditCode()
+                        ));
+                      }),
+                      Item2("经营范围", "计算机软硬件的开发及销售；网络技术、网络产品的研发及销售。（依法须经批准，经相关部门批准后放可开展经营活动）", canClick: true, onClick: () {
+                        Navigator.push(context, MaterialPageRoute(
+                           builder: (context)=> CompanyBusinessScope()
+                        ));
+                      }),
                       ProfileDivider(marginBottom: 78)
                     ],
                   ),
@@ -204,6 +235,24 @@ class _CompanyInfoState extends State<CompanyInfo> {
       ),
     );
   }
+
+  chooseCompanyStatus() {
+    MenuListDialog.showMenu(context, DialogConfig (
+          title: '经营状态',
+          menus: <String> [
+            '存续',
+            '在业',
+            '吊销',
+            '注销',
+            '迁入',
+            '迁出',
+            '停业',
+            '清算'
+          ]
+          
+      )
+    );
+  }
 }
 
 class Item extends StatelessWidget {
@@ -213,7 +262,7 @@ class Item extends StatelessWidget {
   String value;
   Widget rightIcon;
   
-  Item(this.title, this.value, {this.canClick, this.onClick, this.rightIcon});
+  Item(this.title, this.value, {this.canClick = false, this.onClick, this.rightIcon});
   
   @override
   Widget build(BuildContext context) {
@@ -273,30 +322,53 @@ class Item extends StatelessWidget {
 class Item2 extends StatelessWidget {
   String title;
   String value;
+  bool canClick;
+  VoidCallback onClick;
   
-  Item2(this.title, this.value);
+  Item2(this.title, this.value, {this.canClick = false, this.onClick});
   
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    
+    List<Widget> titleW = <Widget>[];
+    titleW.add(Text(this.title,
+      style: TextStyle(
+         color: Color.fromRGBO(57,57,57,1),
+         fontSize: ScreenUtil().setSp(28),
+         fontWeight: FontWeight.w400,
+         letterSpacing: 1
+      ),
+    ));
+    
+    if(canClick) {
+      titleW.add(Image.asset('images/img_arrow_right_blue.png',
+         width:ScreenUtil().setWidth(12),
+         height: ScreenUtil().setHeight(20)
+      ));
+    }
+    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         SizedBox(height: ScreenUtil().setHeight(40)),
-        Text(this.title,
-          style: TextStyle(
-             color: Color.fromRGBO(57,57,57,1),
-              fontSize: ScreenUtil().setSp(28),
-             fontWeight: FontWeight.w400,
-            letterSpacing: 1
+        GestureDetector(
+           child: Row(
+            children: titleW,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
           ),
+            onTap: () {
+              if(canClick && onClick != null) {
+                onClick();
+              }
+            },
         ),
         SizedBox(height: ScreenUtil().setHeight(2)),
         Text(this.value,
           style: TextStyle(
              color: Color.fromRGBO(94,94,94,1),
              fontSize: ScreenUtil().setSp(24),
-            fontWeight: FontWeight.w300,
+             fontWeight: FontWeight.w300,
              letterSpacing: 1
           ),
         ),
