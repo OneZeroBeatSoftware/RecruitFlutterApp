@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:recruit_app/model/company_model.dart';
+import 'package:recruit_app/model/employe_list.dart';
 import 'package:recruit_app/model/job_model.dart';
 import 'package:recruit_app/pages/companys/company_detail.dart';
 import 'package:recruit_app/pages/companys/company_row_item.dart';
+import 'package:recruit_app/pages/employe/employe_row_item.dart';
+import 'package:recruit_app/pages/employe/employee_detail.dart';
 import 'package:recruit_app/pages/jobs/city_filter.dart';
 import 'package:recruit_app/pages/jobs/job_detail.dart';
 import 'package:recruit_app/pages/jobs/job_filter.dart';
 import 'package:recruit_app/pages/jobs/job_row_item.dart';
 
-enum SearchType { job, company }
+enum SearchType { job, company,resume }
 
 class JobCompanySearch extends StatefulWidget {
   final SearchType searchType;
@@ -24,6 +27,7 @@ class JobCompanySearch extends StatefulWidget {
 class _JobCompanySearchState extends State<JobCompanySearch> {
   CompanyModel _companyModel;
   JobModel _jobModel;
+  List<Employee> _employeeList = EmployeeData.loadEmployees();
 
   @override
   void initState() {
@@ -387,12 +391,8 @@ class _JobCompanySearchState extends State<JobCompanySearch> {
               Expanded(
                 child: ListView.builder(
                   itemBuilder: (context, index) {
-                    if (index <
-                        (widget.searchType == SearchType.job
-                            ? _jobModel.jobList.length
-                            : _companyModel.companyList.length)) {
-                      return widget.searchType == SearchType.job
-                          ? GestureDetector(
+                    if(widget.searchType == SearchType.job&&index <_jobModel.jobList.length){
+                      return GestureDetector(
                           behavior: HitTestBehavior.opaque,
                           child: JobRowItem(
                               job: _jobModel.jobList[index],
@@ -404,8 +404,11 @@ class _JobCompanySearchState extends State<JobCompanySearch> {
                                 MaterialPageRoute(
                                   builder: (context) => JobDetail(jobId:_jobModel.jobList[index].id),
                                 ));
-                          })
-                          : GestureDetector(
+                          });
+                    }
+
+                    if(widget.searchType == SearchType.company&&index <_companyModel.companyList.length){
+                      return GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         child: CompanyRowItem(
                             company: _companyModel.companyList[index],
@@ -420,11 +423,27 @@ class _JobCompanySearchState extends State<JobCompanySearch> {
                         },
                       );
                     }
+
+                    if(widget.searchType == SearchType.resume&&index <_employeeList.length) {
+                      return GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          child: EmployeeRowItem(
+                              employee: _employeeList[index],
+                              index: index,
+                              lastItem: index == _employeeList.length - 1),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => EmployeeDetail(),
+                                ));
+                          });
+                    }
                     return null;
                   },
-                  itemCount: widget.searchType == SearchType.job
-                      ? _jobModel.jobList.length
-                      : _companyModel.companyList.length,
+                  itemCount: widget.searchType == SearchType.resume
+                      ? _employeeList.length
+                      : (widget.searchType == SearchType.company?_companyModel.companyList.length:_jobModel.jobList.length),
                   physics: const BouncingScrollPhysics(),
                 ),
               ),

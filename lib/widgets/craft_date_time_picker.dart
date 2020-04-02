@@ -7,13 +7,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class CraftDateTimePicker extends StatefulWidget {
   final String title;
   final DateTime initialTime;
+  final bool isHaveDate;
+  final bool isHaveTime;
   final Function(DateTime) confirm;
 
   const CraftDateTimePicker({
     Key key,
     this.initialTime,
     this.title = '',
-    @required this.confirm,
+    @required this.confirm, this.isHaveDate=true, this.isHaveTime=true,
   }) : super(key: key);
 
   @override
@@ -21,6 +23,8 @@ class CraftDateTimePicker extends StatefulWidget {
 }
 
 class _CraftDateTimePickerState extends State<CraftDateTimePicker> {
+  List<Widget> contentWidget=[];
+  
   List<String> _years = [];
   List<String> _months = [];
   List<String> _days = [];
@@ -84,6 +88,16 @@ class _CraftDateTimePickerState extends State<CraftDateTimePicker> {
     _dayController = FixedExtentScrollController(initialItem: _dayPos);
     _hourController = FixedExtentScrollController(initialItem: _hourPos);
     _minController = FixedExtentScrollController(initialItem: _minPos);
+
+    if(widget.isHaveDate){
+      contentWidget.add(buildYear());
+      contentWidget.add(buildMonth());
+      contentWidget.add(buildDate());
+    }
+    if(widget.isHaveTime){
+      contentWidget.add(buildHour());
+      contentWidget.add(buildMinute());
+    }
   }
 
   @override
@@ -194,151 +208,7 @@ class _CraftDateTimePickerState extends State<CraftDateTimePicker> {
                       ),
                       color: Color.fromRGBO(159, 199, 235, 1),
                       child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: ListWheelScrollView.useDelegate(
-                              physics: BouncingScrollPhysics(),
-                              controller: _yearController,
-                              itemExtent: ScreenUtil().setWidth(76),
-                              onSelectedItemChanged: (index) {
-                                _yearPos = index;
-                                isLegalDay();
-                              },
-                              childDelegate: ListWheelChildBuilderDelegate(
-                                builder: (context, index) {
-                                  return Container(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      '${_years[index]}年',
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: ScreenUtil().setSp(32),
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  );
-                                },
-                                childCount: _years.length,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: ListWheelScrollView.useDelegate(
-                              physics: BouncingScrollPhysics(),
-                              controller: _monthController,
-                              itemExtent: ScreenUtil().setWidth(76),
-                              onSelectedItemChanged: (index) {
-                                _monthPos = index;
-                                isLegalDay();
-                              },
-                              childDelegate: ListWheelChildBuilderDelegate(
-                                builder: (context, index) {
-                                  return Container(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      '${_months[index]}月',
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: ScreenUtil().setSp(32),
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  );
-                                },
-                                childCount: _months.length,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: ListWheelScrollView.useDelegate(
-                              physics: BouncingScrollPhysics(),
-                              controller: _dayController,
-                              itemExtent: ScreenUtil().setWidth(76),
-                              onSelectedItemChanged: (index) {
-                                _dayPos = index;
-                                isLegalDay();
-                              },
-                              childDelegate: ListWheelChildBuilderDelegate(
-                                builder: (context, index) {
-                                  return Container(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      '${_days[index]}日',
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: ScreenUtil().setSp(32),
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  );
-                                },
-                                childCount: _days.length,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: ListWheelScrollView.useDelegate(
-                              physics: BouncingScrollPhysics(),
-                              controller: _hourController,
-                              itemExtent: ScreenUtil().setWidth(76),
-                              onSelectedItemChanged: (index) {
-                                _hourPos = index;
-                              },
-                              childDelegate: ListWheelChildBuilderDelegate(
-                                builder: (context, index) {
-                                  return Container(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      '${_hours[index]}时',
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: ScreenUtil().setSp(32),
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  );
-                                },
-                                childCount: _hours.length,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: ListWheelScrollView.useDelegate(
-                              physics: BouncingScrollPhysics(),
-                              controller: _minController,
-                              itemExtent: ScreenUtil().setWidth(76),
-                              onSelectedItemChanged: (index) {
-                                _minPos = index;
-                              },
-                              childDelegate: ListWheelChildBuilderDelegate(
-                                builder: (context, index) {
-                                  return Container(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      '${_minutes[index]}分',
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: ScreenUtil().setSp(32),
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  );
-                                },
-                                childCount: _minutes.length,
-                              ),
-                            ),
-                          ),
-                        ],
+                        children: contentWidget,
                       ),
                     ),
                   ),
@@ -350,6 +220,169 @@ class _CraftDateTimePickerState extends State<CraftDateTimePicker> {
         ),
       ),
       type: MaterialType.transparency,
+    );
+  }
+
+  /// 创建分
+  Widget buildMinute() {
+    return Expanded(
+      child: ListWheelScrollView.useDelegate(
+        physics: BouncingScrollPhysics(),
+        controller: _minController,
+        itemExtent: ScreenUtil().setWidth(76),
+        onSelectedItemChanged: (index) {
+          _minPos = index;
+        },
+        childDelegate: ListWheelChildBuilderDelegate(
+          builder: (context, index) {
+            return Container(
+              alignment: Alignment.center,
+              child: Text(
+                '${_minutes[index]}分',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: ScreenUtil().setSp(32),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            );
+          },
+          childCount: _minutes.length,
+        ),
+      ),
+    );
+  }
+
+  /// 创建时
+  Expanded buildHour() {
+    return Expanded(
+      child: ListWheelScrollView.useDelegate(
+        physics: BouncingScrollPhysics(),
+        controller: _hourController,
+        itemExtent: ScreenUtil().setWidth(76),
+        onSelectedItemChanged: (index) {
+          _hourPos = index;
+        },
+        childDelegate: ListWheelChildBuilderDelegate(
+          builder: (context, index) {
+            return Container(
+              alignment: Alignment.center,
+              child: Text(
+                '${_hours[index]}时',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: ScreenUtil().setSp(32),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            );
+          },
+          childCount: _hours.length,
+        ),
+      ),
+    );
+  }
+
+  ///创建日
+  Expanded buildDate() {
+    return Expanded(
+      child: ListWheelScrollView.useDelegate(
+        physics: BouncingScrollPhysics(),
+        controller: _dayController,
+        itemExtent: ScreenUtil().setWidth(76),
+        onSelectedItemChanged: (index) {
+          _dayPos = index;
+          isLegalDay();
+        },
+        childDelegate: ListWheelChildBuilderDelegate(
+          builder: (context, index) {
+            return Container(
+              alignment: Alignment.center,
+              child: Text(
+                '${_days[index]}日',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: ScreenUtil().setSp(32),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            );
+          },
+          childCount: _days.length,
+        ),
+      ),
+    );
+  }
+
+  /// 创建月
+  Expanded buildMonth() {
+    return Expanded(
+      child: ListWheelScrollView.useDelegate(
+        physics: BouncingScrollPhysics(),
+        controller: _monthController,
+        itemExtent: ScreenUtil().setWidth(76),
+        onSelectedItemChanged: (index) {
+          _monthPos = index;
+          isLegalDay();
+        },
+        childDelegate: ListWheelChildBuilderDelegate(
+          builder: (context, index) {
+            return Container(
+              alignment: Alignment.center,
+              child: Text(
+                '${_months[index]}月',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: ScreenUtil().setSp(32),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            );
+          },
+          childCount: _months.length,
+        ),
+      ),
+    );
+  }
+
+  /// 创建年
+  Expanded buildYear() {
+    return Expanded(
+      child: ListWheelScrollView.useDelegate(
+        physics: BouncingScrollPhysics(),
+        controller: _yearController,
+        itemExtent: ScreenUtil().setWidth(76),
+        onSelectedItemChanged: (index) {
+          _yearPos = index;
+          isLegalDay();
+        },
+        childDelegate: ListWheelChildBuilderDelegate(
+          builder: (context, index) {
+            return Container(
+              alignment: Alignment.center,
+              child: Text(
+                '${_years[index]}年',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: ScreenUtil().setSp(32),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            );
+          },
+          childCount: _years.length,
+        ),
+      ),
     );
   }
 

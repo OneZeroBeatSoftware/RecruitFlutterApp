@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recruit_app/model/employe_list.dart';
 import 'package:recruit_app/pages/employe/employee_detail.dart';
+import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/slide_button.dart';
 import 'package:recruit_app/pages/boss/employee_star_item.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,28 +27,18 @@ class _BossCollectionJobSate extends State<BossCollectionJob> {
     // TODO: implement build
     return Scaffold(
       backgroundColor: Color.fromRGBO(248, 248, 248, 1),
-      appBar: AppBar(
-        elevation: 1,
-        centerTitle: true,
-        title: Text(widget.title,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-                wordSpacing: 1,
-                letterSpacing: 1,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Color.fromRGBO(37, 38, 39, 1))),
-        leading: IconButton(
-            icon: Image.asset(
-              'images/ic_back_arrow.png',
-              width: 24,
-              height: 24,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            }),
-        automaticallyImplyLeading: false,
+      appBar: CommonAppBar(
+        leading: 'images/img_arrow_left_black.png',
+        leftListener: () {
+          Navigator.pop(context);
+        },
+        center: Text(
+          widget.title,
+          style: TextStyle(
+              color: Color.fromRGBO(68, 77, 151, 1),
+              fontSize: ScreenUtil().setSp(36),
+              fontWeight: FontWeight.bold),
+        ),
         backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       ),
       body: Column(children: <Widget>[
