@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:recruit_app/model/company_list.dart';
+import 'package:recruit_app/model/company_model.dart';
 import 'package:recruit_app/model/job_model.dart';
 import 'package:recruit_app/pages/companys/company_detail.dart';
 import 'package:recruit_app/pages/companys/company_row_item.dart';
@@ -20,22 +20,20 @@ class Collection extends StatefulWidget {
 }
 
 class _CollectionSate extends State<Collection> {
-  List<Company> _companyList = CompanyData.loadCompany();
   int _selectFilterType = 0;
   JobModel _jobModel;
+  CompanyModel _companyModel;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((call) {
-      _jobModel = Provider.of<JobModel>(context);
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    _jobModel = Provider.of<JobModel>(context);
+    _companyModel= Provider.of<CompanyModel>(context);
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: CommonAppBar(
@@ -130,7 +128,7 @@ class _CollectionSate extends State<Collection> {
                 itemBuilder: (context, index) {
                   if (index <
                       (_selectFilterType == 0
-                          ? _companyList.length
+                          ? _companyModel.companyList.length
                           : _jobModel.jobList.length)) {
                     var btnKey = GlobalKey<SlideButtonState>();
 
@@ -147,9 +145,9 @@ class _CollectionSate extends State<Collection> {
                       },
                         behavior: HitTestBehavior.opaque,
                         child: CompanyRowItem(
-                            company: _companyList[index],
+                            company: _companyModel.companyList[index],
                             index: index,
-                            lastItem: index == _companyList.length - 1),)
+                            lastItem: index == _companyModel.companyList.length - 1),)
                           : GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         child: JobRowItem(
@@ -175,7 +173,7 @@ class _CollectionSate extends State<Collection> {
                   return null;
                 },
                 itemCount: _selectFilterType == 0
-                    ? _companyList.length
+                    ? _companyModel.companyList.length
                     : _jobModel.jobList.length,
                 shrinkWrap: true,
                 physics: const BouncingScrollPhysics(),

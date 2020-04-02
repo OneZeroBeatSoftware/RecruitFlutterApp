@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recruit_app/model/company_list.dart';
+import 'package:recruit_app/entity/company_list_entity.dart';
 
 class CompanyRowItem extends StatelessWidget {
-  final Company company;
+  final CompanyListDataRecord company;
   final int index;
   final bool lastItem;
 
@@ -44,7 +44,7 @@ class CompanyRowItem extends StatelessWidget {
                     children: <Widget>[
                       Flexible(
                         child: Text(
-                          company.name,
+                          company.companyName,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -67,7 +67,7 @@ class CompanyRowItem extends StatelessWidget {
                   ),
                   SizedBox(height: ScreenUtil().setWidth(10)),
                   Text(
-                    '福州 仓山区 金山',
+                    '${company.cityName}',
                     style: TextStyle(
                       fontSize: ScreenUtil().setSp(26),
                       color: Color.fromRGBO(151, 151, 151, 1),
@@ -93,7 +93,7 @@ class CompanyRowItem extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          '${company.status}',
+                          '${company.operateState}',
                           textAlign: TextAlign.center,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -119,7 +119,7 @@ class CompanyRowItem extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          '${company.scale}',
+                          '${company.scaleName}',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.center,
@@ -145,7 +145,7 @@ class CompanyRowItem extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          '${company.type}',
+                          '${company.industryName}',
                           textAlign: TextAlign.center,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -184,7 +184,7 @@ class CompanyRowItem extends StatelessWidget {
                       ),
                       Flexible(
                         child: Text(
-                          '平面设计师/美术指导',
+                          company.jobInfo.length>0?'${company.jobInfo.map((item){return item.jobName;}).join('/')}':'',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -194,7 +194,7 @@ class CompanyRowItem extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        '等7个岗位',
+                        company.jobInfo.length>0?'等${company.jobInfo.length}个岗位':'暂未发布岗位',
                         style: TextStyle(
                           fontSize: ScreenUtil().setSp(26),
                           color: Color.fromRGBO(151, 151, 151, 1),

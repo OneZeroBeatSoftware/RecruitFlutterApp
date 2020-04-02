@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recruit_app/model/company_list.dart';
+import 'package:provider/provider.dart';
+import 'package:recruit_app/entity/company_list_entity.dart';
+import 'package:recruit_app/model/company_model.dart';
 import 'package:recruit_app/pages/companys/company_detail.dart';
 import 'package:recruit_app/pages/jobs/job_company_search.dart';
 
@@ -16,8 +20,20 @@ class CompanyList extends StatefulWidget {
 }
 
 class _CompanyListState extends State<CompanyList> {
-  List<Company> _companyList = CompanyData.loadCompany();
   int _selectFilterType = 0;
+  CompanyModel _companyModel;
+  int _pageIndex = 1;
+  EasyRefreshController _refreshController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _refreshController = EasyRefreshController();
+    WidgetsBinding.instance.addPostFrameCallback((call) {
+      _companyModel = Provider.of<CompanyModel>(context);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -126,6 +142,7 @@ class _CompanyListState extends State<CompanyList> {
                             setState(() {
                               _selectFilterType = 0;
                             });
+                            _refreshController.callRefresh();
                           },
                         ),
                         SizedBox(
@@ -149,6 +166,7 @@ class _CompanyListState extends State<CompanyList> {
                             setState(() {
                               _selectFilterType = 1;
                             });
+                            _refreshController.callRefresh();
                           },
                         ),
                       ],
@@ -166,29 +184,50 @@ class _CompanyListState extends State<CompanyList> {
               ],
             ),
             Expanded(
-              child: CustomScrollView(
-                physics: BouncingScrollPhysics(),
+              child:
+              EasyRefresh.custom(
+                controller: _refreshController,
+                firstRefresh: true,
+                header: MaterialHeader(),
+                footer: ClassicalFooter(
+                    infoColor: Color.fromRGBO(159, 199, 235, 1)),
+                onRefresh: () async {
+                  _pageIndex = 1;
+                  getCompanyList();
+                  _refreshController.resetLoadState();
+                },
+                onLoad: () async {
+                  getCompanyList();
+                  _refreshController.resetLoadState();
+                },
                 slivers: <Widget>[
-                  SliverList(
+                  _companyModel == null
+                      ? SliverToBoxAdapter(
+                    child: Container(
+                      height: ScreenUtil().setWidth(400),
+                      alignment: Alignment.center,
+                      child: CupertinoActivityIndicator(),
+                    ),
+                  ) : SliverList(
                       delegate: SliverChildBuilderDelegate((context, index) {
-                    if (index < _companyList.length) {
-                      return GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        child: CompanyRowItem(
-                            company: _companyList[index],
-                            index: index,
-                            lastItem: index == _companyList.length - 1),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => CompanyDetail(),
-                              ));
-                        },
-                      );
-                    }
-                    return null;
-                  }, childCount: _companyList.length)),
+                        if (index < _companyModel.companyList.length) {
+                          return GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            child: CompanyRowItem(
+                                company: _companyModel.companyList[index],
+                                index: index,
+                                lastItem: index == _companyModel.companyList.length - 1),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => CompanyDetail(companyId:_companyModel.companyList[index].id),
+                                  ));
+                            },
+                          );
+                        }
+                        return null;
+                      }, childCount: _companyModel.companyList.length)),
                 ],
               ),
             ),
@@ -196,5 +235,18 @@ class _CompanyListState extends State<CompanyList> {
         ),
       ),
     );
+  }
+
+  /// 获取公司岗位列表
+  getCompanyList() async {
+    CompanyListEntity _companyEntity = await _companyModel.getCompanyList(
+        context,
+        _selectFilterType == 1,
+        _selectFilterType == 0,
+        _pageIndex,
+        15);
+    if (_companyEntity != null && _companyEntity.data.records.length > 0) {
+      _pageIndex++;
+    }
   }
 }

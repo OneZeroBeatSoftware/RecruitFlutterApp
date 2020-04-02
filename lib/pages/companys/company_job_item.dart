@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/entity/company_job_entity.dart';
 import 'package:recruit_app/model/job_list.dart';
 
 class CompanyJobItem extends StatelessWidget {
-  final Job job;
+  final CompanyJobDataRecord job;
   final int index;
   final bool lastItem;
 
@@ -43,7 +44,7 @@ class CompanyJobItem extends StatelessWidget {
               ),
               SizedBox(width: 8),
               Text(
-                '${job.leastSalary}-${job.highestSalary}K',
+                '${job.minSalary}-${job.maxSalary}K',
                 style: TextStyle(
                   fontSize: ScreenUtil().setSp(32),
                   fontWeight: FontWeight.bold,
@@ -58,8 +59,8 @@ class CompanyJobItem extends StatelessWidget {
           Wrap(
             spacing: ScreenUtil().setWidth(12),
             runSpacing: ScreenUtil().setWidth(12),
-            children: job.label.map((item) {
-              return new Container(
+            children: [
+              Container(
                 padding: EdgeInsets.symmetric(
                   horizontal: ScreenUtil().setWidth(16),
                   vertical: ScreenUtil().setWidth(6),
@@ -67,18 +68,56 @@ class CompanyJobItem extends StatelessWidget {
                 decoration: new BoxDecoration(
                   color: Color.fromRGBO(248, 248, 248, 1),
                   borderRadius:
-                      new BorderRadius.circular(ScreenUtil().setWidth(8)),
+                  new BorderRadius.circular(ScreenUtil().setWidth(8)),
                 ),
                 child: Text(
-                  item,
+                  job.workAddress,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: ScreenUtil().setSp(24),
                     color: Color.fromRGBO(95, 94, 94, 1),
                   ),
                 ),
-              );
-            }).toList(),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: ScreenUtil().setWidth(16),
+                  vertical: ScreenUtil().setWidth(6),
+                ),
+                decoration: new BoxDecoration(
+                  color: Color.fromRGBO(248, 248, 248, 1),
+                  borderRadius:
+                  new BorderRadius.circular(ScreenUtil().setWidth(8)),
+                ),
+                child: Text(
+                  job.workDateName,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: ScreenUtil().setSp(24),
+                    color: Color.fromRGBO(95, 94, 94, 1),
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: ScreenUtil().setWidth(16),
+                  vertical: ScreenUtil().setWidth(6),
+                ),
+                decoration: new BoxDecoration(
+                  color: Color.fromRGBO(248, 248, 248, 1),
+                  borderRadius:
+                  new BorderRadius.circular(ScreenUtil().setWidth(8)),
+                ),
+                child: Text(
+                  job.educationName,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: ScreenUtil().setSp(24),
+                    color: Color.fromRGBO(95, 94, 94, 1),
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),

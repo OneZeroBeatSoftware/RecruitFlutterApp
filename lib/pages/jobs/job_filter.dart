@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/entity/company_scale_entity.dart';
 import 'package:recruit_app/entity/edu_level_entity.dart';
+import 'package:recruit_app/entity/salary_list_entity.dart';
 import 'package:recruit_app/entity/work_date_entity.dart';
 import 'package:recruit_app/model/job_filter_data.dart';
 import 'package:recruit_app/pages/jobs/job_filter_item.dart';
@@ -21,7 +23,9 @@ class _JobFilterState extends State<JobFilter> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((i) {
       getEduLevel();
+      getSalaryList();
       getWorkDate();
+      getScaleList();
     });
   }
 
@@ -104,6 +108,38 @@ class _JobFilterState extends State<JobFilter> {
           filterSubData: workDateEntity.data
               .map((item) => JobFilterSubData(
               filterName: item.workDateName, isChecked: false))
+              .toList()));
+      setState(() {
+        // ignore: unnecessary_statements
+        _jobFilterData;
+      });
+    }
+  }
+
+  void getSalaryList() async {
+    SalaryListEntity salaryListEntity = await NetUtils.getSalaryList(context);
+    if(salaryListEntity.statusCode==200&&salaryListEntity.data!=null){
+      _jobFilterData.add(JobFilterData(
+          filterName: '薪资待遇',
+          filterSubData: salaryListEntity.data
+              .map((item) => JobFilterSubData(
+              filterName: '${item.minSalary}-${item.maxSalary}K', isChecked: false))
+              .toList()));
+      setState(() {
+        // ignore: unnecessary_statements
+        _jobFilterData;
+      });
+    }
+  }
+
+  void getScaleList() async {
+    CompanyScaleEntity scaleEntity = await NetUtils.getScaleList(context);
+    if(scaleEntity.statusCode==200&&scaleEntity.data!=null){
+      _jobFilterData.add(JobFilterData(
+          filterName: '公司规模',
+          filterSubData: scaleEntity.data
+              .map((item) => JobFilterSubData(
+              filterName: item.scaleName, isChecked: false))
               .toList()));
       setState(() {
         // ignore: unnecessary_statements

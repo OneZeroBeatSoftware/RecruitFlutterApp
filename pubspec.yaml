@@ -43,6 +43,7 @@ dependencies:
   extended_text: ^0.6.6
   loading_more_list: ^1.0.0
   flustars: ^0.2.6+1
+  image_picker: ^0.6.4
 #  google_sign_in: ^4.2.0
 #  flutter_facebook_login: ^3.0.0
 #  fluwx: ^2.0.5+1

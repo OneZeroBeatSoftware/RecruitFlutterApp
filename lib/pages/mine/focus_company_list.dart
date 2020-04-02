@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:recruit_app/model/company_list.dart';
+import 'package:provider/provider.dart';
+import 'package:recruit_app/model/company_model.dart';
 import 'package:recruit_app/pages/companys/company_detail.dart';
 import 'package:recruit_app/pages/companys/company_row_item.dart';
 
@@ -13,11 +14,18 @@ class FocusCompanyList extends StatefulWidget {
 }
 
 class _FocusCompanyListState extends State<FocusCompanyList> {
-  List<Company> _companyList = CompanyData.loadCompany();
+  CompanyModel _companyModel;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    _companyModel=Provider.of<CompanyModel>(context);
     return Scaffold(
       backgroundColor: Color.fromRGBO(248, 248, 248, 1),
       appBar: AppBar(
@@ -46,13 +54,13 @@ class _FocusCompanyListState extends State<FocusCompanyList> {
       ),
       body: ListView.builder(
         itemBuilder: (context, index) {
-          if (index < _companyList.length) {
+          if (index < _companyModel.companyList.length) {
             return GestureDetector(
               behavior: HitTestBehavior.opaque,
               child: CompanyRowItem(
-                  company: _companyList[index],
+                  company: _companyModel.companyList[index],
                   index: index,
-                  lastItem: index == _companyList.length - 1),
+                  lastItem: index == _companyModel.companyList.length - 1),
               onTap: () {
                 Navigator.push(
                     context,
@@ -64,7 +72,7 @@ class _FocusCompanyListState extends State<FocusCompanyList> {
           }
           return null;
         },
-        itemCount: _companyList.length,
+        itemCount: _companyModel.companyList.length,
         shrinkWrap: true,
         physics: const BouncingScrollPhysics(),
       ),

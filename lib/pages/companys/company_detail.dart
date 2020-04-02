@@ -4,8 +4,13 @@ import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:recruit_app/entity/company_detail_entity.dart';
+import 'package:recruit_app/entity/company_job_entity.dart';
+import 'package:recruit_app/model/company_model.dart';
 import 'package:recruit_app/model/company_pic_list.dart';
 import 'package:recruit_app/model/job_list.dart';
 import 'package:recruit_app/pages/companys/company_info_dialog.dart';
@@ -32,6 +37,10 @@ class CompanyDetail extends StatefulWidget {
 
 class _CompanyDetailState extends State<CompanyDetail>
     with SingleTickerProviderStateMixin {
+
+  CompanyModel _companyModel;
+  int _pageIndex = 1;
+  EasyRefreshController _refreshController;
 
   /// 公司照片模拟数据
   List<CompanyPicData> _picList = CompanyPicList.loadCompanyPicList();
@@ -70,6 +79,8 @@ class _CompanyDetailState extends State<CompanyDetail>
   @override
   void initState() {
     super.initState();
+    _refreshController = EasyRefreshController();
+
     _jobAnimationController = new AnimationController(
       duration: const Duration(milliseconds: 250),
       vsync: this,
@@ -115,6 +126,7 @@ class _CompanyDetailState extends State<CompanyDetail>
       _reports.add('广告骚扰');
     }
     WidgetsBinding.instance.addPostFrameCallback((i) {
+      _companyModel=Provider.of<CompanyModel>(context);
       getCompanyDetail(widget.companyId);
     });
   }
@@ -843,29 +855,50 @@ class _CompanyDetailState extends State<CompanyDetail>
               }
             },),
           Expanded(
-            child: ListView.builder(
-              controller: _jobController,
-              itemBuilder: (context, index) {
-                if (index < _jobList.length) {
-                  return GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      child: CompanyJobItem(
-                          job: _jobList[index],
-                          index: index,
-                          lastItem: index == _jobList.length - 1),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => JobDetail(),
-                            ));
-                      });
-                }
-                return null;
+            child:
+            EasyRefresh.custom(
+              controller: _refreshController,
+              firstRefresh: true,
+              header: MaterialHeader(),
+              footer: ClassicalFooter(
+                  infoColor: Color.fromRGBO(159, 199, 235, 1)),
+              onRefresh: () async {
+                _pageIndex = 1;
+                getJob4Company(widget.companyId);
+                _refreshController.resetLoadState();
               },
-              itemCount: _jobList.length,
-              shrinkWrap: true,
-              physics: const BouncingScrollPhysics(),
+              onLoad: () async {
+                getJob4Company(widget.companyId);
+                _refreshController.resetLoadState();
+              },
+              slivers: <Widget>[
+                _companyModel == null
+                    ? SliverToBoxAdapter(
+                  child: Container(
+                    height: ScreenUtil().setWidth(400),
+                    alignment: Alignment.center,
+                    child: CupertinoActivityIndicator(),
+                  ),
+                ) : SliverList(
+                    delegate: SliverChildBuilderDelegate((context, index) {
+                      if (index < _companyModel.jobList.length) {
+                        return GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            child: CompanyJobItem(
+                                job: _companyModel.jobList[index],
+                                index: index,
+                                lastItem: index == _companyModel.jobList.length - 1),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => JobDetail(jobId:_companyModel.jobList[index].id),
+                                  ));
+                            });
+                      }
+                      return null;
+                    }, childCount: _companyModel.jobList.length)),
+              ],
             ),
           ),
         ],
@@ -875,13 +908,21 @@ class _CompanyDetailState extends State<CompanyDetail>
 
   /// 获取公司详情
   void getCompanyDetail(String companyId) async {
-    CompanyDetailEntity companyDetailEntity = await NetUtils.getCompanyDetail(
+    CompanyDetailEntity companyDetailEntity = await _companyModel.getCompanyDetail(
         context, companyId);
-    if (companyDetailEntity.statusCode == 200 &&
-        companyDetailEntity.data != null) {
+    if (companyDetailEntity.data != null) {
       setState(() {
         _detailData = companyDetailEntity.data;
       });
+    }
+  }
+
+  /// 获取公司发布的岗位列表
+  void getJob4Company(String companyId) async {
+    CompanyJobEntity jobEntity = await _companyModel.getJob4Company(
+        context, companyId,_pageIndex,15,0);
+    if (jobEntity != null && jobEntity.data.records.length > 0) {
+      _pageIndex++;
     }
   }
 }
