@@ -31,7 +31,7 @@ class InterviewModel {
       }
       _interviewList.addAll(interviewEntity.data.records);
       if(interviewEntity.data.records.length<=0&&pageIndex==1){
-        Utils.showToast('还没有面试邀请哦！');
+//        Utils.showToast('还没有面试邀请哦！');
       }else if(interviewEntity.data.records.length<=0){
         Utils.showToast('没有更多面试邀请啦！');
       }
