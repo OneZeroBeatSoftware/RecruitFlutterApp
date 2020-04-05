@@ -133,6 +133,9 @@ class _CompanyDetailState extends State<CompanyDetail>
   @override
   void dispose() {
     // TODO: implement dispose
+    if(_refreshController!=null){
+      _refreshController.dispose();
+    }
     _jobAnimationController.dispose();
     _infoController.dispose();
     _jobController.dispose();

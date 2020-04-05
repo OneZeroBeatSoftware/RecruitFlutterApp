@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/application.dart';
+import 'package:recruit_app/entity/base_resp_entity.dart';
+import 'package:recruit_app/entity/seeker_interview_entity.dart';
+import 'package:recruit_app/model/seeker_interview_model.dart';
 import 'package:recruit_app/pages/jobs/chat_room.dart';
 import 'package:recruit_app/pages/jobs/job_detail.dart';
 import 'package:recruit_app/pages/msg/msg_chat_item.dart';
@@ -7,6 +13,7 @@ import 'package:recruit_app/pages/msg/msg_interview_item.dart';
 import 'package:recruit_app/pages/msg/msg_notify.dart';
 import 'package:recruit_app/pages/msg/msg_notify_item.dart';
 import 'package:recruit_app/pages/msg/service_chat_room.dart';
+import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/badge_widget.dart';
 import 'package:recruit_app/widgets/slide_button.dart';
 
@@ -19,8 +26,28 @@ class _MsgListState extends State<MsgList> {
   bool _firstType = true;
   bool _secondType = true;
 
+  int _pageIndex = 1;
+  EasyRefreshController _refreshController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _refreshController = EasyRefreshController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    if(_refreshController!=null){
+      _refreshController.dispose();
+    }
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    int childCount=(!_firstType && _secondType)?InterviewModel.instance.interviewList.length:2;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -138,24 +165,59 @@ class _MsgListState extends State<MsgList> {
               color: Color.fromRGBO(159, 199, 235, 1),
             ),
             Expanded(
-              child: CustomScrollView(
-                physics: BouncingScrollPhysics(),
+              child: EasyRefresh.custom(
+                controller: _refreshController,
+                firstRefresh: true,
+                header: MaterialHeader(),
+                footer:
+                ClassicalFooter(infoColor: Color.fromRGBO(159, 199, 235, 1)),
+                onRefresh: () async {
+                  _pageIndex = 1;
+                  getInterviewList();
+                  _refreshController.resetLoadState();
+                },
+                onLoad: () async {
+                  getInterviewList();
+                  _refreshController.resetLoadState();
+                },
                 slivers: <Widget>[
                   SliverList(
                     delegate: SliverChildBuilderDelegate((cxt, idx) {
                       var key = GlobalKey<SlideButtonState>();
                       if (_firstType && _secondType) {
-                        return GestureDetector(onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>ChatRoom()));
-                        },behavior: HitTestBehavior.opaque,child: MsgChatItem(btnKey: key),);
+                        return GestureDetector(onTap: () {
+                          Navigator.push(context, MaterialPageRoute(
+                              builder: (context) => ChatRoom()));
+                        }, behavior: HitTestBehavior.opaque, child: MsgChatItem(
+                            btnKey: key),);
                       } else if (_firstType && !_secondType) {
-                        return GestureDetector(onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>ChatRoom()));
-                        },behavior: HitTestBehavior.opaque,child: MsgChatItem(btnKey: key),);
+                        return GestureDetector(onTap: () {
+                          Navigator.push(context, MaterialPageRoute(
+                              builder: (context) => ChatRoom()));
+                        },
+                          behavior: HitTestBehavior.opaque,
+                          child: MsgChatItem(btnKey: key),);
                       } else if (!_firstType && _secondType) {
-                        return GestureDetector(onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>JobDetail(jobDetailType: JobDetailType.interview,)));
-                        },behavior: HitTestBehavior.opaque,child: MsgInterviewItem(btnKey: key),);
+                        return GestureDetector(onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      JobDetail(
+                                        jobId: InterviewModel
+                                            .instance.interviewList[idx].jobId,
+                                        jobDetailType: JobDetailType.interview,
+                                      )));
+                        },
+                          behavior: HitTestBehavior.opaque,
+                          child:  MsgInterviewItem(
+                            btnKey: key,
+                            index: idx,
+                            interview: InterviewModel.instance.interviewList[idx],
+                            deleteItem: (index) {
+                              deleteInterview(InterviewModel.instance.interviewList[idx].id, index);
+                            },
+                          ),);
                       } else if (!_firstType && !_secondType) {
                         return GestureDetector(
                           behavior: HitTestBehavior.opaque,
@@ -170,16 +232,18 @@ class _MsgListState extends State<MsgList> {
                                 : 'images/img_service_blue.png',
                           ),
                           onTap: () {
-                            if(idx%2==0){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>MsgNotify()));
-                            }else {
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>ServiceChatRoom()));
+                            if (idx % 2 == 0) {
+                              Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) => MsgNotify()));
+                            } else {
+                              Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) => ServiceChatRoom()));
                             }
                           },
                         );
                       }
                       return null;
-                    }, childCount: 2),
+                    }, childCount: childCount),
                   ),
                   SliverToBoxAdapter(
                     child: Column(
@@ -195,8 +259,8 @@ class _MsgListState extends State<MsgList> {
                               _firstType
                                   ? '以上是30天内的联系人'
                                   : _secondType
-                                      ? ''
-                                      : '客服电话 888-888-8888\n工作时间 09:30-18:30',
+                                  ? ''
+                                  : '客服电话 888-888-8888\n工作时间 09:30-18:30',
                               maxLines: 2,
                               textAlign: TextAlign.center,
                               overflow: TextOverflow.ellipsis,
@@ -222,5 +286,27 @@ class _MsgListState extends State<MsgList> {
         ),
       ),
     );
+  }
+
+  /// 获取面试邀请列表
+  getInterviewList() async {
+    SeekerInterviewEntity _interviewEntity = await InterviewModel.instance
+        .getInterviewList(
+        context, Application.sp.get('jobSeekerId'), _pageIndex, 15);
+    if (_interviewEntity != null && _interviewEntity.data.records.length > 0) {
+      _pageIndex++;
+    }
+    setState(() {});
+  }
+
+  /// 删除面试邀请
+  deleteInterview(String id,int index) async {
+    BaseRespEntity _baseEntity = await InterviewModel.instance
+        .deleteInterview(context,id);
+    if (_baseEntity != null) {
+      Utils.showToast(_baseEntity.msg??'删除成功');
+      InterviewModel.instance.interviewList.removeAt(index);
+      setState(() {});
+    }
   }
 }

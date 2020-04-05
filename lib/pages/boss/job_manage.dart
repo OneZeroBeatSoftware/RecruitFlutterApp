@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:recruit_app/model/job_manage_list.dart';
-import 'package:recruit_app/pages/boss/job_manage_detail.dart';
 import 'package:recruit_app/pages/boss/job_manage_item.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';

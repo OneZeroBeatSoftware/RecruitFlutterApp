@@ -36,6 +36,15 @@ class _CompanyListState extends State<CompanyList> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    if(_refreshController!=null){
+      _refreshController.dispose();
+    }
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(

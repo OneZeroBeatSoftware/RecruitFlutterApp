@@ -10,7 +10,6 @@ import 'package:recruit_app/pages/mine/job_type.dart';
 import 'package:recruit_app/pages/boss/job_describe.dart';
 import 'package:recruit_app/widgets/menu_list_dialog.dart';
 import 'package:recruit_app/widgets/craft_picker.dart';
-import 'package:recruit_app/pages/mine/job_edu_exp.dart';
 import 'package:recruit_app/pages/boss/company_job_salary.dart';
 import 'package:recruit_app/pages/boss/company_info.dart';
 import 'package:recruit_app/pages/boss/company_job_key_word.dart';

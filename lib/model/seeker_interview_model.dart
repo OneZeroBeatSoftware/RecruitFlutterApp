@@ -1,9 +1,6 @@
-import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:recruit_app/entity/base_resp_entity.dart';
-import 'package:recruit_app/entity/company_list_entity.dart';
-import 'package:recruit_app/entity/file_upload_entity.dart';
 import 'package:recruit_app/entity/seeker_interview_entity.dart';
 import 'package:recruit_app/utils/net_utils.dart';
 import 'package:recruit_app/utils/utils.dart';

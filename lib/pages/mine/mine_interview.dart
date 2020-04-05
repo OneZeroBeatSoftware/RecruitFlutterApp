@@ -5,7 +5,6 @@ import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/application.dart';
 import 'package:recruit_app/entity/base_resp_entity.dart';
-import 'package:recruit_app/entity/company_list_entity.dart';
 import 'package:recruit_app/entity/seeker_interview_entity.dart';
 import 'package:recruit_app/model/seeker_interview_model.dart';
 import 'package:recruit_app/pages/jobs/job_detail.dart';
@@ -31,6 +30,15 @@ class _MineInterViewState extends State<MineInterView> {
     // TODO: implement initState
     _refreshController = EasyRefreshController();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    if(_refreshController!=null){
+      _refreshController.dispose();
+    }
+    super.dispose();
   }
 
   @override
