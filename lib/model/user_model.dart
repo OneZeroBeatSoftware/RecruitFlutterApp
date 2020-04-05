@@ -25,7 +25,9 @@ class UserModel with ChangeNotifier {
     UserEntity user = await NetUtils.login(context, phone, pwd);
     if (user.statusCode ==200) {
       Utils.showToast(user.msg ?? '登录成功');
-      Application.sp.setString('token', user.data);
+      Application.sp.setString('token', user.data.token);
+      Application.sp.setString('jobSeekerId', user.data.jobSeekerId);
+      Application.sp.setString('recruiterId', user.data.recruiterId);
       _saveUserInfo(user);
       return user;
     }

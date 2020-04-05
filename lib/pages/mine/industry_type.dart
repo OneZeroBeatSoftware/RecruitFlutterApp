@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recruit_app/model/industry_type_data.dart';
+import 'package:recruit_app/entity/industry_type_entity.dart';
+import 'package:recruit_app/utils/net_utils.dart';
 import 'package:recruit_app/widgets/list_menu_dialog.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
@@ -12,21 +13,16 @@ class IndustryType extends StatefulWidget {
 }
 
 class _IndustryTypeState extends State<IndustryType> {
-  List<IndustryTypeData> _list = IndustryTypeList.loadIndustryData();
+  List<IndustryTypeData> _list=[];
   int _maxNum = 5;
   int _selNum = 0;
-
-  List<String> _industrySubList = [];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    for (int i1 = 0; i1 < 20; i1++) {
-      _industrySubList.add('社交网络');
-    }
-    _list.forEach((item) {
-      item.isChecked = false;
+    WidgetsBinding.instance.addPostFrameCallback((callback){
+      _getAllIndustry();
     });
   }
 
@@ -157,6 +153,7 @@ class _IndustryTypeState extends State<IndustryType> {
                     return GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onTap: () {
+                        FocusScope.of(context).requestFocus(FocusNode());
                         if (!item.isChecked) {
                           if (_selNum < _maxNum) {
                             showGeneralDialog(
@@ -179,7 +176,7 @@ class _IndustryTypeState extends State<IndustryType> {
                                     child: Opacity(
                                       opacity: animation1.value,
                                       child: ListMenuDialog(
-                                        title: item.filterName,
+                                        title: item.type,
                                         cancel: () {
                                           Navigator.pop(context);
                                         },
@@ -193,7 +190,7 @@ class _IndustryTypeState extends State<IndustryType> {
                                           });
                                           Navigator.pop(context);
                                         },
-                                        lists: _industrySubList,
+                                        lists: item.subType,
                                       ),
                                     ),
                                   );
@@ -231,7 +228,7 @@ class _IndustryTypeState extends State<IndustryType> {
                           ),
                         ),
                         child: Text(
-                          item.filterName,
+                          item.type,
                           maxLines: 1,
                           textAlign: TextAlign.center,
                           overflow: TextOverflow.ellipsis,
@@ -252,5 +249,21 @@ class _IndustryTypeState extends State<IndustryType> {
         ],
       ),
     );
+  }
+
+  /// 获取全部行业
+  _getAllIndustry() async {
+    IndustryTypeEntity industryEntity = await NetUtils.getIndustryList(context);
+    if (industryEntity != null && industryEntity.statusCode == 200) {
+      _list.clear();
+      _list.addAll(industryEntity.data.map((item) {
+        item.isChecked = false;
+        return item;
+      }));
+      setState(() {
+      });
+    } else {
+      Utils.showToast(industryEntity.msg??'暂未获取到行业信息');
+    }
   }
 }

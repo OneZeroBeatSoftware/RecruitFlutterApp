@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/entity/company_job_entity.dart';
-import 'package:recruit_app/model/job_list.dart';
 
 class CompanyJobItem extends StatelessWidget {
   final CompanyJobDataRecord job;

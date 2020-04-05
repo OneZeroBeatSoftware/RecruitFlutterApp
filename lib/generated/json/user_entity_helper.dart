@@ -8,7 +8,7 @@ userEntityFromJson(UserEntity data, Map<String, dynamic> json) {
 		data.msg = json['msg']?.toString();
 	}
 	if (json['data'] != null) {
-		data.data = json['data']?.toString();
+		data.data = new UserData().fromJson(json['data']);
 	}
 	return data;
 }
@@ -17,6 +17,29 @@ Map<String, dynamic> userEntityToJson(UserEntity entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	data['statusCode'] = entity.statusCode;
 	data['msg'] = entity.msg;
-	data['data'] = entity.data;
+	if (entity.data != null) {
+		data['data'] = entity.data.toJson();
+	}
+	return data;
+}
+
+userDataFromJson(UserData data, Map<String, dynamic> json) {
+	if (json['token'] != null) {
+		data.token = json['token']?.toString();
+	}
+	if (json['jobSeekerId'] != null) {
+		data.jobSeekerId = json['jobSeekerId']?.toString();
+	}
+	if (json['recruiterId'] != null) {
+		data.recruiterId = json['recruiterId']?.toString();
+	}
+	return data;
+}
+
+Map<String, dynamic> userDataToJson(UserData entity) {
+	final Map<String, dynamic> data = new Map<String, dynamic>();
+	data['token'] = entity.token;
+	data['jobSeekerId'] = entity.jobSeekerId;
+	data['recruiterId'] = entity.recruiterId;
 	return data;
 }

@@ -1,11 +1,16 @@
+import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/entity/seeker_interview_entity.dart';
 import 'package:recruit_app/widgets/slide_button.dart';
 
 class MsgInterviewItem extends StatefulWidget {
   final GlobalKey<SlideButtonState> btnKey;
+  final SeekerInterviewDataRecord interview;
+  final int index;
+  final Function(int) deleteItem;
 
-  const MsgInterviewItem({Key key, @required this.btnKey}) : super(key: key);
+  const MsgInterviewItem({Key key, @required this.btnKey,@required this.interview, this.deleteItem,@required this.index}) : super(key: key);
 
   @override
   _MsgInterviewItemState createState() => _MsgInterviewItemState();
@@ -47,7 +52,7 @@ class _MsgInterviewItemState extends State<MsgInterviewItem> {
                       children: <Widget>[
                         Expanded(
                           child: Text(
-                            '品牌策划师(9-10K)',
+                            '${widget.interview.jobName}(${widget.interview.minSalary}-${widget.interview.maxSalary}K)',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -70,7 +75,7 @@ class _MsgInterviewItemState extends State<MsgInterviewItem> {
                     ),
                     SizedBox(height: ScreenUtil().setWidth(10)),
                     Text(
-                      '先知先觉传媒有限公司邀请您参与面试',
+                      '${widget.interview.companyName}邀请您参与面试',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -98,7 +103,9 @@ class _MsgInterviewItemState extends State<MsgInterviewItem> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      '1月5号上午09:30',
+                                      '${DateUtil.formatDateMs(
+                                          widget.interview.interviewDate,
+                                          format: "yyyy-MM-dd HH:mm")}',
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
@@ -125,7 +132,7 @@ class _MsgInterviewItemState extends State<MsgInterviewItem> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      '188 8888 8888',
+                                      '${widget.interview.phone}',
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
@@ -152,7 +159,7 @@ class _MsgInterviewItemState extends State<MsgInterviewItem> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      '福州市鼓楼区塔头路85号',
+                                      '${widget.interview.address}',
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
@@ -185,6 +192,9 @@ class _MsgInterviewItemState extends State<MsgInterviewItem> {
       buttons: <Widget>[
         buildAction(widget.btnKey, Colors.red, () {
           widget.btnKey.currentState.close();
+          if(widget.deleteItem!=null){
+            widget.deleteItem(widget.index);
+          }
         }),
       ],
     ),  Container(

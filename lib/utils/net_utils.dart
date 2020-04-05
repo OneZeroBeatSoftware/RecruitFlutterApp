@@ -5,15 +5,20 @@ import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:recruit_app/entity/base_resp_entity.dart';
 import 'package:recruit_app/entity/city_entity.dart';
 import 'package:recruit_app/entity/company_detail_entity.dart';
 import 'package:recruit_app/entity/company_job_entity.dart';
 import 'package:recruit_app/entity/company_list_entity.dart';
 import 'package:recruit_app/entity/company_scale_entity.dart';
 import 'package:recruit_app/entity/edu_level_entity.dart';
+import 'package:recruit_app/entity/file_upload_entity.dart';
+import 'package:recruit_app/entity/industry_type_entity.dart';
 import 'package:recruit_app/entity/job_detail_entity.dart';
 import 'package:recruit_app/entity/job_list_entity.dart';
+import 'package:recruit_app/entity/job_type_entity.dart';
 import 'package:recruit_app/entity/salary_list_entity.dart';
+import 'package:recruit_app/entity/seeker_interview_entity.dart';
 import 'package:recruit_app/entity/user_entity.dart';
 import 'package:recruit_app/entity/work_date_entity.dart';
 import 'package:recruit_app/utils/token_interceptor.dart';
@@ -34,6 +39,60 @@ class NetUtils {
       ..interceptors
           .add(CustomLogInterceptor(responseBody: true, requestBody: true))
     ..interceptors.add(TokenInterceptor());
+  }
+
+  static Future<Response> _delete(
+      BuildContext context,
+      String url, {
+        Map<String, dynamic> params,
+        bool isShowLoading = true,
+      }) async {
+    if (isShowLoading) Loading.showLoading(context);
+    try {
+      return await _dio.delete(url, queryParameters: params);
+    } on DioError catch (e) {
+      if (e == null) {
+        return Future.error(Response(data: -1));
+      } else if (e.response != null) {
+        if (e.response.statusCode >= 300 && e.response.statusCode < 400) {
+//          _reLogin();
+          return Future.error(Response(data: -1));
+        } else {
+          return Future.value(e.response);
+        }
+      } else {
+        return Future.error(Response(data: -1));
+      }
+    } finally {
+      Loading.hideLoading(context);
+    }
+  }
+
+  static Future<Response> _put(
+      BuildContext context,
+      String url, {
+        Map<String, dynamic> params,
+        bool isShowLoading = true,
+      }) async {
+    if (isShowLoading) Loading.showLoading(context);
+    try {
+      return await _dio.put(url, queryParameters: params);
+    } on DioError catch (e) {
+      if (e == null) {
+        return Future.error(Response(data: -1));
+      } else if (e.response != null) {
+        if (e.response.statusCode >= 300 && e.response.statusCode < 400) {
+//          _reLogin();
+          return Future.error(Response(data: -1));
+        } else {
+          return Future.value(e.response);
+        }
+      } else {
+        return Future.error(Response(data: -1));
+      }
+    } finally {
+      Loading.hideLoading(context);
+    }
   }
 
   static Future<Response> _get(
@@ -93,12 +152,12 @@ class NetUtils {
   static Future<Response> _upLoadFile(
       BuildContext context,
       String url, {
-        Map<String, dynamic> params,
+        FormData formData,
         bool isShowLoading = true,
       }) async {
     if (isShowLoading) Loading.showLoading(context);
     try {
-      return await _dio.post(url,data: params);
+      return await _dio.post(url,data: formData);
     } on DioError catch (e) {
       if (e == null) {
         return Future.error(Response(data: -1));
@@ -163,7 +222,7 @@ class NetUtils {
 
   /// 求职者获取岗位详情
   static Future<JobDetailEntity> getJobDetail(BuildContext context, String id) async {
-    var response = await _get(context, '/job/details/$id', params: {
+    var response = await _get(context, '/job/info/$id', params: {
     });
     return JobDetailEntity().fromJson(response.data);
   }
@@ -228,10 +287,57 @@ class NetUtils {
   }
 
   /// 上传图片
-  static Future<String> uploadFile(BuildContext context,File file) async {
-    var response = await _upLoadFile(context, '/company/job/list', params: {
-      'image': file,
-    },isShowLoading: true);
-    return null;
+  static Future<FileUploadEntity> uploadFile(BuildContext context,
+      File file) async {
+    FormData formData = FormData.fromMap({
+      "image": MultipartFile.fromFileSync(
+        file.path,
+      )});
+    var response = await _upLoadFile(
+        context, '/image/upload', formData: formData, isShowLoading: true);
+    return FileUploadEntity().fromJson(response.data);
+  }
+
+  /// 添加、更新反馈
+  static Future<BaseRespEntity> subFeedBack(BuildContext context,List<String> imgPath,String content,{String id,String state} ) async {
+    Map<String,dynamic> params={};
+    params['image']=imgPath;
+    params['content']=content;
+    if(id!=null&&id.isNotEmpty){
+      params['id']=id;
+    }
+    if(state!=null&&state.isNotEmpty){
+      params['state']=state;
+    }
+    var response = await _post(context, '/feedBack/save', params: params,isShowLoading: true);
+    return BaseRespEntity().fromJson(response.data);
+  }
+
+  /// 获取全部面试邀请
+  static Future<SeekerInterviewEntity> getInterviewList(BuildContext context, String jobSeekerId, int pageIndex,int pageSize) async {
+    var response = await _post(context, '/interview/list', params: {
+      'jobSeekerId': jobSeekerId,
+      'pageIndex': pageIndex,
+      'pageSize': pageSize
+    },isShowLoading: false);
+    return SeekerInterviewEntity().fromJson(response.data);
+  }
+
+  /// 删除面试邀请
+  static Future<BaseRespEntity> deleteInterview(BuildContext context, String interviewId) async {
+    var response = await _delete(context, '/interview/delete/$interviewId',isShowLoading: true);
+    return BaseRespEntity().fromJson(response.data);
+  }
+
+  /// 获取全部行业
+  static Future<IndustryTypeEntity> getIndustryList(BuildContext context) async {
+    var response = await _get(context, '/industry/list',isShowLoading: true);
+    return IndustryTypeEntity().fromJson(response.data);
+  }
+
+  /// 获取全部岗位类型
+  static Future<JobTypeEntity> getAllJobType(BuildContext context) async {
+    var response = await _get(context, '/position/list',isShowLoading: true);
+    return JobTypeEntity().fromJson(response.data);
   }
 }

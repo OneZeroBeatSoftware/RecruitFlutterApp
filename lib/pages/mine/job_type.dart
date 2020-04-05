@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recruit_app/model/job_type_data.dart';
+import 'package:recruit_app/entity/job_type_entity.dart';
+import 'package:recruit_app/utils/net_utils.dart';
 import 'package:recruit_app/widgets/list_menu_dialog.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
@@ -12,21 +13,16 @@ class JobType extends StatefulWidget {
 }
 
 class _JobTypeState extends State<JobType> {
-  List<JobTypeData> _list = JobTypeList.loadJobData();
+  List<JobTypeData> _list = [];
   int _maxNum = 5;
   int _selNum = 0;
-
-  List<String> _industrySubList = [];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    for (int i1 = 0; i1 < 20; i1++) {
-      _industrySubList.add('平面设计');
-    }
-    _list.forEach((item) {
-      item.isChecked = false;
+    WidgetsBinding.instance.addPostFrameCallback((callback){
+      _getAllJobType();
     });
   }
 
@@ -157,6 +153,7 @@ class _JobTypeState extends State<JobType> {
                     return GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onTap: () {
+                        FocusScope.of(context).requestFocus(FocusNode());
                         if (!item.isChecked) {
                           if (_selNum < _maxNum) {
                             showGeneralDialog(
@@ -179,7 +176,7 @@ class _JobTypeState extends State<JobType> {
                                     child: Opacity(
                                       opacity: animation1.value,
                                       child: ListMenuDialog(
-                                        title: item.filterName,
+                                        title: item.type,
                                         cancel: () {
                                           Navigator.pop(context);
                                         },
@@ -193,7 +190,7 @@ class _JobTypeState extends State<JobType> {
                                           });
                                           Navigator.pop(context);
                                         },
-                                        lists: _industrySubList,
+                                        lists: item.subType,
                                       ),
                                     ),
                                   );
@@ -231,7 +228,7 @@ class _JobTypeState extends State<JobType> {
                           ),
                         ),
                         child: Text(
-                          item.filterName,
+                          item.type,
                           maxLines: 1,
                           textAlign: TextAlign.center,
                           overflow: TextOverflow.ellipsis,
@@ -252,5 +249,21 @@ class _JobTypeState extends State<JobType> {
         ],
       ),
     );
+  }
+
+  /// 获取全部行业
+  _getAllJobType() async {
+    JobTypeEntity jobTypeEntity = await NetUtils.getAllJobType(context);
+    if (jobTypeEntity != null && jobTypeEntity.statusCode == 200) {
+      jobTypeEntity.data.forEach((item){
+        item.isChecked=false;
+      });
+      _list.clear();
+      _list.addAll(jobTypeEntity.data);
+      setState(() {
+      });
+    } else {
+      Utils.showToast(jobTypeEntity.msg??'暂未获取到行业信息');
+    }
   }
 }
