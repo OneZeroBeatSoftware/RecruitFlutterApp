@@ -5,6 +5,8 @@ import 'package:recruit_app/pages/boss/job_manage_detail.dart';
 import 'package:recruit_app/pages/boss/job_manage_item.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
+import 'package:recruit_app/pages/boss/company_post_recruit.dart';
+
 
 class JobManage extends StatefulWidget {
   @override
@@ -67,7 +69,7 @@ class _JobManageState extends State<JobManage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => JobManageDetail(),
+                                builder: (context) => CompanyPostRecruit(isADDMode: false),
                               ));
                         });
                   }
