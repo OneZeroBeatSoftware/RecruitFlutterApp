@@ -15,6 +15,9 @@ import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/slide_button.dart';
 
 class MineInterView extends StatefulWidget {
+  VoidCallback onItemClicked;
+  MineInterView({this.onItemClicked});
+
   @override
   _MineInterViewState createState() => _MineInterViewState();
 }
@@ -79,6 +82,9 @@ class _MineInterViewState extends State<MineInterView> {
                   if (idx < InterviewModel.instance.interviewList.length) {
                     return GestureDetector(
                       onTap: () {
+                        if(widget.onItemClicked != null) {
+                          widget.onItemClicked();
+                        }else {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -87,6 +93,7 @@ class _MineInterViewState extends State<MineInterView> {
                                           .instance.interviewList[idx].jobId,
                                       jobDetailType: JobDetailType.interview,
                                     )));
+                        }
                       },
                       behavior: HitTestBehavior.opaque,
                       child: MsgInterviewItem(

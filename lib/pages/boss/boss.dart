@@ -190,7 +190,13 @@ class _BossMineState extends State<BossMine> {
                                 Navigator.push(
                                    context,
                                    MaterialPageRoute(
-                                      builder: (context) => MineInterView()));
+                                      builder: (context) => MineInterView(onItemClicked: () {
+                                        Navigator.push(
+                                           context,
+                                           MaterialPageRoute(
+                                             builder: (context) => EmployeeDetail(),
+                                           ));
+                                      },)));
                               },
                             ),
                           ),

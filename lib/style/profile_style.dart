@@ -155,6 +155,7 @@ class NextLevel extends StatelessWidget {
 		
 		// TODO: implement build
 		return GestureDetector(
+			behavior: HitTestBehavior.opaque,
 			onTap: () {
 				if(onClick != null) {
 					onClick();

@@ -8,6 +8,11 @@ import 'package:recruit_app/pages/employe/employee_experience.dart';
 import 'package:recruit_app/pages/employe/employee_experience2.dart';
 
 class EmployeeDetail extends StatefulWidget {
+  
+  //
+  int mode;
+  
+  
   @override
   _EmployeeDetailState createState() {
     // TODO: implement createState
@@ -341,28 +346,64 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
             ),
             SafeArea(
               top: false,
-              child: Container(
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(14)),
-                  child: MaterialButton(
-                    minWidth: ScreenUtil().setWidth(652),
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => BossChatRoom()));
-                    },
-                    textColor: Color.fromRGBO(159,199,235,1),
-                    child: Text("立即沟通"),
-                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(40)),
-                       side: const BorderSide(
-                         color: Color.fromRGBO(159, 199, 235, 1),
-                         width: 1
-                       )
-                    ),
-                  )),
+              child: Padding(
+                padding: EdgeInsets.only(
+                   left: ScreenUtil().setWidth(48),
+                   right: ScreenUtil().setWidth(48),
+                ),
+                child: Row(
+                  //2020 0403 下面的按钮不一定都存在，要根据跳转界面的功能进行隐藏、显示下面的按钮
+                  children: <Widget>[
+                    FlexButton(btnTitle: '立即沟通',),
+                    FlexButton(btnTitle: '取消面试',),
+                    FlexButton(flex: 2, btnTitle: '申请调整时间',),
+                  ],
+                ),
+              )
             ),
           ],
         ));
   }
+}
+
+class FlexButton extends StatelessWidget {
+  
+  int flex = 1;
+  String btnTitle;
+  
+  FlexButton({this.flex = 1, this.btnTitle});
+  
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Expanded(
+      flex: flex,
+      child: Container(
+         alignment: Alignment.center,
+         margin: EdgeInsets.only(
+            bottom: ScreenUtil().setHeight(14),
+            left: ScreenUtil().setHeight(10),
+            right: ScreenUtil().setHeight(10),
+         ),
+         child: MaterialButton(
+           minWidth: ScreenUtil().setWidth(652),
+           onPressed: () {
+             Navigator.push(context,
+                MaterialPageRoute(builder: (context) => BossChatRoom()));
+           },
+           textColor: Color.fromRGBO(159,199,235,1),
+           child: Text(btnTitle),
+           padding: EdgeInsets.symmetric(horizontal: 7, vertical: 12),
+           shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(40)),
+              side: const BorderSide(
+                 color: Color.fromRGBO(159, 199, 235, 1),
+                 width: 1
+              )
+           ),
+         )),
+    );
+  }
+  
+  
 }

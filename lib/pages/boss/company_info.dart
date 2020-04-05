@@ -261,8 +261,10 @@ class Item extends StatelessWidget {
   String title;
   String value;
   Widget rightIcon;
+  String tailValue;
+  num topPadding = 40;
   
-  Item(this.title, this.value, {this.canClick = false, this.onClick, this.rightIcon});
+  Item(this.title, this.value, {this.canClick = false, this.onClick, this.rightIcon, this.tailValue = '', this.topPadding = 40});
   
   @override
   Widget build(BuildContext context) {
@@ -288,28 +290,49 @@ class Item extends StatelessWidget {
         ),
       ],
     ));
+    List<Widget> tailW = [
+      Row(
+        children: <Widget>[
+          Text(
+            tailValue,
+            style: TextStyle(
+               color: Color.fromRGBO(176,181,180,1),
+               fontWeight: FontWeight.w500,
+               fontSize: ScreenUtil().setSp(24)
+            ),
+          ),
+          SizedBox(
+            width: ScreenUtil().setWidth(14),
+          )
+        ],
+      )
+    ];
     
     if(this.canClick) {
       if(this.rightIcon != null) {
-        widgets.add(rightIcon);
+        tailW.add(rightIcon);
       } else {
-        widgets.add(
+        tailW.add(
            Image.asset('images/img_arrow_right_blue.png',
-            width:ScreenUtil().setWidth(12),
-              height: ScreenUtil().setHeight(20)
+            width:ScreenUtil().setWidth(14),
+              height: ScreenUtil().setHeight(22)
            )
         );
       }
     }
+    widgets.add(Row(
+      children: tailW,
+    ));
     
     return GestureDetector(
+       behavior: HitTestBehavior.opaque,
       onTap: () {
         if(this.onClick != null) {
           this.onClick();
         }
       },
       child: Padding(
-        padding: EdgeInsets.only(top: ScreenUtil().setHeight(40)),
+        padding: EdgeInsets.only(top: ScreenUtil().setHeight(topPadding)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: widgets,
@@ -353,6 +376,7 @@ class Item2 extends StatelessWidget {
       children: <Widget>[
         SizedBox(height: ScreenUtil().setHeight(40)),
         GestureDetector(
+          behavior: HitTestBehavior.opaque,
            child: Row(
             children: titleW,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
