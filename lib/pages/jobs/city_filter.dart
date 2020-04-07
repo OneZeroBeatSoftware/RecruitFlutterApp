@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/application.dart';
 import 'package:recruit_app/entity/city_entity.dart';
 import 'package:recruit_app/model/job_filter_data.dart';
 import 'package:recruit_app/widgets/list_menu_dialog.dart';
@@ -286,6 +287,8 @@ class _CityFilterState extends State<CityFilter> {
                                     },
                                     itemSelected: (index){
                                       Navigator.pop(context);
+                                      Application.sp.setString('location_city_id', item.id);
+                                      Application.sp.setString('location_city', item.filterName);
                                       Navigator.pop(context,item.filterName);
                                     },
                                     lists: _area,
@@ -369,13 +372,12 @@ class _CityFilterState extends State<CityFilter> {
             filterName: item.initial,
             filterSubData: item.cities
                 .map((subItem) => JobFilterSubData(
-                filterName: subItem.cityName, isChecked: false))
+                id: subItem.id,
+                filterName: subItem.cityName, isChecked: subItem.id==Application.sp.get('location_city_id')))
                 .toList()));
       });
 
       setState(() {
-        // ignore: unnecessary_statements
-        _cityFilterData;
       });
     }
   }

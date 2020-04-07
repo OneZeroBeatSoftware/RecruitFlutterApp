@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:recruit_app/entity/age_entity.dart';
 import 'package:recruit_app/entity/base_resp_entity.dart';
 import 'package:recruit_app/entity/city_entity.dart';
 import 'package:recruit_app/entity/company_detail_entity.dart';
@@ -19,6 +20,7 @@ import 'package:recruit_app/entity/job_list_entity.dart';
 import 'package:recruit_app/entity/job_type_entity.dart';
 import 'package:recruit_app/entity/salary_list_entity.dart';
 import 'package:recruit_app/entity/seeker_interview_entity.dart';
+import 'package:recruit_app/entity/seeker_notice_entity.dart';
 import 'package:recruit_app/entity/user_entity.dart';
 import 'package:recruit_app/entity/work_date_entity.dart';
 import 'package:recruit_app/utils/token_interceptor.dart';
@@ -257,6 +259,12 @@ class NetUtils {
     return SalaryListEntity().fromJson(response.data);
   }
 
+  /// 获取年龄相关
+  static Future<AgeEntity> getAgeList(BuildContext context) async {
+    var response = await _get(context, '/age/list', params: {});
+    return AgeEntity().fromJson(response.data);
+  }
+
   /// 获取公司列表
   static Future<CompanyListEntity> getCompanyList(BuildContext context, bool isNearby,bool isRecommend, int pageIndex,int pageSize) async {
     var response = await _post(context, '/company/list', params: {
@@ -329,6 +337,15 @@ class NetUtils {
     return BaseRespEntity().fromJson(response.data);
   }
 
+  /// 获取通知列表
+  static Future<SeekerNoticeEntity> getNoticeList(BuildContext context,int pageIndex,int pageSize) async {
+    var response = await _post(context, '/notice/list', params: {
+      'pageIndex': pageIndex,
+      'pageSize': pageSize
+    },isShowLoading: false);
+    return SeekerNoticeEntity().fromJson(response.data);
+  }
+
   /// 获取全部行业
   static Future<IndustryTypeEntity> getIndustryList(BuildContext context) async {
     var response = await _get(context, '/industry/list',isShowLoading: true);
@@ -339,5 +356,94 @@ class NetUtils {
   static Future<JobTypeEntity> getAllJobType(BuildContext context) async {
     var response = await _get(context, '/position/list',isShowLoading: true);
     return JobTypeEntity().fromJson(response.data);
+  }
+
+  /// 搜索公司
+  static Future<CompanyListEntity> searchCompany(BuildContext context,int pageIndex,{int pageSize=15,String city,String industryId,String keyword,String scale}) async {
+    Map<String,dynamic> params={};
+    if(city!=null&&city.isNotEmpty){
+      params["city"]=city;
+    }
+    if(industryId!=null&&industryId.isNotEmpty){
+      params["industryId"]=industryId;
+    }
+    if(scale!=null&&scale.isNotEmpty){
+      params["scale"]=scale;
+    }
+    if(keyword!=null&&keyword.isNotEmpty){
+      params["keyword"]=keyword;
+    }
+    params["pageIndex"]=pageIndex;
+    params["pageSize"]=pageSize;
+
+    var response = await _post(context, '/search/company',
+        params: params,
+        isShowLoading: false);
+    return CompanyListEntity().fromJson(response.data);
+  }
+
+  /// 搜索工作
+  static Future<JobListEntity> searchJob(BuildContext context,
+      int pageIndex,
+      {int pageSize = 15, String city, String keyword, String scale, String age,String salary,String education}) async {
+    Map<String,dynamic> params={};
+    if(city!=null&&city.isNotEmpty){
+      params["city"]=city;
+    }
+    if(age!=null&&age.isNotEmpty){
+      params["age"]=age;
+    }
+    if(education!=null&&education.isNotEmpty){
+      params["education"]=education;
+    }
+    if(keyword!=null&&keyword.isNotEmpty){
+      params["keyword"]=keyword;
+    }
+    if(scale!=null&&scale.isNotEmpty){
+      params["scale"]=scale;
+    }
+    if(salary!=null&&salary.isNotEmpty){
+      params["salary"]=salary;
+    }
+    params["pageIndex"]=pageIndex;
+    params["pageSize"]=pageSize;
+
+    var response = await _post(context, '/search/job',
+        params: params,
+        isShowLoading: false);
+    return JobListEntity().fromJson(response.data);
+  }
+
+  /// 搜索简历
+  static Future<SeekerInterviewEntity> searchResume(BuildContext context,
+      int pageIndex,
+      {int pageSize = 15, String city,String keyword,String sex,String salary,String education,String workDate}) async {
+
+    Map<String,dynamic> params={};
+    if(city!=null&&city.isNotEmpty){
+      params["city"]=city;
+    }
+    if(education!=null&&education.isNotEmpty){
+      params["educationId"]=education;
+    }
+    if(keyword!=null&&keyword.isNotEmpty){
+      params["keyword"]=keyword;
+    }
+    if(salary!=null&&salary.isNotEmpty){
+      params["salary"]=salary;
+    }
+    if(sex!=null&&sex.isNotEmpty){
+      params["sex"]=sex;
+    }
+    if(workDate!=null&&workDate.isNotEmpty){
+      params["workDate"]=workDate;
+    }
+    params["pageIndex"]=pageIndex;
+    params["pageSize"]=pageSize;
+
+    var response = await _post(context, '/search/job',
+        params: params,
+        isShowLoading: false);
+    return SeekerInterviewEntity().fromJson(response.data);
   }
 }

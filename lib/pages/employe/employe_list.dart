@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/application.dart';
 import 'package:recruit_app/model/employe_list.dart';
 import 'package:recruit_app/pages/employe/employe_row_item.dart';
 import 'package:recruit_app/pages/employe/employee_detail.dart';
@@ -19,15 +20,23 @@ class EmployeeList extends StatefulWidget {
 }
 
 class _EmployeeListState extends State<EmployeeList> {
+  String _selCity='请选择城市';
+
   int _selectFilterType = 0;
   int _pageIndex = 1;
 
   List<Employee> _employeeList = EmployeeData.loadEmployees();
   EasyRefreshController _refreshController;
 
+  String _sex='';
+  String _workDate='';
+  String _eduLevel='';
+  String _salary='';
+
   @override
   void initState() {
     // TODO: implement initState
+    _selCity=Application.sp.get('location_city')??'请选择城市';
     _refreshController = EasyRefreshController();
     super.initState();
   }
@@ -75,14 +84,17 @@ class _EmployeeListState extends State<EmployeeList> {
                               behavior: HitTestBehavior.opaque,
                               onTap: () {
                                 Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => CityFilter(),
-                                  ),
-                                );
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => CityFilter())).then((value){
+                                  if (value != null)
+                                    setState(() {
+                                      _selCity = value;
+                                    });
+                                });
                               },
                               child: Text(
-                                '洛杉矶',
+                                '$_selCity',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: ScreenUtil().setSp(40),
@@ -333,9 +345,15 @@ class _EmployeeListState extends State<EmployeeList> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => JobFilter(),
+                                        builder: (context) => JobFilter(filterType: FilterType.resume,),
                                       ),
-                                    );
+                                    ).then((result){
+                                      if(result!=null&&(result is FilterResult)){
+                                        _sex = result.sex;
+                                        _workDate = result.workDate;
+                                        _eduLevel = result.eduLevel;
+                                        _salary = result.salary;                                      }
+                                    });
                                   },
                                 ),
                               ],

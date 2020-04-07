@@ -1,8 +1,14 @@
+import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/entity/seeker_notice_entity.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 
 class NotifyDetail extends StatefulWidget {
+  final SeekerNoticeDataRecord notice;
+
+  const NotifyDetail({Key key, this.notice}) : super(key: key);
+
   @override
   _NotifyDetailState createState() => _NotifyDetailState();
 }
@@ -41,7 +47,7 @@ class _NotifyDetailState extends State<NotifyDetail> {
               children: <Widget>[
                 Expanded(
                   child: Text(
-                    '邀请通知',
+                    widget.notice.noticeName,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -55,7 +61,7 @@ class _NotifyDetailState extends State<NotifyDetail> {
                   width: ScreenUtil().setWidth(20),
                 ),
                 Text(
-                  '2月2号11:30',
+                  DateUtil.formatDateMs(widget.notice.createDate,format: "MM-dd HH:mm"),
                   style: TextStyle(
                     fontSize: ScreenUtil().setSp(22),
                     color: Color.fromRGBO(176, 181, 180, 1),
@@ -72,7 +78,7 @@ class _NotifyDetailState extends State<NotifyDetail> {
               ),
               physics: BouncingScrollPhysics(),
               child: Text(
-                '系统将于2月5号进行优化，最新功能如下：\n1：优化招聘列表；\n2：优化地图；\n3：优化招聘者页面\n4：优化招聘列表；\n5：优化地图；\n6：优化招聘者页面',
+                widget.notice.content,
                 style: TextStyle(
                   fontSize: ScreenUtil().setSp(28),
                   height: 1.4,

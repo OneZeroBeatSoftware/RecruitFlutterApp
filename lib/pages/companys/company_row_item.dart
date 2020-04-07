@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recruit_app/entity/company_list_entity.dart';
+import 'package:recruit_app/entity/company_item_entity.dart';
 
 class CompanyRowItem extends StatelessWidget {
   final CompanyListDataRecord company;

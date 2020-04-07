@@ -7,7 +7,14 @@ class IndustryTypeEntity with JsonConvert<IndustryTypeEntity> {
 }
 
 class IndustryTypeData with JsonConvert<IndustryTypeData> {
+	String id;
 	String type;
 	bool isChecked;
-	List<String> subType;
+	List<IndustrySubTypeData> subType;
+}
+
+class IndustrySubTypeData with JsonConvert<IndustrySubTypeData> {
+	String id;
+	String subType;
+	bool isChecked;
 }

@@ -438,15 +438,17 @@ class CityFilterList {
 }
 
 class JobFilterData {
+  String id;
   String filterName;
   List<JobFilterSubData> filterSubData;
 
-  JobFilterData({this.filterName, this.filterSubData});
+  JobFilterData({this.id,this.filterName, this.filterSubData});
 }
 
 class JobFilterSubData {
+  String id;
   String filterName;
   bool isChecked;
 
-  JobFilterSubData({this.filterName, this.isChecked});
+  JobFilterSubData({this.id,this.filterName, this.isChecked});
 }

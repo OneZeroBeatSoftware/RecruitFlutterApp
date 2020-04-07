@@ -7,7 +7,14 @@ class JobTypeEntity with JsonConvert<JobTypeEntity> {
 }
 
 class JobTypeData with JsonConvert<JobTypeData> {
+	String id;
 	String type;
 	bool isChecked;
-	List<String> subType;
+	List<JobSubTypeData> subType;
+}
+
+class JobSubTypeData with JsonConvert<JobSubTypeData> {
+	String id;
+	String subType;
+	bool isChecked;
 }

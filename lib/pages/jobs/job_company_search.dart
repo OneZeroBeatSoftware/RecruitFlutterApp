@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
-import 'package:recruit_app/model/company_model.dart';
 import 'package:recruit_app/model/employe_list.dart';
-import 'package:recruit_app/model/job_model.dart';
+import 'package:recruit_app/model/search_model.dart';
 import 'package:recruit_app/pages/companys/company_detail.dart';
 import 'package:recruit_app/pages/companys/company_row_item.dart';
 import 'package:recruit_app/pages/employe/employe_row_item.dart';
@@ -12,6 +12,8 @@ import 'package:recruit_app/pages/jobs/city_filter.dart';
 import 'package:recruit_app/pages/jobs/job_detail.dart';
 import 'package:recruit_app/pages/jobs/job_filter.dart';
 import 'package:recruit_app/pages/jobs/job_row_item.dart';
+
+import '../../application.dart';
 
 enum SearchType { job, company,resume }
 
@@ -25,19 +27,59 @@ class JobCompanySearch extends StatefulWidget {
 }
 
 class _JobCompanySearchState extends State<JobCompanySearch> {
-  CompanyModel _companyModel;
-  JobModel _jobModel;
   List<Employee> _employeeList = EmployeeData.loadEmployees();
+  List<String> _searchList = [];
+  TextEditingController _searchController;
+
+  String _selCity='请选择城市';
+  FilterType _filterType;
+
+  String _keyword;
+  String _eduLevel;
+  String _salary;
+  String _workDate;
+  String _scale;
+  String _age;
+  String _industry;
+  String _jobType;
+  String _sex;
+
+  int _pageIndex=1;
+  EasyRefreshController _refreshController;
 
   @override
   void initState() {
+    _refreshController = EasyRefreshController();
+    _searchController=TextEditingController();
+    _searchList=Application.sp.getStringList('search_history')??[];
+    _selCity=Application.sp.get('location_city')??'请选择城市';
+    if(widget.searchType==SearchType.job){
+      _filterType=FilterType.job;
+    }else if(widget.searchType==SearchType.company){
+      _filterType=FilterType.company;
+    }else if(widget.searchType==SearchType.resume){
+      _filterType=FilterType.resume;
+    }else {
+      _filterType=FilterType.all;
+    }
     super.initState();
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    Application.sp.setStringList('search_history', _searchList);
+    if(_searchController!=null){
+      _searchController.dispose();
+    }
+    if(_refreshController!=null){
+      _refreshController.dispose();
+    }
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    _companyModel = Provider.of<CompanyModel>(context);
-    _jobModel=Provider.of<JobModel>(context);
     return Scaffold(
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
@@ -62,6 +104,7 @@ class _JobCompanySearchState extends State<JobCompanySearch> {
                     GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onTap: () {
+                        FocusScope.of(context).requestFocus(FocusNode());
                         Navigator.pop(context);
                       },
                       child: Image.asset(
@@ -94,6 +137,7 @@ class _JobCompanySearchState extends State<JobCompanySearch> {
                             ),
                             Expanded(
                               child: TextField(
+                                controller: _searchController,
                                 autofocus: false,
                                 scrollPadding: EdgeInsets.all(0),
                                 textAlign: TextAlign.start,
@@ -105,15 +149,24 @@ class _JobCompanySearchState extends State<JobCompanySearch> {
                                 decoration: InputDecoration(
                                   contentPadding: EdgeInsets.all(0),
                                   border: InputBorder.none,
-                                  hintText: widget.searchType == SearchType.job
-                                      ? '输入岗位名称'
-                                      : '输入企业名称',
+                                  hintText: widget.searchType == SearchType.company
+                                      ? '输入企业名称'
+                                      : (widget.searchType == SearchType.resume?"请输入人才姓名":'输入岗位名称'),
                                   hintStyle: TextStyle(
                                     fontSize: ScreenUtil().setSp(24),
                                     color: Color.fromRGBO(176, 181, 180, 1),
                                   ),
                                 ),
-                                onSubmitted: (text) {},
+                                textInputAction: TextInputAction.search,
+                                onSubmitted: (text) {
+                                  if(_searchController.text.isNotEmpty){
+                                    _keyword=_searchController.text;
+                                    setState(() {
+                                      _searchList.add(_searchController.text);
+                                    });
+                                  }
+                                  _refreshController.callRefresh();
+                                },
                               ),
                             ),
                           ],
@@ -130,138 +183,94 @@ class _JobCompanySearchState extends State<JobCompanySearch> {
                   ],
                 ),
               ),
-              Container(
-                margin: EdgeInsets.symmetric(
-                    horizontal: ScreenUtil().setWidth(48),
-                    vertical: ScreenUtil().setWidth(26)),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Text(
-                        '搜索历史',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: ScreenUtil().setSp(32),
-                          color: Color.fromRGBO(57, 57, 57, 1),
+              Visibility(child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.symmetric(
+                        horizontal: ScreenUtil().setWidth(48),
+                        vertical: ScreenUtil().setWidth(26)),
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Text(
+                            '搜索历史',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: ScreenUtil().setSp(32),
+                              color: Color.fromRGBO(57, 57, 57, 1),
+                            ),
+                          ),
                         ),
-                      ),
+                        SizedBox(
+                          width: ScreenUtil().setWidth(15),
+                        ),
+                        GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () {
+                            FocusScope.of(context).requestFocus(FocusNode());
+                            Application.sp.setStringList('search_history', []);
+                            setState(() {
+                              _searchList.clear();
+                            });
+                          },
+                          child: Image.asset(
+                            'images/img_del_gray.png',
+                            width: ScreenUtil().setWidth(20),
+                            height: ScreenUtil().setWidth(24),
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(
-                      width: ScreenUtil().setWidth(15),
-                    ),
-                    GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () {},
-                      child: Image.asset(
-                        'images/img_del_gray.png',
-                        width: ScreenUtil().setWidth(20),
-                        height: ScreenUtil().setWidth(24),
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding:
+                  ),
+                  Padding(
+                    padding:
                     EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(48)),
-                child: Wrap(
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  spacing: ScreenUtil().setWidth(16),
-                  runSpacing: ScreenUtil().setWidth(16),
-                  children: [
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: ScreenUtil().setWidth(
-                          ScreenUtil().setWidth(28),
-                        ),
-                        vertical: ScreenUtil().setWidth(
-                          ScreenUtil().setWidth(15),
-                        ),
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(
-                          ScreenUtil().setWidth(1000),
-                        ),
-                        border: Border.all(
-                          color: Color.fromRGBO(159, 199, 235, 1),
-                          width: ScreenUtil().setWidth(1),
-                        ),
-                      ),
-                      child: Text(
-                        '平面设计',
-                        maxLines: 1,
-                        textAlign: TextAlign.center,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: Color.fromRGBO(159, 199, 235, 1),
-                          fontSize: ScreenUtil().setSp(22),
-                        ),
-                      ),
+                    child: Wrap(
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      spacing: ScreenUtil().setWidth(16),
+                      runSpacing: ScreenUtil().setWidth(16),
+                      children: _searchList.map((item){
+                        return GestureDetector(child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: ScreenUtil().setWidth(
+                              ScreenUtil().setWidth(28),
+                            ),
+                            vertical: ScreenUtil().setWidth(
+                              ScreenUtil().setWidth(15),
+                            ),
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                              ScreenUtil().setWidth(1000),
+                            ),
+                            border: Border.all(
+                              color: Color.fromRGBO(159, 199, 235, 1),
+                              width: ScreenUtil().setWidth(1),
+                            ),
+                          ),
+                          child: Text(
+                            item,
+                            maxLines: 1,
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: Color.fromRGBO(159, 199, 235, 1),
+                              fontSize: ScreenUtil().setSp(22),
+                            ),
+                          ),
+                        ),behavior: HitTestBehavior.opaque,onTap: (){
+                          _keyword=item;
+                          _refreshController.callRefresh();
+                        },);
+                      }).toList(),
                     ),
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: ScreenUtil().setWidth(
-                          ScreenUtil().setWidth(28),
-                        ),
-                        vertical: ScreenUtil().setWidth(
-                          ScreenUtil().setWidth(15),
-                        ),
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(
-                          ScreenUtil().setWidth(1000),
-                        ),
-                        border: Border.all(
-                          color: Color.fromRGBO(159, 199, 235, 1),
-                          width: ScreenUtil().setWidth(1),
-                        ),
-                      ),
-                      child: Text(
-                        '平面设计',
-                        maxLines: 1,
-                        textAlign: TextAlign.center,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: Color.fromRGBO(159, 199, 235, 1),
-                          fontSize: ScreenUtil().setSp(22),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: ScreenUtil().setWidth(
-                          ScreenUtil().setWidth(28),
-                        ),
-                        vertical: ScreenUtil().setWidth(
-                          ScreenUtil().setWidth(15),
-                        ),
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(
-                          ScreenUtil().setWidth(1000),
-                        ),
-                        border: Border.all(
-                          color: Color.fromRGBO(159, 199, 235, 1),
-                          width: ScreenUtil().setWidth(1),
-                        ),
-                      ),
-                      child: Text(
-                        '平面设计',
-                        maxLines: 1,
-                        textAlign: TextAlign.center,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: Color.fromRGBO(159, 199, 235, 1),
-                          fontSize: ScreenUtil().setSp(22),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                  ),
+                ],
+              ),visible: _searchList!=null&&_searchList.length>0,),
               Container(
                 margin: EdgeInsets.symmetric(
                   horizontal: ScreenUtil().setWidth(48),
@@ -284,10 +293,18 @@ class _JobCompanySearchState extends State<JobCompanySearch> {
                     GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onTap: () {
+                        FocusScope.of(context).requestFocus(FocusNode());
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => CityFilter()));
+                                builder: (context) => CityFilter())).then((value){
+                          if (value != null){
+                            setState(() {
+                              _selCity = value;
+                            });
+                            _refreshController.callRefresh();
+                          }
+                        });
                       },
                       child: Container(
                         padding: EdgeInsets.symmetric(
@@ -311,7 +328,7 @@ class _JobCompanySearchState extends State<JobCompanySearch> {
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             Text(
-                              '洛杉矶',
+                              '$_selCity',
                               maxLines: 1,
                               textAlign: TextAlign.center,
                               overflow: TextOverflow.ellipsis,
@@ -336,10 +353,55 @@ class _JobCompanySearchState extends State<JobCompanySearch> {
                     GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onTap: () {
+                        FocusScope.of(context).requestFocus(FocusNode());
                         Navigator.push(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) => JobFilter()));
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                JobFilter(
+                                  filterType: _filterType,
+                                  eduLevel: _eduLevel,
+                                  salary: _salary,
+                                  workDate: _workDate,
+                                  scale: _scale,
+                                  age: _age,
+                                  industry: _industry,
+                                  jobType: _jobType,
+                                  sex: _sex,
+                                ),),).then((
+                            result) {
+                          if (result != null && (result is FilterResult)) {
+                            if(result.filterType==FilterType.job){
+                              _scale = result.scale;
+                              _industry = result.industry;
+                              _jobType = result.jobType;
+                              _age = result.age;
+                              _salary = result.salary;
+                              _eduLevel = result.eduLevel;
+                              _refreshController.callRefresh();
+                            }else if(result.filterType==FilterType.company){
+                              _scale = result.scale;
+                              _industry = result.industry;
+                              _refreshController.callRefresh();
+                            }else if(result.filterType==FilterType.resume){
+                              _sex = result.sex;
+                              _workDate = result.workDate;
+                              _eduLevel = result.eduLevel;
+                              _salary = result.salary;
+                              _refreshController.callRefresh();
+                            }else if(result.filterType==FilterType.all){
+                              _eduLevel = result.eduLevel;
+                              _salary = result.salary;
+                              _workDate = result.workDate;
+                              _scale = result.scale;
+                              _age = result.age;
+                              _industry = result.industry;
+                              _jobType = result.jobType;
+                              _sex = result.sex;
+                              _refreshController.callRefresh();
+                            }
+                          }
+                        });
                       },
                       child: Container(
                         padding: EdgeInsets.symmetric(
@@ -389,66 +451,161 @@ class _JobCompanySearchState extends State<JobCompanySearch> {
                 ),
               ),
               Expanded(
-                child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    if(widget.searchType == SearchType.job&&index <_jobModel.jobList.length){
-                      return GestureDetector(
-                          behavior: HitTestBehavior.opaque,
-                          child: JobRowItem(
-                              job: _jobModel.jobList[index],
-                              index: index,
-                              lastItem: index == _jobModel.jobList.length - 1),
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => JobDetail(jobId:_jobModel.jobList[index].id),
-                                ));
-                          });
-                    }
+                child: EasyRefresh.custom(
+                    controller: _refreshController,
+                    firstRefresh: false,
+                    header: MaterialHeader(),
+                    footer: ClassicalFooter(
+                        infoColor: Color.fromRGBO(159, 199, 235, 1)),
+                    onRefresh: () async {
+                      _pageIndex = 1;
+                      _search();
+                      _refreshController.resetLoadState();
+                    },
+                    onLoad: () async {
+                      _search();
+                      _refreshController.resetLoadState();
+                    },
+                    slivers: <Widget>[
+                      SliverList(
+                          delegate:
+                          SliverChildBuilderDelegate((context, index) {
+                            if (widget.searchType == SearchType.job &&
+                                index < SearchModel.instance.jobList.length) {
+                              return GestureDetector(
+                                  behavior: HitTestBehavior.opaque,
+                                  child: JobRowItem(
+                                      job: SearchModel.instance.jobList[index],
+                                      index: index,
+                                      lastItem: index ==
+                                          SearchModel.instance.jobList.length - 1),
+                                  onTap: () {
+                                    FocusScope.of(context).requestFocus(
+                                        FocusNode());
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              JobDetail(jobId: SearchModel.instance
+                                                  .jobList[index].id),
+                                        ));
+                                  });
+                            }
 
-                    if(widget.searchType == SearchType.company&&index <_companyModel.companyList.length){
-                      return GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        child: CompanyRowItem(
-                            company: _companyModel.companyList[index],
-                            index: index,
-                            lastItem: index == _companyModel.companyList.length - 1),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => CompanyDetail(companyId: _companyModel.companyList[index].id,),
-                              ));
-                        },
-                      );
-                    }
+                            if (widget.searchType == SearchType.company &&
+                                index < SearchModel.instance.companyList.length) {
+                              return GestureDetector(
+                                behavior: HitTestBehavior.opaque,
+                                child: CompanyRowItem(
+                                    company: SearchModel.instance.companyList[index],
+                                    index: index,
+                                    lastItem: index ==
+                                        SearchModel.instance.companyList.length - 1),
+                                onTap: () {
+                                  FocusScope.of(context).requestFocus(
+                                      FocusNode());
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            CompanyDetail(
+                                              companyId: SearchModel.instance.companyList[index].id,),
+                                      ));
+                                },
+                              );
+                            }
 
-                    if(widget.searchType == SearchType.resume&&index <_employeeList.length) {
-                      return GestureDetector(
-                          behavior: HitTestBehavior.opaque,
-                          child: EmployeeRowItem(
-                              employee: _employeeList[index],
-                              index: index,
-                              lastItem: index == _employeeList.length - 1),
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => EmployeeDetail(),
-                                ));
-                          });
-                    }
-                    return null;
-                  },
-                  itemCount: widget.searchType == SearchType.resume
-                      ? _employeeList.length
-                      : (widget.searchType == SearchType.company?_companyModel.companyList.length:_jobModel.jobList.length),
-                  physics: const BouncingScrollPhysics(),
-                ),
+                            if (widget.searchType == SearchType.resume &&
+                                index < _employeeList.length) {
+                              return GestureDetector(
+                                  behavior: HitTestBehavior.opaque,
+                                  child: EmployeeRowItem(
+                                      employee: _employeeList[index],
+                                      index: index,
+                                      lastItem: index ==
+                                          _employeeList.length - 1),
+                                  onTap: () {
+                                    FocusScope.of(context).requestFocus(
+                                        FocusNode());
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              EmployeeDetail(),
+                                        ));
+                                  });
+                            }
+                            return null;
+                          }, childCount: widget.searchType == SearchType.resume
+                              ? _employeeList.length
+                              : (widget.searchType == SearchType.company
+                              ? SearchModel.instance.companyList.length
+                              : SearchModel.instance.jobList.length)))
+                    ]),
               ),
             ],
           ),
         ));
+  }
+
+  /// 搜索
+  _search(){
+    if(widget.searchType==SearchType.job){
+      _searchJob();
+    } else if(widget.searchType==SearchType.company){
+      _searchCompany();
+    } else if(widget.searchType==SearchType.resume){
+      _searchResume();
+    }
+  }
+
+  /// 搜索工作
+  _searchJob() {
+    SearchModel.instance.searchJob(context, _pageIndex,
+      city: Application.sp.get('location_city_id'),
+      keyword: _keyword,
+      scale: _scale,
+      age: _age,
+      salary: _salary,
+      education: _eduLevel,
+    ).then((searchModel) {
+      if (searchModel != null) {
+        _pageIndex++;
+      }
+      setState(() {});
+    });
+  }
+
+  /// 搜索公司
+  _searchCompany() {
+    SearchModel.instance.searchCompany(context, _pageIndex,
+      city: Application.sp.get('location_city_id'),
+      keyword: _keyword,
+      industryId: _industry,
+      scale: _scale,
+    ).then((searchModel) {
+      if (searchModel != null) {
+        _pageIndex++;
+      }
+      setState(() {});
+    });
+  }
+
+  /// 搜索简历
+  _searchResume() {
+    SearchModel.instance.searchResume(
+        context, _pageIndex,
+        city: Application.sp.get('location_city_id'),
+        keyword: _keyword,
+        sex: _sex,
+        salary: _salary,
+        education: _eduLevel,
+        workDate: _workDate)
+        .then((searchModel) {
+      if (searchModel != null) {
+        _pageIndex++;
+      }
+      setState(() {});
+    });
   }
 }

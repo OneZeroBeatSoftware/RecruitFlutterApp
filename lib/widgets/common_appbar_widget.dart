@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CommonAppBar extends StatefulWidget implements PreferredSizeWidget {
@@ -30,62 +29,58 @@ class CommonAppBar extends StatefulWidget implements PreferredSizeWidget {
 class _CommonAppBarState extends State<CommonAppBar> {
   @override
   Widget build(BuildContext context) {
-    print(widget.backgroundColor==Colors.white);
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-        value: widget.backgroundColor==Colors.white?SystemUiOverlayStyle.light:SystemUiOverlayStyle.dark,
-        child:Container(
-          decoration: BoxDecoration(color: widget.backgroundColor,border: widget.border??Border()),
-          child: SafeArea(child: Stack(
-            children: <Widget>[
-              Align(
-                alignment: Alignment.centerLeft,
-                child: GestureDetector(
-                  onTap:widget.leftListener,
-                  behavior: HitTestBehavior.opaque,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: ScreenUtil().setWidth(24),
+    return Container(
+      decoration: BoxDecoration(color: widget.backgroundColor,border: widget.border??Border()),
+      child: SafeArea(child: Stack(
+        children: <Widget>[
+          Align(
+            alignment: Alignment.centerLeft,
+            child: GestureDetector(
+              onTap:widget.leftListener,
+              behavior: HitTestBehavior.opaque,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: ScreenUtil().setWidth(24),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Image.asset(
+                      widget.leading,
+                      width: ScreenUtil().setWidth(20),
+                      height: ScreenUtil().setWidth(36),
+                      fit: BoxFit.contain,
                     ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Image.asset(
-                          widget.leading,
-                          width: ScreenUtil().setWidth(20),
-                          height: ScreenUtil().setWidth(36),
-                          fit: BoxFit.contain,
-                        ),
-                        SizedBox(
-                          width: ScreenUtil().setWidth(16),
-                        ),
-                        Text(
-                          widget.leftText,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            wordSpacing: 1,
-                            letterSpacing: 1,
-                            fontSize: ScreenUtil().setSp(36),
-                            color: Color.fromRGBO(159, 199, 235, 1),
-                          ),
-                        ),
-                      ],
+                    SizedBox(
+                      width: ScreenUtil().setWidth(16),
                     ),
-                  ),
+                    Text(
+                      widget.leftText,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        wordSpacing: 1,
+                        letterSpacing: 1,
+                        fontSize: ScreenUtil().setSp(36),
+                        color: Color.fromRGBO(159, 199, 235, 1),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              Align(
-                alignment: Alignment.center,
-                child: widget.center,
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: widget.rightAction,
-              ),
-            ],
-          ),),
-        ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.center,
+            child: widget.center,
+          ),
+          Align(
+            alignment: Alignment.centerRight,
+            child: widget.rightAction,
+          ),
+        ],
+      ),),
     );
   }
 }

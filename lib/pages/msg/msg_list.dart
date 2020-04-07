@@ -1,3 +1,4 @@
+import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
@@ -5,7 +6,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/application.dart';
 import 'package:recruit_app/entity/base_resp_entity.dart';
 import 'package:recruit_app/entity/seeker_interview_entity.dart';
+import 'package:recruit_app/entity/seeker_notice_entity.dart';
 import 'package:recruit_app/model/seeker_interview_model.dart';
+import 'package:recruit_app/model/seeker_notice_model.dart';
 import 'package:recruit_app/pages/jobs/chat_room.dart';
 import 'package:recruit_app/pages/jobs/job_detail.dart';
 import 'package:recruit_app/pages/msg/msg_chat_item.dart';
@@ -26,7 +29,8 @@ class _MsgListState extends State<MsgList> {
   bool _firstType = true;
   bool _secondType = true;
 
-  int _pageIndex = 1;
+  int _interviewPage = 1;
+  int _noticePage = 1;
   EasyRefreshController _refreshController;
 
   @override
@@ -34,6 +38,12 @@ class _MsgListState extends State<MsgList> {
     // TODO: implement initState
     _refreshController = EasyRefreshController();
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((callback){
+        _interviewPage = 1;
+        getInterviewList();
+        _noticePage = 1;
+        getNoticeList();
+    });
   }
 
   @override
@@ -47,7 +57,14 @@ class _MsgListState extends State<MsgList> {
 
   @override
   Widget build(BuildContext context) {
-    int childCount=(!_firstType && _secondType)?InterviewModel.instance.interviewList.length:2;
+    int childCount;
+    if(!_firstType && _secondType){
+      childCount=InterviewModel.instance.interviewList.length;
+    }else if(!_firstType && !_secondType){
+      childCount=NoticeModel.instance.noticeList.length+1;
+    }else {
+      childCount=2;
+    }
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -167,18 +184,29 @@ class _MsgListState extends State<MsgList> {
             Expanded(
               child: EasyRefresh.custom(
                 controller: _refreshController,
-                firstRefresh: true,
+//                firstRefresh: true,
                 header: MaterialHeader(),
                 footer:
                 ClassicalFooter(infoColor: Color.fromRGBO(159, 199, 235, 1)),
                 onRefresh: () async {
-                  _pageIndex = 1;
-                  getInterviewList();
-                  _refreshController.resetLoadState();
+                  if(!_firstType && _secondType){
+                    _interviewPage = 1;
+                    getInterviewList();
+                    _refreshController.resetLoadState();
+                  }else if(!_firstType && !_secondType){
+                    _noticePage = 1;
+                    getNoticeList();
+                    _refreshController.resetLoadState();
+                  }
                 },
                 onLoad: () async {
-                  getInterviewList();
-                  _refreshController.resetLoadState();
+                  if(!_firstType && _secondType){
+                    getInterviewList();
+                    _refreshController.resetLoadState();
+                  }else if(!_firstType && !_secondType){
+                    getNoticeList();
+                    _refreshController.resetLoadState();
+                  }
                 },
                 slivers: <Widget>[
                   SliverList(
@@ -219,26 +247,33 @@ class _MsgListState extends State<MsgList> {
                             },
                           ),);
                       } else if (!_firstType && !_secondType) {
+                        if(idx==NoticeModel.instance.noticeList.length){
+                          return GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            child: MsgNotifyItem(
+                              btnKey: key,
+                              title:'我的客服',
+                              content: '您好，请问有什么可以为您服务的吗？',
+                              imgPath: 'images/img_service_blue.png',
+                            ),
+                            onTap: () {
+                                Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) => ServiceChatRoom()));
+                            },
+                          );
+                        }
                         return GestureDetector(
                           behavior: HitTestBehavior.opaque,
                           child: MsgNotifyItem(
                             btnKey: key,
-                            title: idx % 2 == 0 ? '通知' : '我的客服',
-                            content: idx % 2 == 0
-                                ? '明天您将参加一场面试，请您注意安排好行程做好 准备，祝您面试顺利。'
-                                : '您好，请问有什么可以为您服务的吗？',
-                            imgPath: idx % 2 == 0
-                                ? 'images/img_notify_blue.png'
-                                : 'images/img_service_blue.png',
+                            time: DateUtil.formatDateMs(NoticeModel.instance.noticeList[idx].createDate,format:"HH:mm"),
+                            title: NoticeModel.instance.noticeList[idx].noticeName,
+                            content: NoticeModel.instance.noticeList[idx].content,
+                            imgPath: 'images/img_notify_blue.png',
                           ),
                           onTap: () {
-                            if (idx % 2 == 0) {
                               Navigator.push(context, MaterialPageRoute(
                                   builder: (context) => MsgNotify()));
-                            } else {
-                              Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) => ServiceChatRoom()));
-                            }
                           },
                         );
                       }
@@ -288,13 +323,24 @@ class _MsgListState extends State<MsgList> {
     );
   }
 
+  /// 获取通知列表
+  getNoticeList() async {
+    SeekerNoticeEntity _notifyEntity = await NoticeModel.instance
+        .getNoticeList(
+        context,_noticePage, 15);
+    if (_notifyEntity != null && _notifyEntity.data.records.length > 0) {
+      _noticePage++;
+    }
+    setState(() {});
+  }
+
   /// 获取面试邀请列表
   getInterviewList() async {
     SeekerInterviewEntity _interviewEntity = await InterviewModel.instance
         .getInterviewList(
-        context, Application.sp.get('jobSeekerId'), _pageIndex, 15);
+        context, Application.sp.get('jobSeekerId'), _interviewPage, 15);
     if (_interviewEntity != null && _interviewEntity.data.records.length > 0) {
-      _pageIndex++;
+      _interviewPage++;
     }
     setState(() {});
   }

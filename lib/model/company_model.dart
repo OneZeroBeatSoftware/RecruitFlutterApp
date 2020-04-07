@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:recruit_app/entity/company_detail_entity.dart';
+import 'package:recruit_app/entity/company_item_entity.dart';
 import 'package:recruit_app/entity/company_job_entity.dart';
 import 'package:recruit_app/entity/company_list_entity.dart';
 import 'package:recruit_app/utils/net_utils.dart';

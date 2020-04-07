@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:package_info/package_info.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/web_view.dart';
 
@@ -10,10 +11,16 @@ class AboutSoft extends StatefulWidget {
 }
 
 class _AboutSoftState extends State<AboutSoft> {
+  PackageInfo _packageInfo=PackageInfo(appName: 'JobPin',version: '1.0.0',packageName: 'com.recruit.recruit_app',buildNumber: '1',);
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
+      setState(() {
+        _packageInfo = packageInfo;
+      });
+    });
   }
 
   @override
@@ -54,7 +61,7 @@ class _AboutSoftState extends State<AboutSoft> {
               ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(ScreenUtil().setWidth(15),),),
                 child: Image.asset(
-                  'images/timg1.png',
+                  'images/Icon-App-76x76@2x.png',
                   width: ScreenUtil().setWidth(148),
                   height: ScreenUtil().setWidth(148),
                   fit: BoxFit.cover,
@@ -64,7 +71,7 @@ class _AboutSoftState extends State<AboutSoft> {
                 height: ScreenUtil().setWidth(24),
               ),
               Text(
-                '123招聘',
+                _packageInfo.appName,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
@@ -76,7 +83,7 @@ class _AboutSoftState extends State<AboutSoft> {
                 height: ScreenUtil().setWidth(8),
               ),
               Text(
-                'version 1.100',
+                'version ${_packageInfo.version}',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(

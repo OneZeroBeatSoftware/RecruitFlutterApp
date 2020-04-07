@@ -27,18 +27,52 @@ Map<String, dynamic> jobTypeEntityToJson(JobTypeEntity entity) {
 }
 
 jobTypeDataFromJson(JobTypeData data, Map<String, dynamic> json) {
+	if (json['id'] != null) {
+		data.id = json['id']?.toString();
+	}
 	if (json['type'] != null) {
 		data.type = json['type']?.toString();
 	}
+	if (json['isChecked'] != null) {
+		data.isChecked = json['isChecked'];
+	}
 	if (json['subType'] != null) {
-		data.subType = json['subType']?.map((v) => v?.toString())?.toList()?.cast<String>();
+		data.subType = new List<JobSubTypeData>();
+		(json['subType'] as List).forEach((v) {
+			data.subType.add(new JobSubTypeData().fromJson(v));
+		});
 	}
 	return data;
 }
 
 Map<String, dynamic> jobTypeDataToJson(JobTypeData entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
+	data['id'] = entity.id;
 	data['type'] = entity.type;
+	data['isChecked'] = entity.isChecked;
+	if (entity.subType != null) {
+		data['subType'] =  entity.subType.map((v) => v.toJson()).toList();
+	}
+	return data;
+}
+
+jobSubTypeDataFromJson(JobSubTypeData data, Map<String, dynamic> json) {
+	if (json['id'] != null) {
+		data.id = json['id']?.toString();
+	}
+	if (json['subType'] != null) {
+		data.subType = json['subType']?.toString();
+	}
+	if (json['isChecked'] != null) {
+		data.isChecked = json['isChecked'];
+	}
+	return data;
+}
+
+Map<String, dynamic> jobSubTypeDataToJson(JobSubTypeData entity) {
+	final Map<String, dynamic> data = new Map<String, dynamic>();
+	data['id'] = entity.id;
 	data['subType'] = entity.subType;
+	data['isChecked'] = entity.isChecked;
 	return data;
 }

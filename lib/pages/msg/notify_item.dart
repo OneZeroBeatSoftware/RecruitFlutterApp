@@ -1,11 +1,14 @@
+import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/entity/seeker_notice_entity.dart';
 import 'package:recruit_app/pages/msg/notify_detail.dart';
 
 class NotifyItem extends StatelessWidget {
+  final SeekerNoticeDataRecord notice;
   const NotifyItem({
-    Key key,
+    Key key,@required this.notice,
   }) : super(key: key);
 
   @override
@@ -37,7 +40,7 @@ class NotifyItem extends StatelessWidget {
                     ),
                     Expanded(
                       child: Text(
-                        '邀请通知',
+                        notice.noticeName,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -52,7 +55,7 @@ class NotifyItem extends StatelessWidget {
                     GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>NotifyDetail()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>NotifyDetail(notice: notice,)));
                       },
                       child: Row(
                         children: <Widget>[
@@ -95,7 +98,7 @@ class NotifyItem extends StatelessWidget {
                     bottom: ScreenUtil().setWidth(50),
                   ),
                   child: Text(
-                    '您于2月2号成功邀请哈哈哈哈登参加公司平面设计岗位面试。',
+                    notice.content,
                     style: TextStyle(
                       height: 1.5,
                       color: Color.fromRGBO(95, 94, 94, 1),
@@ -115,7 +118,7 @@ class NotifyItem extends StatelessWidget {
           height: ScreenUtil().setWidth(15),
         ),
         Text(
-          '2月2号11:30',
+          DateUtil.formatDateMs(notice.createDate,format: "MM-dd HH:mm"),
           style: TextStyle(
             fontSize: ScreenUtil().setSp(22),
             color: Color.fromRGBO(176, 181, 180, 1),

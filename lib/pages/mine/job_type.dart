@@ -190,7 +190,7 @@ class _JobTypeState extends State<JobType> {
                                           });
                                           Navigator.pop(context);
                                         },
-                                        lists: item.subType,
+                                        lists: item.subType.map((item)=>item.subType).toList(),
                                       ),
                                     ),
                                   );
@@ -251,7 +251,7 @@ class _JobTypeState extends State<JobType> {
     );
   }
 
-  /// 获取全部行业
+  /// 获取全部工作类型
   _getAllJobType() async {
     JobTypeEntity jobTypeEntity = await NetUtils.getAllJobType(context);
     if (jobTypeEntity != null && jobTypeEntity.statusCode == 200) {

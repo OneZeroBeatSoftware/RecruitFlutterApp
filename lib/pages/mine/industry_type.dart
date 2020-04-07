@@ -190,7 +190,7 @@ class _IndustryTypeState extends State<IndustryType> {
                                           });
                                           Navigator.pop(context);
                                         },
-                                        lists: item.subType,
+                                        lists: item.subType.map((item){ return item.subType;}).toList(),
                                       ),
                                     ),
                                   );

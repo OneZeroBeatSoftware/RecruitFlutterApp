@@ -12,6 +12,8 @@ import 'package:recruit_app/pages/jobs/job_detail.dart';
 import 'package:recruit_app/pages/jobs/job_filter.dart';
 import 'package:recruit_app/pages/jobs/job_row_item.dart';
 
+import '../../application.dart';
+
 class JobList extends StatefulWidget {
   @override
   _JobListState createState() {
@@ -21,15 +23,25 @@ class JobList extends StatefulWidget {
 }
 
 class _JobListState extends State<JobList> {
+  String _selCity='请选择城市';
+
   int _selectFilterType = 0;
   JobModel _jobModel;
   int _pageIndex = 1;
 
   EasyRefreshController _refreshController;
 
+  String _eduLevel='';
+  String _salary='';
+  String _scale='';
+  String _age='';
+  String _industry='';
+  String _jobType='';
+
   @override
   void initState() {
     // TODO: implement initState
+    _selCity=Application.sp.get('location_city')??'请选择城市';
     super.initState();
     _refreshController = EasyRefreshController();
     WidgetsBinding.instance.addPostFrameCallback((call) {
@@ -80,14 +92,17 @@ class _JobListState extends State<JobList> {
                           behavior: HitTestBehavior.opaque,
                           onTap: () {
                             Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => CityFilter(),
-                              ),
-                            );
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CityFilter())).then((value){
+                              if (value != null)
+                                setState(() {
+                                  _selCity = value;
+                                });
+                            });
                           },
                           child: Text(
-                            '洛杉矶',
+                            '$_selCity',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: ScreenUtil().setSp(40),
@@ -338,9 +353,17 @@ class _JobListState extends State<JobList> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => JobFilter(),
+                                    builder: (context) => JobFilter(filterType: FilterType.job,),
                                   ),
-                                );
+                                ).then((result){
+                                  if (result != null && (result is FilterResult)) {
+                                    _scale = result.scale;
+                                    _industry = result.industry;
+                                    _jobType = result.jobType;
+                                    _age = result.age;
+                                    _salary = result.salary;
+                                    _eduLevel = result.eduLevel;                                  }
+                                });
                               },
                             ),
                           ],
