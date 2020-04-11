@@ -192,9 +192,21 @@ class _CompanyInfoState extends State<CompanyInfo> {
                           ));
                         },
                       ),
-                      Item2("定期体检", "阶段性职业健康检查"),
-                      Item2("加班补助", "正常工作时间之外的工资报酬"),
-                      Item2("年终奖金", "年末给予员工奖励"),
+                      Item2("定期体检", "阶段性职业健康检查", onClick: () {
+                        Navigator.push(context, MaterialPageRoute(
+                           builder: (context)=> CompanyWelfare()
+                        ));
+                      }),
+                      Item2("加班补助", "正常工作时间之外的工资报酬", onClick: () {
+                        Navigator.push(context, MaterialPageRoute(
+                           builder: (context)=> CompanyWelfare()
+                        ));
+                      }),
+                      Item2("年终奖金", "年末给予员工奖励", onClick: () {
+                        Navigator.push(context, MaterialPageRoute(
+                           builder: (context)=> CompanyWelfare()
+                        ));
+                      }),
                       ProfileDivider(),
                       
                       Item("公司注册信息", ""),
@@ -371,32 +383,34 @@ class Item2 extends StatelessWidget {
       ));
     }
     
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        SizedBox(height: ScreenUtil().setHeight(40)),
-        GestureDetector(
-          behavior: HitTestBehavior.opaque,
-           child: Row(
-            children: titleW,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          ),
-            onTap: () {
-              if(canClick && onClick != null) {
-                onClick();
-              }
-            },
+    return
+      GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () {
+          if(onClick != null) {
+            onClick();
+          }
+        },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(height: ScreenUtil().setHeight(40)),
+            Row(
+              children: titleW,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            ),
+            SizedBox(height: ScreenUtil().setHeight(2)),
+            Text(this.value,
+              style: TextStyle(
+                 color: Color.fromRGBO(94,94,94,1),
+                 fontSize: ScreenUtil().setSp(24),
+                 fontWeight: FontWeight.w300,
+                 letterSpacing: 1
+              ),
+            ),
+          ],
         ),
-        SizedBox(height: ScreenUtil().setHeight(2)),
-        Text(this.value,
-          style: TextStyle(
-             color: Color.fromRGBO(94,94,94,1),
-             fontSize: ScreenUtil().setSp(24),
-             fontWeight: FontWeight.w300,
-             letterSpacing: 1
-          ),
-        ),
-      ],
-    );
+      );
+      
   }
 }
