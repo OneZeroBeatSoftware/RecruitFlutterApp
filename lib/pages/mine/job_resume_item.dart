@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/entity/resume_list_entity.dart';
 import 'package:recruit_app/model/job_resume_list.dart';
 import 'package:recruit_app/widgets/slide_button.dart';
 
 class JobResumeItem extends StatelessWidget {
   final GlobalKey<SlideButtonState> btnKey;
 
-  final ResumeData resumeData;
+  final ResumeListData resumeData;
   final int index;
+  final Function(int) deleteResume;
 
-  const JobResumeItem({Key key, this.resumeData, this.index, this.btnKey})
+  const JobResumeItem({Key key, this.resumeData, this.index, this.btnKey, this.deleteResume})
       : super(key: key);
 
   @override
@@ -30,7 +32,7 @@ class JobResumeItem extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text('${resumeData.jobName} ${resumeData.salary}',
+                    Text('${resumeData.resumeName} ${resumeData.minSalary}-${resumeData.maxSalary}K',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -39,7 +41,7 @@ class JobResumeItem extends StatelessWidget {
                             fontSize: ScreenUtil().setSp(28),
                             color: Color.fromRGBO(95, 94, 94, 1))),
                     SizedBox(height: ScreenUtil().setWidth(5)),
-                    Text('${resumeData.industry}',
+                    Text('${resumeData.address}',
                         style: TextStyle(
                             wordSpacing: 1,
                             letterSpacing: 1,
@@ -64,6 +66,9 @@ class JobResumeItem extends StatelessWidget {
           }),
           buildAction(btnKey, Colors.red, 'images/img_del_white.png', () {
             btnKey.currentState.close();
+            if(deleteResume!=null){
+              deleteResume(index);
+            }
           }),
         ],
       ),

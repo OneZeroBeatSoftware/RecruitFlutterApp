@@ -6,7 +6,9 @@ import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:recruit_app/entity/age_entity.dart';
+import 'package:recruit_app/entity/apply_list_entity.dart';
 import 'package:recruit_app/entity/base_resp_entity.dart';
+import 'package:recruit_app/entity/black_list_entity.dart';
 import 'package:recruit_app/entity/city_entity.dart';
 import 'package:recruit_app/entity/company_detail_entity.dart';
 import 'package:recruit_app/entity/company_job_entity.dart';
@@ -15,14 +17,21 @@ import 'package:recruit_app/entity/company_scale_entity.dart';
 import 'package:recruit_app/entity/edu_level_entity.dart';
 import 'package:recruit_app/entity/file_upload_entity.dart';
 import 'package:recruit_app/entity/industry_type_entity.dart';
+import 'package:recruit_app/entity/intent_list_entity.dart';
 import 'package:recruit_app/entity/job_detail_entity.dart';
 import 'package:recruit_app/entity/job_list_entity.dart';
 import 'package:recruit_app/entity/job_type_entity.dart';
+import 'package:recruit_app/entity/mine_info_entity.dart';
+import 'package:recruit_app/entity/resume_detail_entity.dart';
+import 'package:recruit_app/entity/resume_list_entity.dart';
 import 'package:recruit_app/entity/salary_list_entity.dart';
 import 'package:recruit_app/entity/seeker_interview_entity.dart';
 import 'package:recruit_app/entity/seeker_notice_entity.dart';
+import 'package:recruit_app/entity/star_company_entity.dart';
+import 'package:recruit_app/entity/star_job_entity.dart';
 import 'package:recruit_app/entity/user_entity.dart';
 import 'package:recruit_app/entity/work_date_entity.dart';
+import 'package:recruit_app/generated/json/base/json_convert_content.dart';
 import 'package:recruit_app/utils/token_interceptor.dart';
 import 'package:recruit_app/widgets/loading.dart';
 
@@ -445,5 +454,115 @@ class NetUtils {
         params: params,
         isShowLoading: false);
     return SeekerInterviewEntity().fromJson(response.data);
+  }
+
+  /// 获取求职者主页信息
+  static Future<MineInfoEntity> getSeekerInfo(BuildContext context,String id) async {
+    var response = await _get(context, '/jobSeeker/info/$id',isShowLoading: false);
+    return MineInfoEntity().fromJson(response.data);
+  }
+
+  /// 获取黑名单列表
+  static Future<BlackListEntity> getShieldList(BuildContext context,String id,int pageIndex,int pageSize) async {
+    var response = await _post(context, '/jobSeeker/shield',params: {
+      'pageIndex': pageIndex,
+      'pageSize': pageSize,
+      'jobSeekerId':id,
+    },isShowLoading: false);
+    return BlackListEntity().fromJson(response.data);
+  }
+
+  /// 屏蔽公司操作
+  static Future<BaseRespEntity> shieldCompanyJob(BuildContext context, bool isShield,String shieldId,{String jobSeekerId,String recruiterId,String shieldObjectId}) async {
+    Map<String,dynamic> params={};
+      params["isShield"]=isShield;
+      params["shieldId"]=shieldId;
+    if(jobSeekerId!=null&&jobSeekerId.isNotEmpty){
+      params["jobSeekerId"]=jobSeekerId;
+    }
+    if(recruiterId!=null&&recruiterId.isNotEmpty){
+      params["recruiterId"]=recruiterId;
+    }
+    if(shieldObjectId!=null&&shieldObjectId.isNotEmpty){
+      params["shieldObjectId"]=shieldObjectId;
+    }
+
+    var response = await _post(context, '/jobSeeker/shieldCompany',params: params);
+    return BaseRespEntity().fromJson(response.data);
+  }
+
+  /// 获取收藏列表
+  static Future getStarList(BuildContext context,String id,int type,int pageIndex,int pageSize) async {
+    var response = await _post(context, '/jobSeeker/star',params:{
+      'pageIndex': pageIndex,
+      'pageSize': pageSize,
+      'jobSeekerId':id,
+      "type": type
+    },isShowLoading: false);
+    if (type==1){
+      return StarJobEntity().fromJson(response.data);
+    }else if(type==2){
+      return StarCompanyEntity().fromJson(response.data);
+    }
+    return null;
+  }
+
+  /// 收藏公司/岗位操作
+  static Future<BaseRespEntity> starCompanyJob(BuildContext context, bool isJob,bool isStar,
+      String starId, String jobSeekerId, {String starObjectId}) async {
+    Map<String, dynamic> params = {};
+    params["isStar"] = isStar;
+    params["starId"] = starId;
+    params["jobSeekerId"] = jobSeekerId;
+    if (starObjectId != null && starObjectId.isNotEmpty) {
+      params["starObjectId"] = starObjectId;
+    }
+    var response = await _post(
+        context, '/jobSeeker/${isJob?"starJob":"starCompany"}', params: params);
+    return BaseRespEntity().fromJson(response.data);
+  }
+
+  /// 获取申请列表
+  /// state 1：已收到/已投递 2：邀请/收到的邀请  3：待面试/待面试 7：沟通过
+  static Future getApplyList(BuildContext context,String jobSeekerId,int state,int pageIndex,{int pageSize=15}) async {
+    var response = await _post(context, '/apply/list',params:{
+      'pageIndex': pageIndex,
+      'pageSize': pageSize,
+      'jobSeekerId':jobSeekerId,
+      "state": state
+    },isShowLoading: false);
+    return ApplyListEntity().fromJson(response.data);
+  }
+
+  /// 获取全部求职期望
+  static Future<IntentListEntity> getIntentList(BuildContext context, String id) async {
+    var response = await _get(context, '/jobSeeker/JobIntention/get/$id', params: {
+    });
+    return IntentListEntity().fromJson(response.data);
+  }
+
+  /// 删除求职期望
+  static Future<BaseRespEntity> deleteIntent(BuildContext context, String intentId) async {
+    var response = await _put(context, '/jobSeeker/JobIntention/delete/$intentId',isShowLoading: true);
+    return BaseRespEntity().fromJson(response.data);
+  }
+
+  /// 获取全部简历
+  static Future<ResumeListEntity> getResumeList(BuildContext context, String id) async {
+    var response = await _get(context, '/jobSeeker/resume/get/$id', params: {
+    });
+    return ResumeListEntity().fromJson(response.data);
+  }
+
+  /// 删除简历
+  static Future<BaseRespEntity> deleteResume(BuildContext context, String resumeId) async {
+    var response = await _delete(context, '/jobSeeker/resume/delete/$resumeId',isShowLoading: true);
+    return BaseRespEntity().fromJson(response.data);
+  }
+
+  /// 获取简历详情
+  static Future<ResumeDetailEntity> getResumeDetail(BuildContext context, String resumeId) async {
+    var response = await _get(context, '/jobSeeker/resume/details/$resumeId');
+    return ResumeDetailEntity().fromJson(response.data);
   }
 }

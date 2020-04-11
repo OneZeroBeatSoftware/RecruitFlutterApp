@@ -1,5 +1,5 @@
-import 'package:recruit_app/entity/job_item_entity.dart';
 import 'package:recruit_app/entity/job_list_entity.dart';
+import 'package:recruit_app/entity/job_item_entity.dart';
 
 jobListEntityFromJson(JobListEntity data, Map<String, dynamic> json) {
 	if (json['statusCode'] != null) {

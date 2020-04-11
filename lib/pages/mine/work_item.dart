@@ -1,9 +1,11 @@
+import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/entity/resume_detail_entity.dart';
 import 'package:recruit_app/model/mine_work_list.dart';
 
 class WorkItem extends StatelessWidget {
-  final MineWorkData workData;
+  final ResumeDetailDataWorkExperience workData;
   final int index;
 
   const WorkItem({Key key, this.workData, this.index}) : super(key: key);
@@ -34,7 +36,7 @@ class WorkItem extends StatelessWidget {
               SizedBox(
                 width: ScreenUtil().setWidth(16),
               ),
-              Text(workData.during,
+              Text('${DateUtil.formatDateMs(workData.startDate,format: 'yyyy-MM')}-${DateUtil.formatDateMs(workData.endDate,format: 'yyyy-MM')}',
                   style: TextStyle(
                       wordSpacing: 1,
                       letterSpacing: 1,
@@ -50,7 +52,7 @@ class WorkItem extends StatelessWidget {
             ],
           ),
           SizedBox(height: ScreenUtil().setWidth(5)),
-          Text('${workData.pos}',
+          Text('${workData.position}',
               style: TextStyle(
                   wordSpacing: 1,
                   letterSpacing: 1,

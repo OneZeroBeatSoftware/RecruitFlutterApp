@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/entity/intent_list_entity.dart';
 import 'package:recruit_app/model/job_intent_list.dart';
 import 'package:recruit_app/widgets/slide_button.dart';
 
 class JobIntentItem extends StatelessWidget {
   final GlobalKey<SlideButtonState> btnKey;
 
-  final IntentData intentData;
+  final IntentListData intentData;
   final int index;
+  final Function(int) deleteIntent;
 
-  const JobIntentItem({Key key, this.intentData, this.index, this.btnKey})
+  const JobIntentItem({Key key, this.intentData, this.index, this.btnKey, this.deleteIntent})
       : super(key: key);
 
   @override
@@ -26,7 +28,7 @@ class JobIntentItem extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text('[${intentData.city}]${intentData.jobName}',
+                  Text('[${intentData.city}]${intentData.position}',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -35,7 +37,7 @@ class JobIntentItem extends StatelessWidget {
                           fontSize: ScreenUtil().setSp(28),
                           color: Color.fromRGBO(95, 94, 94, 1))),
                   SizedBox(height: ScreenUtil().setWidth(5)),
-                  Text('${intentData.salary} ${intentData.industry}',
+                  Text('${intentData.minSalary}-${intentData.maxSalary}K ${intentData.industry}',
                       style: TextStyle(
                           wordSpacing: 1,
                           letterSpacing: 1,
@@ -60,6 +62,9 @@ class JobIntentItem extends StatelessWidget {
         }),
         buildAction(btnKey, Colors.red, 'images/img_del_white.png', () {
           btnKey.currentState.close();
+          if(deleteIntent!=null){
+            deleteIntent(index);
+          }
         }),
       ],
     );

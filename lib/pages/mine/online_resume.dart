@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/entity/resume_detail_entity.dart';
 import 'package:recruit_app/model/job_intent_list.dart';
 import 'package:recruit_app/model/mine_edu_list.dart';
+import 'package:recruit_app/model/mine_model.dart';
 import 'package:recruit_app/model/mine_project_list.dart';
 import 'package:recruit_app/model/mine_work_list.dart';
 import 'package:recruit_app/pages/mine/edu_item.dart';
@@ -12,12 +14,16 @@ import 'package:recruit_app/pages/mine/job_work_exp.dart';
 import 'package:recruit_app/pages/mine/project_item.dart';
 import 'package:recruit_app/pages/mine/qualify_item.dart';
 import 'package:recruit_app/pages/mine/work_item.dart';
+import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/slide_button.dart';
 
 import 'job_edu_exp.dart';
 
 class OnlineResume extends StatefulWidget {
+  final String resumeId;
+
+  const OnlineResume({Key key, this.resumeId=''}) : super(key: key);
   @override
   _OnlineResumeState createState() {
     // TODO: implement createState
@@ -26,10 +32,16 @@ class OnlineResume extends StatefulWidget {
 }
 
 class _OnlineResumeState extends State<OnlineResume> {
-  List<IntentData> _intentList = JobIntentList.loadJobIntent();
-  List<MineWorkData> _workList = MineWorkList.loadWorkList();
-  List<MineProjectData> _projectList = MineProjectList.loadProjectList();
-  List<MineEduData> _eduList = MineEduList.loadEduList();
+  ResumeDetailData _detailData;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((callback){
+      _getResumeDetail(widget.resumeId);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +82,7 @@ class _OnlineResumeState extends State<OnlineResume> {
           padding: EdgeInsets.symmetric(
             horizontal: ScreenUtil().setWidth(48),
           ),
-          child: SingleChildScrollView(
+          child: _detailData!=null?SingleChildScrollView(
             physics: BouncingScrollPhysics(),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -104,7 +116,7 @@ class _OnlineResumeState extends State<OnlineResume> {
                               children: <Widget>[
                                 Flexible(
                                   child: Text(
-                                    '狐说',
+                                    '${_detailData.resume.realName}',
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
@@ -193,7 +205,7 @@ class _OnlineResumeState extends State<OnlineResume> {
                         height: ScreenUtil().setWidth(34),
                       ),
                       Text(
-                        '平面设计',
+                        '${_detailData.resume.resumeName}',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -249,7 +261,7 @@ class _OnlineResumeState extends State<OnlineResume> {
                         color: Color.fromRGBO(176, 181, 180, 1))),
                 Container(
                   margin:
-                      EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(40)),
+                  EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(40)),
                   color: Color.fromRGBO(159, 199, 235, 1),
                   height: ScreenUtil().setWidth(1),
                 ),
@@ -291,33 +303,33 @@ class _OnlineResumeState extends State<OnlineResume> {
                 ),
                 ListView.builder(
                   itemBuilder: (context, index) {
-                    if (index < _workList.length) {
+                    if (index < _detailData.workExperience.length) {
                       var btnKey = GlobalKey<SlideButtonState>();
                       return SlideButton(
                         key: btnKey,
                         singleButtonWidth: ScreenUtil().setWidth(172),
                         child: WorkItem(
-                          workData: _workList[index],
+                          workData: _detailData.workExperience[index],
                           index: index,
                         ),
                         buttons: <Widget>[
                           buildAction(
                               btnKey, Colors.red, 'images/img_del_white.png',
-                              () {
-                            btnKey.currentState.close();
-                          }),
+                                  () {
+                                btnKey.currentState.close();
+                              }),
                         ],
                       );
                     }
                     return null;
                   },
                   shrinkWrap: true,
-                  itemCount: _workList.length,
+                  itemCount: _detailData.workExperience.length,
                   physics: const NeverScrollableScrollPhysics(),
                 ),
                 Container(
                   margin:
-                      EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(23)),
+                  EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(23)),
                   color: Color.fromRGBO(159, 199, 235, 1),
                   height: ScreenUtil().setWidth(1),
                 ),
@@ -359,33 +371,33 @@ class _OnlineResumeState extends State<OnlineResume> {
                 ),
                 ListView.builder(
                   itemBuilder: (context, index) {
-                    if (index < _projectList.length) {
+                    if (index < _detailData.projectExperience.length) {
                       var btnKey = GlobalKey<SlideButtonState>();
                       return SlideButton(
                         key: btnKey,
                         singleButtonWidth: ScreenUtil().setWidth(172),
                         child: ProjectItem(
-                          projectData: _projectList[index],
+                          projectData: _detailData.projectExperience[index],
                           index: index,
                         ),
                         buttons: <Widget>[
                           buildAction(
                               btnKey, Colors.red, 'images/img_del_white.png',
-                              () {
-                            btnKey.currentState.close();
-                          }),
+                                  () {
+                                btnKey.currentState.close();
+                              }),
                         ],
                       );
                     }
                     return null;
                   },
                   shrinkWrap: true,
-                  itemCount: _projectList.length,
+                  itemCount: _detailData.projectExperience.length,
                   physics: const NeverScrollableScrollPhysics(),
                 ),
                 Container(
                   margin:
-                      EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(23)),
+                  EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(23)),
                   color: Color.fromRGBO(159, 199, 235, 1),
                   height: ScreenUtil().setWidth(1),
                 ),
@@ -427,33 +439,33 @@ class _OnlineResumeState extends State<OnlineResume> {
                 ),
                 ListView.builder(
                   itemBuilder: (context, index) {
-                    if (index < _eduList.length) {
+                    if (index < _detailData.educationExperience.length) {
                       var btnKey = GlobalKey<SlideButtonState>();
                       return SlideButton(
                         key: btnKey,
                         singleButtonWidth: ScreenUtil().setWidth(172),
                         child: EduItem(
-                          eduData: _eduList[index],
+                          eduData: _detailData.educationExperience[index],
                           index: index,
                         ),
                         buttons: <Widget>[
                           buildAction(
                               btnKey, Colors.red, 'images/img_del_white.png',
-                              () {
-                            btnKey.currentState.close();
-                          }),
+                                  () {
+                                btnKey.currentState.close();
+                              }),
                         ],
                       );
                     }
                     return null;
                   },
                   shrinkWrap: true,
-                  itemCount: _eduList.length,
+                  itemCount: _detailData.educationExperience.length,
                   physics: const NeverScrollableScrollPhysics(),
                 ),
                 Container(
                   margin:
-                      EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(23)),
+                  EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(23)),
                   color: Color.fromRGBO(159, 199, 235, 1),
                   height: ScreenUtil().setWidth(1),
                 ),
@@ -502,9 +514,9 @@ class _OnlineResumeState extends State<OnlineResume> {
                         buttons: <Widget>[
                           buildAction(
                               btnKey, Colors.red, 'images/img_del_white.png',
-                              () {
-                            btnKey.currentState.close();
-                          }),
+                                  () {
+                                btnKey.currentState.close();
+                              }),
                         ],
                       );
                     }
@@ -516,7 +528,7 @@ class _OnlineResumeState extends State<OnlineResume> {
                 ),
                 Container(
                   margin:
-                      EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(23)),
+                  EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(23)),
                   color: Color.fromRGBO(159, 199, 235, 1),
                   height: ScreenUtil().setWidth(1),
                 ),
@@ -590,13 +602,17 @@ class _OnlineResumeState extends State<OnlineResume> {
                         width: ScreenUtil().setWidth(2),
                       ),
                       borderRadius:
-                          BorderRadius.circular(ScreenUtil().setWidth(1000))),
+                      BorderRadius.circular(ScreenUtil().setWidth(1000))),
                 ),
                 SizedBox(
                   height: ScreenUtil().setWidth(80),
                 ),
               ],
             ),
+          ):Container(
+            height: ScreenUtil().setWidth(400),
+            alignment: Alignment.center,
+            child: CupertinoActivityIndicator(),
           ),
         ),
       ),
@@ -619,5 +635,18 @@ class _OnlineResumeState extends State<OnlineResume> {
         ),
       ),
     );
+  }
+
+  /// 获取简历详情
+  _getResumeDetail(String id){
+    MineModel.instance.getResumeDetail(context, id).then((detail){
+      if(detail!=null){
+        setState(() {
+          _detailData=detail;
+        });
+      }else {
+        Utils.showToast('简历详情有误，请重试！');
+      }
+    });
   }
 }

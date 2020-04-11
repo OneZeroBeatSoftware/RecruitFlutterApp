@@ -1,13 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recruit_app/model/job_intent_list.dart';
+import 'package:recruit_app/application.dart';
+import 'package:recruit_app/entity/base_resp_entity.dart';
+import 'package:recruit_app/model/mine_model.dart';
 import 'package:recruit_app/pages/mine/job_intent_edit.dart';
 import 'package:recruit_app/pages/mine/job_intent_item.dart';
+import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/slide_button.dart';
 
 class JobIntent extends StatefulWidget {
+  final int intentNum;
+  final int maxIntent;
+  const JobIntent({Key key, this.intentNum=0, this.maxIntent=0}) : super(key: key);
   @override
   _JobIntentState createState() {
     // TODO: implement createState
@@ -16,8 +22,18 @@ class JobIntent extends StatefulWidget {
 }
 
 class _JobIntentState extends State<JobIntent> {
-  List<IntentData> _intentList = JobIntentList.loadJobIntent();
-
+  int _intentNum = 0;
+  int _maxIntent = 0;
+  @override
+  void initState() {
+    // TODO: implement initState
+    _intentNum=widget.intentNum;
+    _maxIntent=widget.maxIntent;
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((callback){
+      _getIntentList();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -73,7 +89,7 @@ class _JobIntentState extends State<JobIntent> {
                                 text: TextSpan(
                                   children: [
                                     TextSpan(
-                                        text: '${_intentList.length}',
+                                        text: '$_intentNum',
                                         style: TextStyle(
                                             wordSpacing: 1,
                                             letterSpacing: 1,
@@ -81,7 +97,7 @@ class _JobIntentState extends State<JobIntent> {
                                             color:
                                                 Color.fromRGBO(95, 94, 94, 1))),
                                     TextSpan(
-                                        text: '/3',
+                                        text: '/$_maxIntent',
                                         style: TextStyle(
                                             wordSpacing: 1,
                                             letterSpacing: 1,
@@ -127,7 +143,12 @@ class _JobIntentState extends State<JobIntent> {
                               SizedBox(width: ScreenUtil().setWidth(30)),
                               GestureDetector(
                                 behavior: HitTestBehavior.opaque, onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>JobIntentEdit()));
+                                if (_intentNum < _maxIntent) {
+                                  Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) => JobIntentEdit()));
+                                  return;
+                                }
+                                Utils.showToast('最多添加$_maxIntent个求职期望！');
                               },
                                 child: Image.asset(
                                   'images/img_setting_add.png',
@@ -147,21 +168,26 @@ class _JobIntentState extends State<JobIntent> {
                   SliverList(
                     delegate: SliverChildBuilderDelegate(
                           (context, index) {
-                        if (index < _intentList.length) {
+                        if (index < MineModel.instance.intentList.length) {
                           var key = GlobalKey<SlideButtonState>();
-                          return Container(
+                          return GestureDetector(onTap: (){
+
+                          },behavior: HitTestBehavior.opaque,child: Container(
                             margin: EdgeInsets.symmetric(
                                 vertical: ScreenUtil().setWidth(20),
                                 horizontal: ScreenUtil().setWidth(48)),
                             child: JobIntentItem(
-                              intentData: _intentList[index],
+                              deleteIntent: (index){
+                                _deleteIntent(MineModel.instance.intentList[index].id, index);
+                              },
+                              intentData: MineModel.instance.intentList[index],
                               index: index,
                               btnKey: key,
-                            ),);
+                            ),),);
                         }
                         return null;
                       },
-                      childCount: _intentList.length,
+                      childCount: MineModel.instance.intentList.length,
                     ),
                   ),
                   SliverToBoxAdapter(
@@ -228,6 +254,30 @@ class _JobIntentState extends State<JobIntent> {
               ),
             ),
           ],
-        ));
+        ),);
+  }
+
+  /// 获取求职期望
+  _getIntentList(){
+    MineModel.instance.getIntentList(context, Application.sp.get('jobSeekerId')).then((model){
+      if(model!=null){
+        setState(() {
+          _intentNum=model.intentList.length;
+        });
+      }
+    });
+  }
+
+  /// 删除求职期望
+  _deleteIntent(String id,int index) async {
+    BaseRespEntity _baseEntity = await MineModel.instance
+        .deleteIntent(context,id);
+    if (_baseEntity != null) {
+      Utils.showToast(_baseEntity.msg??'删除成功');
+      MineModel.instance.intentList.removeAt(index);
+      setState(() {
+        _intentNum=MineModel.instance.intentList.length;
+      });
+    }
   }
 }

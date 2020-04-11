@@ -1,16 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recruit_app/model/company_list.dart';
+import 'package:recruit_app/entity/black_list_entity.dart';
 import 'package:recruit_app/widgets/slide_button.dart';
 
 class BlackListItem extends StatelessWidget {
-  final Company company;
+  final BlackListDataRecord company;
   final int index;
   final bool lastItem;
   final GlobalKey<SlideButtonState> btnKey;
+  final Function(int) deleteBlack;
 
-  const BlackListItem({Key key, this.company, this.index, this.lastItem, this.btnKey})
+  const BlackListItem({Key key, this.company, this.index, this.lastItem, this.btnKey, this.deleteBlack})
       : super(key: key);
 
   @override
@@ -47,7 +48,7 @@ class BlackListItem extends StatelessWidget {
                       children: <Widget>[
                         Flexible(
                           child: Text(
-                            company.name,
+                            company.companyName,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -70,7 +71,7 @@ class BlackListItem extends StatelessWidget {
                     ),
                     SizedBox(height: ScreenUtil().setWidth(10)),
                     Text(
-                      '福州 仓山区 金山',
+                      '${company.registerAddress}',
                       style: TextStyle(
                         fontSize: ScreenUtil().setSp(26),
                         color: Color.fromRGBO(151, 151, 151, 1),
@@ -96,7 +97,7 @@ class BlackListItem extends StatelessWidget {
                             ),
                           ),
                           child: Text(
-                            '${company.status}',
+                            '${company.operateState}',
                             textAlign: TextAlign.center,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -122,7 +123,7 @@ class BlackListItem extends StatelessWidget {
                             ),
                           ),
                           child: Text(
-                            '${company.scale}',
+                            '${company.companyScale}人',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.center,
@@ -148,7 +149,7 @@ class BlackListItem extends StatelessWidget {
                             ),
                           ),
                           child: Text(
-                            '${company.type}',
+                            '${company.scope}',
                             textAlign: TextAlign.center,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -169,6 +170,9 @@ class BlackListItem extends StatelessWidget {
       buttons: <Widget>[
         buildAction(btnKey, Colors.red, () {
           btnKey.currentState.close();
+          if(deleteBlack!=null){
+            deleteBlack(index);
+          }
         }),
       ],
     );

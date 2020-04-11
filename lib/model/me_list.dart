@@ -1,6 +1,6 @@
 class MeOptions {
-  static const _allOptions = <Me>[
-    Me(imgPath: 'images/img_edit_resume_gray.png', itemName: '编辑简历', itemStatus: '1/3'),
+  static List<Me> _allOptions = <Me>[
+    Me(imgPath: 'images/img_edit_resume_gray.png', itemName: '编辑简历', itemStatus: '0/0'),
     Me(imgPath: 'images/img_job_intent_gray.png', itemName: '管理求职意向', itemStatus: '离职-随时到岗'),
     Me(imgPath: 'images/img_love_gray.png', itemName: '收藏夹', itemStatus: ''),
     Me(imgPath: 'images/img_blacklist_gray.png', itemName: '黑名单', itemStatus: ''),
@@ -12,7 +12,7 @@ class MeOptions {
     return _allOptions;
   }
 
-  static const _allBossOptions = <Me>[
+  static List<Me> _allBossOptions = <Me>[
     Me(imgPath: 'images/boss_me_co_info_icon.png', itemName: '公司信息', itemStatus: ''),
     Me(imgPath: 'images/boss_me_post_recruit_icon.png', itemName: '发布招聘', itemStatus: ''),
     Me(imgPath: 'images/boss_me_post_mrg.png', itemName: '管理岗位', itemStatus: ''),
@@ -29,9 +29,9 @@ class MeOptions {
 }
 
 class Me {
-  final String imgPath;
-  final String itemName;
-  final String itemStatus;
+  String imgPath;
+  String itemName;
+  String itemStatus;
 
-  const Me({this.imgPath, this.itemName, this.itemStatus=''});
+  Me({this.imgPath, this.itemName, this.itemStatus=''});
 }

@@ -1,14 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/entity/base_resp_entity.dart';
 import 'package:recruit_app/model/job_resume_list.dart';
+import 'package:recruit_app/model/mine_model.dart';
+import 'package:recruit_app/pages/employe/resume_edu_item.dart';
 import 'package:recruit_app/pages/mine/online_resume.dart';
+import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/slide_button.dart';
 
+import '../../application.dart';
 import 'job_resume_item.dart';
 
 class ResumeList extends StatefulWidget {
+  final int resumeNum;
+  final int maxResume;
+  const ResumeList({Key key, this.resumeNum=0, this.maxResume=0}) : super(key: key);
   @override
   _ResumeListState createState() {
     // TODO: implement createState
@@ -17,8 +25,18 @@ class ResumeList extends StatefulWidget {
 }
 
 class _ResumeListState extends State<ResumeList> {
-  List<ResumeData> _resumeList = JobResumeList.loadResume();
-
+  int _resumeNum = 0;
+  int _maxResume = 0;
+  @override
+  void initState() {
+    // TODO: implement initState
+    _resumeNum=widget.resumeNum;
+    _maxResume=widget.maxResume;
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((callback){
+      _getResumeList();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -29,6 +47,13 @@ class _ResumeListState extends State<ResumeList> {
           leftListener: () {
             Navigator.pop(context);
           },
+          center: Text(
+            '简历列表',
+            style: TextStyle(
+                color: Color.fromRGBO(68, 77, 151, 1),
+                fontSize: ScreenUtil().setSp(36),
+                fontWeight: FontWeight.bold),
+          ),
           backgroundColor: Colors.white,
         ),
         body: Column(
@@ -74,7 +99,7 @@ class _ResumeListState extends State<ResumeList> {
                                 text: TextSpan(
                                   children: [
                                     TextSpan(
-                                        text: '${_resumeList.length}',
+                                        text: '$_resumeNum',
                                         style: TextStyle(
                                             wordSpacing: 1,
                                             letterSpacing: 1,
@@ -82,7 +107,7 @@ class _ResumeListState extends State<ResumeList> {
                                             color:
                                                 Color.fromRGBO(95, 94, 94, 1))),
                                     TextSpan(
-                                        text: '/3',
+                                        text: '/$_maxResume',
                                         style: TextStyle(
                                             wordSpacing: 1,
                                             letterSpacing: 1,
@@ -128,7 +153,14 @@ class _ResumeListState extends State<ResumeList> {
                               SizedBox(width: ScreenUtil().setWidth(30)),
                               GestureDetector(
                                 behavior: HitTestBehavior.opaque,
-                                onTap: () {},
+                                onTap: () {
+                                  if (_resumeNum < _maxResume) {
+                                    Navigator.push(context, MaterialPageRoute(
+                                        builder: (context) => OnlineResume()));
+                                    return;
+                                  }
+                                  Utils.showToast('最多添加$_maxResume份简历！');
+                                },
                                 child: Image.asset(
                                   'images/img_setting_add.png',
                                   width: ScreenUtil().setWidth(30),
@@ -148,26 +180,32 @@ class _ResumeListState extends State<ResumeList> {
                   SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
-                        if (index < _resumeList.length) {
+                        if (index < MineModel.instance.resumeList.length) {
                           var key = GlobalKey<SlideButtonState>();
                           return GestureDetector(
                             behavior: HitTestBehavior.opaque,
                             onTap: () {
                               Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => OnlineResume()));
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      OnlineResume(
+                                        resumeId: MineModel.instance
+                                            .resumeList[index].id,),),);
                             },
                             child: JobResumeItem(
-                              resumeData: _resumeList[index],
+                              resumeData: MineModel.instance.resumeList[index],
                               index: index,
                               btnKey: key,
+                              deleteResume: (index){
+                                _deleteResume(MineModel.instance.resumeList[index].id, index);
+                              },
                             ),
                           );
                         }
                         return null;
                       },
-                      childCount: _resumeList.length,
+                      childCount: MineModel.instance.resumeList.length,
                     ),
                   ),
                   SliverToBoxAdapter(
@@ -186,5 +224,29 @@ class _ResumeListState extends State<ResumeList> {
             ),
           ],
         ));
+  }
+
+  /// 获取简历列表
+  _getResumeList(){
+    MineModel.instance.getResumeList(context, Application.sp.get('jobSeekerId')).then((model){
+      if(model!=null){
+        setState(() {
+          _resumeNum=model.resumeList.length;
+        });
+      }
+    });
+  }
+
+  /// 删除简历
+  _deleteResume(String id,int index) async {
+    BaseRespEntity _baseEntity = await MineModel.instance
+        .deleteResume(context,id);
+    if (_baseEntity != null) {
+      Utils.showToast(_baseEntity.msg??'删除成功');
+      MineModel.instance.resumeList.removeAt(index);
+      setState(() {
+        _resumeNum=MineModel.instance.resumeList.length;
+      });
+    }
   }
 }

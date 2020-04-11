@@ -1,9 +1,11 @@
+import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/entity/resume_detail_entity.dart';
 import 'package:recruit_app/model/mine_edu_list.dart';
 
 class EduItem extends StatelessWidget {
-  final MineEduData eduData;
+  final ResumeDetailDataEducationExperience eduData;
   final int index;
 
   const EduItem({Key key, this.eduData, this.index}) : super(key: key);
@@ -22,7 +24,7 @@ class EduItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Expanded(
-                child: Text(eduData.school,
+                child: Text('学校',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -34,7 +36,7 @@ class EduItem extends StatelessWidget {
               SizedBox(
                 width: ScreenUtil().setWidth(16),
               ),
-              Text(eduData.during,
+              Text('${DateUtil.formatDateMs(eduData.startDate,format: 'yyyy-MM')}-${DateUtil.formatDateMs(eduData.endDate,format: 'yyyy-MM')}',
                   style: TextStyle(
                       wordSpacing: 1,
                       letterSpacing: 1,
@@ -50,7 +52,7 @@ class EduItem extends StatelessWidget {
             ],
           ),
           SizedBox(height: ScreenUtil().setWidth(5)),
-          Text('${eduData.level}•${eduData.profession}',
+          Text('学历•${eduData.specialty}',
               style: TextStyle(
                   wordSpacing: 1,
                   letterSpacing: 1,

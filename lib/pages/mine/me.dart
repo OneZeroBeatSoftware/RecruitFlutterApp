@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/application.dart';
+import 'package:recruit_app/entity/mine_info_entity.dart';
 import 'package:recruit_app/model/me_list.dart';
+import 'package:recruit_app/model/mine_model.dart';
 import 'package:recruit_app/pages/mine/about_soft.dart';
 import 'package:recruit_app/pages/mine/black_list.dart';
 import 'package:recruit_app/pages/mine/collection.dart';
@@ -23,6 +26,16 @@ class Mine extends StatefulWidget {
 
 class _MineState extends State<Mine> {
   List<Me> options = MeOptions.loadOptions();
+  MineInfoData _mineInfoData;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((callback){
+      _getMainInfo();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +85,7 @@ class _MineState extends State<Mine> {
                     children: <Widget>[
                       Expanded(
                         child: Text(
-                          '哈哈哈哈哈登',
+                          _mineInfoData!=null?_mineInfoData.jobSeeker.realName:'',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -118,7 +131,7 @@ class _MineState extends State<Mine> {
                                 ),
                               ),
                               Text(
-                                '(18)',
+                                '(${_mineInfoData!=null?_mineInfoData.applyCount3:0})',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
@@ -161,7 +174,7 @@ class _MineState extends State<Mine> {
                                 ),
                               ),
                               Text(
-                                '(15)',
+                                '(${_mineInfoData!=null?_mineInfoData.applyCount2:0})',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
@@ -204,7 +217,7 @@ class _MineState extends State<Mine> {
                                 ),
                               ),
                               Text(
-                                '(13)',
+                                '(${_mineInfoData!=null?_mineInfoData.applyCount1:0})',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
@@ -299,12 +312,12 @@ class _MineState extends State<Mine> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => JobIntent()));
+                              builder: (context) => JobIntent(intentNum: _mineInfoData!=null?_mineInfoData.jobSeeker.jobIntentionCurrent:0,maxIntent: _mineInfoData!=null?_mineInfoData.jobSeeker.jobIntentionTotal:0,)));
                     } else if (index == 0) {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ResumeList()));
+                              builder: (context) => ResumeList(resumeNum: _mineInfoData!=null?_mineInfoData.jobSeeker.resumeCurrent:0,maxResume: _mineInfoData!=null?_mineInfoData.jobSeeker.resumeTotal:0,)));
                     } else if (index == 3) {
                       Navigator.push(
                           context,
@@ -340,5 +353,16 @@ class _MineState extends State<Mine> {
         ],
       ),
     );
+  }
+
+  /// 获取求职者主页信息
+  _getMainInfo() async{
+    MineInfoData mineInfoData=await MineModel.instance.getSeekerInfo(context, Application.sp.get('jobSeekerId'));
+    if(mineInfoData!=null){
+      setState(() {
+        options[0].itemStatus='${mineInfoData.jobSeeker.resumeCurrent}/${mineInfoData.jobSeeker.resumeTotal}';
+        _mineInfoData=mineInfoData;
+      });
+    }
   }
 }

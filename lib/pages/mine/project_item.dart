@@ -1,9 +1,11 @@
+import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/entity/resume_detail_entity.dart';
 import 'package:recruit_app/model/mine_project_list.dart';
 
 class ProjectItem extends StatelessWidget {
-  final MineProjectData projectData;
+  final ResumeDetailDataProjectExperience projectData;
   final int index;
 
   const ProjectItem({Key key, this.projectData, this.index}) : super(key: key);
@@ -34,7 +36,7 @@ class ProjectItem extends StatelessWidget {
               SizedBox(
                 width: ScreenUtil().setWidth(16),
               ),
-              Text(projectData.during,
+              Text('${DateUtil.formatDateMs(projectData.startDate,format: 'yyyy-MM')}-${DateUtil.formatDateMs(projectData.endDate,format: 'yyyy-MM')}',
                   style: TextStyle(
                       wordSpacing: 1,
                       letterSpacing: 1,
@@ -50,14 +52,14 @@ class ProjectItem extends StatelessWidget {
             ],
           ),
           SizedBox(height: ScreenUtil().setWidth(5)),
-          Text('${projectData.duty}',
+          Text('${projectData.position}',
               style: TextStyle(
                   wordSpacing: 1,
                   letterSpacing: 1,
                   fontSize: ScreenUtil().setSp(24),
                   color: Color.fromRGBO(176, 181, 180, 1))),
           SizedBox(height: ScreenUtil().setWidth(5)),
-          Text('${projectData.content}',
+          Text('${projectData.projectContent}',
               style: TextStyle(
                   wordSpacing: 1,
                   letterSpacing: 1,

@@ -35,8 +35,10 @@ class SearchModel {
       _companyList.addAll(companyEntity.data.records);
       if(companyEntity.data.records.length<=0&&pageIndex==1){
         Utils.showToast('没有搜到相关公司哦！');
+        return null;
       }else if(companyEntity.data.records.length<=0){
         Utils.showToast('没有更多相关公司啦！');
+        return null;
       }
       return this;
     }
@@ -59,9 +61,11 @@ class SearchModel {
       }
       _jobList.addAll(jobEntity.data.records);
       if(jobEntity.data.records.length<=0&&pageIndex==1){
-        Utils.showToast('没有搜到相关公司哦！');
+        Utils.showToast('没有搜到相关工作哦！');
+        return null;
       }else if(jobEntity.data.records.length<=0){
-        Utils.showToast('没有更多相关公司啦！');
+        Utils.showToast('没有更多相关工作啦！');
+        return null;
       }
       return this;
     }
@@ -84,9 +88,11 @@ class SearchModel {
       }
       _resumeList.addAll(resumeEntity.data.records);
       if(resumeEntity.data.records.length<=0&&pageIndex==1){
-        Utils.showToast('没有搜到相关公司哦！');
+        Utils.showToast('没有搜到相关简历哦！');
+        return null;
       }else if(resumeEntity.data.records.length<=0){
-        Utils.showToast('没有更多相关公司啦！');
+        Utils.showToast('没有更多相关简历啦！');
+        return null;
       }
       return this;
     }

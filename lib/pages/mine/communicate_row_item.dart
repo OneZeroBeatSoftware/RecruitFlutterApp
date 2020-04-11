@@ -1,10 +1,12 @@
+import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/entity/apply_list_entity.dart';
 import 'package:recruit_app/model/job_list.dart';
 
 class CommunicateRowItem extends StatelessWidget {
-  final Job job;
+  final ApplyListDataRecord job;
   final int index;
   final bool lastItem;
 
@@ -46,7 +48,7 @@ class CommunicateRowItem extends StatelessWidget {
                       width: ScreenUtil().setWidth(14),
                     ),
                     Text(
-                      '候选人2/10',
+                      '候选人${job.candidatesCurrent}/${job.candidatesTotal}',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -58,7 +60,7 @@ class CommunicateRowItem extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 4),
-              Text('5.5-7K',
+              Text('${job.minSalary}-${job.maxSalary}K',
                   style: TextStyle(
                       fontSize: ScreenUtil().setSp(36),
                       fontWeight: FontWeight.w500,
@@ -69,7 +71,7 @@ class CommunicateRowItem extends StatelessWidget {
             height: ScreenUtil().setWidth(20),
           ),
           Text(
-            '福州 仓山区 ｜ 1-3年 ｜ 本科',
+            '${job.workAddress} ｜ ${job.workDateName} ｜ ${job.educationName}',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
@@ -126,37 +128,25 @@ class CommunicateRowItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Expanded(
-                child: Row(
-                  children: [
-                    Text(
-                      '五险一金 ｜ ',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: ScreenUtil().setSp(26),
-                        color: Color.fromRGBO(151, 151, 151, 1),
-                      ),
-                    ),
-                    Text(
-                      '包吃包住 ｜ ',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: ScreenUtil().setSp(26),
-                        color: Color.fromRGBO(151, 151, 151, 1),
-                      ),
-                    ),
-                    Text(
-                      '年底分红',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: ScreenUtil().setSp(26),
-                        color: Color.fromRGBO(151, 151, 151, 1),
-                      ),
-                    ),
-                  ],
-                ),
+                child: job.treatments != null ? Wrap(
+                  children: job.treatments
+                      .asMap()
+                      .keys
+                      .map(
+                        (index) =>
+                        Text(
+                          '${job.treatments[index].treatmentName}${index == (job
+                              .treatments.length - 1) ? "" : " ｜ "}',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: ScreenUtil().setSp(26),
+                            color: Color.fromRGBO(151, 151, 151, 1),
+                          ),
+                        ),
+                  )
+                      .toList(),
+                ) : Container(),
               ),
             ],
           ),
@@ -174,7 +164,7 @@ class CommunicateRowItem extends StatelessWidget {
             ),
             padding: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(15)),
             child: Text(
-              '2020年1月2号11:28由您发起沟通',
+              '${DateUtil.formatDateMs(job.applyDate,format:"yyyy年MM月dd日HH:mm")}由您发起沟通',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
