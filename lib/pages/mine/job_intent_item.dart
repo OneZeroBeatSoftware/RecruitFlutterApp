@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/entity/intent_list_entity.dart';
-import 'package:recruit_app/model/job_intent_list.dart';
 import 'package:recruit_app/widgets/slide_button.dart';
 
 class JobIntentItem extends StatelessWidget {

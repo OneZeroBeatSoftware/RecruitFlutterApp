@@ -4,7 +4,6 @@ import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/application.dart';
-import 'package:recruit_app/model/job_list.dart';
 import 'package:recruit_app/model/mine_model.dart';
 import 'package:recruit_app/pages/jobs/job_detail.dart';
 import 'package:recruit_app/pages/mine/send_resume_item.dart';

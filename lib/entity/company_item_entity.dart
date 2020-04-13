@@ -9,6 +9,7 @@ class CompanyListData with JsonConvert<CompanyListData> {
 }
 class CompanyListDataRecord with JsonConvert<CompanyListDataRecord> {
 	String id;
+	String starId;
 	String companyName;
 	String registerAddress;
 	String operateState;

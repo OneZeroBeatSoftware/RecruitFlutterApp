@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:recruit_app/application.dart';
+import 'package:recruit_app/entity/boss_info_entity.dart';
+import 'package:recruit_app/model/boss_mine_model.dart';
 import 'package:recruit_app/model/me_list.dart';
 import 'package:recruit_app/pages/boss/boss_collection.dart';
 import 'package:recruit_app/pages/boss/company_info.dart';
@@ -23,7 +26,17 @@ class BossMine extends StatefulWidget {
 
 class _BossMineState extends State<BossMine> {
   List<Me> options = MeOptions.loadBossOptions();
-  
+  BossInfoData _mineInfoData;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((callback){
+      _getMainInfo();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -73,7 +86,7 @@ class _BossMineState extends State<BossMine> {
                         children: <Widget>[
                           Expanded(
                             child: Text(
-                              '一零跳动软件有限公司',
+                              _mineInfoData!=null?_mineInfoData.recruiter.realName:'',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -119,7 +132,7 @@ class _BossMineState extends State<BossMine> {
                                     ),
                                   ),
                                   Text(
-                                    '(18)',
+                                    '(${_mineInfoData!=null?_mineInfoData.applyCount3:0})',
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
@@ -172,7 +185,7 @@ class _BossMineState extends State<BossMine> {
                                     ),
                                   ),
                                   Text(
-                                    '(15)',
+                                    '(${_mineInfoData!=null?_mineInfoData.applyCount1:0})',
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
@@ -334,12 +347,12 @@ class _BossMineState extends State<BossMine> {
                          Navigator.push(
                              context,
                              MaterialPageRoute(
-                                 builder: (context) => BossCollectionJob()));
+                                 builder: (context) => BossCollectionJob(title: '收藏夹',type: BossCollectionType.star,)));
                        } else if (index == 4) {
                          Navigator.push(
                              context,
                              MaterialPageRoute(
-                                 builder: (context) => BossCollectionJob(title: '黑名单')));
+                                 builder: (context) => BossCollectionJob(title: '黑名单',type: BossCollectionType.shield,)));
                        }
                        else if (index == 5) {
                          Navigator.push(
@@ -379,5 +392,15 @@ class _BossMineState extends State<BossMine> {
         ],
       ),
     );
+  }
+
+  /// 获取招聘者主页信息
+  _getMainInfo() async{
+    BossInfoData mineInfoData=await BossMineModel.instance.getRecruiterInfo(context, Application.sp.get('recruiterId'));
+    if(mineInfoData!=null){
+      setState(() {
+        _mineInfoData=mineInfoData;
+      });
+    }
   }
 }

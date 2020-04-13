@@ -38,6 +38,9 @@ jobListDataRecordFromJson(JobListDataRecord data, Map<String, dynamic> json) {
 	if (json['id'] != null) {
 		data.id = json['id']?.toString();
 	}
+	if (json['starId'] != null) {
+		data.starId = json['starId']?.toString();
+	}
 	if (json['companyId'] != null) {
 		data.companyId = json['companyId']?.toString();
 	}
@@ -92,6 +95,7 @@ jobListDataRecordFromJson(JobListDataRecord data, Map<String, dynamic> json) {
 Map<String, dynamic> jobListDataRecordToJson(JobListDataRecord entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	data['id'] = entity.id;
+	data['starId'] = entity.starId;
 	data['companyId'] = entity.companyId;
 	data['companyName'] = entity.companyName;
 	data['jobName'] = entity.jobName;

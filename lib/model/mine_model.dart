@@ -67,8 +67,8 @@ class MineModel{
   }
 
   /// 黑名单操作
-  Future<BaseRespEntity> shieldCompanyJob(BuildContext context, bool isShield,String shieldId,{String jobSeekerId,String recruiterId,String shieldObjectId}) async {
-    BaseRespEntity baseRespEntity = await NetUtils.shieldCompanyJob(context, isShield,shieldId,jobSeekerId:jobSeekerId,recruiterId: recruiterId,shieldObjectId: shieldObjectId);
+  Future<BaseRespEntity> shieldCompanyJob(BuildContext context, String shieldObjectId,{String jobSeekerId,String recruiterId,String shieldId}) async {
+    BaseRespEntity baseRespEntity = await NetUtils.shieldCompanyJob(context,shieldObjectId,jobSeekerId:jobSeekerId,recruiterId: recruiterId,shieldId: shieldId);
     if (baseRespEntity.statusCode ==200) {
       return baseRespEntity;
     }
@@ -129,9 +129,9 @@ class MineModel{
   }
 
   /// 收藏夹操作
-  Future<BaseRespEntity> starCompanyJob(BuildContext context, bool isJob,bool isStar,
-      String starId, String jobSeekerId, {String starObjectId}) async {
-    BaseRespEntity baseRespEntity = await NetUtils.starCompanyJob(context, isJob,isStar,starId,jobSeekerId,starObjectId: starObjectId);
+  Future<BaseRespEntity> starCompanyJob(BuildContext context, bool isJob,
+      String starObjectId, String jobSeekerId, {String starId}) async {
+    BaseRespEntity baseRespEntity = await NetUtils.starCompanyJob(context, isJob,starObjectId,jobSeekerId,starId: starId);
     if (baseRespEntity.statusCode ==200) {
       return baseRespEntity;
     }

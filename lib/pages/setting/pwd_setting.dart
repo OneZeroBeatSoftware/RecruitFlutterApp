@@ -1,6 +1,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:recruit_app/entity/base_resp_entity.dart';
+import 'package:recruit_app/model/user_model.dart';
+import 'package:recruit_app/pages/account/login/login_type.dart';
+import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 
 class PwdSetting extends StatefulWidget {
@@ -9,6 +14,42 @@ class PwdSetting extends StatefulWidget {
 }
 
 class _PwdSettingState extends State<PwdSetting> {
+  UserModel userModel;
+
+  TextEditingController _oldPwdController;
+  TextEditingController _newPwdController;
+  TextEditingController _newPwd2Controller;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _oldPwdController=TextEditingController();
+    _newPwdController=TextEditingController();
+    _newPwd2Controller=TextEditingController();
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((callback){
+      userModel=Provider.of<UserModel>(context);
+    });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    if(_oldPwdController!=null){
+      _oldPwdController.dispose();
+    }
+    if(_newPwdController!=null){
+      _newPwdController.dispose();
+    }
+    if(_newPwd2Controller!=null){
+      _newPwd2Controller.dispose();
+    }
+    if(userModel!=null){
+      userModel.dispose();
+    }
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,6 +105,7 @@ class _PwdSettingState extends State<PwdSetting> {
                 children: <Widget>[
                   Expanded(
                     child: TextField(
+                      controller: _oldPwdController,
                       autofocus: false,
                       maxLines: 1,
                       textAlign: TextAlign.start,
@@ -117,6 +159,7 @@ class _PwdSettingState extends State<PwdSetting> {
                 children: <Widget>[
                   Expanded(
                     child: TextField(
+                      controller: _newPwdController,
                       autofocus: false,
                       maxLines: 1,
                       textAlign: TextAlign.start,
@@ -170,6 +213,7 @@ class _PwdSettingState extends State<PwdSetting> {
                 children: <Widget>[
                   Expanded(
                     child: TextField(
+                      controller: _newPwd2Controller,
                       autofocus: false,
                       maxLines: 1,
                       textAlign: TextAlign.start,
@@ -199,7 +243,29 @@ class _PwdSettingState extends State<PwdSetting> {
             MaterialButton(
               elevation: 0,
               color: Colors.white,
-              onPressed: () {},
+              onPressed: () async{
+                FocusScope.of(context).requestFocus(FocusNode());
+                if(_oldPwdController.text.isEmpty){
+                  Utils.showToast('请先输入旧密码');
+                  return;
+                }
+                if(_newPwdController.text.isEmpty){
+                  Utils.showToast('请输入新密码');
+                  return;
+                }
+                if(_newPwd2Controller.text.isEmpty){
+                  Utils.showToast('请确认新密码');
+                  return;
+                }
+                if(_newPwdController.text!=_newPwd2Controller.text){
+                  Utils.showToast('新密码确认有误');
+                  return;
+                }
+                BaseRespEntity baseEntity =await userModel.modifyPwd(context,_oldPwdController.text,_newPwdController.text,_newPwd2Controller.text);
+                if(baseEntity!=null){
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>LoginType()), (check)=>false);
+                }
+              },
               textColor: Color.fromRGBO(159, 199, 235, 1),
               child: Text(
                 "修 改",

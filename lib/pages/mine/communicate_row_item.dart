@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/entity/apply_list_entity.dart';
-import 'package:recruit_app/model/job_list.dart';
 
 class CommunicateRowItem extends StatelessWidget {
   final ApplyListDataRecord job;

@@ -1,5 +1,8 @@
+import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:recruit_app/entity/main_resume_detail_entity.dart';
+import 'package:recruit_app/model/recruit_resume_model.dart';
 import 'package:recruit_app/pages/employe/boss_chat_room.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,12 +10,14 @@ import 'package:recruit_app/widgets/list_menu_dialog.dart';
 import 'package:recruit_app/pages/employe/employee_experience.dart';
 import 'package:recruit_app/pages/employe/employee_experience2.dart';
 
+enum ResumeDetailType {resume, interview}
+
 class EmployeeDetail extends StatefulWidget {
-  
-  //
-  int mode;
-  
-  
+  final String resumeId;
+  final ResumeDetailType resumeDetailType;
+
+  const EmployeeDetail({Key key, this.resumeId='1', this.resumeDetailType=ResumeDetailType.resume}) : super(key: key);
+
   @override
   _EmployeeDetailState createState() {
     // TODO: implement createState
@@ -23,23 +28,48 @@ class EmployeeDetail extends StatefulWidget {
 class _EmployeeDetailState extends State<EmployeeDetail> {
   bool _isCollected=false;
   List<String> _reports=[];
+
+  MainResumeDetailData _resumeDetailData;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((i) {
+      getResumeDetail(widget.resumeId);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    
     List<Experience> workExperiences = [];
-    for(int i = 0; i < 2; i++)  {
-        workExperiences.add(Experience('星网锐捷', '2018.10-至今', <String>['地产设计', '插画师', '设计部门']));
-    }
-    
     List<Experience> projectExperiences = [];
-    for(int i = 0; i < 1; i++)  {
-      projectExperiences.add(Experience('ERP系统', '2020年7月30日', <String>['地产设计', '现场执行', '策划']));
-    }
-    
     List<Experience2> educationExperiences = [];
-    for(int i = 0; i < 3; i++)  {
-      educationExperiences.add(Experience2('杜克大学(研究生，设计学)', '2012-2016'));
+
+    if(_resumeDetailData!=null){
+      _resumeDetailData.workExperience.forEach((item){
+        workExperiences.add(Experience('${item.companyName}',
+            '${DateUtil.formatDateMs(
+                item.startDate, format: 'yyyy-MM-dd')}-${DateUtil.formatDateMs(
+                item.endDate, format: 'yyyy-MM-dd')}',
+            <String>['地产设计', '插画师', '设计部门']));
+      });
+
+      _resumeDetailData.projectExperience.forEach((item){
+        projectExperiences.add(Experience('${item.projectName}',
+            '${DateUtil.formatDateMs(
+                item.startDate, format: 'yyyy-MM-dd')}-${DateUtil.formatDateMs(
+                item.endDate, format: 'yyyy-MM-dd')}',
+            <String>['地产设计', '插画师', '设计部门']));
+      });
+
+      _resumeDetailData.educationExperience.forEach((item){
+        educationExperiences.add(Experience2('${item.educationName}(${item.specialty})',
+            '${DateUtil.formatDateMs(
+                item.startDate, format: 'yyyy-MM-dd')}-${DateUtil.formatDateMs(
+                item.endDate, format: 'yyyy-MM-dd')}'));
+      });
     }
     
     return Scaffold(
@@ -70,7 +100,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                   ),
                   Align(
                      alignment: Alignment.centerRight,
-                     child: Text("哈登",
+                     child: Text(_resumeDetailData==null?'':_resumeDetailData.resume.realName,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -169,7 +199,12 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
             ],
           ),
         ),
-        body: Column(
+        body: _resumeDetailData == null
+            ? Container(
+          height: ScreenUtil().setWidth(400),
+          alignment: Alignment.center,
+          child: CupertinoActivityIndicator(),
+        ) :Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
@@ -189,7 +224,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            'Bingo',
+                            '${_resumeDetailData.resume.realName}',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -211,7 +246,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                             ),
                             SizedBox(width: ScreenUtil().setWidth(12)),
                             Text(
-                              '5.5-7k',
+                              '${_resumeDetailData.resume.minSalary}-${_resumeDetailData.resume.maxSalary}K',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -228,14 +263,14 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          Text("福州 仓山",
+                          Text("${_resumeDetailData.resume.address}",
                             style: TextStyle(color: Color.fromRGBO(95,94,94,1), fontSize: ScreenUtil().setSp(24))
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              Text("男",
+                              Text(1==_resumeDetailData.resume.sex?"男":"女",
                                  style: TextStyle(color: Color.fromRGBO(95,94,94,1), fontSize: ScreenUtil().setSp(24))
                               ),
                               Padding(
@@ -248,7 +283,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                               Padding(
                                 padding: EdgeInsets.only(left: ScreenUtil().setWidth(12)),
                               ),
-                              Text("10年经验",
+                              Text("${_resumeDetailData.workDate}",
                                  style: TextStyle(color: Color.fromRGBO(95,94,94,1), fontSize: ScreenUtil().setSp(24))
                               ),
                               Padding(
@@ -261,7 +296,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                               Padding(
                                 padding: EdgeInsets.only(left: ScreenUtil().setWidth(12)),
                               ),
-                              Text("研究生",
+                              Text("${_resumeDetailData.education}",
                                  style: TextStyle(color: Color.fromRGBO(95,94,94,1), fontSize: ScreenUtil().setSp(24))
                               ),
                               
@@ -364,6 +399,17 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
           ],
         ));
   }
+
+  /// 获取人才简历
+  void getResumeDetail(String resumeId) async {
+    MainResumeModel.instance.getResumeDetail(context, resumeId).then((resume){
+      if (resume.data != null) {
+        setState(() {
+          _resumeDetailData=resume.data;
+        });
+      }
+    });
+  }
 }
 
 class FlexButton extends StatelessWidget {
@@ -404,6 +450,6 @@ class FlexButton extends StatelessWidget {
          )),
     );
   }
-  
-  
+
+
 }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:recruit_app/entity/base_resp_entity.dart';
 import 'package:recruit_app/entity/user_entity.dart';
 import 'package:recruit_app/utils/net_utils.dart';
 import 'package:recruit_app/utils/utils.dart';
@@ -56,6 +57,18 @@ class UserModel with ChangeNotifier {
       return user;
     }
     Utils.showToast(user.msg ?? '注册失败，请重新尝试');
+    return null;
+  }
+
+  /// 修改密码
+  Future<BaseRespEntity> modifyPwd(BuildContext context,String oldPassword, String newPassword,String newPassword2) async {
+    BaseRespEntity baseEntity = await NetUtils.modifyPwd(context,oldPassword,newPassword,newPassword2);
+    if (baseEntity.statusCode ==200) {
+      Utils.showToast(baseEntity.msg ?? '密码修改成功');
+      Application.sp.setString('token', '');
+      return baseEntity;
+    }
+    Utils.showToast(baseEntity.msg ?? '密码修改失败，请重试');
     return null;
   }
 

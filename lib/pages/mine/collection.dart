@@ -39,10 +39,10 @@ class _CollectionSate extends State<Collection> {
   @override
   void dispose() {
     // TODO: implement dispose
+    super.dispose();
     if (_refreshController != null) {
       _refreshController.dispose();
     }
-    super.dispose();
   }
 
   @override
@@ -206,7 +206,9 @@ class _CollectionSate extends State<Collection> {
                                 btnKey.currentState.close();
                                 _unStar(_selectFilterType == 2
                                     ? MineModel.instance.companyList[index].id
-                                    : MineModel.instance.jobList[index].id,index);
+                                    : MineModel.instance.jobList[index].id,_selectFilterType == 2
+                                    ? MineModel.instance.companyList[index].starId
+                                    : MineModel.instance.jobList[index].starId,index);
                               }),
                             ],
                           );
@@ -254,12 +256,16 @@ class _CollectionSate extends State<Collection> {
   }
 
   /// 移除收藏夹
-  _unStar(String id, int index) async {
+  _unStar(String id,String starId, int index) async {
     BaseRespEntity _baseEntity = await MineModel.instance.starCompanyJob(
-        context, _selectFilterType==1,false, id, Application.sp.getString('jobSeekerId'));
+        context, _selectFilterType==1, id,Application.sp.getString('jobSeekerId'),starId:starId);
     if (_baseEntity != null) {
       Utils.showToast(_baseEntity.msg ?? '删除成功');
-      MineModel.instance.shieldList.removeAt(index);
+      if(_selectFilterType==1){
+        MineModel.instance.jobList.removeAt(index);
+      }else {
+        MineModel.instance.companyList.removeAt(index);
+      }
       setState(() {});
     }
   }

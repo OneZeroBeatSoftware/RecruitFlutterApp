@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recruit_app/model/employe_list.dart';
+import 'package:recruit_app/model/recruit_resume_model.dart';
 import 'package:recruit_app/model/search_model.dart';
 import 'package:recruit_app/pages/companys/company_detail.dart';
 import 'package:recruit_app/pages/companys/company_row_item.dart';
@@ -27,7 +27,6 @@ class JobCompanySearch extends StatefulWidget {
 }
 
 class _JobCompanySearchState extends State<JobCompanySearch> {
-  List<Employee> _employeeList = EmployeeData.loadEmployees();
   List<String> _searchList = [];
   TextEditingController _searchController;
 
@@ -516,28 +515,31 @@ class _JobCompanySearchState extends State<JobCompanySearch> {
                             }
 
                             if (widget.searchType == SearchType.resume &&
-                                index < _employeeList.length) {
+                                index < MainResumeModel.instance.resumeList.length) {
                               return GestureDetector(
                                   behavior: HitTestBehavior.opaque,
                                   child: EmployeeRowItem(
-                                      employee: _employeeList[index],
+                                      employee: MainResumeModel.instance.resumeList[index],
                                       index: index,
                                       lastItem: index ==
-                                          _employeeList.length - 1),
+                                          MainResumeModel.instance.resumeList.length - 1),
                                   onTap: () {
                                     FocusScope.of(context).requestFocus(
                                         FocusNode());
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) =>
-                                              EmployeeDetail(),
+                                          builder: (context) => EmployeeDetail(
+                                            resumeDetailType: ResumeDetailType
+                                                .resume,
+                                            resumeId: MainResumeModel.instance
+                                                .resumeList[index].id,),
                                         ));
                                   });
                             }
                             return null;
                           }, childCount: widget.searchType == SearchType.resume
-                              ? _employeeList.length
+                              ? MainResumeModel.instance.resumeList.length
                               : (widget.searchType == SearchType.company
                               ? SearchModel.instance.companyList.length
                               : SearchModel.instance.jobList.length)))

@@ -16,6 +16,7 @@ class BlackListData with JsonConvert<BlackListData> {
 
 class BlackListDataRecord with JsonConvert<BlackListDataRecord> {
 	String id;
+	String shieldId;
 	String companyName;
 	String startDate;
 	String endDate;

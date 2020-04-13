@@ -6,7 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/application.dart';
 import 'package:recruit_app/entity/base_resp_entity.dart';
 import 'package:recruit_app/model/mine_model.dart';
-import 'package:recruit_app/model/seeker_interview_model.dart';
 import 'package:recruit_app/pages/companys/company_detail.dart';
 import 'package:recruit_app/pages/mine/black_list_item.dart';
 import 'package:recruit_app/utils/utils.dart';
@@ -92,7 +91,7 @@ class _BlackListSate extends State<BlackList> {
                         behavior: HitTestBehavior.opaque,
                         child: BlackListItem(
                             deleteBlack:(index){
-                              _shieldCompany(MineModel.instance.shieldList[index].id, index);
+                              _shieldCompany(MineModel.instance.shieldList[index].id,MineModel.instance.shieldList[index].shieldId, index);
                             },
                             btnKey: btnKey,
                             company: MineModel.instance.shieldList[index],
@@ -133,9 +132,9 @@ class _BlackListSate extends State<BlackList> {
   }
 
   /// 移除黑名单
-  _shieldCompany(String id, int index) async {
+  _shieldCompany(String id,String shieldId, int index) async {
     BaseRespEntity _baseEntity = await MineModel.instance.shieldCompanyJob(
-        context, false, id,
+        context, id,shieldId: shieldId,
         jobSeekerId: Application.sp.getString('jobSeekerId'));
     if (_baseEntity != null) {
       Utils.showToast(_baseEntity.msg ?? '删除成功');

@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:recruit_app/model/employe_list.dart';
+import 'package:recruit_app/entity/main_resume_list_entity.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class EmployeeRowItem extends StatelessWidget {
-  final Employee employee;
+  final MainResumeListDataRecord employee;
   final int index;
   final bool lastItem;
   final VoidCallback onCommunicateClick;
@@ -39,7 +39,7 @@ class EmployeeRowItem extends StatelessWidget {
                   SizedBox.fromSize(size: Size(ScreenUtil().setWidth(12), ScreenUtil().setHeight(12))),
                   Container(
                     child:Text(
-                      employee.name,
+                      employee.realName,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                          fontSize: ScreenUtil().setSp(36),
@@ -63,7 +63,7 @@ class EmployeeRowItem extends StatelessWidget {
               Container(
                 margin: EdgeInsets.only(top: ScreenUtil().setHeight(16), left: ScreenUtil().setWidth(56)),
                 child:Text(
-                  employee.pos,
+                  employee.resumeName,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                      fontSize: ScreenUtil().setSp(32),
@@ -81,7 +81,7 @@ class EmployeeRowItem extends StatelessWidget {
                       padding: EdgeInsets.only(left: ScreenUtil().setWidth(56)),
                     ),
                     Text(
-                      '男',
+                      1==employee.sex?'男':'女',
                       style: TextStyle(
                          fontSize: ScreenUtil().setSp(26),
                          fontWeight: FontWeight.w300,
@@ -99,7 +99,7 @@ class EmployeeRowItem extends StatelessWidget {
                       padding: EdgeInsets.only(left: ScreenUtil().setWidth(12)),
                     ),
                     Text(
-                      '5年经验',
+                      '${employee.workDateName}',
                       style: TextStyle(
                          fontSize: ScreenUtil().setSp(26),
                          fontWeight: FontWeight.w300,
@@ -116,7 +116,7 @@ class EmployeeRowItem extends StatelessWidget {
                       padding: EdgeInsets.only(left: ScreenUtil().setWidth(12)),
                     ),
                     Text(
-                      '研究生',
+                      '${employee.educationName}',
                       style: TextStyle(
                          fontSize: ScreenUtil().setSp(26),
                          fontWeight: FontWeight.w300,
@@ -131,7 +131,7 @@ class EmployeeRowItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text(
-                "5.5-7K",
+                '${employee.minSalary}-${employee.maxSalary}K',
                 style: TextStyle(
                   color: Color.fromRGBO(68,77,151,1),
                   fontSize: ScreenUtil().setSp(40),

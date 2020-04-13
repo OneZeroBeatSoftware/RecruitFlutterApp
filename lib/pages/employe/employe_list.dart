@@ -4,7 +4,7 @@ import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/application.dart';
-import 'package:recruit_app/model/employe_list.dart';
+import 'package:recruit_app/model/recruit_resume_model.dart';
 import 'package:recruit_app/pages/employe/employe_row_item.dart';
 import 'package:recruit_app/pages/employe/employee_detail.dart';
 import 'package:recruit_app/pages/jobs/city_filter.dart';
@@ -25,7 +25,6 @@ class _EmployeeListState extends State<EmployeeList> {
   int _selectFilterType = 0;
   int _pageIndex = 1;
 
-  List<Employee> _employeeList = EmployeeData.loadEmployees();
   EasyRefreshController _refreshController;
 
   String _sex='';
@@ -173,11 +172,11 @@ class _EmployeeListState extends State<EmployeeList> {
                 footer: ClassicalFooter(infoColor: Color.fromRGBO(159, 199, 235, 1)),
                 onRefresh: () async {
                   _pageIndex = 1;
-//                  getJobList();
+                  _getResumeList();
                   _refreshController.resetLoadState();
                 },
                 onLoad: () async {
-//                  getJobList();
+                  _getResumeList();
                   _refreshController.resetLoadState();
                 },
                 slivers: <Widget>[
@@ -422,34 +421,30 @@ class _EmployeeListState extends State<EmployeeList> {
                           ),
                         ],
                       )),
-//                  _jobModel == null
-//                      ? SliverToBoxAdapter(
-//                    child: Container(
-//                      height: ScreenUtil().setWidth(400),
-//                      alignment: Alignment.center,
-//                      child: CupertinoActivityIndicator(),
-//                    ),
-//                  ) :
                   SliverList(
                       delegate:
                       SliverChildBuilderDelegate((context, index) {
-                        if (index < _employeeList.length) {
+                        if (index < MainResumeModel.instance.resumeList.length) {
                           return GestureDetector(
                               behavior: HitTestBehavior.opaque,
                               child: EmployeeRowItem(
-                                  employee: _employeeList[index],
+                                  employee: MainResumeModel.instance.resumeList[index],
                                   index: index,
-                                  lastItem: index == _employeeList.length - 1),
+                                  lastItem: index == MainResumeModel.instance.resumeList.length - 1),
                               onTap: () {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => EmployeeDetail(),
+                                      builder: (context) => EmployeeDetail(
+                                        resumeDetailType: ResumeDetailType
+                                            .resume,
+                                        resumeId: MainResumeModel.instance
+                                            .resumeList[index].id,),
                                     ));
                               });
                         }
                         return null;
-                      }, childCount: _employeeList.length)),
+                      }, childCount: MainResumeModel.instance.resumeList.length)),
                 ],
               ),
             ),
@@ -457,5 +452,23 @@ class _EmployeeListState extends State<EmployeeList> {
         ),
       ),
     );
+  }
+
+  /// 获取首页简历列表
+  _getResumeList() async {
+    MainResumeModel.instance.getResumeList(
+        context,
+        _selectFilterType == 1,
+        _selectFilterType == 2,
+        _selectFilterType == 0,
+        '',
+        _pageIndex,
+        15).then((resumeEntity){
+          if(resumeEntity!=null){
+            _pageIndex++;
+          }
+          setState(() {
+          });
+    });
   }
 }

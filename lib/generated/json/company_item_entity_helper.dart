@@ -38,6 +38,9 @@ companyListDataRecordFromJson(CompanyListDataRecord data, Map<String, dynamic> j
 	if (json['id'] != null) {
 		data.id = json['id']?.toString();
 	}
+	if (json['starId'] != null) {
+		data.starId = json['starId']?.toString();
+	}
 	if (json['companyName'] != null) {
 		data.companyName = json['companyName']?.toString();
 	}
@@ -71,6 +74,7 @@ companyListDataRecordFromJson(CompanyListDataRecord data, Map<String, dynamic> j
 Map<String, dynamic> companyListDataRecordToJson(CompanyListDataRecord entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	data['id'] = entity.id;
+	data['starId'] = entity.starId;
 	data['companyName'] = entity.companyName;
 	data['registerAddress'] = entity.registerAddress;
 	data['operateState'] = entity.operateState;

@@ -8,6 +8,7 @@ class JobListData with JsonConvert<JobListData> {
 }
 class JobListDataRecord with JsonConvert<JobListDataRecord> {
 	String id;
+	String starId;
 	String companyId;
 	String companyName;
 	String jobName;

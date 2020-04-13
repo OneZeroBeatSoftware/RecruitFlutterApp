@@ -4,7 +4,7 @@ import 'package:recruit_app/entity/company_item_entity.dart';
 import 'package:recruit_app/entity/company_list_entity.dart';
 import 'package:recruit_app/entity/job_item_entity.dart';
 import 'package:recruit_app/entity/job_list_entity.dart';
-import 'package:recruit_app/entity/seeker_interview_entity.dart';
+import 'package:recruit_app/entity/main_resume_list_entity.dart';
 import 'package:recruit_app/utils/net_utils.dart';
 import 'package:recruit_app/utils/utils.dart';
 
@@ -76,12 +76,12 @@ class SearchModel {
     return null;
   }
 
-  List<SeekerInterviewDataRecord> _resumeList=[];
-  List<SeekerInterviewDataRecord> get resumeList => _resumeList;
+  List<MainResumeListDataRecord> _resumeList=[];
+  List<MainResumeListDataRecord> get resumeList => _resumeList;
   /// 搜索简历
   Future<SearchModel> searchResume (BuildContext context,
       int pageIndex, {int pageSize = 15, String city,String keyword,String sex,String salary,String education,String workDate}) async {
-    SeekerInterviewEntity resumeEntity = await NetUtils.searchResume(context,pageIndex,pageSize: pageSize,city: city,sex: sex,keyword: keyword,workDate: workDate,education: education,salary: salary,);
+    MainResumeListEntity resumeEntity = await NetUtils.searchResume(context,pageIndex,pageSize: pageSize,city: city,sex: sex,keyword: keyword,workDate: workDate,education: education,salary: salary,);
     if (resumeEntity.statusCode ==200) {
       if(pageIndex==1){
         _resumeList.clear();

@@ -39,6 +39,8 @@ import 'package:recruit_app/entity/base_resp_entity.dart';
 import 'package:recruit_app/generated/json/base_resp_entity_helper.dart';
 import 'package:recruit_app/entity/company_scale_entity.dart';
 import 'package:recruit_app/generated/json/company_scale_entity_helper.dart';
+import 'package:recruit_app/entity/main_resume_list_entity.dart';
+import 'package:recruit_app/generated/json/main_resume_list_entity_helper.dart';
 import 'package:recruit_app/entity/seeker_interview_entity.dart';
 import 'package:recruit_app/generated/json/seeker_interview_entity_helper.dart';
 import 'package:recruit_app/entity/edu_level_entity.dart';
@@ -47,8 +49,12 @@ import 'package:recruit_app/entity/company_item_entity.dart';
 import 'package:recruit_app/generated/json/company_item_entity_helper.dart';
 import 'package:recruit_app/entity/file_upload_entity.dart';
 import 'package:recruit_app/generated/json/file_upload_entity_helper.dart';
+import 'package:recruit_app/entity/boss_info_entity.dart';
+import 'package:recruit_app/generated/json/boss_info_entity_helper.dart';
 import 'package:recruit_app/entity/apply_list_entity.dart';
 import 'package:recruit_app/generated/json/apply_list_entity_helper.dart';
+import 'package:recruit_app/entity/main_resume_detail_entity.dart';
+import 'package:recruit_app/generated/json/main_resume_detail_entity_helper.dart';
 import 'package:recruit_app/entity/resume_detail_entity.dart';
 import 'package:recruit_app/generated/json/resume_detail_entity_helper.dart';
 import 'package:recruit_app/entity/salary_list_entity.dart';
@@ -119,7 +125,10 @@ class JsonConvert<T> {
 			return jobListEntityFromJson(data as JobListEntity, json) as T;			case BaseRespEntity:
 			return baseRespEntityFromJson(data as BaseRespEntity, json) as T;			case CompanyScaleEntity:
 			return companyScaleEntityFromJson(data as CompanyScaleEntity, json) as T;			case CompanyScaleData:
-			return companyScaleDataFromJson(data as CompanyScaleData, json) as T;			case SeekerInterviewEntity:
+			return companyScaleDataFromJson(data as CompanyScaleData, json) as T;			case MainResumeListEntity:
+			return mainResumeListEntityFromJson(data as MainResumeListEntity, json) as T;			case MainResumeListData:
+			return mainResumeListDataFromJson(data as MainResumeListData, json) as T;			case MainResumeListDataRecord:
+			return mainResumeListDataRecordFromJson(data as MainResumeListDataRecord, json) as T;			case SeekerInterviewEntity:
 			return seekerInterviewEntityFromJson(data as SeekerInterviewEntity, json) as T;			case SeekerInterviewData:
 			return seekerInterviewDataFromJson(data as SeekerInterviewData, json) as T;			case SeekerInterviewDataRecord:
 			return seekerInterviewDataRecordFromJson(data as SeekerInterviewDataRecord, json) as T;			case EduLevelEntity:
@@ -128,11 +137,20 @@ class JsonConvert<T> {
 			return companyListDataFromJson(data as CompanyListData, json) as T;			case CompanyListDataRecord:
 			return companyListDataRecordFromJson(data as CompanyListDataRecord, json) as T;			case CompanyListDataRecordsJobInfo:
 			return companyListDataRecordsJobInfoFromJson(data as CompanyListDataRecordsJobInfo, json) as T;			case FileUploadEntity:
-			return fileUploadEntityFromJson(data as FileUploadEntity, json) as T;			case ApplyListEntity:
+			return fileUploadEntityFromJson(data as FileUploadEntity, json) as T;			case BossInfoEntity:
+			return bossInfoEntityFromJson(data as BossInfoEntity, json) as T;			case BossInfoData:
+			return bossInfoDataFromJson(data as BossInfoData, json) as T;			case BossInfoDataRecruiter:
+			return bossInfoDataRecruiterFromJson(data as BossInfoDataRecruiter, json) as T;			case ApplyListEntity:
 			return applyListEntityFromJson(data as ApplyListEntity, json) as T;			case ApplyListData:
 			return applyListDataFromJson(data as ApplyListData, json) as T;			case ApplyListDataRecord:
 			return applyListDataRecordFromJson(data as ApplyListDataRecord, json) as T;			case ApplyListDataRecordsTreatmants:
-			return applyListDataRecordsTreatmantsFromJson(data as ApplyListDataRecordsTreatmants, json) as T;			case ResumeDetailEntity:
+			return applyListDataRecordsTreatmantsFromJson(data as ApplyListDataRecordsTreatmants, json) as T;			case MainResumeDetailEntity:
+			return mainResumeDetailEntityFromJson(data as MainResumeDetailEntity, json) as T;			case MainResumeDetailData:
+			return mainResumeDetailDataFromJson(data as MainResumeDetailData, json) as T;			case MainResumeDetailDataResume:
+			return mainResumeDetailDataResumeFromJson(data as MainResumeDetailDataResume, json) as T;			case MainResumeDetailDataWorkExperience:
+			return mainResumeDetailDataWorkExperienceFromJson(data as MainResumeDetailDataWorkExperience, json) as T;			case MainResumeDetailDataProjectExperience:
+			return mainResumeDetailDataProjectExperienceFromJson(data as MainResumeDetailDataProjectExperience, json) as T;			case MainResumeDetailDataEducationExperience:
+			return mainResumeDetailDataEducationExperienceFromJson(data as MainResumeDetailDataEducationExperience, json) as T;			case ResumeDetailEntity:
 			return resumeDetailEntityFromJson(data as ResumeDetailEntity, json) as T;			case ResumeDetailData:
 			return resumeDetailDataFromJson(data as ResumeDetailData, json) as T;			case ResumeDetailDataResume:
 			return resumeDetailDataResumeFromJson(data as ResumeDetailDataResume, json) as T;			case ResumeDetailDataWorkExperience:
@@ -202,7 +220,10 @@ class JsonConvert<T> {
 			return jobListEntityToJson(data as JobListEntity);			case BaseRespEntity:
 			return baseRespEntityToJson(data as BaseRespEntity);			case CompanyScaleEntity:
 			return companyScaleEntityToJson(data as CompanyScaleEntity);			case CompanyScaleData:
-			return companyScaleDataToJson(data as CompanyScaleData);			case SeekerInterviewEntity:
+			return companyScaleDataToJson(data as CompanyScaleData);			case MainResumeListEntity:
+			return mainResumeListEntityToJson(data as MainResumeListEntity);			case MainResumeListData:
+			return mainResumeListDataToJson(data as MainResumeListData);			case MainResumeListDataRecord:
+			return mainResumeListDataRecordToJson(data as MainResumeListDataRecord);			case SeekerInterviewEntity:
 			return seekerInterviewEntityToJson(data as SeekerInterviewEntity);			case SeekerInterviewData:
 			return seekerInterviewDataToJson(data as SeekerInterviewData);			case SeekerInterviewDataRecord:
 			return seekerInterviewDataRecordToJson(data as SeekerInterviewDataRecord);			case EduLevelEntity:
@@ -211,11 +232,20 @@ class JsonConvert<T> {
 			return companyListDataToJson(data as CompanyListData);			case CompanyListDataRecord:
 			return companyListDataRecordToJson(data as CompanyListDataRecord);			case CompanyListDataRecordsJobInfo:
 			return companyListDataRecordsJobInfoToJson(data as CompanyListDataRecordsJobInfo);			case FileUploadEntity:
-			return fileUploadEntityToJson(data as FileUploadEntity);			case ApplyListEntity:
+			return fileUploadEntityToJson(data as FileUploadEntity);			case BossInfoEntity:
+			return bossInfoEntityToJson(data as BossInfoEntity);			case BossInfoData:
+			return bossInfoDataToJson(data as BossInfoData);			case BossInfoDataRecruiter:
+			return bossInfoDataRecruiterToJson(data as BossInfoDataRecruiter);			case ApplyListEntity:
 			return applyListEntityToJson(data as ApplyListEntity);			case ApplyListData:
 			return applyListDataToJson(data as ApplyListData);			case ApplyListDataRecord:
 			return applyListDataRecordToJson(data as ApplyListDataRecord);			case ApplyListDataRecordsTreatmants:
-			return applyListDataRecordsTreatmantsToJson(data as ApplyListDataRecordsTreatmants);			case ResumeDetailEntity:
+			return applyListDataRecordsTreatmantsToJson(data as ApplyListDataRecordsTreatmants);			case MainResumeDetailEntity:
+			return mainResumeDetailEntityToJson(data as MainResumeDetailEntity);			case MainResumeDetailData:
+			return mainResumeDetailDataToJson(data as MainResumeDetailData);			case MainResumeDetailDataResume:
+			return mainResumeDetailDataResumeToJson(data as MainResumeDetailDataResume);			case MainResumeDetailDataWorkExperience:
+			return mainResumeDetailDataWorkExperienceToJson(data as MainResumeDetailDataWorkExperience);			case MainResumeDetailDataProjectExperience:
+			return mainResumeDetailDataProjectExperienceToJson(data as MainResumeDetailDataProjectExperience);			case MainResumeDetailDataEducationExperience:
+			return mainResumeDetailDataEducationExperienceToJson(data as MainResumeDetailDataEducationExperience);			case ResumeDetailEntity:
 			return resumeDetailEntityToJson(data as ResumeDetailEntity);			case ResumeDetailData:
 			return resumeDetailDataToJson(data as ResumeDetailData);			case ResumeDetailDataResume:
 			return resumeDetailDataResumeToJson(data as ResumeDetailDataResume);			case ResumeDetailDataWorkExperience:
@@ -285,7 +315,10 @@ class JsonConvert<T> {
 			return JobListEntity().fromJson(json);			case 'BaseRespEntity':
 			return BaseRespEntity().fromJson(json);			case 'CompanyScaleEntity':
 			return CompanyScaleEntity().fromJson(json);			case 'CompanyScaleData':
-			return CompanyScaleData().fromJson(json);			case 'SeekerInterviewEntity':
+			return CompanyScaleData().fromJson(json);			case 'MainResumeListEntity':
+			return MainResumeListEntity().fromJson(json);			case 'MainResumeListData':
+			return MainResumeListData().fromJson(json);			case 'MainResumeListDataRecord':
+			return MainResumeListDataRecord().fromJson(json);			case 'SeekerInterviewEntity':
 			return SeekerInterviewEntity().fromJson(json);			case 'SeekerInterviewData':
 			return SeekerInterviewData().fromJson(json);			case 'SeekerInterviewDataRecord':
 			return SeekerInterviewDataRecord().fromJson(json);			case 'EduLevelEntity':
@@ -294,11 +327,20 @@ class JsonConvert<T> {
 			return CompanyListData().fromJson(json);			case 'CompanyListDataRecord':
 			return CompanyListDataRecord().fromJson(json);			case 'CompanyListDataRecordsJobInfo':
 			return CompanyListDataRecordsJobInfo().fromJson(json);			case 'FileUploadEntity':
-			return FileUploadEntity().fromJson(json);			case 'ApplyListEntity':
+			return FileUploadEntity().fromJson(json);			case 'BossInfoEntity':
+			return BossInfoEntity().fromJson(json);			case 'BossInfoData':
+			return BossInfoData().fromJson(json);			case 'BossInfoDataRecruiter':
+			return BossInfoDataRecruiter().fromJson(json);			case 'ApplyListEntity':
 			return ApplyListEntity().fromJson(json);			case 'ApplyListData':
 			return ApplyListData().fromJson(json);			case 'ApplyListDataRecord':
 			return ApplyListDataRecord().fromJson(json);			case 'ApplyListDataRecordsTreatmants':
-			return ApplyListDataRecordsTreatmants().fromJson(json);			case 'ResumeDetailEntity':
+			return ApplyListDataRecordsTreatmants().fromJson(json);			case 'MainResumeDetailEntity':
+			return MainResumeDetailEntity().fromJson(json);			case 'MainResumeDetailData':
+			return MainResumeDetailData().fromJson(json);			case 'MainResumeDetailDataResume':
+			return MainResumeDetailDataResume().fromJson(json);			case 'MainResumeDetailDataWorkExperience':
+			return MainResumeDetailDataWorkExperience().fromJson(json);			case 'MainResumeDetailDataProjectExperience':
+			return MainResumeDetailDataProjectExperience().fromJson(json);			case 'MainResumeDetailDataEducationExperience':
+			return MainResumeDetailDataEducationExperience().fromJson(json);			case 'ResumeDetailEntity':
 			return ResumeDetailEntity().fromJson(json);			case 'ResumeDetailData':
 			return ResumeDetailData().fromJson(json);			case 'ResumeDetailDataResume':
 			return ResumeDetailDataResume().fromJson(json);			case 'ResumeDetailDataWorkExperience':
@@ -369,7 +411,10 @@ class JsonConvert<T> {
 			return List<JobListEntity>();			case 'BaseRespEntity':
 			return List<BaseRespEntity>();			case 'CompanyScaleEntity':
 			return List<CompanyScaleEntity>();			case 'CompanyScaleData':
-			return List<CompanyScaleData>();			case 'SeekerInterviewEntity':
+			return List<CompanyScaleData>();			case 'MainResumeListEntity':
+			return List<MainResumeListEntity>();			case 'MainResumeListData':
+			return List<MainResumeListData>();			case 'MainResumeListDataRecord':
+			return List<MainResumeListDataRecord>();			case 'SeekerInterviewEntity':
 			return List<SeekerInterviewEntity>();			case 'SeekerInterviewData':
 			return List<SeekerInterviewData>();			case 'SeekerInterviewDataRecord':
 			return List<SeekerInterviewDataRecord>();			case 'EduLevelEntity':
@@ -378,11 +423,20 @@ class JsonConvert<T> {
 			return List<CompanyListData>();			case 'CompanyListDataRecord':
 			return List<CompanyListDataRecord>();			case 'CompanyListDataRecordsJobInfo':
 			return List<CompanyListDataRecordsJobInfo>();			case 'FileUploadEntity':
-			return List<FileUploadEntity>();			case 'ApplyListEntity':
+			return List<FileUploadEntity>();			case 'BossInfoEntity':
+			return List<BossInfoEntity>();			case 'BossInfoData':
+			return List<BossInfoData>();			case 'BossInfoDataRecruiter':
+			return List<BossInfoDataRecruiter>();			case 'ApplyListEntity':
 			return List<ApplyListEntity>();			case 'ApplyListData':
 			return List<ApplyListData>();			case 'ApplyListDataRecord':
 			return List<ApplyListDataRecord>();			case 'ApplyListDataRecordsTreatmants':
-			return List<ApplyListDataRecordsTreatmants>();			case 'ResumeDetailEntity':
+			return List<ApplyListDataRecordsTreatmants>();			case 'MainResumeDetailEntity':
+			return List<MainResumeDetailEntity>();			case 'MainResumeDetailData':
+			return List<MainResumeDetailData>();			case 'MainResumeDetailDataResume':
+			return List<MainResumeDetailDataResume>();			case 'MainResumeDetailDataWorkExperience':
+			return List<MainResumeDetailDataWorkExperience>();			case 'MainResumeDetailDataProjectExperience':
+			return List<MainResumeDetailDataProjectExperience>();			case 'MainResumeDetailDataEducationExperience':
+			return List<MainResumeDetailDataEducationExperience>();			case 'ResumeDetailEntity':
 			return List<ResumeDetailEntity>();			case 'ResumeDetailData':
 			return List<ResumeDetailData>();			case 'ResumeDetailDataResume':
 			return List<ResumeDetailDataResume>();			case 'ResumeDetailDataWorkExperience':

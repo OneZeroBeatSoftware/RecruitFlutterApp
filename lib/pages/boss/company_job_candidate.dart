@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/entity/main_resume_list_entity.dart';
+import 'package:recruit_app/model/recruit_resume_model.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
-import 'package:recruit_app/model/employe_list.dart';
 import 'package:recruit_app/pages/employe/employe_row_item.dart';
 import 'package:recruit_app/pages/employe/employee_detail.dart';
 import 'package:recruit_app/widgets/slide_button.dart';
@@ -16,8 +17,7 @@ class CompanyJobCandidate extends StatefulWidget {
 }
 
 class _CandidateState extends State<CompanyJobCandidate> {
-    List<Employee> _employeeList = EmployeeData.loadEmployees();
-    
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,7 +79,7 @@ class _CandidateState extends State<CompanyJobCandidate> {
                            SliverList(
                               delegate:
                               SliverChildBuilderDelegate((context, index) {
-                                  if (index < _employeeList.length) {
+                                  if (index < MainResumeModel.instance.resumeList.length) {
                                       var key = GlobalKey<SlideButtonState>();
                                       return GestureDetector(
                                          behavior: HitTestBehavior.opaque,
@@ -88,7 +88,7 @@ class _CandidateState extends State<CompanyJobCandidate> {
                                              singleButtonWidth: ScreenUtil().setWidth(116),
                                              child: Container(
                                                  color: Colors.white,
-                                                 child: Candidate( _employeeList[index],index,index == _employeeList.length - 1),
+                                                 child: Candidate( MainResumeModel.instance.resumeList[index],index,index == MainResumeModel.instance.resumeList.length - 1),
                                              ),
                                              buttons: <Widget>[
                                                  buildAction(key, Colors.red, () {
@@ -97,17 +97,21 @@ class _CandidateState extends State<CompanyJobCandidate> {
                                              ],
                                          ),
                                          onTap: () {
-                                             Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) => EmployeeDetail(),
-                                                ));
+                                           Navigator.push(
+                                               context,
+                                               MaterialPageRoute(
+                                                 builder: (context) => EmployeeDetail(
+                                                   resumeDetailType: ResumeDetailType
+                                                       .resume,
+                                                   resumeId: MainResumeModel.instance
+                                                       .resumeList[index].id,),
+                                               ));
                                          }
                                          );
                                   }
                                   return null;
                               },
-                                 childCount: _employeeList.length)),
+                                 childCount: MainResumeModel.instance.resumeList.length)),
                        ],
                    ),
                ),
@@ -135,7 +139,7 @@ class _CandidateState extends State<CompanyJobCandidate> {
 }
 
 class Candidate extends StatelessWidget {
-    final Employee employee;
+    final MainResumeListDataRecord employee;
     final int index;
     final bool isLast;
     

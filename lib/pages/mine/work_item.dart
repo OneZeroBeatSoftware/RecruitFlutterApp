@@ -2,7 +2,6 @@ import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/entity/resume_detail_entity.dart';
-import 'package:recruit_app/model/mine_work_list.dart';
 
 class WorkItem extends StatelessWidget {
   final ResumeDetailDataWorkExperience workData;

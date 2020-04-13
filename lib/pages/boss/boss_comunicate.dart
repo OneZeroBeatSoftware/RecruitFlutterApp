@@ -55,7 +55,9 @@ class _BossCommunicateJobState extends State<BossCommunicateJob> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => EmployeeDetail(),
+                        builder: (context) => EmployeeDetail(
+                          resumeDetailType: ResumeDetailType
+                              .resume,),
                       ));
                 });
           }

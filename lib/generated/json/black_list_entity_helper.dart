@@ -61,6 +61,9 @@ blackListDataRecordFromJson(BlackListDataRecord data, Map<String, dynamic> json)
 	if (json['id'] != null) {
 		data.id = json['id']?.toString();
 	}
+	if (json['shieldId'] != null) {
+		data.shieldId = json['shieldId']?.toString();
+	}
 	if (json['companyName'] != null) {
 		data.companyName = json['companyName']?.toString();
 	}
@@ -106,6 +109,7 @@ blackListDataRecordFromJson(BlackListDataRecord data, Map<String, dynamic> json)
 Map<String, dynamic> blackListDataRecordToJson(BlackListDataRecord entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	data['id'] = entity.id;
+	data['shieldId'] = entity.shieldId;
 	data['companyName'] = entity.companyName;
 	data['startDate'] = entity.startDate;
 	data['endDate'] = entity.endDate;

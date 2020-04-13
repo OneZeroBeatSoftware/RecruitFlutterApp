@@ -9,6 +9,7 @@ import 'package:recruit_app/entity/age_entity.dart';
 import 'package:recruit_app/entity/apply_list_entity.dart';
 import 'package:recruit_app/entity/base_resp_entity.dart';
 import 'package:recruit_app/entity/black_list_entity.dart';
+import 'package:recruit_app/entity/boss_info_entity.dart';
 import 'package:recruit_app/entity/city_entity.dart';
 import 'package:recruit_app/entity/company_detail_entity.dart';
 import 'package:recruit_app/entity/company_job_entity.dart';
@@ -21,6 +22,8 @@ import 'package:recruit_app/entity/intent_list_entity.dart';
 import 'package:recruit_app/entity/job_detail_entity.dart';
 import 'package:recruit_app/entity/job_list_entity.dart';
 import 'package:recruit_app/entity/job_type_entity.dart';
+import 'package:recruit_app/entity/main_resume_detail_entity.dart';
+import 'package:recruit_app/entity/main_resume_list_entity.dart';
 import 'package:recruit_app/entity/mine_info_entity.dart';
 import 'package:recruit_app/entity/resume_detail_entity.dart';
 import 'package:recruit_app/entity/resume_list_entity.dart';
@@ -31,7 +34,6 @@ import 'package:recruit_app/entity/star_company_entity.dart';
 import 'package:recruit_app/entity/star_job_entity.dart';
 import 'package:recruit_app/entity/user_entity.dart';
 import 'package:recruit_app/entity/work_date_entity.dart';
-import 'package:recruit_app/generated/json/base/json_convert_content.dart';
 import 'package:recruit_app/utils/token_interceptor.dart';
 import 'package:recruit_app/widgets/loading.dart';
 
@@ -57,10 +59,15 @@ class NetUtils {
       String url, {
         Map<String, dynamic> params,
         bool isShowLoading = true,
+        bool isBody=false
       }) async {
     if (isShowLoading) Loading.showLoading(context);
     try {
-      return await _dio.delete(url, queryParameters: params);
+      if(isBody){
+        return await _dio.delete(url, data: params);
+      }else {
+        return await _dio.delete(url, queryParameters: params);
+      }
     } on DioError catch (e) {
       if (e == null) {
         return Future.error(Response(data: -1));
@@ -84,10 +91,15 @@ class NetUtils {
       String url, {
         Map<String, dynamic> params,
         bool isShowLoading = true,
+        bool isBody=false
       }) async {
     if (isShowLoading) Loading.showLoading(context);
     try {
-      return await _dio.put(url, queryParameters: params);
+      if(isBody){
+        return await _dio.put(url, data: params);
+      }else {
+        return await _dio.put(url, queryParameters: params);
+      }
     } on DioError catch (e) {
       if (e == null) {
         return Future.error(Response(data: -1));
@@ -138,10 +150,15 @@ class NetUtils {
     String url, {
     Map<String, dynamic> params,
     bool isShowLoading = true,
+    bool isBody=true
   }) async {
     if (isShowLoading) Loading.showLoading(context);
     try {
-      return await _dio.post(url, data: params);
+      if(isBody){
+        return await _dio.post(url, data: params);
+      }else {
+        return await _dio.post(url, queryParameters: params);
+      }
     } on DioError catch (e) {
       if (e == null) {
         return Future.error(Response(data: -1));
@@ -215,6 +232,17 @@ class NetUtils {
       'email': email
     });
     return UserEntity().fromJson(response.data);
+  }
+
+  /// 修改密码
+  static Future<BaseRespEntity> modifyPwd(
+      BuildContext context, String oldPassword, String newPassword,String newPassword2) async {
+    var response = await _put(context, '/user/update/password', params: {
+      'oldPassword': oldPassword,
+      'newPassword': newPassword,
+      'newPassword2': newPassword,
+    },isBody: true);
+    return BaseRespEntity().fromJson(response.data);
   }
 
   /// 获取岗位列表
@@ -424,7 +452,7 @@ class NetUtils {
   }
 
   /// 搜索简历
-  static Future<SeekerInterviewEntity> searchResume(BuildContext context,
+  static Future<MainResumeListEntity> searchResume(BuildContext context,
       int pageIndex,
       {int pageSize = 15, String city,String keyword,String sex,String salary,String education,String workDate}) async {
 
@@ -450,10 +478,10 @@ class NetUtils {
     params["pageIndex"]=pageIndex;
     params["pageSize"]=pageSize;
 
-    var response = await _post(context, '/search/job',
+    var response = await _post(context, '/search/resume',
         params: params,
         isShowLoading: false);
-    return SeekerInterviewEntity().fromJson(response.data);
+    return MainResumeListEntity().fromJson(response.data);
   }
 
   /// 获取求职者主页信息
@@ -473,18 +501,17 @@ class NetUtils {
   }
 
   /// 屏蔽公司操作
-  static Future<BaseRespEntity> shieldCompanyJob(BuildContext context, bool isShield,String shieldId,{String jobSeekerId,String recruiterId,String shieldObjectId}) async {
+  static Future<BaseRespEntity> shieldCompanyJob(BuildContext context, String shieldObjectId,{String jobSeekerId,String recruiterId,String shieldId}) async {
     Map<String,dynamic> params={};
-      params["isShield"]=isShield;
-      params["shieldId"]=shieldId;
+    params["shieldObjectId"]=shieldObjectId;
     if(jobSeekerId!=null&&jobSeekerId.isNotEmpty){
       params["jobSeekerId"]=jobSeekerId;
     }
     if(recruiterId!=null&&recruiterId.isNotEmpty){
       params["recruiterId"]=recruiterId;
     }
-    if(shieldObjectId!=null&&shieldObjectId.isNotEmpty){
-      params["shieldObjectId"]=shieldObjectId;
+    if(shieldId!=null&&shieldId.isNotEmpty){
+      params["id"]=shieldId;
     }
 
     var response = await _post(context, '/jobSeeker/shieldCompany',params: params);
@@ -508,15 +535,14 @@ class NetUtils {
   }
 
   /// 收藏公司/岗位操作
-  static Future<BaseRespEntity> starCompanyJob(BuildContext context, bool isJob,bool isStar,
-      String starId, String jobSeekerId, {String starObjectId}) async {
+  static Future<BaseRespEntity> starCompanyJob(BuildContext context, bool isJob,
+      String starObjectId, String jobSeekerId, {String starId}) async {
     Map<String, dynamic> params = {};
-    params["isStar"] = isStar;
-    params["starId"] = starId;
-    params["jobSeekerId"] = jobSeekerId;
-    if (starObjectId != null && starObjectId.isNotEmpty) {
-      params["starObjectId"] = starObjectId;
+    params["starObjectId"] = starObjectId;
+    if (starId != null && starId.isNotEmpty) {
+      params["id"] = starId;
     }
+    params["jobSeekerId"] = jobSeekerId;
     var response = await _post(
         context, '/jobSeeker/${isJob?"starJob":"starCompany"}', params: params);
     return BaseRespEntity().fromJson(response.data);
@@ -564,5 +590,79 @@ class NetUtils {
   static Future<ResumeDetailEntity> getResumeDetail(BuildContext context, String resumeId) async {
     var response = await _get(context, '/jobSeeker/resume/details/$resumeId');
     return ResumeDetailEntity().fromJson(response.data);
+  }
+
+  // 获取招聘者主页信息
+  static Future<BossInfoEntity> getRecruiterInfo(BuildContext context,String id) async {
+    var response = await _get(context, '/recruiter/info/$id',isShowLoading: false);
+    return BossInfoEntity().fromJson(response.data);
+  }
+
+  /// 获取招聘者首页人才列表
+  static Future<MainResumeListEntity> getMainResumeList(BuildContext context, bool isNearby,
+      bool isNews, bool isRecommend, int pageIndex,int pageSize) async {
+    var response = await _post(context, '/recruiter/resume/list', params: {
+      'isNearby': isNearby,
+      'isNews': isNews,
+      'isRecommend': isRecommend,
+      'pageIndex': pageIndex,
+      'pageSize': pageSize
+    },isShowLoading: false);
+    return MainResumeListEntity().fromJson(response.data);
+  }
+
+  /// 人才详情
+  static Future<MainResumeDetailEntity> getMainResumeDetail(BuildContext context, String resumeId) async {
+    var response = await _get(context, '/recruiter/resume/details/$resumeId',);
+    return MainResumeDetailEntity().fromJson(response.data);
+  }
+
+  /// 获取招聘者黑名单列表
+  static Future<MainResumeListEntity> getBossShieldList(BuildContext context,String id,int pageIndex,int pageSize) async {
+    var response = await _post(context, '/recruiter/shield',params: {
+      'pageIndex': pageIndex,
+      'pageSize': pageSize,
+      'recruiterId':id,
+    },isShowLoading: false);
+    return MainResumeListEntity().fromJson(response.data);
+  }
+
+  /// 招聘者屏蔽求职者操作
+  static Future<BaseRespEntity> shieldSeeker(BuildContext context, String shieldObjectId,String recruiterId,{String shieldId}) async {
+    Map<String,dynamic> params={};
+    params["shieldObjectId"]=shieldObjectId;
+    if(recruiterId!=null&&recruiterId.isNotEmpty){
+      params["recruiterId"]=recruiterId;
+    }
+    if(shieldId!=null&&shieldId.isNotEmpty){
+      params["id"]=shieldId;
+    }
+
+    var response = await _post(context, '/recruiter/shieldSeeker',params: params);
+    return BaseRespEntity().fromJson(response.data);
+  }
+
+  /// 获取招聘者收藏列表
+  static Future getBossStarList(BuildContext context,String id,int pageIndex,int pageSize) async {
+    var response = await _post(context, '/recruiter/star',params:{
+      'pageIndex': pageIndex,
+      'pageSize': pageSize,
+      'recruiterId':id
+    },isShowLoading: false);
+    return MainResumeListEntity().fromJson(response.data);
+  }
+
+  /// 招聘者收藏求职者操作
+  static Future<BaseRespEntity> starSeeker(BuildContext context,
+      String starObjectId, String recruiterId, {String starId}) async {
+    Map<String, dynamic> params = {};
+    params["starObjectId"] = starObjectId;
+    if (starId != null && starId.isNotEmpty) {
+      params["id"] = starId;
+    }
+    params["recruiterId"] = recruiterId;
+    var response = await _post(
+        context, '/recruiter/starSeeker', params: params);
+    return BaseRespEntity().fromJson(response.data);
   }
 }

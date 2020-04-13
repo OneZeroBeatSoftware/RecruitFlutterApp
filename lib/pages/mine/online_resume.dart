@@ -2,11 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/entity/resume_detail_entity.dart';
-import 'package:recruit_app/model/job_intent_list.dart';
-import 'package:recruit_app/model/mine_edu_list.dart';
 import 'package:recruit_app/model/mine_model.dart';
-import 'package:recruit_app/model/mine_project_list.dart';
-import 'package:recruit_app/model/mine_work_list.dart';
 import 'package:recruit_app/pages/mine/edu_item.dart';
 import 'package:recruit_app/pages/mine/job_personal_info.dart';
 import 'package:recruit_app/pages/mine/job_project_exp.dart';
@@ -37,9 +33,33 @@ class _OnlineResumeState extends State<OnlineResume> {
   @override
   void initState() {
     // TODO: implement initState
+    _detailData = ResumeDetailData()
+      ..resume = (ResumeDetailDataResume()
+        ..id = ''
+        ..maxSalary = "0"
+        ..minSalary = '0'
+        ..sex = 1
+        ..resumeName = ''
+        ..realName = ''
+        ..jobSeekerId = ''
+        ..address = ''
+        ..state = 0
+        ..workDate = ''
+        ..education = 0
+        ..birthDate = 0
+        ..defaultResume = 0
+        ..educationExperienceId = ''
+        ..graduationDate = 0
+        ..projectExperienceId = ''
+        ..workExperienceId = '')
+      ..educationExperience = []
+      ..projectExperience = []
+      ..workExperience = [];
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((callback){
-      _getResumeDetail(widget.resumeId);
+      if(widget.resumeId!=null&&widget.resumeId.isNotEmpty){
+        _getResumeDetail(widget.resumeId);
+      }
     });
   }
 
@@ -82,7 +102,7 @@ class _OnlineResumeState extends State<OnlineResume> {
           padding: EdgeInsets.symmetric(
             horizontal: ScreenUtil().setWidth(48),
           ),
-          child: _detailData!=null?SingleChildScrollView(
+          child: SingleChildScrollView(
             physics: BouncingScrollPhysics(),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -609,10 +629,6 @@ class _OnlineResumeState extends State<OnlineResume> {
                 ),
               ],
             ),
-          ):Container(
-            height: ScreenUtil().setWidth(400),
-            alignment: Alignment.center,
-            child: CupertinoActivityIndicator(),
           ),
         ),
       ),
