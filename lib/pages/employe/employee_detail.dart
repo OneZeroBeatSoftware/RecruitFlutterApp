@@ -47,6 +47,14 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
     List<Experience> projectExperiences = [];
     List<Experience2> educationExperiences = [];
 
+    List<Widget> _bottomOperateView=[];
+    if(widget.resumeDetailType==ResumeDetailType.interview){
+      _bottomOperateView.add(FlexButton(btnTitle: '取消面试',));
+      _bottomOperateView.add(FlexButton(flex: 2, btnTitle: '申请调整时间',));
+    }else {
+      _bottomOperateView.add(FlexButton(btnTitle: '立即沟通',));
+    }
+
     if(_resumeDetailData!=null){
       _resumeDetailData.workExperience.forEach((item){
         workExperiences.add(Experience('${item.companyName}',
@@ -388,11 +396,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                 ),
                 child: Row(
                   //2020 0403 下面的按钮不一定都存在，要根据跳转界面的功能进行隐藏、显示下面的按钮
-                  children: <Widget>[
-                    FlexButton(btnTitle: '立即沟通',),
-                    FlexButton(btnTitle: '取消面试',),
-                    FlexButton(flex: 2, btnTitle: '申请调整时间',),
-                  ],
+                  children: _bottomOperateView,
                 ),
               )
             ),
@@ -414,8 +418,8 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
 
 class FlexButton extends StatelessWidget {
   
-  int flex = 1;
-  String btnTitle;
+  final int flex;
+  final String btnTitle;
   
   FlexButton({this.flex = 1, this.btnTitle});
   

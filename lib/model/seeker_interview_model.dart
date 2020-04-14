@@ -23,8 +23,8 @@ class InterviewModel {
   List<SeekerInterviewDataRecord> _interviewList=[];
   List<SeekerInterviewDataRecord> get interviewList => _interviewList;
   /// 获取面试列表
-  Future<SeekerInterviewEntity> getInterviewList(BuildContext context, String jobSeekerId, int pageIndex,int pageSize) async {
-    SeekerInterviewEntity interviewEntity = await NetUtils.getInterviewList(context, jobSeekerId,pageIndex,pageSize);
+  Future<SeekerInterviewEntity> getInterviewList(BuildContext context, int pageIndex,int pageSize,{String jobSeekerId,String recruiterId}) async {
+    SeekerInterviewEntity interviewEntity = await NetUtils.getInterviewList(context,pageIndex,pageSize,jobSeekerId: jobSeekerId,recruiterId: recruiterId);
     if (interviewEntity.statusCode ==200) {
       if(pageIndex==1){
         _interviewList.clear();

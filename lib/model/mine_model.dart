@@ -144,7 +144,7 @@ class MineModel{
   /// 申请列表
   Future<MineModel> getApplyList(BuildContext context,
       String seekerId, int state, int pageIndex) async {
-    ApplyListEntity applyListEntity = await NetUtils.getApplyList(
+    ApplyListEntity applyListEntity = await NetUtils.getSeekerApplyList(
         context, seekerId, state, pageIndex);
     if (applyListEntity != null || applyListEntity.statusCode == 200) {
       if (pageIndex == 1) {

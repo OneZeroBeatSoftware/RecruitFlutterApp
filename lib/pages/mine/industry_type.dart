@@ -156,6 +156,13 @@ class _IndustryTypeState extends State<IndustryType> {
                         FocusScope.of(context).requestFocus(FocusNode());
                         if (!item.isChecked) {
                           if (_selNum < _maxNum) {
+                            if(item.subType==null){
+                              setState(() {
+                                _selNum++;
+                                item.isChecked = true;
+                              });
+                              return;
+                            }
                             showGeneralDialog(
                                 context: context,
                                 pageBuilder: (context, animation1, animation2) {

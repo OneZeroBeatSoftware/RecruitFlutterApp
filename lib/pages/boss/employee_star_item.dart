@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/entity/main_resume_list_entity.dart';
-import 'package:recruit_app/model/employe_list.dart';
 
 class EmployeeStarItem extends StatelessWidget {
 	final MainResumeListDataRecord employee;

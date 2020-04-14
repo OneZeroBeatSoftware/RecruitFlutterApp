@@ -7,15 +7,19 @@ import 'package:recruit_app/application.dart';
 import 'package:recruit_app/entity/base_resp_entity.dart';
 import 'package:recruit_app/entity/seeker_interview_entity.dart';
 import 'package:recruit_app/model/seeker_interview_model.dart';
+import 'package:recruit_app/pages/employe/employee_detail.dart';
 import 'package:recruit_app/pages/jobs/job_detail.dart';
 import 'package:recruit_app/pages/msg/msg_interview_item.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/slide_button.dart';
-
+enum InterviewType{
+  seeker,
+  recruiter
+}
 class MineInterView extends StatefulWidget {
-  VoidCallback onItemClicked;
-  MineInterView({this.onItemClicked});
+  final InterviewType interviewType;
+  MineInterView({this.interviewType=InterviewType.seeker});
 
   @override
   _MineInterViewState createState() => _MineInterViewState();
@@ -90,10 +94,15 @@ class _MineInterViewState extends State<MineInterView> {
                   if (idx < InterviewModel.instance.interviewList.length) {
                     return GestureDetector(
                       onTap: () {
-                        if(widget.onItemClicked != null) {
-                          widget.onItemClicked();
+                        if(widget.interviewType==InterviewType.recruiter) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EmployeeDetail(resumeId: InterviewModel
+                                    .instance.interviewList[idx].id,resumeDetailType: ResumeDetailType.interview,),
+                              ));
                         }else {
-                        Navigator.push(
+                          Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => JobDetail(
@@ -126,9 +135,12 @@ class _MineInterViewState extends State<MineInterView> {
 
   /// 获取面试邀请列表
   getInterviewList() async {
-    SeekerInterviewEntity _interviewEntity = await InterviewModel.instance
-        .getInterviewList(
-            context, Application.sp.get('jobSeekerId'), _pageIndex, 15);
+    SeekerInterviewEntity _interviewEntity;
+    if(widget.interviewType==InterviewType.recruiter){
+      _interviewEntity= await InterviewModel.instance.getInterviewList(context, _pageIndex, 15,recruiterId: Application.sp.get('recruiterId'),);
+    }else {
+      _interviewEntity= await InterviewModel.instance.getInterviewList(context, _pageIndex, 15,jobSeekerId: Application.sp.get('jobSeekerId'),);
+    }
     if (_interviewEntity != null && _interviewEntity.data.records.length > 0) {
       _pageIndex++;
     }

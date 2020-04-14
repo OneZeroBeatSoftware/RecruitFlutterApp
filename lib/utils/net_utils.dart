@@ -9,6 +9,7 @@ import 'package:recruit_app/entity/age_entity.dart';
 import 'package:recruit_app/entity/apply_list_entity.dart';
 import 'package:recruit_app/entity/base_resp_entity.dart';
 import 'package:recruit_app/entity/black_list_entity.dart';
+import 'package:recruit_app/entity/boss_apply_list_entity.dart';
 import 'package:recruit_app/entity/boss_info_entity.dart';
 import 'package:recruit_app/entity/city_entity.dart';
 import 'package:recruit_app/entity/company_detail_entity.dart';
@@ -359,12 +360,18 @@ class NetUtils {
   }
 
   /// 获取全部面试邀请
-  static Future<SeekerInterviewEntity> getInterviewList(BuildContext context, String jobSeekerId, int pageIndex,int pageSize) async {
-    var response = await _post(context, '/interview/list', params: {
-      'jobSeekerId': jobSeekerId,
-      'pageIndex': pageIndex,
-      'pageSize': pageSize
-    },isShowLoading: false);
+  static Future<SeekerInterviewEntity> getInterviewList(BuildContext context, int pageIndex,int pageSize,{String jobSeekerId,String recruiterId}) async {
+    Map<String,dynamic> params={};
+    if(jobSeekerId!=null&&jobSeekerId.isNotEmpty){
+      params["jobSeekerId"]=jobSeekerId;
+    }
+    if(recruiterId!=null&&recruiterId.isNotEmpty){
+      params["recruiterId"]=recruiterId;
+    }
+    params["pageIndex"]=pageIndex;
+    params["pageSize"]=pageSize;
+
+    var response = await _post(context, '/interview/list', params:params,isShowLoading: false);
     return SeekerInterviewEntity().fromJson(response.data);
   }
 
@@ -548,16 +555,26 @@ class NetUtils {
     return BaseRespEntity().fromJson(response.data);
   }
 
-  /// 获取申请列表
+  /// 求职者获取申请列表
   /// state 1：已收到/已投递 2：邀请/收到的邀请  3：待面试/待面试 7：沟通过
-  static Future getApplyList(BuildContext context,String jobSeekerId,int state,int pageIndex,{int pageSize=15}) async {
-    var response = await _post(context, '/apply/list',params:{
+  static Future getSeekerApplyList(BuildContext context,String jobSeekerId,int state,int pageIndex,{int pageSize=15}) async {
+    var response = await _post(context, '/apply/jobSeeker/list',params:{
       'pageIndex': pageIndex,
       'pageSize': pageSize,
       'jobSeekerId':jobSeekerId,
       "state": state
     },isShowLoading: false);
     return ApplyListEntity().fromJson(response.data);
+  }
+  /// 招聘者获取申请列表
+  static Future getRecruiterApplyList(BuildContext context,String recruiterId,int state,int pageIndex,{int pageSize=15}) async {
+    var response = await _post(context, '/apply/recruiter/list',params:{
+      'pageIndex': pageIndex,
+      'pageSize': pageSize,
+      'recruiterId':recruiterId,
+      "state": state
+    },isShowLoading: false);
+    return BossApplyListEntity().fromJson(response.data);
   }
 
   /// 获取全部求职期望
@@ -569,7 +586,7 @@ class NetUtils {
 
   /// 删除求职期望
   static Future<BaseRespEntity> deleteIntent(BuildContext context, String intentId) async {
-    var response = await _put(context, '/jobSeeker/JobIntention/delete/$intentId',isShowLoading: true);
+    var response = await _delete(context, '/jobSeeker/JobIntention/delete/$intentId',isShowLoading: true);
     return BaseRespEntity().fromJson(response.data);
   }
 

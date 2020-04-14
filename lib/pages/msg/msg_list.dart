@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:recruit_app/application.dart';
 import 'package:recruit_app/entity/base_resp_entity.dart';
 import 'package:recruit_app/entity/seeker_interview_entity.dart';
 import 'package:recruit_app/entity/seeker_notice_entity.dart';
+import 'package:recruit_app/model/identity_model.dart';
 import 'package:recruit_app/model/seeker_interview_model.dart';
 import 'package:recruit_app/model/seeker_notice_model.dart';
+import 'package:recruit_app/pages/employe/employee_detail.dart';
 import 'package:recruit_app/pages/jobs/chat_room.dart';
 import 'package:recruit_app/pages/jobs/job_detail.dart';
 import 'package:recruit_app/pages/msg/msg_chat_item.dart';
@@ -19,8 +22,14 @@ import 'package:recruit_app/pages/msg/service_chat_room.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/badge_widget.dart';
 import 'package:recruit_app/widgets/slide_button.dart';
-
+enum MsgType{
+  recruiter,
+  seeker
+}
 class MsgList extends StatefulWidget {
+  final MsgType msgType;
+
+  const MsgList({Key key, this.msgType=MsgType.seeker}) : super(key: key);
   @override
   _MsgListState createState() => _MsgListState();
 }
@@ -40,7 +49,7 @@ class _MsgListState extends State<MsgList> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((callback){
         _interviewPage = 1;
-        getInterviewList();
+        getInterviewList(widget.msgType);
         _noticePage = 1;
         getNoticeList();
     });
@@ -191,7 +200,7 @@ class _MsgListState extends State<MsgList> {
                 onRefresh: () async {
                   if(!_firstType && _secondType){
                     _interviewPage = 1;
-                    getInterviewList();
+                    getInterviewList(widget.msgType);
                     _refreshController.resetLoadState();
                   }else if(!_firstType && !_secondType){
                     _noticePage = 1;
@@ -201,7 +210,7 @@ class _MsgListState extends State<MsgList> {
                 },
                 onLoad: () async {
                   if(!_firstType && _secondType){
-                    getInterviewList();
+                    getInterviewList(widget.msgType);
                     _refreshController.resetLoadState();
                   }else if(!_firstType && !_secondType){
                     getNoticeList();
@@ -228,37 +237,44 @@ class _MsgListState extends State<MsgList> {
                       } else if (!_firstType && _secondType) {
                         return GestureDetector(onTap: () {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      JobDetail(
-                                        jobId: InterviewModel
-                                            .instance.interviewList[idx].jobId,
-                                        jobDetailType: JobDetailType.interview,
-                                      )));
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                              widget.msgType == MsgType.recruiter ?
+                              EmployeeDetail(resumeId: InterviewModel
+                                  .instance.interviewList[idx].id,
+                                resumeDetailType: ResumeDetailType.interview,)
+                                  : JobDetail(
+                                jobId: InterviewModel
+                                    .instance.interviewList[idx].jobId,
+                                jobDetailType: JobDetailType.interview,
+                              ),),);
                         },
                           behavior: HitTestBehavior.opaque,
-                          child:  MsgInterviewItem(
+                          child: MsgInterviewItem(
                             btnKey: key,
                             index: idx,
-                            interview: InterviewModel.instance.interviewList[idx],
+                            interview: InterviewModel.instance
+                                .interviewList[idx],
                             deleteItem: (index) {
-                              deleteInterview(InterviewModel.instance.interviewList[idx].id, index);
+                              deleteInterview(
+                                  InterviewModel.instance.interviewList[idx].id,
+                                  index);
                             },
                           ),);
                       } else if (!_firstType && !_secondType) {
-                        if(idx==NoticeModel.instance.noticeList.length){
+                        if (idx == NoticeModel.instance.noticeList.length) {
                           return GestureDetector(
                             behavior: HitTestBehavior.opaque,
                             child: MsgNotifyItem(
                               btnKey: key,
-                              title:'我的客服',
+                              title: '我的客服',
                               content: '您好，请问有什么可以为您服务的吗？',
                               imgPath: 'images/img_service_blue.png',
                             ),
                             onTap: () {
-                                Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) => ServiceChatRoom()));
+                              Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) => ServiceChatRoom()));
                             },
                           );
                         }
@@ -266,14 +282,18 @@ class _MsgListState extends State<MsgList> {
                           behavior: HitTestBehavior.opaque,
                           child: MsgNotifyItem(
                             btnKey: key,
-                            time: DateUtil.formatDateMs(NoticeModel.instance.noticeList[idx].createDate,format:"HH:mm"),
-                            title: NoticeModel.instance.noticeList[idx].noticeName,
-                            content: NoticeModel.instance.noticeList[idx].content,
+                            time: DateUtil.formatDateMs(
+                                NoticeModel.instance.noticeList[idx].createDate,
+                                format: "HH:mm"),
+                            title: NoticeModel.instance.noticeList[idx]
+                                .noticeName,
+                            content: NoticeModel.instance.noticeList[idx]
+                                .content,
                             imgPath: 'images/img_notify_blue.png',
                           ),
                           onTap: () {
-                              Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) => MsgNotify()));
+                            Navigator.push(context, MaterialPageRoute(
+                                builder: (context) => MsgNotify()));
                           },
                         );
                       }
@@ -335,10 +355,14 @@ class _MsgListState extends State<MsgList> {
   }
 
   /// 获取面试邀请列表
-  getInterviewList() async {
-    SeekerInterviewEntity _interviewEntity = await InterviewModel.instance
-        .getInterviewList(
-        context, Application.sp.get('jobSeekerId'), _interviewPage, 15);
+  getInterviewList(MsgType msgType) async {
+    SeekerInterviewEntity _interviewEntity;
+    if(msgType==MsgType.recruiter){
+      _interviewEntity= await InterviewModel.instance.getInterviewList(context, _interviewPage, 15,recruiterId: Application.sp.get('recruiterId'),);
+    }else {
+      _interviewEntity= await InterviewModel.instance.getInterviewList(context, _interviewPage, 15,jobSeekerId: Application.sp.get('jobSeekerId'),);
+    }
+
     if (_interviewEntity != null && _interviewEntity.data.records.length > 0) {
       _interviewPage++;
     }

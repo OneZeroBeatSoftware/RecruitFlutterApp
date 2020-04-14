@@ -11,14 +11,21 @@ class AboutSoft extends StatefulWidget {
 }
 
 class _AboutSoftState extends State<AboutSoft> {
-  PackageInfo _packageInfo=PackageInfo(appName: 'JobPin',version: '1.0.0',packageName: 'com.recruit.recruit_app',buildNumber: '1',);
+  String _appName='JobPin';
+  String _version='1.0.0';
+  String _packageName='com.recruit.recruit_app';
+  String _buildNumber='1';
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
       setState(() {
-        _packageInfo = packageInfo;
+        _appName = packageInfo.appName;
+        _version = packageInfo.version;
+        _packageName = packageInfo.packageName;
+        _buildNumber = packageInfo.buildNumber;
       });
     });
   }
@@ -71,7 +78,7 @@ class _AboutSoftState extends State<AboutSoft> {
                 height: ScreenUtil().setWidth(24),
               ),
               Text(
-                _packageInfo.appName,
+                '$_appName',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
@@ -83,7 +90,7 @@ class _AboutSoftState extends State<AboutSoft> {
                 height: ScreenUtil().setWidth(8),
               ),
               Text(
-                'version ${_packageInfo.version}',
+                'version $_version',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(

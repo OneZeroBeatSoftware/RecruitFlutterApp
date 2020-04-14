@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:recruit_app/entity/base_resp_entity.dart';
+import 'package:recruit_app/entity/boss_apply_list_entity.dart';
 import 'package:recruit_app/entity/boss_info_entity.dart';
 import 'package:recruit_app/entity/main_resume_list_entity.dart';
 import 'package:recruit_app/utils/net_utils.dart';
@@ -28,6 +29,34 @@ class BossMineModel{
       return mineInfoEntity.data;
     }
     Utils.showToast(mineInfoEntity.msg ?? '还未获取到个人信息');
+    return null;
+  }
+
+  List<BossApplyListDataRecord> _applyList=[];
+  List<BossApplyListDataRecord> get applyList => _applyList;
+  /// 申请列表
+  Future<BossMineModel> getApplyList(BuildContext context,
+      String recruiterId, int state, int pageIndex) async {
+    BossApplyListEntity applyListEntity = await NetUtils.getRecruiterApplyList(
+        context, recruiterId, state, pageIndex);
+    if (applyListEntity != null || applyListEntity.statusCode == 200) {
+      if (pageIndex == 1) {
+        _applyList.clear();
+      }
+      _applyList.addAll(applyListEntity.data.records);
+      if (applyListEntity.data.records.length <= 0 && pageIndex == 1) {
+        Utils.showToast(state==1?'没有收到人才的简历哦！':(state==7?'没有沟通过的人才哦！':''));
+        return null;
+      } else if (applyListEntity.data.records.length <= 0) {
+        Utils.showToast('没有更多啦！');
+        return null;
+      }
+      return this;
+    }
+    if (pageIndex == 1) {
+      _applyList.clear();
+    }
+    Utils.showToast(applyListEntity.msg ?? '获取失败，请重新尝试');
     return null;
   }
 

@@ -146,15 +146,7 @@ class _BossMineState extends State<BossMine> {
                                 Navigator.push(
                                    context,
                                    MaterialPageRoute(
-                                      builder: (context) => CommunicateJob(
-                                        onItemClicked: ()=>
-                                          Navigator.push(
-                                             context,
-                                             MaterialPageRoute(
-                                               builder: (context) => EmployeeDetail(),
-                                             ))
-                                        ,
-                                      )
+                                      builder: (context) => CommunicateJob(),
                                    )
                                 );
                               },
@@ -203,13 +195,7 @@ class _BossMineState extends State<BossMine> {
                                 Navigator.push(
                                    context,
                                    MaterialPageRoute(
-                                      builder: (context) => MineInterView(onItemClicked: () {
-                                        Navigator.push(
-                                           context,
-                                           MaterialPageRoute(
-                                             builder: (context) => EmployeeDetail(),
-                                           ));
-                                      },)));
+                                      builder: (context) => MineInterView(interviewType: InterviewType.recruiter,)));
                               },
                             ),
                           ),

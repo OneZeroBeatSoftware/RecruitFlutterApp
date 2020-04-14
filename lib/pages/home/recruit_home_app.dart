@@ -21,7 +21,7 @@ class _RecruitHomeState extends State<RecruitHomeApp> {
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static List<Widget> _bossWidget = <Widget>[
     EmployeeList(),
-    MsgList(),
+    MsgList(msgType: MsgType.recruiter,),
     BossMine(),
   ];
 
@@ -94,7 +94,7 @@ class _RecruitHomeState extends State<RecruitHomeApp> {
   static List<Widget> _widgetOptions = <Widget>[
     JobList(),
     CompanyList(),
-    MsgList(),
+    MsgList(msgType: MsgType.seeker,),
     Mine(),
   ];
 

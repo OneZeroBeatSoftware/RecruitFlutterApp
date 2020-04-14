@@ -171,7 +171,8 @@ class _JobIntentState extends State<JobIntent> {
                         if (index < MineModel.instance.intentList.length) {
                           var key = GlobalKey<SlideButtonState>();
                           return GestureDetector(onTap: (){
-
+                            Navigator.push(context, MaterialPageRoute(
+                                builder: (context) => JobIntentEdit(intentData: MineModel.instance.intentList[index],)));
                           },behavior: HitTestBehavior.opaque,child: Container(
                             margin: EdgeInsets.symmetric(
                                 vertical: ScreenUtil().setWidth(20),

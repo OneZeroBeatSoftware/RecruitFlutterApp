@@ -231,7 +231,7 @@ class _MineState extends State<Mine> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => MineInterView()));
+                                    builder: (context) => MineInterView(interviewType: InterviewType.seeker,)));
                           },
                         ),
                       ),

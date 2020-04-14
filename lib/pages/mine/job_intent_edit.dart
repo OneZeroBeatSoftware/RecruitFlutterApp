@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/entity/intent_list_entity.dart';
 import 'package:recruit_app/pages/jobs/city_filter.dart';
 import 'package:recruit_app/pages/mine/industry_type.dart';
 import 'package:recruit_app/pages/mine/job_type.dart';
@@ -8,6 +9,10 @@ import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/remind_dialog.dart';
 
 class JobIntentEdit extends StatefulWidget {
+  final IntentListData intentData;
+
+  const JobIntentEdit({Key key, this.intentData}) : super(key: key);
+
   @override
   _JobIntentEditState createState() {
     // TODO: implement createState

@@ -4,7 +4,6 @@ import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:recruit_app/entity/base_resp_entity.dart';
 import 'package:recruit_app/entity/main_resume_list_entity.dart';
 import 'package:recruit_app/model/boss_mine_model.dart';
-import 'package:recruit_app/model/employe_list.dart';
 import 'package:recruit_app/pages/employe/employee_detail.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';

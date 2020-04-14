@@ -49,6 +49,8 @@ import 'package:recruit_app/entity/company_item_entity.dart';
 import 'package:recruit_app/generated/json/company_item_entity_helper.dart';
 import 'package:recruit_app/entity/file_upload_entity.dart';
 import 'package:recruit_app/generated/json/file_upload_entity_helper.dart';
+import 'package:recruit_app/entity/boss_apply_list_entity.dart';
+import 'package:recruit_app/generated/json/boss_apply_list_entity_helper.dart';
 import 'package:recruit_app/entity/boss_info_entity.dart';
 import 'package:recruit_app/generated/json/boss_info_entity_helper.dart';
 import 'package:recruit_app/entity/apply_list_entity.dart';
@@ -137,7 +139,10 @@ class JsonConvert<T> {
 			return companyListDataFromJson(data as CompanyListData, json) as T;			case CompanyListDataRecord:
 			return companyListDataRecordFromJson(data as CompanyListDataRecord, json) as T;			case CompanyListDataRecordsJobInfo:
 			return companyListDataRecordsJobInfoFromJson(data as CompanyListDataRecordsJobInfo, json) as T;			case FileUploadEntity:
-			return fileUploadEntityFromJson(data as FileUploadEntity, json) as T;			case BossInfoEntity:
+			return fileUploadEntityFromJson(data as FileUploadEntity, json) as T;			case BossApplyListEntity:
+			return bossApplyListEntityFromJson(data as BossApplyListEntity, json) as T;			case BossApplyListData:
+			return bossApplyListDataFromJson(data as BossApplyListData, json) as T;			case BossApplyListDataRecord:
+			return bossApplyListDataRecordFromJson(data as BossApplyListDataRecord, json) as T;			case BossInfoEntity:
 			return bossInfoEntityFromJson(data as BossInfoEntity, json) as T;			case BossInfoData:
 			return bossInfoDataFromJson(data as BossInfoData, json) as T;			case BossInfoDataRecruiter:
 			return bossInfoDataRecruiterFromJson(data as BossInfoDataRecruiter, json) as T;			case ApplyListEntity:
@@ -232,7 +237,10 @@ class JsonConvert<T> {
 			return companyListDataToJson(data as CompanyListData);			case CompanyListDataRecord:
 			return companyListDataRecordToJson(data as CompanyListDataRecord);			case CompanyListDataRecordsJobInfo:
 			return companyListDataRecordsJobInfoToJson(data as CompanyListDataRecordsJobInfo);			case FileUploadEntity:
-			return fileUploadEntityToJson(data as FileUploadEntity);			case BossInfoEntity:
+			return fileUploadEntityToJson(data as FileUploadEntity);			case BossApplyListEntity:
+			return bossApplyListEntityToJson(data as BossApplyListEntity);			case BossApplyListData:
+			return bossApplyListDataToJson(data as BossApplyListData);			case BossApplyListDataRecord:
+			return bossApplyListDataRecordToJson(data as BossApplyListDataRecord);			case BossInfoEntity:
 			return bossInfoEntityToJson(data as BossInfoEntity);			case BossInfoData:
 			return bossInfoDataToJson(data as BossInfoData);			case BossInfoDataRecruiter:
 			return bossInfoDataRecruiterToJson(data as BossInfoDataRecruiter);			case ApplyListEntity:
@@ -327,7 +335,10 @@ class JsonConvert<T> {
 			return CompanyListData().fromJson(json);			case 'CompanyListDataRecord':
 			return CompanyListDataRecord().fromJson(json);			case 'CompanyListDataRecordsJobInfo':
 			return CompanyListDataRecordsJobInfo().fromJson(json);			case 'FileUploadEntity':
-			return FileUploadEntity().fromJson(json);			case 'BossInfoEntity':
+			return FileUploadEntity().fromJson(json);			case 'BossApplyListEntity':
+			return BossApplyListEntity().fromJson(json);			case 'BossApplyListData':
+			return BossApplyListData().fromJson(json);			case 'BossApplyListDataRecord':
+			return BossApplyListDataRecord().fromJson(json);			case 'BossInfoEntity':
 			return BossInfoEntity().fromJson(json);			case 'BossInfoData':
 			return BossInfoData().fromJson(json);			case 'BossInfoDataRecruiter':
 			return BossInfoDataRecruiter().fromJson(json);			case 'ApplyListEntity':
@@ -423,7 +434,10 @@ class JsonConvert<T> {
 			return List<CompanyListData>();			case 'CompanyListDataRecord':
 			return List<CompanyListDataRecord>();			case 'CompanyListDataRecordsJobInfo':
 			return List<CompanyListDataRecordsJobInfo>();			case 'FileUploadEntity':
-			return List<FileUploadEntity>();			case 'BossInfoEntity':
+			return List<FileUploadEntity>();			case 'BossApplyListEntity':
+			return List<BossApplyListEntity>();			case 'BossApplyListData':
+			return List<BossApplyListData>();			case 'BossApplyListDataRecord':
+			return List<BossApplyListDataRecord>();			case 'BossInfoEntity':
 			return List<BossInfoEntity>();			case 'BossInfoData':
 			return List<BossInfoData>();			case 'BossInfoDataRecruiter':
 			return List<BossInfoDataRecruiter>();			case 'ApplyListEntity':
