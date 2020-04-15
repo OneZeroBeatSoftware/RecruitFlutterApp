@@ -35,9 +35,9 @@ class ProfileDivider2 extends StatelessWidget {
 }
 
 class ProfileInput extends StatelessWidget {
-	String title;
-	String value;
-	String placeholder = '';
+	final String title;
+	final String value;
+	final String placeholder;
 	ProfileInput({this.title, this.value, this.placeholder = '请输入内容'});
 	
 	@override
@@ -64,10 +64,10 @@ class ProfileInput extends StatelessWidget {
 }
 
 class ProfileText extends StatelessWidget {
-	String title;
-	String value;
-	bool canClick;
-	VoidCallback onClick;
+	final String title;
+	final String value;
+	final bool canClick;
+	final VoidCallback onClick;
 	ProfileText({this.title, this.value, this.canClick = false, this.onClick});
 	
 	@override
@@ -108,9 +108,9 @@ class ProfileText extends StatelessWidget {
 }
 
 class ProfileItem extends StatelessWidget {
-	String title;
-	String value;
-	Function() onClick;
+	final String title;
+	final String value;
+	final Function() onClick;
 	ProfileItem({@required this.title, @required this.value, @required this.onClick});
 	
   @override
@@ -137,9 +137,9 @@ class ProfileItem extends StatelessWidget {
 
 
 class NextLevel extends StatelessWidget {
-	Widget titleW;
-	Widget valueW;
-	Function() onClick;
+	final Widget titleW;
+	final Widget valueW;
+	final Function() onClick;
 	NextLevel({@required this.titleW, @required this.onClick, this.valueW});
 	
 	@override

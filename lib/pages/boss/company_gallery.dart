@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:recruit_app/model/company_attr.dart';
 
 class CompanyGallery extends StatefulWidget {
   @override
@@ -11,7 +10,7 @@ class CompanyGallery extends StatefulWidget {
 }
 
 class _CompanyGallery extends State<CompanyGallery> {
-  List<CompanyAttr> _attrList = CompanyAttrList.loadAttrs();
+//  List<CompanyAttr> _attrList = CompanyAttrList.loadAttrs();
 
   @override
   Widget build(BuildContext context) {

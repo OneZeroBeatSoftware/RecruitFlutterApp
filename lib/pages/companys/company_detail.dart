@@ -12,7 +12,6 @@ import 'package:recruit_app/entity/company_detail_entity.dart';
 import 'package:recruit_app/entity/company_job_entity.dart';
 import 'package:recruit_app/model/company_model.dart';
 import 'package:recruit_app/model/company_pic_list.dart';
-import 'package:recruit_app/model/job_list.dart';
 import 'package:recruit_app/pages/companys/company_info_dialog.dart';
 import 'package:recruit_app/pages/companys/company_job_item.dart';
 import 'package:recruit_app/pages/companys/company_pic_item.dart';
@@ -45,7 +44,7 @@ class _CompanyDetailState extends State<CompanyDetail>
   List<CompanyPicData> _picList = CompanyPicList.loadCompanyPicList();
 
   /// 工作列表数据
-  List<Job> _jobList = JobData.loadJobs();
+//  List<Job> _jobList = JobData.loadJobs();
 
   /// 公司福利模拟数据
   List<WelfareData> _welfareList = [];

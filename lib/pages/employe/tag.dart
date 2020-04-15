@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 
 class Tag extends StatelessWidget {
-	String _title;
+	final String _title;
 	
 	Tag(this._title);
 	

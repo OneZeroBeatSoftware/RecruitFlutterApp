@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:recruit_app/model/company_attr.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/profile_divider.dart';
@@ -23,7 +22,7 @@ class CompanyInfo extends StatefulWidget {
 }
 
 class _CompanyInfoState extends State<CompanyInfo> {
-  List<CompanyAttr> _attrList = CompanyAttrList.loadAttrs();
+//  List<CompanyAttr> _attrList = CompanyAttrList.loadAttrs();
 
   @override
   Widget build(BuildContext context) {
@@ -256,13 +255,13 @@ class _CompanyInfoState extends State<CompanyInfo> {
 }
 
 class Item extends StatelessWidget {
-  bool canClick = false;
-  VoidCallback onClick;
-  String title;
-  String value;
-  Widget rightIcon;
-  String tailValue;
-  num topPadding = 40;
+  final bool canClick;
+  final VoidCallback onClick;
+  final String title;
+  final String value;
+  final Widget rightIcon;
+  final String tailValue;
+  final num topPadding;
   
   Item(this.title, this.value, {this.canClick = false, this.onClick, this.rightIcon, this.tailValue = '', this.topPadding = 40});
   
@@ -343,10 +342,10 @@ class Item extends StatelessWidget {
 }
 
 class Item2 extends StatelessWidget {
-  String title;
-  String value;
-  bool canClick;
-  VoidCallback onClick;
+  final String title;
+  final String value;
+  final bool canClick;
+  final VoidCallback onClick;
   
   Item2(this.title, this.value, {this.canClick = false, this.onClick});
   

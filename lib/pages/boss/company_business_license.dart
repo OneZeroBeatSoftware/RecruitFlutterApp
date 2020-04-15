@@ -9,13 +9,11 @@ class CraftBusinessLicense extends StatefulWidget {
 }
 
 class _CraftFeedbackState extends State<CraftBusinessLicense> {
-  TextEditingController _editController;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _editController = TextEditingController();
   }
 
   @override

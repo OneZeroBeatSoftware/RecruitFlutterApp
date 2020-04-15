@@ -13,8 +13,8 @@ class AboutSoft extends StatefulWidget {
 class _AboutSoftState extends State<AboutSoft> {
   String _appName='JobPin';
   String _version='1.0.0';
-  String _packageName='com.recruit.recruit_app';
-  String _buildNumber='1';
+//  String _packageName='com.recruit.recruit_app';
+//  String _buildNumber='1';
 
   @override
   void initState() {
@@ -24,8 +24,8 @@ class _AboutSoftState extends State<AboutSoft> {
       setState(() {
         _appName = packageInfo.appName;
         _version = packageInfo.version;
-        _packageName = packageInfo.packageName;
-        _buildNumber = packageInfo.buildNumber;
+//        _packageName = packageInfo.packageName;
+//        _buildNumber = packageInfo.buildNumber;
       });
     });
   }

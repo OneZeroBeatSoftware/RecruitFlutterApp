@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProfileDivider extends StatelessWidget {
-	int marginBottom;
+  final int marginBottom;
 	ProfileDivider({this.marginBottom = 0});
 	
 	@override

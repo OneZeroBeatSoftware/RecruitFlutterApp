@@ -14,7 +14,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/pages/mine/communicate.dart';
 import 'package:recruit_app/pages/mine/mine_interview.dart';
 import 'package:recruit_app/pages/boss/company_post_recruit.dart';
-import 'package:recruit_app/pages/employe/employee_detail.dart';
 
 class BossMine extends StatefulWidget {
   @override

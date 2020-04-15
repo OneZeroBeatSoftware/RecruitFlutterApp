@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/widgets/common_appbar_divider.dart';
 
 class CommonPageBody extends StatelessWidget {
-	List<Widget> children;
+	final List<Widget> children;
 	CommonPageBody({@required this.children});
 	@override
   Widget build(BuildContext context) {

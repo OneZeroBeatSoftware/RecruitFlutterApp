@@ -14,8 +14,8 @@ class IndustryType extends StatefulWidget {
 
 class _IndustryTypeState extends State<IndustryType> {
   List<IndustryTypeData> _list=[];
-  int _maxNum = 5;
-  int _selNum = 0;
+//  int _maxNum = 5;
+//  int _selNum = 0;
 
   @override
   void initState() {
@@ -49,94 +49,94 @@ class _IndustryTypeState extends State<IndustryType> {
               fontSize: ScreenUtil().setSp(36),
               fontWeight: FontWeight.bold),
         ),
-        rightAction: GestureDetector(
-          onTap: () {},
-          behavior: HitTestBehavior.opaque,
-          child: Padding(
-            padding: EdgeInsets.only(right: ScreenUtil().setWidth(20)),
-            child: Text(
-              '确定',
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                wordSpacing: 1,
-                letterSpacing: 1,
-                fontSize: ScreenUtil().setSp(34),
-                color: Color.fromRGBO(57, 57, 57, 1),
-              ),
-            ),
-          ),
-        ),
+//        rightAction: GestureDetector(
+//          onTap: () {},
+//          behavior: HitTestBehavior.opaque,
+//          child: Padding(
+//            padding: EdgeInsets.only(right: ScreenUtil().setWidth(20)),
+//            child: Text(
+//              '确定',
+//              maxLines: 1,
+//              overflow: TextOverflow.ellipsis,
+//              style: TextStyle(
+//                wordSpacing: 1,
+//                letterSpacing: 1,
+//                fontSize: ScreenUtil().setSp(34),
+//                color: Color.fromRGBO(57, 57, 57, 1),
+//              ),
+//            ),
+//          ),
+//        ),
         backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(
-              left: ScreenUtil().setWidth(48),
-              right: ScreenUtil().setWidth(48),
-              top: ScreenUtil().setWidth(20),
-            ),
-            child: Row(
-              children: <Widget>[
-                Image.asset(
-                  'images/img_search_blue.png',
-                  width: ScreenUtil().setWidth(26),
-                  height: ScreenUtil().setWidth(26),
-                  fit: BoxFit.contain,
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(
-                    horizontal: ScreenUtil().setWidth(20),
-                  ),
-                  height: ScreenUtil().setWidth(24),
-                  width: ScreenUtil().setWidth(2),
-                  color: Color.fromRGBO(159, 199, 235, 1),
-                ),
-                Expanded(
-                  child: TextField(
-                    autofocus: false,
-                    scrollPadding: EdgeInsets.all(0),
-                    textAlign: TextAlign.start,
-                    maxLines: 1,
-                    cursorColor: Color.fromRGBO(176, 181, 180, 1),
-                    style: TextStyle(
-                        fontSize: ScreenUtil().setSp(28),
-                        color: Color.fromRGBO(95, 94, 94, 1)),
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.all(0),
-                      border: InputBorder.none,
-                      hintText: '输入行业名称',
-                      hintStyle: TextStyle(
-                        fontSize: ScreenUtil().setSp(28),
-                        color: Color.fromRGBO(194, 203, 202, 1),
-                      ),
-                    ),
-                    onSubmitted: (text) {},
-                  ),
-                ),
-                SizedBox(
-                  width: ScreenUtil().setWidth(20),
-                ),
-                Text(
-                  '已选$_selNum/$_maxNum',
-                  style: TextStyle(
-                    fontSize: ScreenUtil().setSp(28),
-                    color: Color.fromRGBO(95, 94, 94, 1),
-                  ),
-                ),
-              ],
-            ),
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: Color.fromRGBO(159, 199, 235, 1),
-                  width: ScreenUtil().setWidth(2),
-                ),
-              ),
-            ),
-          ),
+//          Container(
+//            margin: EdgeInsets.only(
+//              left: ScreenUtil().setWidth(48),
+//              right: ScreenUtil().setWidth(48),
+//              top: ScreenUtil().setWidth(20),
+//            ),
+//            child: Row(
+//              children: <Widget>[
+//                Image.asset(
+//                  'images/img_search_blue.png',
+//                  width: ScreenUtil().setWidth(26),
+//                  height: ScreenUtil().setWidth(26),
+//                  fit: BoxFit.contain,
+//                ),
+//                Container(
+//                  margin: EdgeInsets.symmetric(
+//                    horizontal: ScreenUtil().setWidth(20),
+//                  ),
+//                  height: ScreenUtil().setWidth(24),
+//                  width: ScreenUtil().setWidth(2),
+//                  color: Color.fromRGBO(159, 199, 235, 1),
+//                ),
+//                Expanded(
+//                  child: TextField(
+//                    autofocus: false,
+//                    scrollPadding: EdgeInsets.all(0),
+//                    textAlign: TextAlign.start,
+//                    maxLines: 1,
+//                    cursorColor: Color.fromRGBO(176, 181, 180, 1),
+//                    style: TextStyle(
+//                        fontSize: ScreenUtil().setSp(28),
+//                        color: Color.fromRGBO(95, 94, 94, 1)),
+//                    decoration: InputDecoration(
+//                      contentPadding: EdgeInsets.all(0),
+//                      border: InputBorder.none,
+//                      hintText: '输入行业名称',
+//                      hintStyle: TextStyle(
+//                        fontSize: ScreenUtil().setSp(28),
+//                        color: Color.fromRGBO(194, 203, 202, 1),
+//                      ),
+//                    ),
+//                    onSubmitted: (text) {},
+//                  ),
+//                ),
+//                SizedBox(
+//                  width: ScreenUtil().setWidth(20),
+//                ),
+//                Text(
+//                  '已选$_selNum/$_maxNum',
+//                  style: TextStyle(
+//                    fontSize: ScreenUtil().setSp(28),
+//                    color: Color.fromRGBO(95, 94, 94, 1),
+//                  ),
+//                ),
+//              ],
+//            ),
+//            decoration: BoxDecoration(
+//              border: Border(
+//                bottom: BorderSide(
+//                  color: Color.fromRGBO(159, 199, 235, 1),
+//                  width: ScreenUtil().setWidth(2),
+//                ),
+//              ),
+//            ),
+//          ),
           Expanded(
             child: SingleChildScrollView(
               physics: BouncingScrollPhysics(),
@@ -155,12 +155,13 @@ class _IndustryTypeState extends State<IndustryType> {
                       onTap: () {
                         FocusScope.of(context).requestFocus(FocusNode());
                         if (!item.isChecked) {
-                          if (_selNum < _maxNum) {
+//                          if (_selNum < _maxNum) {
                             if(item.subType==null){
                               setState(() {
-                                _selNum++;
+//                                _selNum++;
                                 item.isChecked = true;
                               });
+                              Navigator.pop(context,item.type);
                               return;
                             }
                             showGeneralDialog(
@@ -192,26 +193,27 @@ class _IndustryTypeState extends State<IndustryType> {
                                         },
                                         itemSelected: (index) {
                                           setState(() {
-                                            _selNum++;
+//                                            _selNum++;
                                             item.isChecked = true;
                                           });
                                           Navigator.pop(context);
+                                          Navigator.pop(context,item.subType[index].subType);
                                         },
                                         lists: item.subType.map((item){ return item.subType;}).toList(),
                                       ),
                                     ),
                                   );
                                 });
-                          } else {
-                            Utils.showToast('最多选择$_maxNum个行业类别');
-                          }
+//                          } else {
+//                            Utils.showToast('最多选择$_maxNum个行业类别');
+//                          }
                         } else {
-                          if (_selNum > 0) {
+//                          if (_selNum > 0) {
                             setState(() {
-                              _selNum--;
+//                              _selNum--;
                               item.isChecked = false;
                             });
-                          }
+//                          }
                         }
                       },
                       child: Container(

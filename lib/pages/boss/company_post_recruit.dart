@@ -17,8 +17,8 @@ import 'package:recruit_app/pages/boss/company_work_address.dart';
 
 
 class CompanyPostRecruit extends StatefulWidget {
-	
-	bool isADDMode;
+
+	final bool isADDMode;
 	
 	CompanyPostRecruit({this.isADDMode = true});
 	
@@ -274,9 +274,9 @@ class VDivider extends StatelessWidget {
 }
 
 class Item10 extends StatelessWidget {
-	String title;
-	String value;
-	VoidCallback onClick;
+	final String title;
+	final String value;
+	final VoidCallback onClick;
 	
 	Item10({this.title, this.value, this.onClick});
 	

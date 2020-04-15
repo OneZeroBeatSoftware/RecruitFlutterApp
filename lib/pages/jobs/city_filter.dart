@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/application.dart';
 import 'package:recruit_app/entity/city_entity.dart';
 import 'package:recruit_app/model/job_filter_data.dart';
-import 'package:recruit_app/widgets/list_menu_dialog.dart';
 import 'package:recruit_app/pages/jobs/job_filter_item.dart';
 import 'package:recruit_app/utils/net_utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
@@ -64,21 +63,21 @@ class _CityFilterState extends State<CityFilter> {
               fontWeight: FontWeight.bold),
         ),
         backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-        rightAction: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: () {},
-          child: Padding(
-            padding:
-                EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(46)),
-            child: Text(
-              '确定',
-              style: TextStyle(
-                color: Color.fromRGBO(57, 57, 57, 1),
-                fontSize: ScreenUtil().setSp(32),
-              ),
-            ),
-          ),
-        ),
+//        rightAction: GestureDetector(
+//          behavior: HitTestBehavior.opaque,
+//          onTap: () {},
+//          child: Padding(
+//            padding:
+//                EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(46)),
+//            child: Text(
+//              '确定',
+//              style: TextStyle(
+//                color: Color.fromRGBO(57, 57, 57, 1),
+//                fontSize: ScreenUtil().setSp(32),
+//              ),
+//            ),
+//          ),
+//        ),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -158,38 +157,41 @@ class _CityFilterState extends State<CityFilter> {
 //                  }
 //                });
 //              });
-              showGeneralDialog(
-                context: context,
-                pageBuilder: (context, animation1, animation2) { return null;},
-                barrierColor: Colors.black.withOpacity(0.4),
-                barrierDismissible: true,
-                barrierLabel: "Dismiss",
-                transitionDuration: Duration(milliseconds: 300),
-                transitionBuilder: (context, animation1, animation2, widget) {
-                  final curvedValue =
-                      Curves.easeInOut.transform(animation1.value) - 1.0;
-                  return Transform(
-                    transform:
-                        Matrix4.translationValues(0.0, curvedValue * -300, 0.0),
-                    child: Opacity(
-                      opacity: animation1.value,
-                      child: ListMenuDialog(
-                        title: '洛杉矶',
-                        cancel: () {
-                          Navigator.pop(context);
-                        },
-                        confirm: () {
-                          Navigator.pop(context);
-                        },
-                        itemSelected: (index){
-                          Navigator.pop(context);
-                        },
-                        lists: _area,
-                      ),
-                    ),
-                  );
-                },
-              );
+//              showGeneralDialog(
+//                context: context,
+//                pageBuilder: (context, animation1, animation2) { return null;},
+//                barrierColor: Colors.black.withOpacity(0.4),
+//                barrierDismissible: true,
+//                barrierLabel: "Dismiss",
+//                transitionDuration: Duration(milliseconds: 300),
+//                transitionBuilder: (context, animation1, animation2, widget) {
+//                  final curvedValue =
+//                      Curves.easeInOut.transform(animation1.value) - 1.0;
+//                  return Transform(
+//                    transform:
+//                        Matrix4.translationValues(0.0, curvedValue * -300, 0.0),
+//                    child: Opacity(
+//                      opacity: animation1.value,
+//                      child: ListMenuDialog(
+//                        title: '洛杉矶',
+//                        cancel: () {
+//                          Navigator.pop(context);
+//                        },
+//                        confirm: () {
+//                          Navigator.pop(context);
+//                        },
+//                        itemSelected: (index){
+//                          Navigator.pop(context);
+//                        },
+//                        lists: _area,
+//                      ),
+//                    ),
+//                  );
+//                },
+//              );
+              Application.sp.setString('location_city_id', '');
+              Application.sp.setString('location_city', '洛杉矶');
+              Navigator.pop(context,'洛杉矶');
             },
             child: Container(
               margin:
@@ -259,44 +261,46 @@ class _CityFilterState extends State<CityFilter> {
                           setState(() {
                             item.isChecked = !item.isChecked;
                           });
-
-                          showGeneralDialog(
-                            context: context,
-                            pageBuilder: (context, animation1, animation2) {return null;},
-                            barrierColor: Colors.black.withOpacity(0.4),
-                            barrierDismissible: true,
-                            barrierLabel: "Dismiss",
-                            transitionDuration: Duration(milliseconds: 300),
-                            transitionBuilder:
-                                (context, animation1, animation2, widget) {
-                              final curvedValue =
-                                  Curves.easeInOut.transform(animation1.value) -
-                                      1.0;
-                              return Transform(
-                                transform: Matrix4.translationValues(
-                                    0.0, curvedValue * -300, 0.0),
-                                child: Opacity(
-                                  opacity: animation1.value,
-                                  child: ListMenuDialog(
-                                    title: item.filterName,
-                                    cancel: () {
-                                      Navigator.pop(context);
-                                    },
-                                    confirm: () {
-                                      Navigator.pop(context);
-                                    },
-                                    itemSelected: (index){
-                                      Navigator.pop(context);
-                                      Application.sp.setString('location_city_id', item.id);
-                                      Application.sp.setString('location_city', item.filterName);
-                                      Navigator.pop(context,item.filterName);
-                                    },
-                                    lists: _area,
-                                  ),
-                                ),
-                              );
-                            },
-                          );
+                          Application.sp.setString('location_city_id', item.id);
+                          Application.sp.setString('location_city', item.filterName);
+                          Navigator.pop(context,item.filterName);
+//                          showGeneralDialog(
+//                            context: context,
+//                            pageBuilder: (context, animation1, animation2) {return null;},
+//                            barrierColor: Colors.black.withOpacity(0.4),
+//                            barrierDismissible: true,
+//                            barrierLabel: "Dismiss",
+//                            transitionDuration: Duration(milliseconds: 300),
+//                            transitionBuilder:
+//                                (context, animation1, animation2, widget) {
+//                              final curvedValue =
+//                                  Curves.easeInOut.transform(animation1.value) -
+//                                      1.0;
+//                              return Transform(
+//                                transform: Matrix4.translationValues(
+//                                    0.0, curvedValue * -300, 0.0),
+//                                child: Opacity(
+//                                  opacity: animation1.value,
+//                                  child: ListMenuDialog(
+//                                    title: item.filterName,
+//                                    cancel: () {
+//                                      Navigator.pop(context);
+//                                    },
+//                                    confirm: () {
+//                                      Navigator.pop(context);
+//                                    },
+//                                    itemSelected: (index){
+//                                      Navigator.pop(context);
+//                                      Application.sp.setString('location_city_id', item.id);
+//                                      Application.sp.setString('location_city', item.filterName);
+//                                      Navigator.pop(context,item.filterName);
+//                                    },
+//                                    lists: _area,
+//                                  ),
+//                                ),
+//                              );
+//                            },
+//                          );
                         },
                       );
                     }

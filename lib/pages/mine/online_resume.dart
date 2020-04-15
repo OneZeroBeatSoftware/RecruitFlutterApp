@@ -28,7 +28,9 @@ class OnlineResume extends StatefulWidget {
 }
 
 class _OnlineResumeState extends State<OnlineResume> {
+  bool _isLoad=false;
   ResumeDetailData _detailData;
+  TextEditingController _resumeNameController;
 
   @override
   void initState() {
@@ -55,12 +57,24 @@ class _OnlineResumeState extends State<OnlineResume> {
       ..educationExperience = []
       ..projectExperience = []
       ..workExperience = [];
+    _resumeNameController=TextEditingController(text: _detailData.resume.resumeName);
+
+    _isLoad=widget.resumeId!=null&&widget.resumeId.isNotEmpty;
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((callback){
-      if(widget.resumeId!=null&&widget.resumeId.isNotEmpty){
+      if(_isLoad){
         _getResumeDetail(widget.resumeId);
       }
     });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    if(_resumeNameController!=null){
+      _resumeNameController.dispose();
+    }
+    super.dispose();
   }
 
   @override
@@ -98,7 +112,7 @@ class _OnlineResumeState extends State<OnlineResume> {
       ),
       body: SafeArea(
         top: false,
-        child: Padding(
+        child: _isLoad?Center(heightFactor: 20,child: CupertinoActivityIndicator(),):Padding(
           padding: EdgeInsets.symmetric(
             horizontal: ScreenUtil().setWidth(48),
           ),
@@ -198,7 +212,6 @@ class _OnlineResumeState extends State<OnlineResume> {
                 Container(
                   padding: EdgeInsets.only(
                     top: ScreenUtil().setWidth(30),
-                    bottom: ScreenUtil().setWidth(40),
                   ),
                   decoration: BoxDecoration(
                     border: Border(
@@ -221,70 +234,95 @@ class _OnlineResumeState extends State<OnlineResume> {
                           color: Color.fromRGBO(57, 57, 57, 1),
                         ),
                       ),
-                      SizedBox(
-                        height: ScreenUtil().setWidth(34),
-                      ),
-                      Text(
-                        '${_detailData.resume.resumeName}',
+                      TextField(
+                        controller: _resumeNameController,
+                        autofocus: false,
+                        scrollPadding: EdgeInsets.all(0),
+                        textAlign: TextAlign.start,
                         maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                        cursorColor: Color.fromRGBO(176, 181, 180, 1),
                         style: TextStyle(
-                          fontSize: ScreenUtil().setSp(28),
-                          color: Color.fromRGBO(95, 94, 94, 1),
+                            fontSize: ScreenUtil().setSp(28),
+                            color: Color.fromRGBO(95, 94, 94, 1)),
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(
+                            top: ScreenUtil().setWidth(34),
+                            bottom: ScreenUtil().setWidth(40),
+                          ),
+                          border: InputBorder.none,
+//                          focusedBorder: UnderlineInputBorder(
+//                            borderSide: BorderSide(
+//                              color: Color.fromRGBO(159, 199, 235, 1),
+//                              width: ScreenUtil().setWidth(1),
+//                            ),
+//                          ),
+//                          enabledBorder: UnderlineInputBorder(
+//                            borderSide: BorderSide(
+//                              color: Color.fromRGBO(159, 199, 235, 1),
+//                              width: ScreenUtil().setWidth(1),
+//                            ),
+//                          ),
+                          hintText: '请填写简历名称',
+                          hintStyle: TextStyle(
+                            fontSize: ScreenUtil().setSp(28),
+                            color: Color.fromRGBO(176, 181, 180, 1),
+                          ),
                         ),
+                        onSubmitted: (text) {},
                       ),
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: ScreenUtil().setWidth(40),
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Expanded(
-                      child: Text(
-                        '个人优势',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: ScreenUtil().setSp(32),
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromRGBO(57, 57, 57, 1),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: ScreenUtil().setWidth(16),
-                    ),
-                    GestureDetector(
-                      onTap: () {},
-                      behavior: HitTestBehavior.opaque,
-                      child: Image.asset(
-                        'images/img_edit_resume_gray.png',
-                        width: ScreenUtil().setWidth(30),
-                        height: ScreenUtil().setWidth(30),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: ScreenUtil().setWidth(16),
-                ),
-                Text('五年产品运营经验，时刻关注行业新动态，有项目管理经验，产品设计经验。',
-                    style: TextStyle(
-                        wordSpacing: 1,
-                        letterSpacing: 1,
-                        fontSize: ScreenUtil().setSp(24),
-                        color: Color.fromRGBO(176, 181, 180, 1))),
-                Container(
-                  margin:
-                  EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(40)),
-                  color: Color.fromRGBO(159, 199, 235, 1),
-                  height: ScreenUtil().setWidth(1),
-                ),
+//                SizedBox(
+//                  height: ScreenUtil().setWidth(40),
+//                ),
+//                Row(
+//                  crossAxisAlignment: CrossAxisAlignment.center,
+//                  mainAxisAlignment: MainAxisAlignment.start,
+//                  children: <Widget>[
+//                    Expanded(
+//                      child: Text(
+//                        '个人优势',
+//                        maxLines: 1,
+//                        overflow: TextOverflow.ellipsis,
+//                        style: TextStyle(
+//                          fontSize: ScreenUtil().setSp(32),
+//                          fontWeight: FontWeight.bold,
+//                          color: Color.fromRGBO(57, 57, 57, 1),
+//                        ),
+//                      ),
+//                    ),
+//                    SizedBox(
+//                      width: ScreenUtil().setWidth(16),
+//                    ),
+//                    GestureDetector(
+//                      onTap: () {},
+//                      behavior: HitTestBehavior.opaque,
+//                      child: Image.asset(
+//                        'images/img_edit_resume_gray.png',
+//                        width: ScreenUtil().setWidth(30),
+//                        height: ScreenUtil().setWidth(30),
+//                        fit: BoxFit.cover,
+//                      ),
+//                    ),
+//                  ],
+//                ),
+//                SizedBox(
+//                  height: ScreenUtil().setWidth(16),
+//                ),
+//                Text('五年产品运营经验，时刻关注行业新动态，有项目管理经验，产品设计经验。',
+//                    style: TextStyle(
+//                        wordSpacing: 1,
+//                        letterSpacing: 1,
+//                        fontSize: ScreenUtil().setSp(24),
+//                        color: Color.fromRGBO(176, 181, 180, 1))),
+//                Container(
+//                  margin:
+//                  EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(40)),
+//                  color: Color.fromRGBO(159, 199, 235, 1),
+//                  height: ScreenUtil().setWidth(1),
+//                ),
+                SizedBox(height: ScreenUtil().setWidth(40),),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -657,11 +695,16 @@ class _OnlineResumeState extends State<OnlineResume> {
   _getResumeDetail(String id){
     MineModel.instance.getResumeDetail(context, id).then((detail){
       if(detail!=null){
+        _resumeNameController.text=detail.resume.resumeName;
         setState(() {
+          _isLoad=false;
           _detailData=detail;
         });
       }else {
         Utils.showToast('简历详情有误，请重试！');
+        setState(() {
+          _isLoad=false;
+        });
       }
     });
   }

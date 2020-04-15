@@ -590,6 +590,12 @@ class NetUtils {
     return BaseRespEntity().fromJson(response.data);
   }
 
+  /// 添加、更新求职期望
+  static Future<BaseRespEntity> saveIntent(BuildContext context, String intentId) async {
+    var response = await _post(context, '/jobSeeker/JobIntention/save');
+    return BaseRespEntity().fromJson(response.data);
+  }
+
   /// 获取全部简历
   static Future<ResumeListEntity> getResumeList(BuildContext context, String id) async {
     var response = await _get(context, '/jobSeeker/resume/get/$id', params: {
@@ -605,7 +611,7 @@ class NetUtils {
 
   /// 获取简历详情
   static Future<ResumeDetailEntity> getResumeDetail(BuildContext context, String resumeId) async {
-    var response = await _get(context, '/jobSeeker/resume/details/$resumeId');
+    var response = await _get(context, '/jobSeeker/resume/details/$resumeId',isShowLoading: false);
     return ResumeDetailEntity().fromJson(response.data);
   }
 

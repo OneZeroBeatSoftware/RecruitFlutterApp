@@ -2,7 +2,6 @@ import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recruit_app/entity/apply_list_entity.dart';
 import 'package:recruit_app/entity/boss_apply_list_entity.dart';
 
 class BossCommunicateItem extends StatelessWidget {
