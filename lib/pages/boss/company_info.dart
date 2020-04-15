@@ -232,7 +232,11 @@ class _CompanyInfoState extends State<CompanyInfo> {
                         },
                       ),
                       ListView(children: _detailData.welfare.map((item){
-                        return Item2(item.welfareName,item.content);
+                        return Item2(item.welfareName,item.content, onClick: () {
+                          Navigator.push(context, MaterialPageRoute(
+                              builder: (context)=> CompanyWelfare()
+                          ));
+                        });
                       }).toList(),shrinkWrap: true,padding: EdgeInsets.all(0),),
                       ProfileDivider(),
                       
@@ -411,32 +415,34 @@ class Item2 extends StatelessWidget {
       ));
     }
     
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        SizedBox(height: ScreenUtil().setHeight(40)),
-        GestureDetector(
-          behavior: HitTestBehavior.opaque,
-           child: Row(
-            children: titleW,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          ),
-            onTap: () {
-              if(canClick && onClick != null) {
-                onClick();
-              }
-            },
+    return
+      GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () {
+          if(onClick != null) {
+            onClick();
+          }
+        },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(height: ScreenUtil().setHeight(40)),
+            Row(
+              children: titleW,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            ),
+            SizedBox(height: ScreenUtil().setHeight(2)),
+            Text(this.value,
+              style: TextStyle(
+                 color: Color.fromRGBO(94,94,94,1),
+                 fontSize: ScreenUtil().setSp(24),
+                 fontWeight: FontWeight.w300,
+                 letterSpacing: 1
+              ),
+            ),
+          ],
         ),
-        SizedBox(height: ScreenUtil().setHeight(2)),
-        Text(this.value,
-          style: TextStyle(
-             color: Color.fromRGBO(94,94,94,1),
-             fontSize: ScreenUtil().setSp(24),
-             fontWeight: FontWeight.w300,
-             letterSpacing: 1
-          ),
-        ),
-      ],
-    );
+      );
+
   }
 }
