@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:recruit_app/entity/boss_job_manage_entity.dart';
-import 'package:recruit_app/entity/main_resume_list_entity.dart';
-import 'package:recruit_app/model/job_manage_list.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/widgets/vertical_divider.dart';
 
