@@ -4,6 +4,7 @@ import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/application.dart';
+import 'package:recruit_app/entity/filter_data.dart';
 import 'package:recruit_app/model/recruit_resume_model.dart';
 import 'package:recruit_app/pages/employe/employe_row_item.dart';
 import 'package:recruit_app/pages/employe/employee_detail.dart';
@@ -21,6 +22,7 @@ class EmployeeList extends StatefulWidget {
 
 class _EmployeeListState extends State<EmployeeList> {
   String _selCity='请选择城市';
+  String _cityId='';
 
   int _selectFilterType = 0;
   int _pageIndex = 1;
@@ -82,14 +84,20 @@ class _EmployeeListState extends State<EmployeeList> {
                             child: GestureDetector(
                               behavior: HitTestBehavior.opaque,
                               onTap: () {
-                                Navigator.push(
+                                Navigator.push<FilterData>(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => CityFilter())).then((value){
-                                  if (value != null)
+                                        builder: (context) => CityFilter(initId: _cityId,))).then((value){
+                                  if (value != null){
+                                    Application.sp.setString(
+                                        'location_city_id', value.filterId);
+                                    Application.sp.setString(
+                                        'location_city', value.filterName);
                                     setState(() {
-                                      _selCity = value;
+                                      _cityId=value.filterId;
+                                      _selCity = value.filterName;
                                     });
+                                  }
                                 });
                               },
                               child: Text(

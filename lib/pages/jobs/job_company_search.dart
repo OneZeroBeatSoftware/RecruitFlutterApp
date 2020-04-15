@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/entity/filter_data.dart';
 import 'package:recruit_app/model/recruit_resume_model.dart';
 import 'package:recruit_app/model/search_model.dart';
 import 'package:recruit_app/pages/companys/company_detail.dart';
@@ -31,6 +32,8 @@ class _JobCompanySearchState extends State<JobCompanySearch> {
   TextEditingController _searchController;
 
   String _selCity='请选择城市';
+  String _cityId='';
+
   FilterType _filterType;
 
   String _keyword;
@@ -293,13 +296,14 @@ class _JobCompanySearchState extends State<JobCompanySearch> {
                       behavior: HitTestBehavior.opaque,
                       onTap: () {
                         FocusScope.of(context).requestFocus(FocusNode());
-                        Navigator.push(
+                        Navigator.push<FilterData>(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => CityFilter())).then((value){
+                                builder: (context) => CityFilter(initId: _cityId,))).then((value){
                           if (value != null){
                             setState(() {
-                              _selCity = value;
+                              _cityId=value.filterId;
+                              _selCity = value.filterName;
                             });
                             _refreshController.callRefresh();
                           }

@@ -3,35 +3,32 @@ import 'package:recruit_app/generated/json/base/json_convert_content.dart';
 class BossJobManageEntity with JsonConvert<BossJobManageEntity> {
 	int statusCode;
 	String msg;
-	List<BossJobManageData> data;
+	BossJobManageData data;
 }
 
 class BossJobManageData with JsonConvert<BossJobManageData> {
+	int total;
+	int size;
+	int pages;
+	int current;
+	List<BossJobManageDataRecord> records;
+}
+
+class BossJobManageDataRecord with JsonConvert<BossJobManageDataRecord> {
 	String id;
 	String companyId;
 	String companyName;
-	String recruiterId;
-	String realName;
 	String jobName;
-	String jobContent;
 	String workAddress;
 	int minSalary;
 	int maxSalary;
 	int releaseDate;
-	String industryId;
-	String positionId;
 	int city;
-	int longitude;
-	int latitude;
-	int recommend;
-	int weight;
-	int educationId;
-	int workDateId;
+	String educationId;
+	String educationName;
+	String workDateId;
+	String workDateName;
 	int candidatesTotal;
 	int candidatesCurrent;
-	int recruitsTotal;
-	int createDate;
-	int state;
-	int sex;
-	int positionType;
+	String avatar;
 }

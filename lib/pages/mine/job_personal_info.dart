@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/entity/filter_data.dart';
 import 'package:recruit_app/pages/jobs/city_filter.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/craft_date_picker.dart';
@@ -20,6 +21,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
   TextEditingController _nameController;
   List<String> _eduLevelList = [];
   String _selSex = '请选择性别';
+  String _cityId='';
   String _selCity = '请选择现居住所在地';
   String _eduLevel = '请选择';
   int _eduPos = 0;
@@ -356,13 +358,14 @@ class _PersonalInfoState extends State<PersonalInfo> {
                   onTap: () {
                     FocusScope.of(context).requestFocus(FocusNode());
 
-                    Navigator.push(
+                    Navigator.push<FilterData>(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => CityFilter())).then((value) {
+                            builder: (context) => CityFilter(initId: _cityId,))).then((value) {
                       if (value != null)
                         setState(() {
-                          _selCity = value;
+                          _cityId= value.filterId;
+                          _selCity = value.filterName;
                         });
                     });
                   },

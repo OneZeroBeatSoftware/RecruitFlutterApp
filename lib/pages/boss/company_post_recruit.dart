@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/entity/boss_job_detail_entity.dart';
+import 'package:recruit_app/entity/filter_data.dart';
 import 'package:recruit_app/model/boss_mine_model.dart';
 import 'package:recruit_app/pages/boss/company_job_candidate.dart';
 import 'package:recruit_app/utils/utils.dart';
@@ -36,6 +37,11 @@ class CompanyPostRecruit extends StatefulWidget {
 class _State extends State<CompanyPostRecruit> {
 	bool _isLoad=false;
 	BossJobDetailData _detailData;
+
+	String _industryType='请选择期望行业';
+	String _industryId='';
+	String _jobType='请选择期望岗位';
+	String _jobTypeId='';
 
 	@override
   void initState() {
@@ -99,22 +105,35 @@ class _State extends State<CompanyPostRecruit> {
 					 ProfileItem(title: "求职期望",
 							 value: '平面设计师',
 							 onClick: () {
-								 Navigator.push(
+								 Navigator.push<FilterData>(
 										 context,
 										 MaterialPageRoute(
-												 builder: (context) => JobType()
-										 )
-								 );
+												 builder: (context) => JobType(initId: _jobTypeId,))
+								 ).then((value){
+								 	if(value!=null){
+								 		setState(() {
+								 		  _jobTypeId=value.filterId;
+								 		  _jobType=value.filterName;
+								 		});
+									}
+								 });
 							 }),
 					 ProfileItem(title: "职业类型",
 							 value: '广告/设计',
 							 onClick: () {
-								 Navigator.push(
+								 Navigator.push<FilterData>(
 										 context,
 										 MaterialPageRoute(
-												 builder: (context) => IndustryType()
+												 builder: (context) => IndustryType(initId: _industryId,)
 										 )
-								 );
+								 ).then((value){
+									 if(value!=null){
+										 setState(() {
+											 _industryId=value.filterId;
+											 _industryType=value.filterName;
+										 });
+									 }
+								 });
 							 }
 					 ),
 					 Column(

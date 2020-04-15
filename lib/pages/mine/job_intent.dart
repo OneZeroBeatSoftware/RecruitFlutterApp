@@ -145,7 +145,11 @@ class _JobIntentState extends State<JobIntent> {
                                 behavior: HitTestBehavior.opaque, onTap: () {
                                 if (_intentNum < _maxIntent) {
                                   Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) => JobIntentEdit()));
+                                      builder: (context) => JobIntentEdit(limit: '$_intentNum/$_maxIntent',))).then((value){
+                                        if(value!=null&&value=='success'){
+                                          _getIntentList();
+                                        }
+                                  });
                                   return;
                                 }
                                 Utils.showToast('最多添加$_maxIntent个求职期望！');
@@ -172,7 +176,16 @@ class _JobIntentState extends State<JobIntent> {
                           var key = GlobalKey<SlideButtonState>();
                           return GestureDetector(onTap: (){
                             Navigator.push(context, MaterialPageRoute(
-                                builder: (context) => JobIntentEdit(intentData: MineModel.instance.intentList[index],)));
+                                builder: (context) =>
+                                    JobIntentEdit(
+                                      limit: '$_intentNum/$_maxIntent',
+                                      intentData: MineModel.instance
+                                          .intentList[index],
+                                      isModify: true,))).then((value) {
+                              if (value != null && value == 'success') {
+                                _getIntentList();
+                              }
+                            });
                           },behavior: HitTestBehavior.opaque,child: Container(
                             margin: EdgeInsets.symmetric(
                                 vertical: ScreenUtil().setWidth(20),

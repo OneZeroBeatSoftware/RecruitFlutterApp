@@ -593,8 +593,19 @@ class NetUtils {
   }
 
   /// 添加、更新求职期望
-  static Future<BaseRespEntity> saveIntent(BuildContext context, String intentId) async {
-    var response = await _post(context, '/jobSeeker/JobIntention/save');
+  static Future<BaseRespEntity> saveIntent(BuildContext context, String jobSeekerId,String position,String industry,String city,String minSalary,String maxSalary,{String intentId}) async {
+    Map<String,dynamic> params={};
+    if(intentId!=null&&intentId.isNotEmpty){
+      params["id"]=intentId;
+    }
+    params["jobSeekerId"]=jobSeekerId;
+    params["city"]=city;
+    params["industry"]=industry;
+    params["position"]=position;
+    params["minSalary"]=minSalary;
+    params["maxSalary"]=maxSalary;
+
+    var response = await _post(context, '/jobSeeker/JobIntention/save',params: params);
     return BaseRespEntity().fromJson(response.data);
   }
 
@@ -692,8 +703,12 @@ class NetUtils {
   }
 
   /// 获取一个招聘者发布的所有招聘信息
-  static Future<BossJobManageEntity> getRecruiterJobs(BuildContext context, String id) async {
-    var response = await _get(context, '/job/recruiter/$id',);
+  static Future<BossJobManageEntity> getRecruiterJobs(BuildContext context,String id,int pageIndex,{int pageSize=15}) async {
+    var response = await _post(context, '/job/recruiter',params:{
+      'pageIndex': pageIndex,
+      'pageSize': pageSize,
+      'recruiterId':id
+    },isShowLoading: false);
     return BossJobManageEntity().fromJson(response.data);
   }
 

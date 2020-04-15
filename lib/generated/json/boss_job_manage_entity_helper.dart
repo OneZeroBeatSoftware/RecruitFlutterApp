@@ -8,10 +8,7 @@ bossJobManageEntityFromJson(BossJobManageEntity data, Map<String, dynamic> json)
 		data.msg = json['msg']?.toString();
 	}
 	if (json['data'] != null) {
-		data.data = new List<BossJobManageData>();
-		(json['data'] as List).forEach((v) {
-			data.data.add(new BossJobManageData().fromJson(v));
-		});
+		data.data = new BossJobManageData().fromJson(json['data']);
 	}
 	return data;
 }
@@ -21,12 +18,46 @@ Map<String, dynamic> bossJobManageEntityToJson(BossJobManageEntity entity) {
 	data['statusCode'] = entity.statusCode;
 	data['msg'] = entity.msg;
 	if (entity.data != null) {
-		data['data'] =  entity.data.map((v) => v.toJson()).toList();
+		data['data'] = entity.data.toJson();
 	}
 	return data;
 }
 
 bossJobManageDataFromJson(BossJobManageData data, Map<String, dynamic> json) {
+	if (json['total'] != null) {
+		data.total = json['total']?.toInt();
+	}
+	if (json['size'] != null) {
+		data.size = json['size']?.toInt();
+	}
+	if (json['pages'] != null) {
+		data.pages = json['pages']?.toInt();
+	}
+	if (json['current'] != null) {
+		data.current = json['current']?.toInt();
+	}
+	if (json['records'] != null) {
+		data.records = new List<BossJobManageDataRecord>();
+		(json['records'] as List).forEach((v) {
+			data.records.add(new BossJobManageDataRecord().fromJson(v));
+		});
+	}
+	return data;
+}
+
+Map<String, dynamic> bossJobManageDataToJson(BossJobManageData entity) {
+	final Map<String, dynamic> data = new Map<String, dynamic>();
+	data['total'] = entity.total;
+	data['size'] = entity.size;
+	data['pages'] = entity.pages;
+	data['current'] = entity.current;
+	if (entity.records != null) {
+		data['records'] =  entity.records.map((v) => v.toJson()).toList();
+	}
+	return data;
+}
+
+bossJobManageDataRecordFromJson(BossJobManageDataRecord data, Map<String, dynamic> json) {
 	if (json['id'] != null) {
 		data.id = json['id']?.toString();
 	}
@@ -36,17 +67,8 @@ bossJobManageDataFromJson(BossJobManageData data, Map<String, dynamic> json) {
 	if (json['companyName'] != null) {
 		data.companyName = json['companyName']?.toString();
 	}
-	if (json['recruiterId'] != null) {
-		data.recruiterId = json['recruiterId']?.toString();
-	}
-	if (json['realName'] != null) {
-		data.realName = json['realName']?.toString();
-	}
 	if (json['jobName'] != null) {
 		data.jobName = json['jobName']?.toString();
-	}
-	if (json['jobContent'] != null) {
-		data.jobContent = json['jobContent']?.toString();
 	}
 	if (json['workAddress'] != null) {
 		data.workAddress = json['workAddress']?.toString();
@@ -60,32 +82,20 @@ bossJobManageDataFromJson(BossJobManageData data, Map<String, dynamic> json) {
 	if (json['releaseDate'] != null) {
 		data.releaseDate = json['releaseDate']?.toInt();
 	}
-	if (json['industryId'] != null) {
-		data.industryId = json['industryId']?.toString();
-	}
-	if (json['positionId'] != null) {
-		data.positionId = json['positionId']?.toString();
-	}
 	if (json['city'] != null) {
 		data.city = json['city']?.toInt();
 	}
-	if (json['longitude'] != null) {
-		data.longitude = json['longitude']?.toInt();
-	}
-	if (json['latitude'] != null) {
-		data.latitude = json['latitude']?.toInt();
-	}
-	if (json['recommend'] != null) {
-		data.recommend = json['recommend']?.toInt();
-	}
-	if (json['weight'] != null) {
-		data.weight = json['weight']?.toInt();
-	}
 	if (json['educationId'] != null) {
-		data.educationId = json['educationId']?.toInt();
+		data.educationId = json['educationId']?.toString();
+	}
+	if (json['educationName'] != null) {
+		data.educationName = json['educationName']?.toString();
 	}
 	if (json['workDateId'] != null) {
-		data.workDateId = json['workDateId']?.toInt();
+		data.workDateId = json['workDateId']?.toString();
+	}
+	if (json['workDateName'] != null) {
+		data.workDateName = json['workDateName']?.toString();
 	}
 	if (json['candidatesTotal'] != null) {
 		data.candidatesTotal = json['candidatesTotal']?.toInt();
@@ -93,52 +103,29 @@ bossJobManageDataFromJson(BossJobManageData data, Map<String, dynamic> json) {
 	if (json['candidatesCurrent'] != null) {
 		data.candidatesCurrent = json['candidatesCurrent']?.toInt();
 	}
-	if (json['recruitsTotal'] != null) {
-		data.recruitsTotal = json['recruitsTotal']?.toInt();
-	}
-	if (json['createDate'] != null) {
-		data.createDate = json['createDate']?.toInt();
-	}
-	if (json['state'] != null) {
-		data.state = json['state']?.toInt();
-	}
-	if (json['sex'] != null) {
-		data.sex = json['sex']?.toInt();
-	}
-	if (json['positionType'] != null) {
-		data.positionType = json['positionType']?.toInt();
+	if (json['avatar'] != null) {
+		data.avatar = json['avatar']?.toString();
 	}
 	return data;
 }
 
-Map<String, dynamic> bossJobManageDataToJson(BossJobManageData entity) {
+Map<String, dynamic> bossJobManageDataRecordToJson(BossJobManageDataRecord entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	data['id'] = entity.id;
 	data['companyId'] = entity.companyId;
 	data['companyName'] = entity.companyName;
-	data['recruiterId'] = entity.recruiterId;
-	data['realName'] = entity.realName;
 	data['jobName'] = entity.jobName;
-	data['jobContent'] = entity.jobContent;
 	data['workAddress'] = entity.workAddress;
 	data['minSalary'] = entity.minSalary;
 	data['maxSalary'] = entity.maxSalary;
 	data['releaseDate'] = entity.releaseDate;
-	data['industryId'] = entity.industryId;
-	data['positionId'] = entity.positionId;
 	data['city'] = entity.city;
-	data['longitude'] = entity.longitude;
-	data['latitude'] = entity.latitude;
-	data['recommend'] = entity.recommend;
-	data['weight'] = entity.weight;
 	data['educationId'] = entity.educationId;
+	data['educationName'] = entity.educationName;
 	data['workDateId'] = entity.workDateId;
+	data['workDateName'] = entity.workDateName;
 	data['candidatesTotal'] = entity.candidatesTotal;
 	data['candidatesCurrent'] = entity.candidatesCurrent;
-	data['recruitsTotal'] = entity.recruitsTotal;
-	data['createDate'] = entity.createDate;
-	data['state'] = entity.state;
-	data['sex'] = entity.sex;
-	data['positionType'] = entity.positionType;
+	data['avatar'] = entity.avatar;
 	return data;
 }

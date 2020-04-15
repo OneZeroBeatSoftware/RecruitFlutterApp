@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/widgets/vertical_divider.dart';
 
 class JobManageItem extends StatelessWidget {
-  final BossJobManageData jobManageData;
+  final BossJobManageDataRecord jobManageData;
   final int index;
 
   const JobManageItem({Key key, this.jobManageData, this.index})
@@ -67,9 +67,9 @@ class JobManageItem extends StatelessWidget {
                     children: <Widget>[
                       Text(jobManageData.workAddress, style: row2TextStyle),
                       ProfileVerticalDivider(),
-                      Text(jobManageData.workAddress, style: row2TextStyle),
+                      Text(jobManageData.workDateName, style: row2TextStyle),
                       ProfileVerticalDivider(),
-                      Text(jobManageData.workAddress, style: row2TextStyle),
+                      Text(jobManageData.educationName, style: row2TextStyle),
                     ],
                   ),
                   Row(children: <Widget>[

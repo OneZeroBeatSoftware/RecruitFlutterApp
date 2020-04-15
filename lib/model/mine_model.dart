@@ -192,6 +192,16 @@ class MineModel{
     return null;
   }
 
+  /// 添加求职期望
+  Future<BaseRespEntity> saveIntent(BuildContext context, String jobSeekerId,String position,String industry,String city,String minSalary,String maxSalary,{String intentId}) async {
+    BaseRespEntity baseRespEntity = await NetUtils.saveIntent(context, jobSeekerId,position,industry,city,minSalary,maxSalary,intentId: intentId);
+    if (baseRespEntity.statusCode ==200) {
+      return baseRespEntity;
+    }
+    Utils.showToast(baseRespEntity.msg ?? '${intentId!=null&&intentId.isNotEmpty?"修改":"添加"}失败，请重新尝试');
+    return null;
+  }
+
   List<ResumeListData> _resumeList=[];
   List<ResumeListData> get resumeList => _resumeList;
   /// 获取全部简历

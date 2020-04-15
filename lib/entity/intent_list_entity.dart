@@ -10,9 +10,12 @@ class IntentListData with JsonConvert<IntentListData> {
 	String id;
 	String jobSeekerId;
 	String jobState;
-	String position;
-	String industry;
-	String city;
+	String positionName;
+	String industryName;
+	String cityName;
+	String cityId;
+	String positionId;
+	String industryId;
 	String minSalary;
 	String maxSalary;
 	int state;

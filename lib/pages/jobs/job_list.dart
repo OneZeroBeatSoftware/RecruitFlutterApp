@@ -4,6 +4,7 @@ import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:recruit_app/entity/filter_data.dart';
 import 'package:recruit_app/entity/job_list_entity.dart';
 import 'package:recruit_app/model/job_model.dart';
 import 'package:recruit_app/pages/jobs/city_filter.dart';
@@ -24,6 +25,7 @@ class JobList extends StatefulWidget {
 
 class _JobListState extends State<JobList> {
   String _selCity='请选择城市';
+  String _cityId='';
 
   int _selectFilterType = 0;
   JobModel _jobModel;
@@ -91,14 +93,20 @@ class _JobListState extends State<JobList> {
                         child: GestureDetector(
                           behavior: HitTestBehavior.opaque,
                           onTap: () {
-                            Navigator.push(
+                            Navigator.push<FilterData>(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => CityFilter())).then((value){
-                              if (value != null)
+                                    builder: (context) => CityFilter(initId: _cityId,))).then((value){
+                              if (value != null){
+                                Application.sp.setString(
+                                    'location_city_id', value.filterId);
+                                Application.sp.setString(
+                                    'location_city', value.filterName);
                                 setState(() {
-                                  _selCity = value;
+                                  _cityId=value.filterId;
+                                  _selCity = value.filterName;
                                 });
+                              }
                             });
                           },
                           child: Text(

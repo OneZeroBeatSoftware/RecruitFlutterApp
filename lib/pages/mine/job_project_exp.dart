@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/entity/filter_data.dart';
 import 'package:recruit_app/pages/mine/industry_type.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/craft_date_picker.dart';
@@ -16,6 +17,7 @@ class JobProjectExp extends StatefulWidget {
 
 class _JobProjectExpState extends State<JobProjectExp> {
   String _industryType='请选择所在行业';
+  String _industryId='';
   TextEditingController _projectController;
   TextEditingController _contentController;
 
@@ -172,10 +174,11 @@ class _JobProjectExpState extends State<JobProjectExp> {
                 GestureDetector(
                   onTap: () {
                     FocusScope.of(context).requestFocus(FocusNode());
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>IndustryType())).then((value){
+                    Navigator.push<FilterData>(context, MaterialPageRoute(builder: (context)=>IndustryType(initId: _industryId,))).then((value){
                       if(value!=null)
                         setState(() {
-                          _industryType=value;
+                          _industryId=value.filterId;
+                          _industryType=value.filterName;
                         });
                     });
                   },

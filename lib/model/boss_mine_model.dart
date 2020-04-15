@@ -137,23 +137,30 @@ class BossMineModel{
     return null;
   }
 
-  List<BossJobManageData> _jobList=[];
-  List<BossJobManageData> get jobList => _jobList;
+  List<BossJobManageDataRecord> _jobList=[];
+  List<BossJobManageDataRecord> get jobList => _jobList;
   /// 获取招聘者发布的所有岗位
   Future<BossMineModel> getJobList(BuildContext context,
-      String recruiterId) async {
+      String recruiterId,int pageIndex) async {
     BossJobManageEntity jobEntity = await NetUtils.getRecruiterJobs(
-        context, recruiterId);
+        context, recruiterId,pageIndex);
     if (jobEntity != null || jobEntity.statusCode == 200) {
-      _jobList.clear();
-      if (jobEntity.data.length <= 0) {
+      if (pageIndex == 1) {
+        _jobList.clear();
+      }
+      if (jobEntity.data.records.length <= 0 && pageIndex == 1) {
         Utils.showToast('您还没有发布岗位哦！');
         return null;
+      } else if (jobEntity.data.records.length <= 0) {
+        Utils.showToast('没有更多岗位啦！');
+        return null;
       }
-      _jobList.addAll(jobEntity.data);
+      _jobList.addAll(jobEntity.data.records);
       return this;
     }
-    _jobList.clear();
+    if (pageIndex == 1) {
+      _jobList.clear();
+    }
     Utils.showToast(jobEntity.msg ?? '获取失败，请重新尝试');
     return null;
   }

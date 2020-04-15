@@ -36,14 +36,23 @@ intentListDataFromJson(IntentListData data, Map<String, dynamic> json) {
 	if (json['jobState'] != null) {
 		data.jobState = json['jobState']?.toString();
 	}
-	if (json['position'] != null) {
-		data.position = json['position']?.toString();
+	if (json['positionName'] != null) {
+		data.positionName = json['positionName']?.toString();
 	}
-	if (json['industry'] != null) {
-		data.industry = json['industry']?.toString();
+	if (json['industryName'] != null) {
+		data.industryName = json['industryName']?.toString();
 	}
-	if (json['city'] != null) {
-		data.city = json['city']?.toString();
+	if (json['cityName'] != null) {
+		data.cityName = json['cityName']?.toString();
+	}
+	if (json['cityId'] != null) {
+		data.cityId = json['cityId']?.toString();
+	}
+	if (json['positionId'] != null) {
+		data.positionId = json['positionId']?.toString();
+	}
+	if (json['industryId'] != null) {
+		data.industryId = json['industryId']?.toString();
 	}
 	if (json['minSalary'] != null) {
 		data.minSalary = json['minSalary']?.toString();
@@ -65,9 +74,12 @@ Map<String, dynamic> intentListDataToJson(IntentListData entity) {
 	data['id'] = entity.id;
 	data['jobSeekerId'] = entity.jobSeekerId;
 	data['jobState'] = entity.jobState;
-	data['position'] = entity.position;
-	data['industry'] = entity.industry;
-	data['city'] = entity.city;
+	data['positionName'] = entity.positionName;
+	data['industryName'] = entity.industryName;
+	data['cityName'] = entity.cityName;
+	data['cityId'] = entity.cityId;
+	data['positionId'] = entity.positionId;
+	data['industryId'] = entity.industryId;
 	data['minSalary'] = entity.minSalary;
 	data['maxSalary'] = entity.maxSalary;
 	data['state'] = entity.state;

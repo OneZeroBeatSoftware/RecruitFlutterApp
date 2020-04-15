@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recruit_app/application.dart';
 import 'package:recruit_app/entity/city_entity.dart';
+import 'package:recruit_app/entity/filter_data.dart';
 import 'package:recruit_app/model/job_filter_data.dart';
 import 'package:recruit_app/pages/jobs/job_filter_item.dart';
 import 'package:recruit_app/utils/net_utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 
 class CityFilter extends StatefulWidget {
+  final String initId;
+
+  const CityFilter({Key key, this.initId=''}) : super(key: key);
+
   @override
   _CityFilterState createState() => _CityFilterState();
 }
@@ -189,9 +193,7 @@ class _CityFilterState extends State<CityFilter> {
 //                  );
 //                },
 //              );
-              Application.sp.setString('location_city_id', '');
-              Application.sp.setString('location_city', '洛杉矶');
-              Navigator.pop(context,'洛杉矶');
+              Navigator.pop(context,FilterData('', '洛杉矶'));
             },
             child: Container(
               margin:
@@ -261,9 +263,7 @@ class _CityFilterState extends State<CityFilter> {
                           setState(() {
                             item.isChecked = !item.isChecked;
                           });
-                          Application.sp.setString('location_city_id', item.id);
-                          Application.sp.setString('location_city', item.filterName);
-                          Navigator.pop(context,item.filterName);
+                          Navigator.pop(context,FilterData(item.id,item.filterName));
 //                          showGeneralDialog(
 //                            context: context,
 //                            pageBuilder: (context, animation1, animation2) {return null;},
@@ -377,7 +377,7 @@ class _CityFilterState extends State<CityFilter> {
             filterSubData: item.cities
                 .map((subItem) => JobFilterSubData(
                 id: subItem.id,
-                filterName: subItem.cityName, isChecked: subItem.id==Application.sp.get('location_city_id')))
+                filterName: subItem.cityName, isChecked: subItem.id==widget.initId))
                 .toList()));
       });
 

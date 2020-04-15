@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/entity/filter_data.dart';
 import 'package:recruit_app/entity/job_type_entity.dart';
 import 'package:recruit_app/utils/net_utils.dart';
 import 'package:recruit_app/widgets/list_menu_dialog.dart';
@@ -8,6 +9,10 @@ import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 
 class JobType extends StatefulWidget {
+  final String initId;
+
+  const JobType({Key key, this.initId=''}) : super(key: key);
+
   @override
   _JobTypeState createState() => _JobTypeState();
 }
@@ -161,7 +166,7 @@ class _JobTypeState extends State<JobType> {
 //                                _selNum++;
                                 item.isChecked = true;
                               });
-                              Navigator.pop(context,item.type);
+                              Navigator.pop(context,FilterData(item.id,item.type));
                               return;
                             }
                             showGeneralDialog(
@@ -197,7 +202,7 @@ class _JobTypeState extends State<JobType> {
                                             item.isChecked = true;
                                           });
                                           Navigator.pop(context);
-                                          Navigator.pop(context,item.subType[index].subType);
+                                          Navigator.pop(context,FilterData(item.subType[index].id,item.subType[index].subType));
                                         },
                                         lists: item.subType.map((item)=>item.subType).toList(),
                                       ),
@@ -265,7 +270,17 @@ class _JobTypeState extends State<JobType> {
     JobTypeEntity jobTypeEntity = await NetUtils.getAllJobType(context);
     if (jobTypeEntity != null && jobTypeEntity.statusCode == 200) {
       jobTypeEntity.data.forEach((item){
-        item.isChecked=false;
+        if(item.subType!=null&&item.subType.length>0){
+          item.isChecked=false;
+          for(var subItem in item.subType){
+            if(widget.initId==subItem.id) {
+              item.isChecked=(widget.initId==subItem.id);
+              break;
+            }
+          }
+        }else {
+          item.isChecked=(widget.initId==item.id);
+        }
       });
       _list.clear();
       _list.addAll(jobTypeEntity.data);

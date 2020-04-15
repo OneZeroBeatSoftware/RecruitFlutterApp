@@ -183,7 +183,8 @@ class JsonConvert<T> {
 			return industryTypeDataFromJson(data as IndustryTypeData, json) as T;			case IndustrySubTypeData:
 			return industrySubTypeDataFromJson(data as IndustrySubTypeData, json) as T;			case BossJobManageEntity:
 			return bossJobManageEntityFromJson(data as BossJobManageEntity, json) as T;			case BossJobManageData:
-			return bossJobManageDataFromJson(data as BossJobManageData, json) as T;			case StarCompanyEntity:
+			return bossJobManageDataFromJson(data as BossJobManageData, json) as T;			case BossJobManageDataRecord:
+			return bossJobManageDataRecordFromJson(data as BossJobManageDataRecord, json) as T;			case StarCompanyEntity:
 			return starCompanyEntityFromJson(data as StarCompanyEntity, json) as T;			case StarCompanyData:
 			return starCompanyDataFromJson(data as StarCompanyData, json) as T;    }
     return data as T;
@@ -291,7 +292,8 @@ class JsonConvert<T> {
 			return industryTypeDataToJson(data as IndustryTypeData);			case IndustrySubTypeData:
 			return industrySubTypeDataToJson(data as IndustrySubTypeData);			case BossJobManageEntity:
 			return bossJobManageEntityToJson(data as BossJobManageEntity);			case BossJobManageData:
-			return bossJobManageDataToJson(data as BossJobManageData);			case StarCompanyEntity:
+			return bossJobManageDataToJson(data as BossJobManageData);			case BossJobManageDataRecord:
+			return bossJobManageDataRecordToJson(data as BossJobManageDataRecord);			case StarCompanyEntity:
 			return starCompanyEntityToJson(data as StarCompanyEntity);			case StarCompanyData:
 			return starCompanyDataToJson(data as StarCompanyData);    }
     return data as T;
@@ -399,7 +401,8 @@ class JsonConvert<T> {
 			return IndustryTypeData().fromJson(json);			case 'IndustrySubTypeData':
 			return IndustrySubTypeData().fromJson(json);			case 'BossJobManageEntity':
 			return BossJobManageEntity().fromJson(json);			case 'BossJobManageData':
-			return BossJobManageData().fromJson(json);			case 'StarCompanyEntity':
+			return BossJobManageData().fromJson(json);			case 'BossJobManageDataRecord':
+			return BossJobManageDataRecord().fromJson(json);			case 'StarCompanyEntity':
 			return StarCompanyEntity().fromJson(json);			case 'StarCompanyData':
 			return StarCompanyData().fromJson(json);    }
     return null;
@@ -508,7 +511,8 @@ class JsonConvert<T> {
 			return List<IndustryTypeData>();			case 'IndustrySubTypeData':
 			return List<IndustrySubTypeData>();			case 'BossJobManageEntity':
 			return List<BossJobManageEntity>();			case 'BossJobManageData':
-			return List<BossJobManageData>();			case 'StarCompanyEntity':
+			return List<BossJobManageData>();			case 'BossJobManageDataRecord':
+			return List<BossJobManageDataRecord>();			case 'StarCompanyEntity':
 			return List<StarCompanyEntity>();			case 'StarCompanyData':
 			return List<StarCompanyData>();    }
     return null;

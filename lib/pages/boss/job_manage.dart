@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:recruit_app/application.dart';
 import 'package:recruit_app/model/boss_mine_model.dart';
 import 'package:recruit_app/pages/boss/job_manage_item.dart';
@@ -17,14 +19,14 @@ class JobManage extends StatefulWidget {
 }
 
 class _JobManageState extends State<JobManage> {
+  int _pageIndex = 1;
+  EasyRefreshController _refreshController;
 
   @override
   void initState() {
     // TODO: implement initState
+    _refreshController = EasyRefreshController();
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((callback){
-      _getJobList();
-    });
   }
 
   @override
@@ -65,27 +67,41 @@ class _JobManageState extends State<JobManage> {
               Container(margin: EdgeInsets.only(top: ScreenUtil().setHeight(20)),
                  color: Color.fromRGBO(245, 245, 245, 1), constraints: BoxConstraints.expand(height: ScreenUtil().setHeight(1))),
             Expanded(
-              child: ListView.builder(
-                itemBuilder: (context, index) {
-                  if (index < BossMineModel.instance.jobList.length) {
-                    return GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        child: JobManageItem(
-                            jobManageData:  BossMineModel.instance.jobList[index],
-                            index: index),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => CompanyPostRecruit(isADDMode: false,jobId: BossMineModel.instance.jobList[index].id,),
-                              ));
-                        });
-                  }
-                  return null;
+              child: EasyRefresh.custom(
+                controller: _refreshController,
+                firstRefresh: true,
+                header: MaterialHeader(),
+                footer:
+                ClassicalFooter(infoColor: Color.fromRGBO(159, 199, 235, 1)),
+                onRefresh: () async {
+                  _pageIndex = 1;
+                  _getJobList();
+                  _refreshController.resetLoadState();
                 },
-                itemCount:  BossMineModel.instance.jobList.length,
-                shrinkWrap: true,
-                physics: const BouncingScrollPhysics(),
+                onLoad: () async {
+                  _getJobList();
+                  _refreshController.resetLoadState();
+                },
+                slivers: <Widget>[
+                  SliverList(
+                      delegate: SliverChildBuilderDelegate((context, index) {
+                        if (index < BossMineModel.instance.jobList.length) {
+                          return GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              child: JobManageItem(
+                                  jobManageData:  BossMineModel.instance.jobList[index],
+                                  index: index),
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => CompanyPostRecruit(isADDMode: false,jobId: BossMineModel.instance.jobList[index].id,),
+                                    ));
+                              });
+                        }
+                        return null;
+                      }, childCount: BossMineModel.instance.jobList.length)),
+                ],
               ),
             ),
           ],
@@ -94,7 +110,10 @@ class _JobManageState extends State<JobManage> {
 
   /// 获取岗位列表
   _getJobList() {
-    BossMineModel.instance.getJobList(context, Application.sp.getString('recruiterId')).then((model){
+    BossMineModel.instance.getJobList(context, Application.sp.getString('recruiterId'),_pageIndex).then((model){
+      if (model != null) {
+        _pageIndex++;
+      }
       setState(() {});
     });
   }

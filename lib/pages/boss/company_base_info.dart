@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/entity/filter_data.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/common_page_body.dart';
 import 'package:recruit_app/style/profile_style.dart';
@@ -19,7 +20,8 @@ class CompanyBaseInfo extends StatefulWidget {
 
 class _State extends State<CompanyBaseInfo> {
 	String _industry = 'o2o';
-	
+	String _industryId = '';
+
 	@override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -106,11 +108,17 @@ class _State extends State<CompanyBaseInfo> {
 				    title: "所在行业",
 				    value: _industry,
 				    onClick: () {
-					    Navigator.push<String>(
+					    Navigator.push<FilterData>(
 					       context,
 					       MaterialPageRoute(
-						      builder: (context) => IndustryType())
+						      builder: (context) => IndustryType(initId: _industryId,))
 					    ).then((value){
+					    	if(value!=null){
+					    		setState(() {
+					    		  _industryId=value.filterId;
+					    		  _industry=value.filterName;
+					    		});
+								}
 					    });
 				    },
 			    ),

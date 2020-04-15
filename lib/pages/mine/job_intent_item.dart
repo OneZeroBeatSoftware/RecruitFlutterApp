@@ -27,7 +27,7 @@ class JobIntentItem extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text('[${intentData.city}]${intentData.position}',
+                  Text('[${intentData.cityName}]${intentData.positionName}',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -36,7 +36,7 @@ class JobIntentItem extends StatelessWidget {
                           fontSize: ScreenUtil().setSp(28),
                           color: Color.fromRGBO(95, 94, 94, 1))),
                   SizedBox(height: ScreenUtil().setWidth(5)),
-                  Text('${intentData.minSalary}-${intentData.maxSalary}K ${intentData.industry}',
+                  Text('${intentData.minSalary}-${intentData.maxSalary}K ${intentData.industryName}',
                       style: TextStyle(
                           wordSpacing: 1,
                           letterSpacing: 1,

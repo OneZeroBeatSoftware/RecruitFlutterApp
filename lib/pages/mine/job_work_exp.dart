@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/entity/filter_data.dart';
 import 'package:recruit_app/pages/mine/industry_type.dart';
 import 'package:recruit_app/pages/mine/job_type.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
@@ -17,7 +18,9 @@ class JobWorkExp extends StatefulWidget {
 
 class _JobWorkExpState extends State<JobWorkExp> {
   String _industryType='请选择所在行业';
+  String _industryId='';
   String _jobType='请选择工作岗位';
+  String _jobTypeId='';
   TextEditingController _nameController;
   TextEditingController _sectionController;
 
@@ -174,10 +177,11 @@ class _JobWorkExpState extends State<JobWorkExp> {
                 GestureDetector(
                   onTap: () {
                     FocusScope.of(context).requestFocus(FocusNode());
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>IndustryType())).then((value){
+                    Navigator.push<FilterData>(context, MaterialPageRoute(builder: (context)=>IndustryType(initId: _industryId,))).then((value){
                       if(value!=null)
                         setState(() {
-                          _industryType=value;
+                          _industryId=value.filterId;
+                          _industryType=value.filterName;
                         });
                     });
                   },
@@ -337,10 +341,11 @@ class _JobWorkExpState extends State<JobWorkExp> {
                 GestureDetector(
                   onTap: () {
                     FocusScope.of(context).requestFocus(FocusNode());
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>JobType())).then((value){
+                    Navigator.push<FilterData>(context, MaterialPageRoute(builder: (context)=>JobType(initId: _jobTypeId,))).then((value){
                       if(value!=null)
                         setState(() {
-                          _jobType=value;
+                          _jobTypeId=value.filterId;
+                          _jobType=value.filterName;
                         });
                     });
                   },
