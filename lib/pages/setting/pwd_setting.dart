@@ -44,9 +44,6 @@ class _PwdSettingState extends State<PwdSetting> {
     if(_newPwd2Controller!=null){
       _newPwd2Controller.dispose();
     }
-    if(userModel!=null){
-      userModel.dispose();
-    }
     super.dispose();
   }
 

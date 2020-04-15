@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:recruit_app/entity/boss_job_manage_entity.dart';
+import 'package:recruit_app/entity/main_resume_list_entity.dart';
 import 'package:recruit_app/model/job_manage_list.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/widgets/vertical_divider.dart';
 
 class JobManageItem extends StatelessWidget {
-  final JobManageData jobManageData;
+  final BossJobManageData jobManageData;
   final int index;
 
   const JobManageItem({Key key, this.jobManageData, this.index})
@@ -43,7 +45,7 @@ class JobManageItem extends StatelessWidget {
                       fontWeight: FontWeight.w400
                     ),),
                     SizedBox(width: ScreenUtil().setWidth(28)),
-                    Text("候选人" + jobManageData.candidateCount.toString() + "/" + jobManageData.candidateTotal.toString(),
+                    Text('候选人${jobManageData.candidatesCurrent}/${jobManageData.candidatesTotal}',
                       style: TextStyle(
                       color: Color.fromRGBO(176,181,180,1),
                       fontWeight: FontWeight.w300,
@@ -52,11 +54,11 @@ class JobManageItem extends StatelessWidget {
                     ),),
                   ],
                 ),
-                Text(jobManageData.salary, style: TextStyle(
+                Text('${jobManageData.minSalary}/${jobManageData.maxSalary}K', style: TextStyle(
                   color: Color.fromRGBO(68,77,151,1),
                   fontSize: ScreenUtil().setSp(36),
                   fontWeight: FontWeight.w500
-                  
+
                 ))
               ],),
               SizedBox(height: ScreenUtil().setHeight(15)),
@@ -65,11 +67,11 @@ class JobManageItem extends StatelessWidget {
                 children: <Widget>[
                   Row(
                     children: <Widget>[
-                      Text(jobManageData.address, style: row2TextStyle),
+                      Text(jobManageData.workAddress, style: row2TextStyle),
                       ProfileVerticalDivider(),
-                      Text(jobManageData.exp, style: row2TextStyle),
+                      Text(jobManageData.workAddress, style: row2TextStyle),
                       ProfileVerticalDivider(),
-                      Text(jobManageData.degree, style: row2TextStyle),
+                      Text(jobManageData.workAddress, style: row2TextStyle),
                     ],
                   ),
                   Row(children: <Widget>[

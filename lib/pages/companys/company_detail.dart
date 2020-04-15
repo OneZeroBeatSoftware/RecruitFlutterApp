@@ -47,7 +47,7 @@ class _CompanyDetailState extends State<CompanyDetail>
 //  List<Job> _jobList = JobData.loadJobs();
 
   /// 公司福利模拟数据
-  List<WelfareData> _welfareList = [];
+//  List<WelfareData> _welfareList = [];
 
   /// 右上角menu按键
   List<String> _menuItem = [];
@@ -108,14 +108,16 @@ class _CompanyDetailState extends State<CompanyDetail>
 
 
     _moreInfoRecognizer = TapGestureRecognizer()
-      ..onTap = _showCompanyInfo;
+      ..onTap = (){
+        _showCompanyInfo(_detailData);
+      };
 
-    _welfareList.add(
-        WelfareData('定期体检', '阶段性职业健康检查', 'images/img_time_check_gray.png'));
-    _welfareList.add(WelfareData(
-        '加班补助', '正常工作时间之外的工资报酬', 'images/img_work_welfare_gray.png'));
-    _welfareList.add(WelfareData(
-        '年终奖金', '年末给予员工年终奖励，对一年来的工作业绩给予肯定', 'images/img_year_salray_gray.png'));
+//    _welfareList.add(
+//        WelfareData('定期体检', '阶段性职业健康检查', 'images/img_time_check_gray.png'));
+//    _welfareList.add(WelfareData(
+//        '加班补助', '正常工作时间之外的工资报酬', 'images/img_work_welfare_gray.png'));
+//    _welfareList.add(WelfareData(
+//        '年终奖金', '年末给予员工年终奖励，对一年来的工作业绩给予肯定', 'images/img_year_salray_gray.png'));
 
     _menuItem.add('举报公司');
     _menuItem.add('屏蔽公司');
@@ -144,7 +146,10 @@ class _CompanyDetailState extends State<CompanyDetail>
   }
 
   /// 展示公司更多信息
-  void _showCompanyInfo() {
+  void _showCompanyInfo(CompanyDetailData detailData) {
+    if(detailData==null){
+      return;
+    }
     showGeneralDialog(
       context: context,
       pageBuilder: (context, animation1, animation2) {
@@ -163,6 +168,7 @@ class _CompanyDetailState extends State<CompanyDetail>
           child: Opacity(
             opacity: animation1.value,
             child: CompanyInfoDialog(
+              detailData,
               cancel: () {
                 Navigator.pop(context);
               },
@@ -174,7 +180,10 @@ class _CompanyDetailState extends State<CompanyDetail>
   }
 
   /// 显示更多福利
-  void _showWelfareInfo() {
+  void _showWelfareInfo(CompanyDetailData companyDetailData) {
+    if(companyDetailData==null){
+      return;
+    }
     showGeneralDialog(
       context: context,
       pageBuilder: (context, animation1, animation2) {
@@ -193,7 +202,11 @@ class _CompanyDetailState extends State<CompanyDetail>
           child: Opacity(
             opacity: animation1.value,
             child: CompanyWelfareDialog(
-              _welfareList,
+              companyDetailData.welfare.map((item){
+                return WelfareData('${item.welfareName}', '${item.content}', 'images/img_time_check_gray.png');
+              },).toList(),
+              startTime: _detailData.company.startDate,
+              endTime: _detailData.company.endDate,
               cancel: () {
                 Navigator.pop(context);
               },
@@ -439,7 +452,9 @@ class _CompanyDetailState extends State<CompanyDetail>
                         width: ScreenUtil().setWidth(30),
                       ),
                       GestureDetector(
-                        onTap: _showWelfareInfo, child: Text('更多福利',
+                        onTap: (){
+                          _showWelfareInfo(_detailData);
+                        }, child: Text('更多福利',
                           style: TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: ScreenUtil().setSp(24),
@@ -784,7 +799,9 @@ class _CompanyDetailState extends State<CompanyDetail>
                     height: ScreenUtil().setWidth(30),
                   ),
                   GestureDetector(
-                    onTap: _showCompanyInfo,
+                    onTap: (){
+                      _showCompanyInfo(_detailData);
+                    },
                     behavior: HitTestBehavior.opaque,
                     child: Text('查看全部',
                         textAlign: TextAlign.end,

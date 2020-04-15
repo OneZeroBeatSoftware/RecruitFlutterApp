@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/entity/boss_job_detail_entity.dart';
+import 'package:recruit_app/model/boss_mine_model.dart';
 import 'package:recruit_app/pages/boss/company_job_candidate.dart';
+import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/common_page_body.dart';
 import 'package:recruit_app/style/profile_style.dart';
@@ -19,8 +22,9 @@ import 'package:recruit_app/pages/boss/company_work_address.dart';
 class CompanyPostRecruit extends StatefulWidget {
 
 	final bool isADDMode;
+	final String jobId;
 	
-	CompanyPostRecruit({this.isADDMode = true});
+	CompanyPostRecruit({this.isADDMode = true, this.jobId=''});
 	
 	@override
 	_State createState() {
@@ -29,8 +33,18 @@ class CompanyPostRecruit extends StatefulWidget {
 	}
 }
 
-
 class _State extends State<CompanyPostRecruit> {
+	bool _isLoad=false;
+	BossJobDetailData _detailData;
+
+	@override
+  void initState() {
+    // TODO: implement initState
+		_isLoad=(widget.jobId!=null&&widget.jobId.isNotEmpty);
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((callback){_getResumeDetail(widget.jobId);});
+  }
+
 	@override
 	Widget build(BuildContext context) {
 		// TODO: implement build
@@ -80,152 +94,152 @@ class _State extends State<CompanyPostRecruit> {
 			   
 			   ),
 		   ),
-		   body: CommonPageBody(
-			   children: <Widget>[
-				   ProfileItem(title: "求职期望",
-					  value: '平面设计师',
-					  onClick: () {
-						  Navigator.push(
-							 context,
-							 MaterialPageRoute(
-								builder: (context) => JobType()
+		   body: _isLoad?Center(heightFactor: 20,child: CupertinoActivityIndicator(),):CommonPageBody(
+				 children: <Widget>[
+					 ProfileItem(title: "求职期望",
+							 value: '平面设计师',
+							 onClick: () {
+								 Navigator.push(
+										 context,
+										 MaterialPageRoute(
+												 builder: (context) => JobType()
+										 )
+								 );
+							 }),
+					 ProfileItem(title: "职业类型",
+							 value: '广告/设计',
+							 onClick: () {
+								 Navigator.push(
+										 context,
+										 MaterialPageRoute(
+												 builder: (context) => IndustryType()
+										 )
+								 );
+							 }
+					 ),
+					 Column(
+						 crossAxisAlignment: CrossAxisAlignment.start,
+						 children: <Widget>[
+							 Text('岗位要求', style: ProfileStyle.titleStyle),
+							 SizedBox(height: ScreenUtil().setHeight(40)),
+							 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+								 crossAxisAlignment: CrossAxisAlignment.center,
+								 children: <Widget>[
+									 Item10(title: '工作经验', value: '3-5年', onClick: () {
+										 chooseWorkExperience();
+									 },),
+									 VDivider(),
+									 Item10(title: '最低学历', value: '本科', onClick: () {
+
+										 showCupertinoModalPopup(
+											 context: context,
+											 builder: (context) {
+												 return CraftPicker(
+													 confirm: (selPos) {
+														 Navigator.pop(context);
+													 },
+													 title: '薪资范围',
+													 pickList: <String>['高中', '本科'],
+													 selIdx: 0,
+												 );
+											 },
+										 );
+									 },),
+									 VDivider(),
+									 Item10(title: '薪资范围', value: '8-10k', onClick: () {
+										 setupSalary();
+									 },),
+								 ],
+							 ),
+
+						 ],
+					 ),
+					 ProfileStyle.divider,
+					 ProfileItem(title: "岗位描述",
+							 value: '负责公司的日常平面设计及公司设计项目1',
+							 onClick: () {
+								 Navigator.push(
+										 context,
+										 MaterialPageRoute(
+												 builder: (context) => JobDescribe()
+										 )
+								 );
+							 }
+					 ),
+					 ProfileItem(title: "岗位关键字",
+							 value: '设计',
+							 onClick: () {
+								 Navigator.push(
+										 context,
+										 MaterialPageRoute(
+												 builder: (context) => CompanyJobKeyword()
+										 )
+								 );
+							 }
+					 ),
+					 ProfileItem(title: "工作地点",
+							 value: '福建福州市仓山区',
+							 onClick: () {
+								 Navigator.push(
+										 context,
+										 MaterialPageRoute(
+												 builder: (context) => CompanyWorkAddress()
+										 )
+								 );
+							 }
+					 ),
+					 Offstage(
+							 offstage: widget.isADDMode,
+							 child: Column(
+								 children: <Widget>[
+									 Item(
+										 '候选人', '', canClick: true,
+										 onClick: () {
+											 Navigator.push(
+													 context,
+													 MaterialPageRoute(
+															 builder: (context) => CompanyJobCandidate()
+													 )
+											 );
+										 },
+										 tailValue: '1/10',
+										 topPadding: 3,
+									 ),
+									 ProfileStyle.divider,
+								 ],
 							 )
-						  );
-					  }),
-				   ProfileItem(title: "职业类型",
-					  value: '广告/设计',
-					  onClick: () {
-						  Navigator.push(
-							 context,
-							 MaterialPageRoute(
-								builder: (context) => IndustryType()
-							 )
-						  );
-					  }
-				   ),
-					Column(
-						crossAxisAlignment: CrossAxisAlignment.start,
-						children: <Widget>[
-							Text('岗位要求', style: ProfileStyle.titleStyle),
-							SizedBox(height: ScreenUtil().setHeight(40)),
-							Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-								crossAxisAlignment: CrossAxisAlignment.center,
-								children: <Widget>[
-									Item10(title: '工作经验', value: '3-5年', onClick: () {
-										chooseWorkExperience();
-									},),
-									VDivider(),
-									Item10(title: '最低学历', value: '本科', onClick: () {
-										
-										showCupertinoModalPopup(
-											context: context,
-											builder: (context) {
-												return CraftPicker(
-													confirm: (selPos) {
-														Navigator.pop(context);
-													},
-													title: '薪资范围',
-													pickList: <String>['高中', '本科'],
-													selIdx: 0,
-												);
-											},
-										);
-									},),
-									VDivider(),
-									Item10(title: '薪资范围', value: '8-10k', onClick: () {
-										setupSalary();
-									},),
-								],
-							),
-							
-						],
-					),
-				   ProfileStyle.divider,
-				   ProfileItem(title: "岗位描述",
-					  value: '负责公司的日常平面设计及公司设计项目1',
-					  onClick: () {
-						  Navigator.push(
-							 context,
-							 MaterialPageRoute(
-								builder: (context) => JobDescribe()
-							 )
-						  );
-					  }
-				   ),
-				   ProfileItem(title: "岗位关键字",
-					  value: '设计',
-					  onClick: () {
-						  Navigator.push(
-							 context,
-							 MaterialPageRoute(
-								builder: (context) => CompanyJobKeyword()
-							 )
-						  );
-					  }
-				   ),
-				   ProfileItem(title: "工作地点",
-					  value: '福建福州市仓山区',
-					  onClick: () {
-						  Navigator.push(
-							 context,
-							 MaterialPageRoute(
-								builder: (context) => CompanyWorkAddress()
-							 )
-						  );
-					  }
-				   ),
-				   Offstage(
-					   offstage: widget.isADDMode,
-					   child: Column(
-						   children: <Widget>[
-							   Item(
-								   '候选人', '', canClick: true,
-								   onClick: () {
-									   Navigator.push(
-									      context,
-									      MaterialPageRoute(
-										     builder: (context) => CompanyJobCandidate()
-									      )
-									   );
-								   },
-								   tailValue: '1/10',
-								   topPadding: 3,
-							   ),
-							   ProfileStyle.divider,
-						   ],
-					   )
-				   ),
-				   
-				   Container(
-					   margin: EdgeInsets.only(
-					      top: ScreenUtil().setHeight(40),
-					      bottom: ScreenUtil().setHeight(82)
-					   ),
-					   height: ScreenUtil().setHeight(72),
-					   width: ScreenUtil().setWidth(652),
-					   child: RaisedButton(
-						   color: Color.fromRGBO(255,255,255,1),
-						   child: Text(widget.isADDMode ? '修改' : '保存',
-						      style: TextStyle(
-							     color: Color.fromRGBO(159,199,235,1),
-							     fontSize: ScreenUtil().setSp(32),
-							     fontWeight: FontWeight.w300
-						      )
-						   ),
-						   onPressed: () {
-						   },
-						   shape: RoundedRectangleBorder(
-						      borderRadius: BorderRadius.all(Radius.circular(20)),
-						      side: BorderSide(
-							     color: Color.fromRGBO(159,199,235,1),
-							     style: BorderStyle.solid,
-							     width: ScreenUtil().setWidth(2)
-						      )
-						   ),
-					   ),
-				   )
-			   ],
-		   )
+					 ),
+
+					 Container(
+						 margin: EdgeInsets.only(
+								 top: ScreenUtil().setHeight(40),
+								 bottom: ScreenUtil().setHeight(82)
+						 ),
+						 height: ScreenUtil().setHeight(72),
+						 width: ScreenUtil().setWidth(652),
+						 child: RaisedButton(
+							 color: Color.fromRGBO(255,255,255,1),
+							 child: Text(widget.isADDMode ? '修改' : '保存',
+									 style: TextStyle(
+											 color: Color.fromRGBO(159,199,235,1),
+											 fontSize: ScreenUtil().setSp(32),
+											 fontWeight: FontWeight.w300
+									 )
+							 ),
+							 onPressed: () {
+							 },
+							 shape: RoundedRectangleBorder(
+									 borderRadius: BorderRadius.all(Radius.circular(20)),
+									 side: BorderSide(
+											 color: Color.fromRGBO(159,199,235,1),
+											 style: BorderStyle.solid,
+											 width: ScreenUtil().setWidth(2)
+									 )
+							 ),
+						 ),
+					 )
+				 ],
+			 ),
 		);
 	}
 	
@@ -247,6 +261,23 @@ class _State extends State<CompanyPostRecruit> {
 		   MaterialPageRoute(
 			  builder: (context) => CompanyJobSalary())
 		);
+	}
+
+	/// 获取岗位详情
+	_getResumeDetail(String id){
+		BossMineModel.instance.getJobDetail(context, id).then((detail){
+			if(detail!=null){
+				setState(() {
+					_isLoad=false;
+					_detailData=detail;
+				});
+			} else {
+				Utils.showToast('岗位详情有误，请重试！');
+				setState(() {
+					_isLoad=false;
+				});
+			}
+		});
 	}
 }
 
@@ -306,5 +337,4 @@ class Item10 extends StatelessWidget {
 	    ),
     );
   }
-	
 }

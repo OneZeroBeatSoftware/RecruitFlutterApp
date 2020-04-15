@@ -42,8 +42,8 @@ class CompanyModel with ChangeNotifier {
   }
 
   /// 求职者获取公司详情
-  Future<CompanyDetailEntity> getCompanyDetail(BuildContext context,String jobId) async {
-    CompanyDetailEntity companyDetailEntity = await NetUtils.getCompanyDetail(context, jobId);
+  Future<CompanyDetailEntity> getCompanyDetail(BuildContext context,String companyId) async {
+    CompanyDetailEntity companyDetailEntity = await NetUtils.getCompanyDetail(context, companyId);
     if (companyDetailEntity.statusCode ==200) {
       return companyDetailEntity;
     }

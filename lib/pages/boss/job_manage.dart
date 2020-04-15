@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:recruit_app/application.dart';
+import 'package:recruit_app/model/boss_mine_model.dart';
 import 'package:recruit_app/model/job_manage_list.dart';
 import 'package:recruit_app/pages/boss/job_manage_item.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,7 +18,15 @@ class JobManage extends StatefulWidget {
 }
 
 class _JobManageState extends State<JobManage> {
-  List<JobManageData> _jobList = JobManageList.loadJobList();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((callback){
+      _getJobList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,28 +68,35 @@ class _JobManageState extends State<JobManage> {
             Expanded(
               child: ListView.builder(
                 itemBuilder: (context, index) {
-                  if (index < _jobList.length) {
+                  if (index < BossMineModel.instance.jobList.length) {
                     return GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         child: JobManageItem(
-                            jobManageData: _jobList[index],
+                            jobManageData:  BossMineModel.instance.jobList[index],
                             index: index),
                         onTap: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => CompanyPostRecruit(isADDMode: false),
+                                builder: (context) => CompanyPostRecruit(isADDMode: false,jobId: BossMineModel.instance.jobList[index].id,),
                               ));
                         });
                   }
                   return null;
                 },
-                itemCount: _jobList.length,
+                itemCount:  BossMineModel.instance.jobList.length,
                 shrinkWrap: true,
                 physics: const BouncingScrollPhysics(),
               ),
             ),
           ],
         ));
+  }
+
+  /// 获取岗位列表
+  _getJobList() {
+    BossMineModel.instance.getJobList(context, Application.sp.getString('recruiterId')).then((model){
+      setState(() {});
+    });
   }
 }

@@ -4,10 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class CompanyWelfareDialog extends Dialog {
   final Function() cancel;
   final List<WelfareData> welfareList;
+  final String startTime;
+  final String endTime;
 
   CompanyWelfareDialog(
-    this.welfareList, {
-    @required this.cancel,
+    this.welfareList,{
+    @required this.cancel, this.startTime='', this.endTime=''
   });
 
   @override
@@ -110,7 +112,7 @@ class CompanyWelfareDialog extends Dialog {
                             height: ScreenUtil().setWidth(25),
                           ),
                           Text(
-                            'AM 09:00 - PM 06:00',
+                            '$startTime - $endTime',
                             style: TextStyle(
                               color: Color.fromRGBO(95, 94, 94, 1),
                               fontSize: ScreenUtil().setSp(32),

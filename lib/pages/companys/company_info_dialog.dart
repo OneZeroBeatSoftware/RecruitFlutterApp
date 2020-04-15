@@ -1,10 +1,13 @@
+import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/entity/company_detail_entity.dart';
 
 class CompanyInfoDialog extends Dialog {
+  final CompanyDetailData detailData;
   final Function() cancel;
 
-  CompanyInfoDialog({
+  CompanyInfoDialog(this.detailData, {
     @required this.cancel,
   });
 
@@ -80,7 +83,7 @@ class CompanyInfoDialog extends Dialog {
                             height: ScreenUtil().setWidth(44),
                           ),
                           Text(
-                            '福建艾乐科技有限公司',
+                            '${detailData.company.companyName}',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -101,16 +104,16 @@ class CompanyInfoDialog extends Dialog {
                             physics: BouncingScrollPhysics(),
                             shrinkWrap: true,
                             children: <Widget>[
-                              CompanyInfoItem(type: '企业法人　　', content: '小明同学'),
-                              CompanyInfoItem(type: '注册资金　　', content: '100亿美金'),
+                              CompanyInfoItem(type: '企业法人　　', content: '${detailData.company.legalPerson}'),
+                              CompanyInfoItem(type: '注册资金　　', content: '${detailData.company.registerCapital}'),
                               CompanyInfoItem(
-                                  type: '注册时间　　', content: '2020-01-01'),
+                                  type: '注册时间　　', content: '${DateUtil.formatDateMs(detailData.company.registerDate,format: 'yyyy-MM-dd')}'),
                               CompanyInfoItem(
-                                  type: '经营状态　　', content: '存续（在营业、开业、在册）'),
+                                  type: '经营状态　　', content: '${detailData.company.operateState}'),
                               CompanyInfoItem(
-                                  type: '注册地址　　', content: '美国洛杉矶唐人街2020号0118室'),
+                                  type: '注册地址　　', content: '${detailData.company.registerAddress}'),
                               CompanyInfoItem(
-                                  type: '统一信用代码', content: '123456789ABCDEFG'),
+                                  type: '统一信用代码', content: '${detailData.company.unifiedCreditCode}'),
                               CompanyInfoItem(
                                   type: '经营范围　　',
                                   content:

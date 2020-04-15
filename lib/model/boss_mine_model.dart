@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:recruit_app/entity/base_resp_entity.dart';
 import 'package:recruit_app/entity/boss_apply_list_entity.dart';
 import 'package:recruit_app/entity/boss_info_entity.dart';
+import 'package:recruit_app/entity/boss_job_detail_entity.dart';
+import 'package:recruit_app/entity/boss_job_manage_entity.dart';
 import 'package:recruit_app/entity/main_resume_list_entity.dart';
 import 'package:recruit_app/utils/net_utils.dart';
 import 'package:recruit_app/utils/utils.dart';
@@ -132,6 +134,39 @@ class BossMineModel{
       return baseRespEntity;
     }
     Utils.showToast(baseRespEntity.msg ?? '删除失败，请重新尝试');
+    return null;
+  }
+
+  List<BossJobManageData> _jobList=[];
+  List<BossJobManageData> get jobList => _jobList;
+  /// 获取招聘者发布的所有岗位
+  Future<BossMineModel> getJobList(BuildContext context,
+      String recruiterId) async {
+    BossJobManageEntity jobEntity = await NetUtils.getRecruiterJobs(
+        context, recruiterId);
+    if (jobEntity != null || jobEntity.statusCode == 200) {
+      _jobList.clear();
+      if (jobEntity.data.length <= 0) {
+        Utils.showToast('您还没有发布岗位哦！');
+        return null;
+      }
+      _jobList.addAll(jobEntity.data);
+      return this;
+    }
+    _jobList.clear();
+    Utils.showToast(jobEntity.msg ?? '获取失败，请重新尝试');
+    return null;
+  }
+
+  /// 获取招聘者发布的岗位详情
+  Future<BossJobDetailData> getJobDetail(BuildContext context,
+      String jobId) async {
+    BossJobDetailEntity jobEntity = await NetUtils.getRecruiterJobDetail(
+        context, jobId);
+    if (jobEntity != null || jobEntity.statusCode == 200) {
+      return jobEntity.data;
+    }
+    Utils.showToast(jobEntity.msg ?? '获取失败，请重新尝试');
     return null;
   }
 }

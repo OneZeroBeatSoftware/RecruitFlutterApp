@@ -1,6 +1,10 @@
+import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:recruit_app/entity/company_detail_entity.dart';
+import 'package:recruit_app/model/company_model.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/profile_divider.dart';
 import 'package:recruit_app/pages/boss/company_introduction.dart';
@@ -14,6 +18,10 @@ import 'package:recruit_app/pages/boss/company_business_scope.dart';
 import 'package:recruit_app/widgets/menu_list_dialog.dart';
 
 class CompanyInfo extends StatefulWidget {
+  final String companyId;
+
+  const CompanyInfo({Key key, this.companyId=''}) : super(key: key);
+
   @override
   _CompanyInfoState createState() {
     // TODO: implement createState
@@ -23,6 +31,38 @@ class CompanyInfo extends StatefulWidget {
 
 class _CompanyInfoState extends State<CompanyInfo> {
 //  List<CompanyAttr> _attrList = CompanyAttrList.loadAttrs();
+  CompanyModel _companyModel;
+
+  /// 公司数据
+  CompanyDetailData _detailData;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((callback){
+      _companyModel=Provider.of<CompanyModel>(context);
+      if(widget.companyId!=null&&widget.companyId.isNotEmpty){
+        getCompanyDetail(widget.companyId);
+      }
+    });
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  /// 获取公司详情
+  void getCompanyDetail(String companyId) async {
+    CompanyDetailEntity companyDetailEntity = await _companyModel.getCompanyDetail(
+        context, companyId);
+    if (companyDetailEntity.data != null) {
+      setState(() {
+        _detailData = companyDetailEntity.data;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +97,7 @@ class _CompanyInfoState extends State<CompanyInfo> {
       ),
       body: SafeArea(
         top: false,
-        child: Column(
+        child: _detailData==null?Center(heightFactor: 20,child: CupertinoActivityIndicator(),):Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
@@ -80,7 +120,7 @@ class _CompanyInfoState extends State<CompanyInfo> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                             Row(children: <Widget>[
-                              Text('一零跳动软件111111',
+                              Text('${_detailData.company.companyName}',
                                  maxLines: 1,
                                  overflow: TextOverflow.ellipsis,
                                  style: TextStyle(
@@ -101,7 +141,7 @@ class _CompanyInfoState extends State<CompanyInfo> {
                               ),
                             ],),
                             SizedBox(height: ScreenUtil().setHeight(20)),
-                            Text("已上线 1000人以上 o2o",
+                            Text('${_detailData.company.operateState} ${_detailData.scale} ${_detailData.company.scope}',
                                style: TextStyle(color: Color.fromRGBO(100,100,100,1),
                                   fontSize: ScreenUtil().setSp(28),
                                   fontWeight: FontWeight.w300,
@@ -139,7 +179,7 @@ class _CompanyInfoState extends State<CompanyInfo> {
                       ),
                       SizedBox(height: ScreenUtil().setSp(40)),
                       Text(
-                         '公司LOGO是构成完整的品牌概念的要素，完善后有利于品牌建设。公司LOGO是构成完整的品牌概念的要素，完善后有利于品牌建设公司LOGO是构成完整的品牌概念的要素，完善后有利于品牌建设公司LOGO是构成完整的品牌概念的要素，完善后有利于品牌建设公司LOGO是构成完整的品牌概念的要素，完善后有利于品牌建设',
+                          '${_detailData.company.companySummary}',
                           overflow: TextOverflow.ellipsis,
                           maxLines: 3,
                           style: TextStyle(
@@ -152,7 +192,7 @@ class _CompanyInfoState extends State<CompanyInfo> {
                       SizedBox(
                         height: ScreenUtil().setHeight(40),
                       ),
-                      Item("公司地址", "福建省福州市仓山区博艺堂", canClick: true),
+                      Item("公司地址", '${_detailData.company.registerAddress}', canClick: true),
                       Container(
                         margin: EdgeInsets.only(top: ScreenUtil().setHeight(30)),
                         alignment: Alignment.center,
@@ -171,7 +211,7 @@ class _CompanyInfoState extends State<CompanyInfo> {
                       Container(margin: EdgeInsets.only(top: ScreenUtil().setHeight(40)),
                          color: Color.fromRGBO(159,199,235,1),
                          constraints: BoxConstraints.expand(height: ScreenUtil().setHeight(1))),
-                      Item("工作时间", "AM 09:00 -m 06:00",
+                      Item("工作时间", "${_detailData.company.startDate} - ${_detailData.company.endDate}",
                          canClick: true,
                          onClick: () {
                             Navigator.push(context, MaterialPageRoute(
@@ -191,29 +231,30 @@ class _CompanyInfoState extends State<CompanyInfo> {
                           ));
                         },
                       ),
-                      Item2("定期体检", "阶段性职业健康检查"),
-                      Item2("加班补助", "正常工作时间之外的工资报酬"),
-                      Item2("年终奖金", "年末给予员工奖励"),
+                      ListView(children: _detailData.welfare.map((item){
+                        return Item2(item.welfareName,item.content);
+                      }).toList(),shrinkWrap: true,padding: EdgeInsets.all(0),),
                       ProfileDivider(),
                       
                       Item("公司注册信息", ""),
-                      Item2("企业法人", "小茗同学", canClick: true, onClick: () {
+                      Item2("企业法人", '${_detailData.company.legalPerson}', canClick: true, onClick: () {
                         Navigator.push(context, MaterialPageRoute(
                           builder: (context)=> CompanyLegalPerson()
                         ));
                       }),
-                      Item2("注册资金", "100亿美金", canClick: true, onClick: () {
+                      Item2("注册资金", '${_detailData.company.registerCapital}', canClick: true, onClick: () {
                         Navigator.push(context, MaterialPageRoute(
                            builder: (context)=> CompanyRegisterCapital()
                         ));
                       }),
-                      Item2("注册时间", "2020-01-01", canClick: true, onClick: () {
+                      Item2("注册时间", '${DateUtil.formatDateMs(
+                          _detailData.company.registerDate, format: "yyyy-MM-dd")}', canClick: true, onClick: () {
                         print("object3");
                       }),
-                      Item2("经营状态", "存续（在营业、开业、在册）", canClick: true, onClick: () {
+                      Item2("经营状态", '${_detailData.company.operateState}', canClick: true, onClick: () {
                         chooseCompanyStatus();
                       }),
-                      Item2("统一信用代码", "189887D9ADD12ND23", canClick: true, onClick: () {
+                      Item2("统一信用代码", '${_detailData.company.unifiedCreditCode}', canClick: true, onClick: () {
                         Navigator.push(context, MaterialPageRoute(
                            builder: (context)=> CompanyUnifiedCreditCode()
                         ));
@@ -346,13 +387,13 @@ class Item2 extends StatelessWidget {
   final String value;
   final bool canClick;
   final VoidCallback onClick;
-  
+
   Item2(this.title, this.value, {this.canClick = false, this.onClick});
-  
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    
+
     List<Widget> titleW = <Widget>[];
     titleW.add(Text(this.title,
       style: TextStyle(

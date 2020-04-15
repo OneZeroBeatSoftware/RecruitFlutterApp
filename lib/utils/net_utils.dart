@@ -11,6 +11,8 @@ import 'package:recruit_app/entity/base_resp_entity.dart';
 import 'package:recruit_app/entity/black_list_entity.dart';
 import 'package:recruit_app/entity/boss_apply_list_entity.dart';
 import 'package:recruit_app/entity/boss_info_entity.dart';
+import 'package:recruit_app/entity/boss_job_detail_entity.dart';
+import 'package:recruit_app/entity/boss_job_manage_entity.dart';
 import 'package:recruit_app/entity/city_entity.dart';
 import 'package:recruit_app/entity/company_detail_entity.dart';
 import 'package:recruit_app/entity/company_job_entity.dart';
@@ -687,5 +689,17 @@ class NetUtils {
     var response = await _post(
         context, '/recruiter/starSeeker', params: params);
     return BaseRespEntity().fromJson(response.data);
+  }
+
+  /// 获取一个招聘者发布的所有招聘信息
+  static Future<BossJobManageEntity> getRecruiterJobs(BuildContext context, String id) async {
+    var response = await _get(context, '/job/recruiter/$id',);
+    return BossJobManageEntity().fromJson(response.data);
+  }
+
+  /// 招聘者获取发布的岗位详情
+  static Future<BossJobDetailEntity> getRecruiterJobDetail(BuildContext context, String id) async {
+    var response = await _get(context, '/job/details/$id',);
+    return BossJobDetailEntity().fromJson(response.data);
   }
 }

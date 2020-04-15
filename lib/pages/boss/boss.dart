@@ -314,10 +314,17 @@ class _BossMineState extends State<BossMine> {
                      ),
                      onTap: () {
                        if (index == 0) {
+                         if(_mineInfoData==null) {
+                           Navigator.push(
+                               context,
+                               MaterialPageRoute(
+                                   builder: (context) => CompanyInfo()));
+                           return;
+                         }
                          Navigator.push(
                              context,
                              MaterialPageRoute(
-                                 builder: (context) => CompanyInfo()));
+                                 builder: (context) => CompanyInfo(companyId:_mineInfoData.recruiter.companyId)));
                        } else if (index == 1) {
                          Navigator.push(
                              context,
