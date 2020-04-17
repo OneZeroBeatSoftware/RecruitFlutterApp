@@ -13,7 +13,7 @@
 	<key>CFBundleName</key>
 	<string>JobPin</string>
 	<key>CFBundleDisplayName</key>
-    <string>JobPin</string>
+	<string>JobPin</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -28,6 +28,12 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>快速选择相册照片，用于交流，反馈。</string>
+	<key>NSCameraUsageDescription</key>
+	<string>使用照相机拍照，用于交流，反馈。</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>开启麦克风，便于语音交流。</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
