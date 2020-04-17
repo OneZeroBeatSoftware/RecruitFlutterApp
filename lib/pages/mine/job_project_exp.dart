@@ -2,12 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/entity/filter_data.dart';
+import 'package:recruit_app/entity/resume_detail_entity.dart';
 import 'package:recruit_app/pages/mine/industry_type.dart';
+import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/craft_date_picker.dart';
 import 'package:recruit_app/widgets/remind_dialog.dart';
 
 class JobProjectExp extends StatefulWidget {
+  final int index;
+  final ResumeDetailDataProjectExperience detailData;
+
+  const JobProjectExp({Key key, this.index=-1, this.detailData}) : super(key: key);
   @override
   _JobProjectExpState createState() {
     // TODO: implement createState
@@ -28,11 +34,22 @@ class _JobProjectExpState extends State<JobProjectExp> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _projectController = TextEditingController();
-    _contentController = TextEditingController();
 
-    _starDate = DateTime.now();
-    _endDate = DateTime.now();
+    if(widget.detailData!=null){
+      _projectController = TextEditingController(text: widget.detailData.projectName);
+      _contentController = TextEditingController(text: widget.detailData.projectContent);
+
+      _industryId=widget.detailData.position;
+
+      _starDate = DateTime.fromMillisecondsSinceEpoch(widget.detailData.startDate);
+      _endDate = DateTime.fromMillisecondsSinceEpoch(widget.detailData.endDate);
+    } else {
+      _projectController = TextEditingController();
+      _contentController = TextEditingController();
+
+      _starDate = DateTime.now();
+      _endDate = DateTime.now();
+    }
   }
 
   @override
@@ -79,6 +96,18 @@ class _JobProjectExpState extends State<JobProjectExp> {
         rightAction: GestureDetector(
           onTap: () {
             FocusScope.of(context).requestFocus(FocusNode());
+            if(_projectController.text.isEmpty){
+              Utils.showToast('请填写项目名称');
+              return;
+            }
+            if(null==_industryId||_industryId.isEmpty){
+              Utils.showToast('请选择所属行业');
+              return;
+            }
+            if(_contentController.text.isEmpty){
+              Utils.showToast('请填写工作内容');
+              return;
+            }
           },
           behavior: HitTestBehavior.opaque,
           child: Padding(

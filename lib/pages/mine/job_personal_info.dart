@@ -1,8 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/entity/edu_level_entity.dart';
 import 'package:recruit_app/entity/filter_data.dart';
+import 'package:recruit_app/entity/resume_detail_entity.dart';
 import 'package:recruit_app/pages/jobs/city_filter.dart';
+import 'package:recruit_app/utils/net_utils.dart';
+import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/craft_date_picker.dart';
 import 'package:recruit_app/widgets/craft_picker.dart';
@@ -10,6 +14,9 @@ import 'package:recruit_app/widgets/craft_sex_picker.dart';
 import 'package:recruit_app/widgets/remind_dialog.dart';
 
 class PersonalInfo extends StatefulWidget {
+  final ResumeDetailDataResume detailData;
+
+  const PersonalInfo({Key key, this.detailData}) : super(key: key);
   @override
   _PersonalInfoState createState() {
     // TODO: implement createState
@@ -19,11 +26,12 @@ class PersonalInfo extends StatefulWidget {
 
 class _PersonalInfoState extends State<PersonalInfo> {
   TextEditingController _nameController;
-  List<String> _eduLevelList = [];
-  String _selSex = '请选择性别';
+  List<EduLevelData> _eduLevelList = [];
+  String _selSex;
   String _cityId='';
   String _selCity = '请选择现居住所在地';
   String _eduLevel = '请选择';
+  String _eduId = '请选择';
   int _eduPos = 0;
   DateTime _birthDate;
   DateTime _graduateDate;
@@ -33,17 +41,26 @@ class _PersonalInfoState extends State<PersonalInfo> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _eduLevelList.add('高中');
-    _eduLevelList.add('中专');
-    _eduLevelList.add('大专');
-    _eduLevelList.add('大学');
-    _eduLevelList.add('研究生');
+    WidgetsBinding.instance.addPostFrameCallback((i) {
+      getEduLevel();
+    });
 
-    _nameController = TextEditingController(text: '狐说');
+    if(widget.detailData!=null){
+      _nameController = TextEditingController(text: widget.detailData.realName);
+      _selSex=(1==widget.detailData.sex)?"男":"女";
+      _selCity=widget.detailData.address;
+      _eduId=widget.detailData.education;
 
-    _birthDate=DateTime.now();
-    _graduateDate=DateTime.now();
-    _workDate=DateTime.now();
+      _birthDate = DateTime.fromMillisecondsSinceEpoch(widget.detailData.birthDate);
+      _graduateDate = DateTime.fromMillisecondsSinceEpoch(widget.detailData.graduationDate);
+      _workDate = DateTime.fromMillisecondsSinceEpoch(0);
+    } else {
+      _nameController = TextEditingController();
+
+      _birthDate=DateTime.now();
+      _graduateDate=DateTime.now();
+      _workDate=DateTime.now();
+    }
   }
 
   @override
@@ -90,6 +107,22 @@ class _PersonalInfoState extends State<PersonalInfo> {
         rightAction: GestureDetector(
           onTap: () {
             FocusScope.of(context).requestFocus(FocusNode());
+            if(_nameController.text.isEmpty){
+              Utils.showToast('请填写名字');
+              return;
+            }
+            if(null==_selSex||_selSex.isEmpty){
+              Utils.showToast('请选择性别');
+              return;
+            }
+            if(null==_cityId||_cityId.isEmpty){
+              Utils.showToast('请选择居住所在地');
+              return;
+            }
+            if(null==_eduId||_eduId.isEmpty){
+              Utils.showToast('请选择学历');
+              return;
+            }
           },
           behavior: HitTestBehavior.opaque,
           child: Padding(
@@ -258,7 +291,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                     child: Row(
                       children: <Widget>[
                         Expanded(
-                          child: Text('$_selSex',
+                          child: Text(_selSex??'请选择性别',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -491,11 +524,11 @@ class _PersonalInfoState extends State<PersonalInfo> {
                             Navigator.pop(context);
                             setState(() {
                               _eduPos = selPos;
-                              _eduLevel = _eduLevelList[selPos];
+                              _eduLevel = _eduLevelList[selPos].educationName;
                             });
                           },
                           title: '学历',
-                          pickList: _eduLevelList,
+                          pickList: _eduLevelList.map((item)=>item.educationName).toList(),
                           selIdx: _eduPos,
                         );
                       },
@@ -611,5 +644,16 @@ class _PersonalInfoState extends State<PersonalInfo> {
         ),
       ),
     );
+  }
+
+  /// 学历要求
+  void getEduLevel() async {
+    EduLevelEntity eduLevelEntity = await NetUtils.getEduLevel(context);
+    if(eduLevelEntity.statusCode==200&&eduLevelEntity.data!=null){
+      _eduLevelList.clear();
+      _eduLevelList.addAll(eduLevelEntity.data);
+      setState(() {
+      });
+    }
   }
 }

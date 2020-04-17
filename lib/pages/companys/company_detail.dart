@@ -8,21 +8,26 @@ import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:recruit_app/entity/base_resp_entity.dart';
 import 'package:recruit_app/entity/company_detail_entity.dart';
 import 'package:recruit_app/entity/company_job_entity.dart';
 import 'package:recruit_app/model/company_model.dart';
 import 'package:recruit_app/model/company_pic_list.dart';
+import 'package:recruit_app/model/mine_model.dart';
 import 'package:recruit_app/pages/companys/company_info_dialog.dart';
 import 'package:recruit_app/pages/companys/company_job_item.dart';
 import 'package:recruit_app/pages/companys/company_pic_item.dart';
 import 'package:recruit_app/pages/companys/company_welfare_dialog.dart';
 import 'package:recruit_app/pages/companys/company_welfare_item.dart';
 import 'package:recruit_app/pages/jobs/job_detail.dart';
+import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/list_menu_dialog.dart';
 import 'package:recruit_app/pages/jobs/report.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/remind_column_dialog.dart';
 import 'package:recruit_app/widgets/remind_dialog.dart';
+
+import '../../application.dart';
 
 class CompanyDetail extends StatefulWidget {
   final String companyId;
@@ -941,6 +946,18 @@ class _CompanyDetailState extends State<CompanyDetail>
         context, companyId,_pageIndex,15,0);
     if (jobEntity != null && jobEntity.data.records.length > 0) {
       _pageIndex++;
+    }
+  }
+
+  /// 收藏夹操作
+  _operateStar(String id,String starId, int index) async {
+    BaseRespEntity _baseEntity = await MineModel.instance.starCompanyJob(
+        context, false, id,Application.sp.getString('jobSeekerId'),starId:(_isFocus?starId:''));
+    if (_baseEntity != null) {
+      Utils.showToast(_baseEntity.msg ?? (_isFocus?'取消关注':'已关注'));
+      setState(() {
+        _isFocus=!_isFocus;
+      });
     }
   }
 }

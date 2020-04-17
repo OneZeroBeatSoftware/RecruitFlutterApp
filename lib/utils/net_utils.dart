@@ -604,6 +604,7 @@ class NetUtils {
     params["position"]=position;
     params["minSalary"]=minSalary;
     params["maxSalary"]=maxSalary;
+    params["state"]="1";
 
     var response = await _post(context, '/jobSeeker/JobIntention/save',params: params);
     return BaseRespEntity().fromJson(response.data);

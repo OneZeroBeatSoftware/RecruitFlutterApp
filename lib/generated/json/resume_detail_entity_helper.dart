@@ -27,6 +27,24 @@ resumeDetailDataFromJson(ResumeDetailData data, Map<String, dynamic> json) {
 	if (json['resume'] != null) {
 		data.resume = new ResumeDetailDataResume().fromJson(json['resume']);
 	}
+	if (json['age'] != null) {
+		data.age = json['age']?.toString();
+	}
+	if (json['education'] != null) {
+		data.education = json['education']?.toString();
+	}
+	if (json['workDate'] != null) {
+		data.workDate = json['workDate']?.toString();
+	}
+	if (json['certificates'] != null) {
+		data.certificates = new List<ResumeDetailDataCertificate>();
+		(json['certificates'] as List).forEach((v) {
+			data.certificates.add(new ResumeDetailDataCertificate().fromJson(v));
+		});
+	}
+	if (json['socialHomepage'] != null) {
+		data.socialHomepage = json['socialHomepage']?.map((v) => v?.toString())?.toList()?.cast<String>();
+	}
 	if (json['workExperience'] != null) {
 		data.workExperience = new List<ResumeDetailDataWorkExperience>();
 		(json['workExperience'] as List).forEach((v) {
@@ -53,6 +71,13 @@ Map<String, dynamic> resumeDetailDataToJson(ResumeDetailData entity) {
 	if (entity.resume != null) {
 		data['resume'] = entity.resume.toJson();
 	}
+	data['age'] = entity.age;
+	data['education'] = entity.education;
+	data['workDate'] = entity.workDate;
+	if (entity.certificates != null) {
+		data['certificates'] =  entity.certificates.map((v) => v.toJson()).toList();
+	}
+	data['socialHomepage'] = entity.socialHomepage;
 	if (entity.workExperience != null) {
 		data['workExperience'] =  entity.workExperience.map((v) => v.toJson()).toList();
 	}
@@ -91,7 +116,7 @@ resumeDetailDataResumeFromJson(ResumeDetailDataResume data, Map<String, dynamic>
 		data.graduationDate = json['graduationDate']?.toInt();
 	}
 	if (json['education'] != null) {
-		data.education = json['education']?.toInt();
+		data.education = json['education']?.toString();
 	}
 	if (json['workDate'] != null) {
 		data.workDate = json['workDate']?.toString();
@@ -117,6 +142,9 @@ resumeDetailDataResumeFromJson(ResumeDetailDataResume data, Map<String, dynamic>
 	if (json['state'] != null) {
 		data.state = json['state']?.toInt();
 	}
+	if (json['socialHomepage'] != null) {
+		data.socialHomepage = json['socialHomepage']?.toString();
+	}
 	return data;
 }
 
@@ -138,6 +166,32 @@ Map<String, dynamic> resumeDetailDataResumeToJson(ResumeDetailDataResume entity)
 	data['projectExperienceId'] = entity.projectExperienceId;
 	data['educationExperienceId'] = entity.educationExperienceId;
 	data['defaultResume'] = entity.defaultResume;
+	data['state'] = entity.state;
+	data['socialHomepage'] = entity.socialHomepage;
+	return data;
+}
+
+resumeDetailDataCertificateFromJson(ResumeDetailDataCertificate data, Map<String, dynamic> json) {
+	if (json['id'] != null) {
+		data.id = json['id']?.toString();
+	}
+	if (json['certificateName'] != null) {
+		data.certificateName = json['certificateName']?.toString();
+	}
+	if (json['resumeId'] != null) {
+		data.resumeId = json['resumeId']?.toString();
+	}
+	if (json['state'] != null) {
+		data.state = json['state']?.toInt();
+	}
+	return data;
+}
+
+Map<String, dynamic> resumeDetailDataCertificateToJson(ResumeDetailDataCertificate entity) {
+	final Map<String, dynamic> data = new Map<String, dynamic>();
+	data['id'] = entity.id;
+	data['certificateName'] = entity.certificateName;
+	data['resumeId'] = entity.resumeId;
 	data['state'] = entity.state;
 	return data;
 }
@@ -239,8 +293,8 @@ resumeDetailDataEducationExperienceFromJson(ResumeDetailDataEducationExperience 
 	if (json['resumeId'] != null) {
 		data.resumeId = json['resumeId']?.toString();
 	}
-	if (json['educationId'] != null) {
-		data.educationId = json['educationId']?.toString();
+	if (json['educationName'] != null) {
+		data.educationName = json['educationName']?.toString();
 	}
 	if (json['specialty'] != null) {
 		data.specialty = json['specialty']?.toString();
@@ -261,7 +315,7 @@ Map<String, dynamic> resumeDetailDataEducationExperienceToJson(ResumeDetailDataE
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	data['id'] = entity.id;
 	data['resumeId'] = entity.resumeId;
-	data['educationId'] = entity.educationId;
+	data['educationName'] = entity.educationName;
 	data['specialty'] = entity.specialty;
 	data['startDate'] = entity.startDate;
 	data['endDate'] = entity.endDate;

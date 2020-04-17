@@ -1,12 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/entity/edu_level_entity.dart';
+import 'package:recruit_app/entity/resume_detail_entity.dart';
+import 'package:recruit_app/utils/net_utils.dart';
+import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/craft_date_picker.dart';
 import 'package:recruit_app/widgets/craft_picker.dart';
 import 'package:recruit_app/widgets/remind_dialog.dart';
 
 class JobEduExp extends StatefulWidget {
+  final int index;
+  final ResumeDetailDataEducationExperience detailData;
+  const JobEduExp({Key key, this.detailData, this.index=-1}) : super(key: key);
+
   @override
   _JobEduExpState createState() {
     // TODO: implement createState
@@ -17,8 +25,9 @@ class JobEduExp extends StatefulWidget {
 class _JobEduExpState extends State<JobEduExp> {
   TextEditingController _schoolController;
   TextEditingController _proController;
-  List<String> _eduLevelList = [];
+  List<EduLevelData> _eduLevelList = [];
   String _eduLevel = '请选择';
+  String _eduId = '';
   int _eduPos = 0;
   DateTime _starDate;
   DateTime _endDate;
@@ -27,17 +36,24 @@ class _JobEduExpState extends State<JobEduExp> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _eduLevelList.add('高中');
-    _eduLevelList.add('中专');
-    _eduLevelList.add('大专');
-    _eduLevelList.add('大学');
-    _eduLevelList.add('研究生');
+    WidgetsBinding.instance.addPostFrameCallback((i) {
+        getEduLevel();
+    });
 
-    _schoolController = TextEditingController();
-    _proController = TextEditingController();
+    if(widget.detailData!=null){
+      _schoolController = TextEditingController();
+      _proController = TextEditingController(text: widget.detailData.specialty);
+      _eduLevel=widget.detailData.educationName;
 
-    _starDate = DateTime.now();
-    _endDate = DateTime.now();
+      _starDate = DateTime.fromMillisecondsSinceEpoch(widget.detailData.startDate);
+      _endDate = DateTime.fromMillisecondsSinceEpoch(widget.detailData.endDate);
+    } else {
+      _schoolController = TextEditingController();
+      _proController = TextEditingController();
+
+      _starDate = DateTime.now();
+      _endDate = DateTime.now();
+    }
   }
 
   @override
@@ -84,6 +100,18 @@ class _JobEduExpState extends State<JobEduExp> {
         rightAction: GestureDetector(
           onTap: () {
             FocusScope.of(context).requestFocus(FocusNode());
+            if(_schoolController.text.isEmpty){
+              Utils.showToast('请填写学校');
+              return;
+            }
+            if(null==_eduId||_eduId.isEmpty){
+              Utils.showToast('请选择学历');
+              return;
+            }
+            if(_proController.text.isEmpty){
+              Utils.showToast('请填写专业');
+              return;
+            }
           },
           behavior: HitTestBehavior.opaque,
           child: Padding(
@@ -187,11 +215,12 @@ class _JobEduExpState extends State<JobEduExp> {
                             Navigator.pop(context);
                             setState(() {
                               _eduPos = selPos;
-                              _eduLevel = _eduLevelList[selPos];
+                              _eduId = _eduLevelList[selPos].id;
+                              _eduLevel = _eduLevelList[selPos].educationName;
                             });
                           },
                           title: '学历',
-                          pickList: _eduLevelList,
+                          pickList: _eduLevelList.map((item)=>item.educationName).toList(),
                           selIdx: _eduPos,
                         );
                       },
@@ -423,5 +452,16 @@ class _JobEduExpState extends State<JobEduExp> {
         ),
       ),
     );
+  }
+
+  /// 学历要求
+  void getEduLevel() async {
+    EduLevelEntity eduLevelEntity = await NetUtils.getEduLevel(context);
+    if(eduLevelEntity.statusCode==200&&eduLevelEntity.data!=null){
+      _eduLevelList.clear();
+      _eduLevelList.addAll(eduLevelEntity.data);
+      setState(() {
+      });
+    }
   }
 }

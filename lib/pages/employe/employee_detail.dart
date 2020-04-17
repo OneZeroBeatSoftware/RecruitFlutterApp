@@ -1,9 +1,13 @@
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:recruit_app/application.dart';
+import 'package:recruit_app/entity/base_resp_entity.dart';
 import 'package:recruit_app/entity/main_resume_detail_entity.dart';
+import 'package:recruit_app/model/boss_mine_model.dart';
 import 'package:recruit_app/model/recruit_resume_model.dart';
 import 'package:recruit_app/pages/employe/boss_chat_room.dart';
+import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/widgets/list_menu_dialog.dart';
@@ -413,6 +417,18 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
         });
       }
     });
+  }
+
+  /// 收藏夹操作
+  _operateStar(String id,String starId, int index) async {
+    BaseRespEntity _baseEntity = await BossMineModel.instance.starSeeker(
+        context,id,Application.sp.getString('recruiterId'),starId:(_isCollected?starId:''));
+    if (_baseEntity != null) {
+      Utils.showToast(_baseEntity.msg ?? (_isCollected?'取消收藏':'已收藏'));
+      setState(() {
+        _isCollected=!_isCollected;
+      });
+    }
   }
 }
 

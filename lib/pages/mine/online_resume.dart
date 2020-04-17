@@ -9,6 +9,9 @@ import 'package:recruit_app/pages/mine/job_project_exp.dart';
 import 'package:recruit_app/pages/mine/job_work_exp.dart';
 import 'package:recruit_app/pages/mine/project_item.dart';
 import 'package:recruit_app/pages/mine/qualify_item.dart';
+import 'package:recruit_app/pages/mine/resume_certificates.dart';
+import 'package:recruit_app/pages/mine/resume_social_web.dart';
+import 'package:recruit_app/pages/mine/social_web_item.dart';
 import 'package:recruit_app/pages/mine/work_item.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
@@ -36,6 +39,9 @@ class _OnlineResumeState extends State<OnlineResume> {
   void initState() {
     // TODO: implement initState
     _detailData = ResumeDetailData()
+      ..workDate = ''
+      ..education = ''
+      ..age = ''
       ..resume = (ResumeDetailDataResume()
         ..id = ''
         ..maxSalary = "0"
@@ -47,7 +53,7 @@ class _OnlineResumeState extends State<OnlineResume> {
         ..address = ''
         ..state = 0
         ..workDate = ''
-        ..education = 0
+        ..education = ''
         ..birthDate = 0
         ..defaultResume = 0
         ..educationExperienceId = ''
@@ -56,7 +62,9 @@ class _OnlineResumeState extends State<OnlineResume> {
         ..workExperienceId = '')
       ..educationExperience = []
       ..projectExperience = []
-      ..workExperience = [];
+      ..workExperience = []
+      ..certificates = []
+      ..socialHomepage = [];
     _resumeNameController=TextEditingController(text: _detailData.resume.resumeName);
 
     _isLoad=widget.resumeId!=null&&widget.resumeId.isNotEmpty;
@@ -165,7 +173,12 @@ class _OnlineResumeState extends State<OnlineResume> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>PersonalInfo()));
+                                    FocusScope.of(context).requestFocus(FocusNode());
+                                    Navigator.push(context, MaterialPageRoute(
+                                        builder: (context) =>
+                                            PersonalInfo(
+                                              detailData: (widget.resumeId != null && widget.resumeId.isNotEmpty)?
+                                              _detailData.resume:null)));
                                   },
                                   behavior: HitTestBehavior.opaque,
                                   child: Image.asset(
@@ -181,7 +194,7 @@ class _OnlineResumeState extends State<OnlineResume> {
                               height: ScreenUtil().setWidth(12),
                             ),
                             Text(
-                              '5年经验•26岁•本科',
+                              '${_detailData.workDate}•${_detailData.age}•${_detailData.education}',
                               style: TextStyle(
                                 wordSpacing: 1,
                                 letterSpacing: 1,
@@ -323,320 +336,267 @@ class _OnlineResumeState extends State<OnlineResume> {
 //                  height: ScreenUtil().setWidth(1),
 //                ),
                 SizedBox(height: ScreenUtil().setWidth(40),),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Expanded(
-                      child: Text(
-                        '工作经历',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: ScreenUtil().setSp(32),
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromRGBO(57, 57, 57, 1),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: ScreenUtil().setWidth(16),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>JobWorkExp()));
-                      },
-                      behavior: HitTestBehavior.opaque,
-                      child: Image.asset(
-                        'images/img_setting_add.png',
-                        width: ScreenUtil().setWidth(30),
-                        height: ScreenUtil().setWidth(30),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: ScreenUtil().setWidth(17),
-                ),
-                ListView.builder(
-                  itemBuilder: (context, index) {
-                    if (index < _detailData.workExperience.length) {
-                      var btnKey = GlobalKey<SlideButtonState>();
-                      return SlideButton(
-                        key: btnKey,
-                        singleButtonWidth: ScreenUtil().setWidth(172),
-                        child: WorkItem(
-                          workData: _detailData.workExperience[index],
-                          index: index,
-                        ),
-                        buttons: <Widget>[
-                          buildAction(
-                              btnKey, Colors.red, 'images/img_del_white.png',
-                                  () {
-                                btnKey.currentState.close();
-                              }),
-                        ],
-                      );
-                    }
-                    return null;
-                  },
-                  shrinkWrap: true,
-                  itemCount: _detailData.workExperience.length,
-                  physics: const NeverScrollableScrollPhysics(),
-                ),
-                Container(
-                  margin:
-                  EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(23)),
-                  color: Color.fromRGBO(159, 199, 235, 1),
-                  height: ScreenUtil().setWidth(1),
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Expanded(
-                      child: Text(
-                        '项目经历',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: ScreenUtil().setSp(32),
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromRGBO(57, 57, 57, 1),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: ScreenUtil().setWidth(16),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>JobProjectExp()));
-                      },
-                      behavior: HitTestBehavior.opaque,
-                      child: Image.asset(
-                        'images/img_setting_add.png',
-                        width: ScreenUtil().setWidth(30),
-                        height: ScreenUtil().setWidth(30),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: ScreenUtil().setWidth(17),
-                ),
-                ListView.builder(
-                  itemBuilder: (context, index) {
-                    if (index < _detailData.projectExperience.length) {
-                      var btnKey = GlobalKey<SlideButtonState>();
-                      return SlideButton(
-                        key: btnKey,
-                        singleButtonWidth: ScreenUtil().setWidth(172),
-                        child: ProjectItem(
-                          projectData: _detailData.projectExperience[index],
-                          index: index,
-                        ),
-                        buttons: <Widget>[
-                          buildAction(
-                              btnKey, Colors.red, 'images/img_del_white.png',
-                                  () {
-                                btnKey.currentState.close();
-                              }),
-                        ],
-                      );
-                    }
-                    return null;
-                  },
-                  shrinkWrap: true,
-                  itemCount: _detailData.projectExperience.length,
-                  physics: const NeverScrollableScrollPhysics(),
-                ),
-                Container(
-                  margin:
-                  EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(23)),
-                  color: Color.fromRGBO(159, 199, 235, 1),
-                  height: ScreenUtil().setWidth(1),
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Expanded(
-                      child: Text(
-                        '教育经历',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: ScreenUtil().setSp(32),
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromRGBO(57, 57, 57, 1),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: ScreenUtil().setWidth(16),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>JobEduExp()));
-                      },
-                      behavior: HitTestBehavior.opaque,
-                      child: Image.asset(
-                        'images/img_setting_add.png',
-                        width: ScreenUtil().setWidth(30),
-                        height: ScreenUtil().setWidth(30),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: ScreenUtil().setWidth(17),
-                ),
-                ListView.builder(
-                  itemBuilder: (context, index) {
-                    if (index < _detailData.educationExperience.length) {
-                      var btnKey = GlobalKey<SlideButtonState>();
-                      return SlideButton(
-                        key: btnKey,
-                        singleButtonWidth: ScreenUtil().setWidth(172),
-                        child: EduItem(
-                          eduData: _detailData.educationExperience[index],
-                          index: index,
-                        ),
-                        buttons: <Widget>[
-                          buildAction(
-                              btnKey, Colors.red, 'images/img_del_white.png',
-                                  () {
-                                btnKey.currentState.close();
-                              }),
-                        ],
-                      );
-                    }
-                    return null;
-                  },
-                  shrinkWrap: true,
-                  itemCount: _detailData.educationExperience.length,
-                  physics: const NeverScrollableScrollPhysics(),
-                ),
-                Container(
-                  margin:
-                  EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(23)),
-                  color: Color.fromRGBO(159, 199, 235, 1),
-                  height: ScreenUtil().setWidth(1),
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Expanded(
-                      child: Text(
-                        '资格证书',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: ScreenUtil().setSp(32),
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromRGBO(57, 57, 57, 1),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: ScreenUtil().setWidth(16),
-                    ),
-                    GestureDetector(
-                      onTap: () {},
-                      behavior: HitTestBehavior.opaque,
-                      child: Image.asset(
-                        'images/img_setting_add.png',
-                        width: ScreenUtil().setWidth(30),
-                        height: ScreenUtil().setWidth(30),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: ScreenUtil().setWidth(17),
-                ),
-                ListView.builder(
-                  itemBuilder: (context, index) {
-                    if (index < 1) {
-                      var btnKey = GlobalKey<SlideButtonState>();
-                      return SlideButton(
-                        key: btnKey,
-                        singleButtonWidth: ScreenUtil().setWidth(172),
-                        child: QualifyItem(),
-                        buttons: <Widget>[
-                          buildAction(
-                              btnKey, Colors.red, 'images/img_del_white.png',
-                                  () {
-                                btnKey.currentState.close();
-                              }),
-                        ],
-                      );
-                    }
-                    return null;
-                  },
-                  shrinkWrap: true,
-                  itemCount: 1,
-                  physics: const NeverScrollableScrollPhysics(),
-                ),
-                Container(
-                  margin:
-                  EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(23)),
-                  color: Color.fromRGBO(159, 199, 235, 1),
-                  height: ScreenUtil().setWidth(1),
-                ),
-                Text(
+                buildTypeView(
+                  '工作经历',
+                  child: ListView.builder(
+                    itemBuilder: (context, index) {
+                      if (index < _detailData.workExperience.length) {
+                        var btnKey = GlobalKey<SlideButtonState>();
+                        return SlideButton(
+                          key: btnKey,
+                          singleButtonWidth: ScreenUtil().setWidth(172),
+                          child: GestureDetector(
+                            onTap: () {
+                              FocusScope.of(context).requestFocus(FocusNode());
+                              Navigator.push<ResumeDetailDataWorkExperience>(context, MaterialPageRoute(
+                                  builder: (context) => JobWorkExp(detailData: _detailData.workExperience[index],index: index,))).then((value){
+                                    if(value!=null){
+
+                                    }
+                              });
+                            },
+                            behavior: HitTestBehavior.opaque,
+                            child: WorkItem(
+                              workData: _detailData.workExperience[index],
+                              index: index,
+                            ),
+                          ),
+                          buttons: <Widget>[
+                            buildAction(
+                                btnKey, Colors.red, 'images/img_del_white.png',
+                                    () {
+                                  btnKey.currentState.close();
+                                  setState(() {
+                                    _detailData.workExperience.removeAt(index);
+                                  });
+                                }),
+                          ],
+                        );
+                      }
+                      return null;
+                    },
+                    shrinkWrap: true,
+                    itemCount: _detailData.workExperience.length,
+                    physics: const NeverScrollableScrollPhysics(),
+                  ),
+                  onTap: () {
+                    FocusScope.of(context).requestFocus(FocusNode());
+                    Navigator.push<ResumeDetailDataWorkExperience>(context, MaterialPageRoute(
+                        builder: (context) => JobWorkExp())).then((value){
+                      if(value!=null){
+
+                      }
+                    });
+                  },),
+                buildTypeView(
+                  '项目经历',
+                  child: ListView.builder(
+                    itemBuilder: (context, index) {
+                      if (index < _detailData.projectExperience.length) {
+                        var btnKey = GlobalKey<SlideButtonState>();
+                        return SlideButton(
+                          key: btnKey,
+                          singleButtonWidth: ScreenUtil().setWidth(172),
+                          child: GestureDetector(
+                            onTap: () {
+                              FocusScope.of(context).requestFocus(FocusNode());
+                              Navigator.push<ResumeDetailDataProjectExperience>(context, MaterialPageRoute(
+                                  builder: (context) => JobProjectExp(detailData: _detailData.projectExperience[index],index: index,))).then((value){
+                                if(value!=null){
+
+                                }
+                              });
+                            },
+                            behavior: HitTestBehavior.opaque,
+                            child: ProjectItem(
+                              projectData: _detailData.projectExperience[index],
+                              index: index,
+                            ),
+                          ),
+                          buttons: <Widget>[
+                            buildAction(
+                                btnKey, Colors.red, 'images/img_del_white.png',
+                                    () {
+                                  btnKey.currentState.close();
+                                  setState(() {
+                                    _detailData.projectExperience.removeAt(
+                                        index);
+                                  });
+                                }),
+                          ],
+                        );
+                      }
+                      return null;
+                    },
+                    shrinkWrap: true,
+                    itemCount: _detailData.projectExperience.length,
+                    physics: const NeverScrollableScrollPhysics(),
+                  ),
+                  onTap: () {
+                    FocusScope.of(context).requestFocus(FocusNode());
+                    Navigator.push<ResumeDetailDataProjectExperience>(context, MaterialPageRoute(
+                        builder: (context) => JobProjectExp())).then((value){
+                          if(value!=null){
+
+                          }
+                    });
+                  },),
+                buildTypeView(
+                  '教育经历',
+                  child: ListView.builder(
+                    itemBuilder: (context, index) {
+                      if (index < _detailData.educationExperience.length) {
+                        var btnKey = GlobalKey<SlideButtonState>();
+                        return SlideButton(
+                          key: btnKey,
+                          singleButtonWidth: ScreenUtil().setWidth(172),
+                          child: GestureDetector(
+                            onTap: () {
+                              FocusScope.of(context).requestFocus(FocusNode());
+                              Navigator.push<ResumeDetailDataEducationExperience>(context,
+                                  MaterialPageRoute(builder: (context) =>
+                                      JobEduExp(
+                                        detailData: _detailData
+                                            .educationExperience[index],
+                                        index: index,))).then((value) {
+                                if(value!=null){
+
+                                }
+                              });
+                            },
+                            behavior: HitTestBehavior.opaque,
+                            child: EduItem(
+                              eduData: _detailData.educationExperience[index],
+                              index: index,
+                            ),
+                          ),
+                          buttons: <Widget>[
+                            buildAction(
+                                btnKey, Colors.red, 'images/img_del_white.png',
+                                    () {
+                                  btnKey.currentState.close();
+                                  setState(() {
+                                    _detailData.educationExperience.removeAt(
+                                        index);
+                                  });
+                                }),
+                          ],
+                        );
+                      }
+                      return null;
+                    },
+                    shrinkWrap: true,
+                    itemCount: _detailData.educationExperience.length,
+                    physics: const NeverScrollableScrollPhysics(),
+                  ),
+                  onTap: () {
+                    FocusScope.of(context).requestFocus(FocusNode());
+                    Navigator.push<ResumeDetailDataEducationExperience>(context,
+                        MaterialPageRoute(builder: (context) => JobEduExp())).then((value){
+                          if(value!=null){
+
+                          }
+                    });
+                  },),
+                buildTypeView(
+                  '资格证书',
+                  child: ListView.builder(
+                    itemBuilder: (context, index) {
+                      if (index < _detailData.certificates.length) {
+                        var btnKey = GlobalKey<SlideButtonState>();
+                        return SlideButton(
+                          key: btnKey,
+                          singleButtonWidth: ScreenUtil().setWidth(172),
+                          child: GestureDetector(
+                            onTap: () {
+                              FocusScope.of(context).requestFocus(FocusNode());
+                              Navigator.push<CertResult>(context,
+                                  MaterialPageRoute(builder: (context) =>
+                                      ResumeCertificate(
+                                        index: index,
+                                        certificate: _detailData
+                                            .certificates[index]
+                                            .certificateName,
+                                        certificateId: _detailData
+                                            .certificates[index].id,))).then(
+                                  certOperateResult);
+                            },
+                            behavior: HitTestBehavior.opaque,
+                            child: QualifyItem(
+                                resumeDetailDataCertificate: _detailData
+                                    .certificates[index]),
+                          ),
+                          buttons: <Widget>[
+                            buildAction(
+                                btnKey, Colors.red, 'images/img_del_white.png',
+                                    () {
+                                  btnKey.currentState.close();
+                                  setState(() {
+                                    _detailData.certificates.removeAt(index);
+                                  });
+                                }),
+                          ],
+                        );
+                      }
+                      return null;
+                    },
+                    shrinkWrap: true,
+                    itemCount: _detailData.certificates.length,
+                    physics: const NeverScrollableScrollPhysics(),
+                  ),
+                  onTap: () {
+                    FocusScope.of(context).requestFocus(FocusNode());
+                    Navigator.push<CertResult>(context, MaterialPageRoute(
+                        builder: (context) => ResumeCertificate())).then(
+                        certOperateResult);
+                  },),
+                buildTypeView(
                   '社交主页',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: ScreenUtil().setSp(32),
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromRGBO(57, 57, 57, 1),
+                  child: ListView.builder(
+                    itemBuilder: (context, index) {
+                      if (index < _detailData.socialHomepage.length) {
+                        var btnKey = GlobalKey<SlideButtonState>();
+                        return SlideButton(
+                          key: btnKey,
+                          singleButtonWidth: ScreenUtil().setWidth(172),
+                          child: GestureDetector(onTap: () {
+                            FocusScope.of(context).requestFocus(FocusNode());
+                            Navigator.push<SocialWebResult>(
+                                context, MaterialPageRoute(
+                                builder: (context) =>
+                                    ResumeSocialWeb(
+                                      web: _detailData.socialHomepage[index],
+                                      index: index,))).then(socialWebResult);
+                          },
+                            child: SocialWebItem(
+                                web: _detailData.socialHomepage[index]),
+                            behavior: HitTestBehavior.opaque,),
+                          buttons: <Widget>[
+                            buildAction(
+                                btnKey, Colors.red, 'images/img_del_white.png',
+                                    () {
+                                  btnKey.currentState.close();
+                                  setState(() {
+                                    _detailData.socialHomepage.removeAt(index);
+                                  });
+                                }),
+                          ],
+                        );
+                      }
+                      return null;
+                    },
+                    shrinkWrap: true,
+                    itemCount: _detailData.socialHomepage.length,
+                    physics: const NeverScrollableScrollPhysics(),
                   ),
-                ),
-                TextField(
-                  autofocus: false,
-                  scrollPadding: EdgeInsets.all(0),
-                  textAlign: TextAlign.start,
-                  maxLines: 1,
-                  cursorColor: Color.fromRGBO(176, 181, 180, 1),
-                  style: TextStyle(
-                      fontSize: ScreenUtil().setSp(28),
-                      color: Color.fromRGBO(95, 94, 94, 1)),
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(
-                      top: ScreenUtil().setWidth(34),
-                      bottom: ScreenUtil().setWidth(34),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color.fromRGBO(159, 199, 235, 1),
-                        width: ScreenUtil().setWidth(1),
-                      ),
-                    ),
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color.fromRGBO(159, 199, 235, 1),
-                        width: ScreenUtil().setWidth(1),
-                      ),
-                    ),
-                    hintText: '请输入网址',
-                    hintStyle: TextStyle(
-                      fontSize: ScreenUtil().setSp(28),
-                      color: Color.fromRGBO(176, 181, 180, 1),
-                    ),
-                  ),
-                  onSubmitted: (text) {},
-                ),
-                SizedBox(
-                  height: ScreenUtil().setWidth(80),
-                ),
+                  onTap: () {
+                    FocusScope.of(context).requestFocus(FocusNode());
+                    Navigator.push<SocialWebResult>(
+                        context, MaterialPageRoute(
+                        builder: (context) =>
+                            ResumeSocialWeb())).then(socialWebResult);
+                  },),
+                SizedBox(height: ScreenUtil().setWidth(57),),
                 MaterialButton(
                   elevation: 0,
                   color: Colors.white,
@@ -673,6 +633,61 @@ class _OnlineResumeState extends State<OnlineResume> {
     );
   }
 
+  /// 简历内容类别
+  Widget buildTypeView(String resumeItem,{@required Widget child,Function() onTap,}){
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Expanded(
+              child: Text(
+                resumeItem,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: ScreenUtil().setSp(32),
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromRGBO(57, 57, 57, 1),
+                ),
+              ),
+            ),
+            SizedBox(
+              width: ScreenUtil().setWidth(16),
+            ),
+            GestureDetector(
+              onTap: () {
+                if(onTap!=null){
+                  onTap();
+                }
+              },
+              behavior: HitTestBehavior.opaque,
+              child: Image.asset(
+                'images/img_setting_add.png',
+                width: ScreenUtil().setWidth(30),
+                height: ScreenUtil().setWidth(30),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ],
+        ),
+        SizedBox(
+          height: ScreenUtil().setWidth(17),
+        ),
+        child,
+        Container(
+          margin:
+          EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(23)),
+          color: Color.fromRGBO(159, 199, 235, 1),
+          height: ScreenUtil().setWidth(1),
+        ),
+      ],
+    );
+  }
+
+  /// 侧滑删除button
   InkWell buildAction(GlobalKey<SlideButtonState> key, Color color,
       String imgPath, GestureTapCallback tap) {
     return InkWell(
@@ -689,6 +704,37 @@ class _OnlineResumeState extends State<OnlineResume> {
         ),
       ),
     );
+  }
+
+  /// 证书填写回调
+  void certOperateResult(CertResult value){
+    if (value != null) {
+      setState(() {
+        if(value.index==-1){
+          ResumeDetailDataCertificate certData=ResumeDetailDataCertificate();
+          certData.id='';
+          certData.certificateName=value.certificate;
+          certData.resumeId=_detailData.resume.id;
+          certData.state=1;
+          _detailData.certificates.add(certData);
+        }else {
+          _detailData.certificates[value.index].certificateName=value.certificate;
+        }
+      });
+    }
+  }
+
+  /// 社交主页回调
+  void socialWebResult(SocialWebResult value){
+    if (value != null) {
+      setState(() {
+        if(value.index==-1){
+          _detailData.socialHomepage.add(value.web);
+        }else {
+          _detailData.socialHomepage[value.index]=value.web;
+        }
+      });
+    }
   }
 
   /// 获取简历详情

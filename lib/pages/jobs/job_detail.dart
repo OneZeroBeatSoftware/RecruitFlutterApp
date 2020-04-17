@@ -2,16 +2,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:recruit_app/entity/base_resp_entity.dart';
 import 'package:recruit_app/entity/job_detail_entity.dart';
 import 'package:recruit_app/model/job_model.dart';
+import 'package:recruit_app/model/mine_model.dart';
 import 'package:recruit_app/pages/companys/company_detail.dart';
 import 'package:recruit_app/pages/jobs/chat_room.dart';
+import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/list_menu_dialog.dart';
 import 'package:recruit_app/pages/jobs/report.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/craft_date_time_picker.dart';
 import 'package:recruit_app/widgets/craft_share_board.dart';
 import 'package:recruit_app/widgets/remind_dialog.dart';
+
+import '../../application.dart';
 
 enum JobDetailType {job, interview}
 
@@ -654,6 +659,18 @@ class _JobDetailState extends State<JobDetail> {
     if (jobDetailEntity.data != null) {
       setState(() {
         _jobDetailData=jobDetailEntity.data;
+      });
+    }
+  }
+
+  /// 收藏夹操作
+  _operateStar(String id,String starId, int index) async {
+    BaseRespEntity _baseEntity = await MineModel.instance.starCompanyJob(
+        context, true, id,Application.sp.getString('jobSeekerId'),starId:(_isCollected?starId:''));
+    if (_baseEntity != null) {
+      Utils.showToast(_baseEntity.msg ?? (_isCollected?'取消收藏':'已收藏'));
+      setState(() {
+        _isCollected=!_isCollected;
       });
     }
   }

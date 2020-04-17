@@ -170,7 +170,8 @@ class JsonConvert<T> {
 			return mainResumeDetailDataEducationExperienceFromJson(data as MainResumeDetailDataEducationExperience, json) as T;			case ResumeDetailEntity:
 			return resumeDetailEntityFromJson(data as ResumeDetailEntity, json) as T;			case ResumeDetailData:
 			return resumeDetailDataFromJson(data as ResumeDetailData, json) as T;			case ResumeDetailDataResume:
-			return resumeDetailDataResumeFromJson(data as ResumeDetailDataResume, json) as T;			case ResumeDetailDataWorkExperience:
+			return resumeDetailDataResumeFromJson(data as ResumeDetailDataResume, json) as T;			case ResumeDetailDataCertificate:
+			return resumeDetailDataCertificateFromJson(data as ResumeDetailDataCertificate, json) as T;			case ResumeDetailDataWorkExperience:
 			return resumeDetailDataWorkExperienceFromJson(data as ResumeDetailDataWorkExperience, json) as T;			case ResumeDetailDataProjectExperience:
 			return resumeDetailDataProjectExperienceFromJson(data as ResumeDetailDataProjectExperience, json) as T;			case ResumeDetailDataEducationExperience:
 			return resumeDetailDataEducationExperienceFromJson(data as ResumeDetailDataEducationExperience, json) as T;			case SalaryListEntity:
@@ -279,7 +280,8 @@ class JsonConvert<T> {
 			return mainResumeDetailDataEducationExperienceToJson(data as MainResumeDetailDataEducationExperience);			case ResumeDetailEntity:
 			return resumeDetailEntityToJson(data as ResumeDetailEntity);			case ResumeDetailData:
 			return resumeDetailDataToJson(data as ResumeDetailData);			case ResumeDetailDataResume:
-			return resumeDetailDataResumeToJson(data as ResumeDetailDataResume);			case ResumeDetailDataWorkExperience:
+			return resumeDetailDataResumeToJson(data as ResumeDetailDataResume);			case ResumeDetailDataCertificate:
+			return resumeDetailDataCertificateToJson(data as ResumeDetailDataCertificate);			case ResumeDetailDataWorkExperience:
 			return resumeDetailDataWorkExperienceToJson(data as ResumeDetailDataWorkExperience);			case ResumeDetailDataProjectExperience:
 			return resumeDetailDataProjectExperienceToJson(data as ResumeDetailDataProjectExperience);			case ResumeDetailDataEducationExperience:
 			return resumeDetailDataEducationExperienceToJson(data as ResumeDetailDataEducationExperience);			case SalaryListEntity:
@@ -388,7 +390,8 @@ class JsonConvert<T> {
 			return MainResumeDetailDataEducationExperience().fromJson(json);			case 'ResumeDetailEntity':
 			return ResumeDetailEntity().fromJson(json);			case 'ResumeDetailData':
 			return ResumeDetailData().fromJson(json);			case 'ResumeDetailDataResume':
-			return ResumeDetailDataResume().fromJson(json);			case 'ResumeDetailDataWorkExperience':
+			return ResumeDetailDataResume().fromJson(json);			case 'ResumeDetailDataCertificate':
+			return ResumeDetailDataCertificate().fromJson(json);			case 'ResumeDetailDataWorkExperience':
 			return ResumeDetailDataWorkExperience().fromJson(json);			case 'ResumeDetailDataProjectExperience':
 			return ResumeDetailDataProjectExperience().fromJson(json);			case 'ResumeDetailDataEducationExperience':
 			return ResumeDetailDataEducationExperience().fromJson(json);			case 'SalaryListEntity':
@@ -498,7 +501,8 @@ class JsonConvert<T> {
 			return List<MainResumeDetailDataEducationExperience>();			case 'ResumeDetailEntity':
 			return List<ResumeDetailEntity>();			case 'ResumeDetailData':
 			return List<ResumeDetailData>();			case 'ResumeDetailDataResume':
-			return List<ResumeDetailDataResume>();			case 'ResumeDetailDataWorkExperience':
+			return List<ResumeDetailDataResume>();			case 'ResumeDetailDataCertificate':
+			return List<ResumeDetailDataCertificate>();			case 'ResumeDetailDataWorkExperience':
 			return List<ResumeDetailDataWorkExperience>();			case 'ResumeDetailDataProjectExperience':
 			return List<ResumeDetailDataProjectExperience>();			case 'ResumeDetailDataEducationExperience':
 			return List<ResumeDetailDataEducationExperience>();			case 'SalaryListEntity':

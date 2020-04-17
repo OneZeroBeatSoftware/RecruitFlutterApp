@@ -2,13 +2,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/entity/filter_data.dart';
+import 'package:recruit_app/entity/resume_detail_entity.dart';
 import 'package:recruit_app/pages/mine/industry_type.dart';
 import 'package:recruit_app/pages/mine/job_type.dart';
+import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/craft_date_picker.dart';
 import 'package:recruit_app/widgets/remind_dialog.dart';
 
 class JobWorkExp extends StatefulWidget {
+  final int index;
+  final ResumeDetailDataWorkExperience detailData;
+
+  const JobWorkExp({Key key, this.index, this.detailData}) : super(key: key);
+
   @override
   _JobWorkExpState createState() {
     // TODO: implement createState
@@ -36,6 +43,23 @@ class _JobWorkExpState extends State<JobWorkExp> {
 
     _starDate = DateTime.now();
     _endDate = DateTime.now();
+
+    if(widget.detailData!=null){
+      _nameController = TextEditingController(text: widget.detailData.companyName);
+      _sectionController = TextEditingController(text: widget.detailData.department);
+
+      _industryId=widget.detailData.industry;
+      _jobTypeId=widget.detailData.position;
+
+      _starDate = DateTime.fromMillisecondsSinceEpoch(widget.detailData.startDate);
+      _endDate = DateTime.fromMillisecondsSinceEpoch(widget.detailData.endDate);
+    } else {
+      _nameController = TextEditingController();
+      _sectionController = TextEditingController();
+
+      _starDate = DateTime.now();
+      _endDate = DateTime.now();
+    }
   }
 
   @override
@@ -82,6 +106,22 @@ class _JobWorkExpState extends State<JobWorkExp> {
         rightAction: GestureDetector(
           onTap: () {
             FocusScope.of(context).requestFocus(FocusNode());
+            if(_nameController.text.isEmpty){
+              Utils.showToast('请填公司名称');
+              return;
+            }
+            if(null==_industryId||_industryId.isEmpty){
+              Utils.showToast('请选择所属行业');
+              return;
+            }
+            if(null==_jobTypeId||_jobTypeId.isEmpty){
+              Utils.showToast('请选择岗位类型');
+              return;
+            }
+            if(_sectionController.text.isEmpty){
+              Utils.showToast('请填写所属部门');
+              return;
+            }
           },
           behavior: HitTestBehavior.opaque,
           child: Padding(

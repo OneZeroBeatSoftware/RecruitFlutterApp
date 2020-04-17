@@ -48,7 +48,9 @@ class _State extends State<CompanyPostRecruit> {
     // TODO: implement initState
 		_isLoad=(widget.jobId!=null&&widget.jobId.isNotEmpty);
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((callback){_getResumeDetail(widget.jobId);});
+    if(_isLoad){
+			WidgetsBinding.instance.addPostFrameCallback((callback){_getResumeDetail(widget.jobId);});
+		}
   }
 
 	@override

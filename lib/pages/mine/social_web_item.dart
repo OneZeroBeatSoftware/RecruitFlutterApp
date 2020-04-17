@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/entity/resume_detail_entity.dart';
 
-class QualifyItem extends StatelessWidget {
-  final ResumeDetailDataCertificate resumeDetailDataCertificate;
-  const QualifyItem({Key key, this.resumeDetailDataCertificate}) : super(key: key);
+class SocialWebItem extends StatelessWidget {
+  final String web;
+  const SocialWebItem({Key key, this.web=''}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class QualifyItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Expanded(
-            child: Text('${resumeDetailDataCertificate.certificateName}',
+            child: Text('$web',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
