@@ -1,28 +1,48 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:recruit_app/application.dart';
+import 'package:recruit_app/entity/base_resp_entity.dart';
+import 'package:recruit_app/model/file_model.dart';
+import 'package:recruit_app/utils/net_utils.dart';
+import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 
 enum ReportType {
-  job,company
+  job,company,resume
 }
 class Report extends StatefulWidget {
   final ReportType reportType;
+  final String reportId;
 
-  Report({this.reportType=ReportType.job});
+  Report({this.reportType=ReportType.job, this.reportId=''});
 
   @override
   _ReportState createState() => _ReportState();
 }
 
 class _ReportState extends State<Report> {
+  List<String> _imgFile=[];
   TextEditingController _editController;
 
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
+    _imgFile.add('images/img_img_add_blue.png');
     _editController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    if(_editController!=null){
+      _editController.dispose();
+    }
+    super.dispose();
   }
 
   @override
@@ -51,6 +71,16 @@ class _ReportState extends State<Report> {
         rightAction: GestureDetector(
           onTap: () {
             FocusScope.of(context).requestFocus(FocusNode());
+            String content = _editController.text;
+            if (content.isEmpty) {
+              Utils.showToast('请填写举报内容');
+              return;
+            }
+            if (_imgFile.length<2) {
+              Utils.showToast('请至少上传一张图片举报');
+              return;
+            }
+            _report2App(content,_imgFile.sublist(1));
           },
           behavior: HitTestBehavior.opaque,
           child: Padding(
@@ -163,14 +193,37 @@ class _ReportState extends State<Report> {
                 Wrap(
                   spacing: ScreenUtil().setWidth(20),
                   runSpacing: ScreenUtil().setWidth(20),
-                  children: <Widget>[
-                    Image.asset(
-                      'images/img_img_add_blue.png',
+                  children: _imgFile
+                      .asMap()
+                      .keys
+                      .map((index) {
+                    if (index == 0) {
+                      return GestureDetector(onTap: () {
+                        FocusScope.of(context).requestFocus(FocusNode());
+                        if (_imgFile.length > 3) {
+                          return Utils.showToast('最多上传3张图片');
+                        }
+                        _openGallery();
+                      }, behavior: HitTestBehavior.opaque, child: Image.asset(
+                        _imgFile[index],
+                        width: ScreenUtil().setWidth(120),
+                        height: ScreenUtil().setWidth(120),
+                        fit: BoxFit.cover,
+                      ),);
+                    }
+                    return GestureDetector(child: Image.network(
+                      _imgFile[index],
                       width: ScreenUtil().setWidth(120),
                       height: ScreenUtil().setWidth(120),
                       fit: BoxFit.cover,
-                    ),
-                  ],
+                    ),behavior: HitTestBehavior.opaque,onTap: (){
+                      FocusScope.of(context).requestFocus(FocusNode());
+                      _imgFile.removeAt(index);
+                      setState(() {
+
+                      });
+                    },);
+                  }).toList(),
                 ),
               ],
             ),
@@ -178,5 +231,57 @@ class _ReportState extends State<Report> {
         ],
       ),
     );
+  }
+
+  /// 相册获取图片上传
+  _openGallery() async{
+    var _image=await ImagePicker.pickImage(source: ImageSource.gallery,);
+    if(_image==null){
+      return;
+    }
+    _uploadFile(_image);
+  }
+
+  /// 选中图片后上传图片
+  _uploadFile(File file) async {
+    String imgPath= await FileModel.instance.uploadFile(context, file);
+    if (null!=imgPath) {
+      Utils.showToast('上传成功');
+      _imgFile.add(imgPath);
+      setState(() {
+
+      });
+    }else {
+      Utils.showToast('上传失败');
+    }
+  }
+
+  /// 提交反馈
+  _report2App(String content,List<String> imgPath) async{
+    int type=0;
+    if(widget.reportType==ReportType.resume){
+      type=3;
+    }else if(widget.reportType==ReportType.company){
+      type=1;
+    }else if(widget.reportType==ReportType.job){
+      type=2;
+    }else {
+      type=2;
+    }
+    BaseRespEntity baseRespEntity = await NetUtils.report2App(
+        context, imgPath, content, Application.sp.getString(
+        widget.reportType == ReportType.resume
+            ? "recruiterId"
+            : "jobSeekerId"),reportedId: widget.reportId,type: type,);
+    if(baseRespEntity!=null&&baseRespEntity.statusCode==200){
+      Utils.showToast(baseRespEntity.msg??"反馈成功");
+      _imgFile.removeRange(1, _imgFile.length);
+      if(_editController!=null){
+        _editController.text="";
+      }
+      setState(() {});
+    }else {
+      Utils.showToast(baseRespEntity.msg??"提交失败，请重新尝试");
+    }
   }
 }

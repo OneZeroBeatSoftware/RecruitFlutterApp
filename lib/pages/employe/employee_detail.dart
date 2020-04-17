@@ -7,6 +7,7 @@ import 'package:recruit_app/entity/main_resume_detail_entity.dart';
 import 'package:recruit_app/model/boss_mine_model.dart';
 import 'package:recruit_app/model/recruit_resume_model.dart';
 import 'package:recruit_app/pages/employe/boss_chat_room.dart';
+import 'package:recruit_app/pages/jobs/report.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -153,39 +154,40 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () {
-                  showGeneralDialog(
-                    context: context,
-                    pageBuilder: (context, animation1, animation2) { return null;},
-                    barrierColor: Colors.black.withOpacity(0.4),
-                    barrierDismissible: true,
-                    barrierLabel: "Dismiss",
-                    transitionDuration: Duration(milliseconds: 300),
-                    transitionBuilder: (context, animation1, animation2, widget) {
-                      final curvedValue =
-                         Curves.easeInOut.transform(animation1.value) - 1.0;
-                      return Transform(
-                        transform:
-                        Matrix4.translationValues(0.0, curvedValue * -300, 0.0),
-                        child: Opacity(
-                          opacity: animation1.value,
-                          child: ListMenuDialog(
-                            title: '举报',
-                            cancel: () {
-                              Navigator.pop(context);
-                            },
-                            confirm: () {
-                              Navigator.pop(context);
-                            },
-                            itemSelected: (index){
-                              Navigator.pop(context);
-                      
-                            },
-                            lists: _reports,
-                          ),
-                        ),
-                      );
-                    },
-                  );
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Report(reportType: ReportType.resume,reportId: widget.resumeId,)));
+//                  showGeneralDialog(
+//                    context: context,
+//                    pageBuilder: (context, animation1, animation2) { return null;},
+//                    barrierColor: Colors.black.withOpacity(0.4),
+//                    barrierDismissible: true,
+//                    barrierLabel: "Dismiss",
+//                    transitionDuration: Duration(milliseconds: 300),
+//                    transitionBuilder: (context, animation1, animation2, widget) {
+//                      final curvedValue =
+//                         Curves.easeInOut.transform(animation1.value) - 1.0;
+//                      return Transform(
+//                        transform:
+//                        Matrix4.translationValues(0.0, curvedValue * -300, 0.0),
+//                        child: Opacity(
+//                          opacity: animation1.value,
+//                          child: ListMenuDialog(
+//                            title: '举报',
+//                            cancel: () {
+//                              Navigator.pop(context);
+//                            },
+//                            confirm: () {
+//                              Navigator.pop(context);
+//                            },
+//                            itemSelected: (index){
+//                              Navigator.pop(context);
+//
+//                            },
+//                            lists: _reports,
+//                          ),
+//                        ),
+//                      );
+//                    },
+//                  );
                 },
                 child: Image.asset(
                   'images/img_report.png',

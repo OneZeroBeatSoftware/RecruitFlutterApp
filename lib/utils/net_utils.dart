@@ -718,4 +718,23 @@ class NetUtils {
     var response = await _get(context, '/job/details/$id',);
     return BossJobDetailEntity().fromJson(response.data);
   }
+
+  /// 举报
+  /// type 举报类型（1：公司；2：岗位；3：人才）
+  static Future<BaseRespEntity> report2App(BuildContext context,List<String> imgPath,String content,String userId,{@required int type,@required String reportedId,String id,String state} ) async {
+    Map<String,dynamic> params={};
+    params['image']=imgPath;
+    params['content']=content;
+    params['reportedId']=reportedId;
+    params['userId']=userId;
+    params['type']=type;
+    if(id!=null&&id.isNotEmpty){
+      params['id']=id;
+    }
+    if(state!=null&&state.isNotEmpty){
+      params['state']=state;
+    }
+    var response = await _post(context, '/report/save', params: params,isShowLoading: true);
+    return BaseRespEntity().fromJson(response.data);
+  }
 }

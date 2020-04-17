@@ -110,39 +110,40 @@ class _JobDetailState extends State<JobDetail> {
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () {
-                  showGeneralDialog(
-                    context: context,
-                    pageBuilder: (context, animation1, animation2) { return null;},
-                    barrierColor: Colors.black.withOpacity(0.4),
-                    barrierDismissible: true,
-                    barrierLabel: "Dismiss",
-                    transitionDuration: Duration(milliseconds: 300),
-                    transitionBuilder: (context, animation1, animation2, widget) {
-                      final curvedValue =
-                          Curves.easeInOut.transform(animation1.value) - 1.0;
-                      return Transform(
-                        transform:
-                        Matrix4.translationValues(0.0, curvedValue * -300, 0.0),
-                        child: Opacity(
-                          opacity: animation1.value,
-                          child: ListMenuDialog(
-                            title: '举报',
-                            cancel: () {
-                              Navigator.pop(context);
-                            },
-                            confirm: () {
-                              Navigator.pop(context);
-                            },
-                            itemSelected: (index){
-                              Navigator.pop(context);
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>Report()));
-                            },
-                            lists: _reports,
-                          ),
-                        ),
-                      );
-                    },
-                  );
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Report(reportType: ReportType.job,reportId: widget.jobId,)));
+//                  showGeneralDialog(
+//                    context: context,
+//                    pageBuilder: (context, animation1, animation2) { return null;},
+//                    barrierColor: Colors.black.withOpacity(0.4),
+//                    barrierDismissible: true,
+//                    barrierLabel: "Dismiss",
+//                    transitionDuration: Duration(milliseconds: 300),
+//                    transitionBuilder: (context, animation1, animation2, widget) {
+//                      final curvedValue =
+//                          Curves.easeInOut.transform(animation1.value) - 1.0;
+//                      return Transform(
+//                        transform:
+//                        Matrix4.translationValues(0.0, curvedValue * -300, 0.0),
+//                        child: Opacity(
+//                          opacity: animation1.value,
+//                          child: ListMenuDialog(
+//                            title: '举报',
+//                            cancel: () {
+//                              Navigator.pop(context);
+//                            },
+//                            confirm: () {
+//                              Navigator.pop(context);
+//                            },
+//                            itemSelected: (index){
+//                              Navigator.pop(context);
+//                              Navigator.push(context, MaterialPageRoute(builder: (context)=>Report()));
+//                            },
+//                            lists: _reports,
+//                          ),
+//                        ),
+//                      );
+//                    },
+//                  );
                 },
                 child: Image.asset(
                   'images/img_report.png',
