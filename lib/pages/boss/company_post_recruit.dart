@@ -2,9 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/entity/boss_job_detail_entity.dart';
+import 'package:recruit_app/entity/edu_level_entity.dart';
 import 'package:recruit_app/entity/filter_data.dart';
+import 'package:recruit_app/entity/work_date_entity.dart';
 import 'package:recruit_app/model/boss_mine_model.dart';
 import 'package:recruit_app/pages/boss/company_job_candidate.dart';
+import 'package:recruit_app/utils/net_utils.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/common_page_body.dart';
@@ -38,20 +41,35 @@ class _State extends State<CompanyPostRecruit> {
 	bool _isLoad=false;
 	BossJobDetailData _detailData;
 
+	List<EduLevelData> _eduLevelList = [];
+	String _eduLevel;
+	String _eduId = '请选择';
+	int _eduPos = 0;
+
+	List<WorkDateData> _wordDateList = [];
+	String _workDate;
+	String _workDateId = '请选择';
+	int _workDatePos = 0;
+
 	String _industryType='请选择期望行业';
 	String _industryId='';
 	String _jobType='请选择期望岗位';
 	String _jobTypeId='';
 
 	@override
-  void initState() {
-    // TODO: implement initState
-		_isLoad=(widget.jobId!=null&&widget.jobId.isNotEmpty);
-    super.initState();
-    if(_isLoad){
-			WidgetsBinding.instance.addPostFrameCallback((callback){_getResumeDetail(widget.jobId);});
-		}
-  }
+	void initState() {
+		// TODO: implement initState
+		_isLoad = (widget.jobId != null && widget.jobId.isNotEmpty);
+		super.initState();
+
+		WidgetsBinding.instance.addPostFrameCallback((callback) {
+			if (_isLoad) {
+				_getResumeDetail(widget.jobId);
+			}
+			getEduLevel();
+			getWorkDate();
+		});
+	}
 
 	@override
 	Widget build(BuildContext context) {
@@ -146,25 +164,12 @@ class _State extends State<CompanyPostRecruit> {
 							 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
 								 crossAxisAlignment: CrossAxisAlignment.center,
 								 children: <Widget>[
-									 Item10(title: '工作经验', value: '3-5年', onClick: () {
+									 Item10(title: '工作经验', value: _workDate??'请选择经验', onClick: () {
 										 chooseWorkExperience();
 									 },),
 									 VDivider(),
-									 Item10(title: '最低学历', value: '本科', onClick: () {
-
-										 showCupertinoModalPopup(
-											 context: context,
-											 builder: (context) {
-												 return CraftPicker(
-													 confirm: (selPos) {
-														 Navigator.pop(context);
-													 },
-													 title: '薪资范围',
-													 pickList: <String>['高中', '本科'],
-													 selIdx: 0,
-												 );
-											 },
-										 );
+									 Item10(title: '最低学历', value: _eduLevel??'请选择学历', onClick: () {
+									 	chooseEduExp();
 									 },),
 									 VDivider(),
 									 Item10(title: '薪资范围', value: '8-10k', onClick: () {
@@ -265,15 +270,65 @@ class _State extends State<CompanyPostRecruit> {
 	}
 	
 	chooseWorkExperience() {
-		MenuListDialog.showMenu(context, DialogConfig (
-		   title: '工作经验',
-		   menus: <String> [
-			   '1-2年',
-			   '3-5年',
-		   ]
-		
-		)
+		showCupertinoModalPopup(
+			context: context,
+			builder: (context) {
+				return CraftPicker(
+					confirm: (selPos) {
+						Navigator.pop(context);
+						setState(() {
+							_workDatePos = selPos;
+							_workDate = _wordDateList[selPos].workDateName;
+						});
+					},
+					title: '工作经验',
+					pickList: _wordDateList.map((item)=>item.workDateName).toList(),
+					selIdx: _workDatePos,
+				);
+			},
 		);
+	}
+
+	chooseEduExp() {
+		showCupertinoModalPopup(
+			context: context,
+			builder: (context) {
+				return CraftPicker(
+					confirm: (selPos) {
+						Navigator.pop(context);
+						setState(() {
+							_eduPos = selPos;
+							_eduLevel = _eduLevelList[selPos].educationName;
+						});
+					},
+					title: '最低学历',
+					pickList: _eduLevelList.map((item)=>item.educationName).toList(),
+					selIdx: _eduPos,
+				);
+			},
+		);
+	}
+
+	/// 经验要求
+	void getWorkDate() async {
+		WorkDateEntity workDateEntity = await NetUtils.getWorkDate(context);
+		if(workDateEntity.statusCode==200&&workDateEntity.data!=null){
+			_wordDateList.clear();
+			_wordDateList.addAll(workDateEntity.data);
+			setState(() {
+			});
+		}
+	}
+
+	/// 学历要求
+	void getEduLevel() async {
+		EduLevelEntity eduLevelEntity = await NetUtils.getEduLevel(context);
+		if(eduLevelEntity.statusCode==200&&eduLevelEntity.data!=null){
+			_eduLevelList.clear();
+			_eduLevelList.addAll(eduLevelEntity.data);
+			setState(() {
+			});
+		}
 	}
 	
 	setupSalary() {

@@ -14,7 +14,23 @@ class CompanyIntroduction extends StatefulWidget {
 }
 
 class _State extends State<CompanyIntroduction> {
+	TextEditingController _editController;
+
+	@override
+  void initState() {
+    // TODO: implement initState
+		_editController=TextEditingController();
+    super.initState();
+  }
+
   @override
+  void dispose() {
+    // TODO: implement dispose
+		_editController.dispose();
+    super.dispose();
+  }
+
+	@override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
@@ -71,38 +87,46 @@ class _State extends State<CompanyIntroduction> {
 			       ),
 			    ),
 			    SizedBox(height: ScreenUtil().setHeight(20)),
-			    Container(
-				    padding: EdgeInsets.all(ScreenUtil().setWidth(20)),
-				    constraints: BoxConstraints.expand(height: ScreenUtil().setHeight(392)),
-				    color: Color.fromRGBO(255,248,248,1),
-				    child: Column(
-					    crossAxisAlignment: CrossAxisAlignment.end,
-					    children: <Widget>[
-						    Expanded(
-							    child: TextField(
-								    maxLines: 7,
-				                    minLines: 7,
-								    decoration: InputDecoration(
-								       border: InputBorder.none,
-								       hintText: "请简要说明您公司的基本信息",
-								       hintStyle: TextStyle(
-									      color: Color.fromRGBO(95,94,94,1),
-									      fontSize: ScreenUtil().setSp(24),
-									      letterSpacing: 1
-								       )
-								    ),
-							    ),
-						    ),
-						    SizedBox(height: ScreenUtil().setHeight(15)),
-						    Text("0/500",
-						        style: TextStyle(
-							        color: Color.fromRGBO(95,94,94,1),
-							        fontSize: ScreenUtil().setSp(24),
-							        fontWeight: FontWeight.w300
-						        ),
-						    )
-				    ],)
-			    ),
+					TextField(
+						controller: _editController,
+						autofocus: false,
+						maxLines: 10,
+						textAlign: TextAlign.start,
+						cursorColor: Color.fromRGBO(95, 94, 94, 1),
+						maxLength: 500,
+						scrollPhysics: BouncingScrollPhysics(),
+						style: TextStyle(
+								height: 1.5,
+								letterSpacing: ScreenUtil().setWidth(3),
+								wordSpacing: ScreenUtil().setWidth(3),
+								fontSize: ScreenUtil().setSp(24),
+								color: Color.fromRGBO(95, 94, 94, 1)),
+						decoration: InputDecoration(
+							filled: true,
+							fillColor: Color.fromRGBO(255, 248, 248, 1),
+							contentPadding: EdgeInsets.all(
+								ScreenUtil().setWidth(20),
+							),
+							border: OutlineInputBorder(
+								borderSide: BorderSide.none,
+								borderRadius: BorderRadius.all(
+									Radius.circular(
+										ScreenUtil().setWidth(15),
+									),
+								),
+							),
+							hintText: '请简要说明您公司的基本信息',
+							hintStyle: TextStyle(
+								fontSize: ScreenUtil().setSp(24),
+								color: Color.fromRGBO(95, 94, 94, 1),
+							),
+							counterStyle: TextStyle(
+								fontSize: ScreenUtil().setSp(24),
+								color: Color.fromRGBO(95, 94, 94, 1),
+							),
+						),
+						onSubmitted: (text) {},
+					),
 		    ],
 	    )
     );

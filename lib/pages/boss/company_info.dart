@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:recruit_app/entity/company_detail_entity.dart';
 import 'package:recruit_app/model/company_model.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
+import 'package:recruit_app/widgets/craft_date_time_picker.dart';
 import 'package:recruit_app/widgets/profile_divider.dart';
 import 'package:recruit_app/pages/boss/company_introduction.dart';
 import 'package:recruit_app/pages/boss/company_work_time.dart';
@@ -253,7 +254,7 @@ class _CompanyInfoState extends State<CompanyInfo> {
                       }),
                       Item2("注册时间", '${DateUtil.formatDateMs(
                           _detailData.company.registerDate, format: "yyyy-MM-dd")}', canClick: true, onClick: () {
-                        print("object3");
+                        adJustDate();
                       }),
                       Item2("经营状态", '${_detailData.company.operateState}', canClick: true, onClick: () {
                         chooseCompanyStatus();
@@ -277,6 +278,22 @@ class _CompanyInfoState extends State<CompanyInfo> {
           ],
         ),
       ),
+    );
+  }
+  /// 调整时间
+  void adJustDate() {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (context) {
+        return CraftDateTimePicker(
+          isHaveTime: false,
+          title: '注册时间',
+          initialTime: DateTime.now(),
+          confirm: (datetime) {
+            Navigator.pop(context);
+          },
+        );
+      },
     );
   }
 

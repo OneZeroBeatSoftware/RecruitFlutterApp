@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/common_page_body.dart';
 import 'package:recruit_app/style/profile_style.dart';
+import 'package:recruit_app/widgets/craft_date_time_picker.dart';
 
 class CompanyWorkTime extends StatefulWidget {
 	@override
@@ -83,37 +84,40 @@ class _State extends State<CompanyWorkTime> {
 					    mainAxisAlignment: MainAxisAlignment.start,
 					    crossAxisAlignment: CrossAxisAlignment.center,
 					    children: <Widget>[
-					    	Container(
-							    constraints: BoxConstraints(
-								    minHeight: ScreenUtil().setHeight(40)
-							    ),
-							    child: Text("9:30",
-								    style: TextStyle(
-								       color: Color.fromRGBO(95,94,94,1),
-								       fontSize: ScreenUtil().setSp(28),
-								       fontWeight: FontWeight.w500
-								    ),
-							    ),
-						    ),
-						    
+								GestureDetector(child: Container(
+									constraints: BoxConstraints(
+											minHeight: ScreenUtil().setHeight(40)
+									),
+									child: Text("9:30",
+										style: TextStyle(
+												color: Color.fromRGBO(95,94,94,1),
+												fontSize: ScreenUtil().setSp(28),
+												fontWeight: FontWeight.w500
+										),
+									),
+								),behavior: HitTestBehavior.opaque,onTap: (){
+									adJustTime('上班时间');
+								},),
 						    Container(
 							    margin: EdgeInsets.only(left: ScreenUtil().setWidth(84), right:  ScreenUtil().setWidth(84)),
 							    color: Color.fromRGBO(95,94,94,1),
 							    width: ScreenUtil().setHeight(16),
 							    height: ScreenUtil().setHeight(1),
 						    ),
-						    Container(
-							    constraints: BoxConstraints(
-							       minHeight: ScreenUtil().setHeight(40)
-							    ),
-							    child: Text("19:30",
-								    style: TextStyle(
-								       color: Color.fromRGBO(95,94,94,1),
-								       fontSize: ScreenUtil().setSp(28),
-								       fontWeight: FontWeight.w500
-								    ),
-							    ),
-						    ),
+						    GestureDetector(child: Container(
+									constraints: BoxConstraints(
+											minHeight: ScreenUtil().setHeight(40)
+									),
+									child: Text("19:30",
+										style: TextStyle(
+												color: Color.fromRGBO(95,94,94,1),
+												fontSize: ScreenUtil().setSp(28),
+												fontWeight: FontWeight.w500
+										),
+									),
+								),behavior: HitTestBehavior.opaque,onTap: (){
+									adJustTime('下班时间');
+								},),
 					
 					    ],
 			        )),
@@ -122,5 +126,20 @@ class _State extends State<CompanyWorkTime> {
 	    )
     );
   }
-	
+	/// 调整时间
+	void adJustTime(String title) {
+		showCupertinoModalPopup(
+			context: context,
+			builder: (context) {
+				return CraftDateTimePicker(
+					isHaveDate: false,
+					title: title,
+					initialTime: DateTime.now(),
+					confirm: (datetime) {
+						Navigator.pop(context);
+					},
+				);
+			},
+		);
+	}
 }
