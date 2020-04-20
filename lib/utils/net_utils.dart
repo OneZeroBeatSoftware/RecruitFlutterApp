@@ -248,6 +248,25 @@ class NetUtils {
     return BaseRespEntity().fromJson(response.data);
   }
 
+  /// 获取邮箱验证码
+  static Future<BaseRespEntity> getEmailCode(
+      BuildContext context, String email) async {
+    var response = await _get(context, '/user/getEmailCode', params: {
+      'email': email
+    });
+    return BaseRespEntity().fromJson(response.data);
+  }
+
+  /// 改绑邮箱
+  static Future<BaseRespEntity> updateEmail(
+      BuildContext context, String email,String code) async {
+    var response = await _get(context, '/user/update/email', params: {
+      'email': email,
+      'code': code
+    });
+    return BaseRespEntity().fromJson(response.data);
+  }
+
   /// 获取岗位列表
   static Future<JobListEntity> getJobList(BuildContext context, bool isNearby,
       bool isNews, bool isRecommend, String jobName, int pageIndex,int pageSize) async {

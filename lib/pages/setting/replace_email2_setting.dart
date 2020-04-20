@@ -2,6 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:recruit_app/model/user_model.dart';
+import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/remind_dialog.dart';
 
@@ -19,6 +22,9 @@ class ReplaceEmail2Setting extends StatefulWidget {
 }
 
 class _ReplaceEmail2SettingState extends State<ReplaceEmail2Setting> {
+  TextEditingController _emailController;
+  TextEditingController _codeController;
+  UserModel _userModel;
   Timer _timer;
   var _countDownTime = 0;
 
@@ -37,8 +43,25 @@ class _ReplaceEmail2SettingState extends State<ReplaceEmail2Setting> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    _emailController=TextEditingController();
+    _codeController=TextEditingController();
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((callback){
+      _userModel=Provider.of<UserModel>(context);
+    });
+  }
+
+  @override
   void dispose() {
     // TODO: implement dispose
+    if(_emailController!=null){
+      _emailController.dispose();
+    }
+    if(_codeController!=null){
+      _codeController.dispose();
+    }
     super.dispose();
     if (_timer != null) {
       _timer.cancel();
@@ -103,6 +126,7 @@ class _ReplaceEmail2SettingState extends State<ReplaceEmail2Setting> {
                 children: <Widget>[
                   Expanded(
                     child: TextField(
+                      controller: _emailController,
                       autofocus: false,
                       keyboardType: TextInputType.emailAddress,
                       maxLines: 1,
@@ -153,6 +177,7 @@ class _ReplaceEmail2SettingState extends State<ReplaceEmail2Setting> {
                   Expanded(
                     child: TextField(
                       autofocus: false,
+                      controller: _codeController,
                       keyboardType: TextInputType.number,
                       maxLines: 1,
                       textAlign: TextAlign.start,
@@ -188,7 +213,11 @@ class _ReplaceEmail2SettingState extends State<ReplaceEmail2Setting> {
                     onTap: () {
                       FocusScope.of(context).requestFocus(FocusNode());
                       if (_countDownTime > 0) return;
-                      _startCountDown();
+                      if (_emailController.text.isEmpty) {
+                        Utils.showToast('请填写邮箱');
+                        return;
+                      }
+                      _getEmailCode(_emailController.text);
                     },
                   ),
                 ],
@@ -198,7 +227,16 @@ class _ReplaceEmail2SettingState extends State<ReplaceEmail2Setting> {
               elevation: 0,
               color: Colors.white,
               onPressed: () {
-                if(widget.operateEmailType == OperateEmailType.unbind){
+                FocusScope.of(context).requestFocus(FocusNode());
+                if (widget.operateEmailType == OperateEmailType.unbind) {
+                  if (_emailController.text.isEmpty) {
+                    Utils.showToast('请填写当前邮箱');
+                    return;
+                  }
+                  if (_codeController.text.isEmpty) {
+                    Utils.showToast('请填写验证码');
+                    return;
+                  }
                   showDialog(
                       context: context,
                       builder: (context) {
@@ -219,6 +257,16 @@ class _ReplaceEmail2SettingState extends State<ReplaceEmail2Setting> {
                           },
                         );
                       });
+                } else {
+                  if (_emailController.text.isEmpty) {
+                    Utils.showToast('请填写新邮箱');
+                    return;
+                  }
+                  if (_codeController.text.isEmpty) {
+                    Utils.showToast('请填写验证码');
+                    return;
+                  }
+                  _updateEmail(_emailController.text, _codeController.text);
                 }
               },
               textColor: Color.fromRGBO(159, 199, 235, 1),
@@ -243,5 +291,24 @@ class _ReplaceEmail2SettingState extends State<ReplaceEmail2Setting> {
         ),
       ),
     );
+  }
+
+  /// 获取邮箱验证码
+  _getEmailCode(String email) {
+    _userModel.getEmailCode(context, email).then((entity) {
+      if (entity != null) {
+        _startCountDown();
+      }
+    });
+  }
+
+  /// 改绑邮箱
+  _updateEmail(String email,String code) {
+    _userModel.updateEmail(context, email, code).then((entity) {
+      if (entity != null) {
+        Navigator.pop(context);
+        Navigator.pop(context);
+      }
+    });
   }
 }

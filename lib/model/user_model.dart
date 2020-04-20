@@ -72,6 +72,28 @@ class UserModel with ChangeNotifier {
     return null;
   }
 
+  /// 获取邮箱验证码
+  Future<BaseRespEntity> getEmailCode(BuildContext context,String email) async {
+    BaseRespEntity baseEntity = await NetUtils.getEmailCode(context,email);
+    if (baseEntity.statusCode ==200) {
+      Utils.showToast(baseEntity.msg ?? '验证码已发送');
+      return baseEntity;
+    }
+    Utils.showToast(baseEntity.msg ?? '验证码发送失败，请重试');
+    return null;
+  }
+
+  /// 改绑邮箱
+  Future<BaseRespEntity> updateEmail(BuildContext context,String email,String code) async {
+    BaseRespEntity baseEntity = await NetUtils.updateEmail(context,email,code);
+    if (baseEntity.statusCode ==200) {
+      Utils.showToast(baseEntity.msg ?? '邮箱绑定成功');
+      return baseEntity;
+    }
+    Utils.showToast(baseEntity.msg ?? '邮箱绑定成功失败，请重试');
+    return null;
+  }
+
   /// 保存用户信息到 sp
   _saveUserInfo(UserEntity user) {
     _user = user;
