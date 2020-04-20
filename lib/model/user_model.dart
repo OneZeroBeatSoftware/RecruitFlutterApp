@@ -90,7 +90,7 @@ class UserModel with ChangeNotifier {
       Utils.showToast(baseEntity.msg ?? '邮箱绑定成功');
       return baseEntity;
     }
-    Utils.showToast(baseEntity.msg ?? '邮箱绑定成功失败，请重试');
+    Utils.showToast(baseEntity.msg ?? '邮箱绑定失败，请重试');
     return null;
   }
 

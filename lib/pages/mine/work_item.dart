@@ -51,7 +51,7 @@ class WorkItem extends StatelessWidget {
             ],
           ),
           SizedBox(height: ScreenUtil().setWidth(5)),
-          Text('${workData.position}',
+          Text('${workData.positionName}',
               style: TextStyle(
                   wordSpacing: 1,
                   letterSpacing: 1,

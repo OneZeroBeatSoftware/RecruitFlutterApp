@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:recruit_app/application.dart';
 import 'package:recruit_app/entity/age_entity.dart';
 import 'package:recruit_app/entity/apply_list_entity.dart';
 import 'package:recruit_app/entity/base_resp_entity.dart';
@@ -646,6 +647,115 @@ class NetUtils {
   static Future<ResumeDetailEntity> getResumeDetail(BuildContext context, String resumeId) async {
     var response = await _get(context, '/jobSeeker/resume/details/$resumeId',isShowLoading: false);
     return ResumeDetailEntity().fromJson(response.data);
+  }
+
+  /// 添加更新简历
+  static Future<BaseRespEntity> saveResume(BuildContext context, String resumeId,ResumeDetailData detailData) async {
+    List certificates=[];
+    List educationExperiences=[];
+    List projectExperiences=[];
+    List socialHomepage=[];
+    List workExperiences=[];
+    Map<String,dynamic> resume={};
+
+    resume['address']=detailData.resume.address;
+    resume['birthDate']='${detailData.resume.birthDate}';
+    resume['education']=detailData.resume.educationId;
+    resume['graduationDate']='${detailData.resume.graduationDate}';
+    resume['workExp']='${detailData.resume.workExp}';
+    resume['age']=detailData.resume.age;
+    resume['workDate']=detailData.resume.workDateId;
+    resume['realName']=detailData.resume.realName;
+    resume['sex']=detailData.resume.sex;
+    resume['resumeName']=detailData.resume.resumeName;
+    resume['minSalary']=detailData.resume.minSalary;
+    resume['maxSalary']=detailData.resume.maxSalary;
+    resume['state']=1;
+    resume['jobSeekerId']=Application.sp.get('jobSeekerId');
+    if(detailData.resume.id!=null&&detailData.resume.id.isNotEmpty){
+      resume['id']=detailData.resume.id;
+    }
+
+    detailData.certificates.forEach((item){
+      Map<String,String> params={};
+      params['certificateName']=item.certificateName;
+      params['state']='1';
+      if(item.id!=null&&item.id.isNotEmpty){
+        params['id']=item.id;
+      }
+      if(resumeId!=null&&resumeId.isNotEmpty){
+        params['resumeId']=resumeId;
+      }
+      certificates.add(params);
+    });
+
+    detailData.educationExperience.forEach((item){
+      Map<String,dynamic> params={};
+      params['educationId']=item.educationId;
+      params['school']=item.school;
+      params['specialty']=item.specialty;
+      params['endDate']='${item.endDate}';
+      params['startDate']='${item.startDate}';
+      params['state']='1';
+      if(item.id!=null&&item.id.isNotEmpty){
+        params['id']=item.id;
+      }
+      if(resumeId!=null&&resumeId.isNotEmpty){
+        params['resumeId']=resumeId;
+      }
+      educationExperiences.add(params);
+    });
+
+    detailData.projectExperience.forEach((item){
+      Map<String,dynamic> params={};
+      params['position']=item.industryId;
+      params['projectContent']=item.projectContent;
+      params['projectName']=item.projectName;
+      params['endDate']='${item.endDate}';
+      params['startDate']='${item.startDate}';
+      params['state']='1';
+      if(item.id!=null&&item.id.isNotEmpty){
+        params['id']=item.id;
+      }
+      if(resumeId!=null&&resumeId.isNotEmpty){
+        params['resumeId']=resumeId;
+      }
+      projectExperiences.add(params);
+    });
+
+    detailData.workExperience.forEach((item){
+      Map<String,dynamic> params={};
+      params['companyName']=item.companyName;
+      params['department']=item.department;
+      params['industry']=item.industryId;
+      params['position']=item.positionId;
+      params['workContent']='';
+      params['endDate']='${item.endDate}';
+      params['startDate']='${item.startDate}';
+      params['state']='1';
+      if(item.id!=null&&item.id.isNotEmpty){
+        params['id']=item.id;
+      }
+      if(resumeId!=null&&resumeId.isNotEmpty){
+        params['resumeId']=resumeId;
+      }
+      workExperiences.add(params);
+    });
+
+    detailData.socialHomepage.forEach((item){
+      socialHomepage.add(item);
+    });
+
+    Map<String,dynamic> params={};
+    params['certificates']=certificates;
+    params['educationExperiences']=educationExperiences;
+    params['projectExperiences']=projectExperiences;
+    params['resume']=resume;
+    params['socialHomepage']=socialHomepage;
+    params['workExperiences']=workExperiences;
+
+    var response = await _post(context, '/jobSeeker/resume/save',params: params);
+    return BaseRespEntity().fromJson(response.data);
   }
 
   // 获取招聘者主页信息

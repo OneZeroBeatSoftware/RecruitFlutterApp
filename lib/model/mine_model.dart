@@ -45,7 +45,7 @@ class MineModel{
   Future<MineModel> getShieldList (BuildContext context,String seekerId,
       int pageIndex, {int pageSize = 15}) async {
     BlackListEntity shieldEntity = await NetUtils.getShieldList(context,seekerId,pageIndex, pageSize);
-    if (shieldEntity!=null||shieldEntity.statusCode ==200) {
+    if (shieldEntity!=null&&shieldEntity.statusCode ==200) {
       if(pageIndex==1){
         _shieldList.clear();
       }
@@ -86,7 +86,7 @@ class MineModel{
     if (type == 1) {
       StarJobEntity jobEntity = await NetUtils.getStarList(
           context, seekerId, type, pageIndex, pageSize);
-      if (jobEntity!=null||jobEntity.statusCode == 200) {
+      if (jobEntity!=null&&jobEntity.statusCode == 200) {
         if (pageIndex == 1) {
           _jobList.clear();
         }
@@ -106,7 +106,7 @@ class MineModel{
       Utils.showToast(jobEntity.msg ?? '获取失败，请重新尝试');
     } else if (type == 2) {
       StarCompanyEntity companyEntity = await NetUtils.getStarList(context, seekerId, type, pageIndex, pageSize);
-      if (companyEntity!=null||companyEntity.statusCode == 200) {
+      if (companyEntity!=null&&companyEntity.statusCode == 200) {
         if (pageIndex == 1) {
           _companyList.clear();
         }
@@ -146,7 +146,7 @@ class MineModel{
       String seekerId, int state, int pageIndex) async {
     ApplyListEntity applyListEntity = await NetUtils.getSeekerApplyList(
         context, seekerId, state, pageIndex);
-    if (applyListEntity != null || applyListEntity.statusCode == 200) {
+    if (applyListEntity != null && applyListEntity.statusCode == 200) {
       if (pageIndex == 1) {
         _applyList.clear();
       }
@@ -172,7 +172,7 @@ class MineModel{
   /// 获取全部求职期望
   Future<MineModel> getIntentList (BuildContext context,String seekerId) async {
     IntentListEntity intentEntity = await NetUtils.getIntentList(context,seekerId);
-    if (intentEntity!=null||intentEntity.statusCode ==200) {
+    if (intentEntity!=null&&intentEntity.statusCode ==200) {
       _intentList.clear();
       _intentList.addAll(intentEntity.data);
       return this;
@@ -207,7 +207,7 @@ class MineModel{
   /// 获取全部简历
   Future<MineModel> getResumeList (BuildContext context,String seekerId) async {
     ResumeListEntity resumeEntity = await NetUtils.getResumeList(context,seekerId);
-    if (resumeEntity!=null||resumeEntity.statusCode ==200) {
+    if (resumeEntity!=null&&resumeEntity.statusCode ==200) {
       _resumeList.clear();
       _resumeList.addAll(resumeEntity.data);
       return this;
@@ -234,6 +234,16 @@ class MineModel{
       return resumeEntity.data;
     }
     Utils.showToast(resumeEntity.msg ?? '获取失败，请重新尝试');
+    return null;
+  }
+
+  /// 获取简历详情
+  Future<BaseRespEntity> saveResume(BuildContext context,String resumeId,ResumeDetailData detailData) async {
+    BaseRespEntity baseRespEntity = await NetUtils.saveResume(context,resumeId,detailData);
+    if (baseRespEntity.statusCode ==200) {
+      return baseRespEntity;
+    }
+    Utils.showToast(baseRespEntity.msg ?? '获取失败，请重新尝试');
     return null;
   }
 }

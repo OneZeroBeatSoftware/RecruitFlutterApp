@@ -9,12 +9,26 @@ import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/craft_date_picker.dart';
 import 'package:recruit_app/widgets/remind_dialog.dart';
+class WorkExpResult{
+  int index;
+  String company;
+  String industryId;
+  String industryType;
+  String positionId;
+  String positionName;
+  String section;
+  DateTime startDate;
+  DateTime endDate;
 
+  WorkExpResult(this.index, this.company, this.industryId, this.industryType,
+      this.positionId, this.positionName, this.section, this.startDate,
+      this.endDate);
+}
 class JobWorkExp extends StatefulWidget {
   final int index;
   final ResumeDetailDataWorkExperience detailData;
 
-  const JobWorkExp({Key key, this.index, this.detailData}) : super(key: key);
+  const JobWorkExp({Key key, this.index=-1, this.detailData}) : super(key: key);
 
   @override
   _JobWorkExpState createState() {
@@ -48,8 +62,10 @@ class _JobWorkExpState extends State<JobWorkExp> {
       _nameController = TextEditingController(text: widget.detailData.companyName);
       _sectionController = TextEditingController(text: widget.detailData.department);
 
-      _industryId=widget.detailData.industry;
-      _jobTypeId=widget.detailData.position;
+      _industryId=widget.detailData.industryId;
+      _jobTypeId=widget.detailData.positionId;
+      _industryType=widget.detailData.industryName;
+      _jobType=widget.detailData.positionName;
 
       _starDate = DateTime.fromMillisecondsSinceEpoch(widget.detailData.startDate);
       _endDate = DateTime.fromMillisecondsSinceEpoch(widget.detailData.endDate);
@@ -122,6 +138,16 @@ class _JobWorkExpState extends State<JobWorkExp> {
               Utils.showToast('请填写所属部门');
               return;
             }
+            Navigator.pop(context, WorkExpResult(
+                widget.index,
+                _nameController.text,
+                _industryId,
+                _industryType,
+                _jobTypeId,
+                _jobType,
+                _sectionController.text,
+                _starDate,
+                _endDate));
           },
           behavior: HitTestBehavior.opaque,
           child: Padding(
@@ -475,34 +501,34 @@ class _JobWorkExpState extends State<JobWorkExp> {
                 SizedBox(
                   height: ScreenUtil().setWidth(80),
                 ),
-                MaterialButton(
-                  elevation: 0,
-                  color: Colors.white,
-                  onPressed: () {
-                    FocusScope.of(context).requestFocus(FocusNode());
-                  },
-                  textColor: Color.fromRGBO(159, 199, 235, 1),
-                  child: Text(
-                    "删除",
-                    style: TextStyle(
-                      fontSize: ScreenUtil().setSp(32),
-                    ),
-                  ),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: ScreenUtil().setWidth(30),
-                    vertical: ScreenUtil().setWidth(20),
-                  ),
-                  shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                        color: Color.fromRGBO(159, 199, 235, 1),
-                        width: ScreenUtil().setWidth(2),
-                      ),
-                      borderRadius:
-                          BorderRadius.circular(ScreenUtil().setWidth(1000))),
-                ),
-                SizedBox(
-                  height: ScreenUtil().setWidth(80),
-                ),
+//                MaterialButton(
+//                  elevation: 0,
+//                  color: Colors.white,
+//                  onPressed: () {
+//                    FocusScope.of(context).requestFocus(FocusNode());
+//                  },
+//                  textColor: Color.fromRGBO(159, 199, 235, 1),
+//                  child: Text(
+//                    "删除",
+//                    style: TextStyle(
+//                      fontSize: ScreenUtil().setSp(32),
+//                    ),
+//                  ),
+//                  padding: EdgeInsets.symmetric(
+//                    horizontal: ScreenUtil().setWidth(30),
+//                    vertical: ScreenUtil().setWidth(20),
+//                  ),
+//                  shape: RoundedRectangleBorder(
+//                      side: BorderSide(
+//                        color: Color.fromRGBO(159, 199, 235, 1),
+//                        width: ScreenUtil().setWidth(2),
+//                      ),
+//                      borderRadius:
+//                          BorderRadius.circular(ScreenUtil().setWidth(1000))),
+//                ),
+//                SizedBox(
+//                  height: ScreenUtil().setWidth(80),
+//                ),
               ],
             ),
           ),

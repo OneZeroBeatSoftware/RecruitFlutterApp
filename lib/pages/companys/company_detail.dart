@@ -21,7 +21,6 @@ import 'package:recruit_app/pages/companys/company_welfare_dialog.dart';
 import 'package:recruit_app/pages/companys/company_welfare_item.dart';
 import 'package:recruit_app/pages/jobs/job_detail.dart';
 import 'package:recruit_app/utils/utils.dart';
-import 'package:recruit_app/widgets/list_menu_dialog.dart';
 import 'package:recruit_app/pages/jobs/report.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/remind_column_dialog.dart';

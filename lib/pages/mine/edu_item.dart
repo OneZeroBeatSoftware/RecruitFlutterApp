@@ -23,7 +23,7 @@ class EduItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Expanded(
-                child: Text('学校',
+                child: Text('${eduData.school}',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -51,7 +51,7 @@ class EduItem extends StatelessWidget {
             ],
           ),
           SizedBox(height: ScreenUtil().setWidth(5)),
-          Text('学历•${eduData.specialty}',
+          Text('${eduData.educationName}•${eduData.specialty}',
               style: TextStyle(
                   wordSpacing: 1,
                   letterSpacing: 1,

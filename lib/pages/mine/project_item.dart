@@ -23,7 +23,7 @@ class ProjectItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Expanded(
-                child: Text(projectData.projectName,
+                child: Text('${projectData?.projectName}',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -51,14 +51,14 @@ class ProjectItem extends StatelessWidget {
             ],
           ),
           SizedBox(height: ScreenUtil().setWidth(5)),
-          Text('${projectData.position}',
+          Text('${projectData?.industryName}',
               style: TextStyle(
                   wordSpacing: 1,
                   letterSpacing: 1,
                   fontSize: ScreenUtil().setSp(24),
                   color: Color.fromRGBO(176, 181, 180, 1))),
           SizedBox(height: ScreenUtil().setWidth(5)),
-          Text('${projectData.projectContent}',
+          Text('${projectData?.projectContent}',
               style: TextStyle(
                   wordSpacing: 1,
                   letterSpacing: 1,

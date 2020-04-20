@@ -27,15 +27,6 @@ resumeDetailDataFromJson(ResumeDetailData data, Map<String, dynamic> json) {
 	if (json['resume'] != null) {
 		data.resume = new ResumeDetailDataResume().fromJson(json['resume']);
 	}
-	if (json['age'] != null) {
-		data.age = json['age']?.toString();
-	}
-	if (json['education'] != null) {
-		data.education = json['education']?.toString();
-	}
-	if (json['workDate'] != null) {
-		data.workDate = json['workDate']?.toString();
-	}
 	if (json['certificates'] != null) {
 		data.certificates = new List<ResumeDetailDataCertificate>();
 		(json['certificates'] as List).forEach((v) {
@@ -71,9 +62,6 @@ Map<String, dynamic> resumeDetailDataToJson(ResumeDetailData entity) {
 	if (entity.resume != null) {
 		data['resume'] = entity.resume.toJson();
 	}
-	data['age'] = entity.age;
-	data['education'] = entity.education;
-	data['workDate'] = entity.workDate;
 	if (entity.certificates != null) {
 		data['certificates'] =  entity.certificates.map((v) => v.toJson()).toList();
 	}
@@ -94,20 +82,26 @@ resumeDetailDataResumeFromJson(ResumeDetailDataResume data, Map<String, dynamic>
 	if (json['id'] != null) {
 		data.id = json['id']?.toString();
 	}
-	if (json['jobSeekerId'] != null) {
-		data.jobSeekerId = json['jobSeekerId']?.toString();
-	}
 	if (json['resumeName'] != null) {
 		data.resumeName = json['resumeName']?.toString();
+	}
+	if (json['jobSeekerId'] != null) {
+		data.jobSeekerId = json['jobSeekerId']?.toString();
 	}
 	if (json['realName'] != null) {
 		data.realName = json['realName']?.toString();
 	}
-	if (json['sex'] != null) {
-		data.sex = json['sex']?.toInt();
-	}
 	if (json['birthDate'] != null) {
 		data.birthDate = json['birthDate']?.toInt();
+	}
+	if (json['workExp'] != null) {
+		data.workExp = json['workExp']?.toInt();
+	}
+	if (json['age'] != null) {
+		data.age = json['age']?.toString();
+	}
+	if (json['sex'] != null) {
+		data.sex = json['sex']?.toInt();
 	}
 	if (json['address'] != null) {
 		data.address = json['address']?.toString();
@@ -115,11 +109,17 @@ resumeDetailDataResumeFromJson(ResumeDetailDataResume data, Map<String, dynamic>
 	if (json['graduationDate'] != null) {
 		data.graduationDate = json['graduationDate']?.toInt();
 	}
-	if (json['education'] != null) {
-		data.education = json['education']?.toString();
+	if (json['educationId'] != null) {
+		data.educationId = json['educationId']?.toString();
 	}
-	if (json['workDate'] != null) {
-		data.workDate = json['workDate']?.toString();
+	if (json['educationName'] != null) {
+		data.educationName = json['educationName']?.toString();
+	}
+	if (json['workDateId'] != null) {
+		data.workDateId = json['workDateId']?.toString();
+	}
+	if (json['workDateName'] != null) {
+		data.workDateName = json['workDateName']?.toString();
 	}
 	if (json['minSalary'] != null) {
 		data.minSalary = json['minSalary']?.toString();
@@ -151,15 +151,19 @@ resumeDetailDataResumeFromJson(ResumeDetailDataResume data, Map<String, dynamic>
 Map<String, dynamic> resumeDetailDataResumeToJson(ResumeDetailDataResume entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	data['id'] = entity.id;
-	data['jobSeekerId'] = entity.jobSeekerId;
 	data['resumeName'] = entity.resumeName;
+	data['jobSeekerId'] = entity.jobSeekerId;
 	data['realName'] = entity.realName;
-	data['sex'] = entity.sex;
 	data['birthDate'] = entity.birthDate;
+	data['workExp'] = entity.workExp;
+	data['age'] = entity.age;
+	data['sex'] = entity.sex;
 	data['address'] = entity.address;
 	data['graduationDate'] = entity.graduationDate;
-	data['education'] = entity.education;
-	data['workDate'] = entity.workDate;
+	data['educationId'] = entity.educationId;
+	data['educationName'] = entity.educationName;
+	data['workDateId'] = entity.workDateId;
+	data['workDateName'] = entity.workDateName;
 	data['minSalary'] = entity.minSalary;
 	data['maxSalary'] = entity.maxSalary;
 	data['workExperienceId'] = entity.workExperienceId;
@@ -206,23 +210,26 @@ resumeDetailDataWorkExperienceFromJson(ResumeDetailDataWorkExperience data, Map<
 	if (json['companyName'] != null) {
 		data.companyName = json['companyName']?.toString();
 	}
-	if (json['position'] != null) {
-		data.position = json['position']?.toString();
+	if (json['industryId'] != null) {
+		data.industryId = json['industryId']?.toString();
 	}
-	if (json['industry'] != null) {
-		data.industry = json['industry']?.toString();
+	if (json['positionId'] != null) {
+		data.positionId = json['positionId']?.toString();
 	}
-	if (json['workContent'] != null) {
-		data.workContent = json['workContent']?.toString();
+	if (json['industryName'] != null) {
+		data.industryName = json['industryName']?.toString();
 	}
-	if (json['department'] != null) {
-		data.department = json['department']?.toString();
+	if (json['positionName'] != null) {
+		data.positionName = json['positionName']?.toString();
 	}
 	if (json['startDate'] != null) {
 		data.startDate = json['startDate']?.toInt();
 	}
 	if (json['endDate'] != null) {
 		data.endDate = json['endDate']?.toInt();
+	}
+	if (json['department'] != null) {
+		data.department = json['department']?.toString();
 	}
 	if (json['state'] != null) {
 		data.state = json['state']?.toInt();
@@ -235,12 +242,13 @@ Map<String, dynamic> resumeDetailDataWorkExperienceToJson(ResumeDetailDataWorkEx
 	data['id'] = entity.id;
 	data['resumeId'] = entity.resumeId;
 	data['companyName'] = entity.companyName;
-	data['position'] = entity.position;
-	data['industry'] = entity.industry;
-	data['workContent'] = entity.workContent;
-	data['department'] = entity.department;
+	data['industryId'] = entity.industryId;
+	data['positionId'] = entity.positionId;
+	data['industryName'] = entity.industryName;
+	data['positionName'] = entity.positionName;
 	data['startDate'] = entity.startDate;
 	data['endDate'] = entity.endDate;
+	data['department'] = entity.department;
 	data['state'] = entity.state;
 	return data;
 }
@@ -255,11 +263,14 @@ resumeDetailDataProjectExperienceFromJson(ResumeDetailDataProjectExperience data
 	if (json['projectName'] != null) {
 		data.projectName = json['projectName']?.toString();
 	}
-	if (json['position'] != null) {
-		data.position = json['position']?.toString();
-	}
 	if (json['projectContent'] != null) {
 		data.projectContent = json['projectContent']?.toString();
+	}
+	if (json['industryId'] != null) {
+		data.industryId = json['industryId']?.toString();
+	}
+	if (json['industryName'] != null) {
+		data.industryName = json['industryName']?.toString();
 	}
 	if (json['startDate'] != null) {
 		data.startDate = json['startDate']?.toInt();
@@ -278,8 +289,9 @@ Map<String, dynamic> resumeDetailDataProjectExperienceToJson(ResumeDetailDataPro
 	data['id'] = entity.id;
 	data['resumeId'] = entity.resumeId;
 	data['projectName'] = entity.projectName;
-	data['position'] = entity.position;
 	data['projectContent'] = entity.projectContent;
+	data['industryId'] = entity.industryId;
+	data['industryName'] = entity.industryName;
 	data['startDate'] = entity.startDate;
 	data['endDate'] = entity.endDate;
 	data['state'] = entity.state;
@@ -292,6 +304,12 @@ resumeDetailDataEducationExperienceFromJson(ResumeDetailDataEducationExperience 
 	}
 	if (json['resumeId'] != null) {
 		data.resumeId = json['resumeId']?.toString();
+	}
+	if (json['school'] != null) {
+		data.school = json['school']?.toString();
+	}
+	if (json['educationId'] != null) {
+		data.educationId = json['educationId']?.toString();
 	}
 	if (json['educationName'] != null) {
 		data.educationName = json['educationName']?.toString();
@@ -315,6 +333,8 @@ Map<String, dynamic> resumeDetailDataEducationExperienceToJson(ResumeDetailDataE
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	data['id'] = entity.id;
 	data['resumeId'] = entity.resumeId;
+	data['school'] = entity.school;
+	data['educationId'] = entity.educationId;
 	data['educationName'] = entity.educationName;
 	data['specialty'] = entity.specialty;
 	data['startDate'] = entity.startDate;

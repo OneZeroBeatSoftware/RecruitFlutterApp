@@ -154,7 +154,12 @@ class _ResumeListState extends State<ResumeList> {
                                 onTap: () {
                                   if (_resumeNum < _maxResume) {
                                     Navigator.push(context, MaterialPageRoute(
-                                        builder: (context) => OnlineResume()));
+                                        builder: (context) => OnlineResume()))
+                                        .then((value) {
+                                      if (value != null && value == 'success') {
+                                        _getResumeList();
+                                      }
+                                    });
                                     return;
                                   }
                                   Utils.showToast('最多添加$_maxResume份简历！');
@@ -189,7 +194,12 @@ class _ResumeListState extends State<ResumeList> {
                                   builder: (context) =>
                                       OnlineResume(
                                         resumeId: MineModel.instance
-                                            .resumeList[index].id,),),);
+                                            .resumeList[index].id,),),).then((
+                                  value) {
+                                if (value != null && value == 'success') {
+                                  _getResumeList();
+                                }
+                              });
                             },
                             child: JobResumeItem(
                               resumeData: MineModel.instance.resumeList[index],

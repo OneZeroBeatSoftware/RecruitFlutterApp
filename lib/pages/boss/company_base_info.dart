@@ -8,10 +8,8 @@ import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/common_page_body.dart';
 import 'package:recruit_app/style/profile_style.dart';
 import 'package:recruit_app/widgets/craft_picker.dart';
-import 'package:recruit_app/widgets/menu_list_dialog.dart';
 import 'package:recruit_app/pages/mine/industry_type.dart';
 import 'package:recruit_app/pages/boss/company_business_license.dart';
-import 'package:recruit_app/pages/boss/company_name.dart';
 
 class CompanyBaseInfo extends StatefulWidget {
 	@override

@@ -2,9 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/entity/edu_level_entity.dart';
-import 'package:recruit_app/entity/filter_data.dart';
 import 'package:recruit_app/entity/resume_detail_entity.dart';
-import 'package:recruit_app/pages/jobs/city_filter.dart';
+import 'package:recruit_app/entity/work_date_entity.dart';
 import 'package:recruit_app/utils/net_utils.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
@@ -12,7 +11,21 @@ import 'package:recruit_app/widgets/craft_date_picker.dart';
 import 'package:recruit_app/widgets/craft_picker.dart';
 import 'package:recruit_app/widgets/craft_sex_picker.dart';
 import 'package:recruit_app/widgets/remind_dialog.dart';
+class PersonalInfoResult{
+  String name;
+  int sex;
+  DateTime birthDate;
+  String address;
+  DateTime graduateDate;
+  String eduId;
+  String eduName;
+  String workExpId;
+  String workExp;
+  DateTime workDate;
 
+  PersonalInfoResult(this.name, this.sex, this.birthDate, this.address,
+      this.graduateDate, this.eduId, this.eduName, this.workDate,this.workExpId,this.workExp);
+}
 class PersonalInfo extends StatefulWidget {
   final ResumeDetailDataResume detailData;
 
@@ -26,12 +39,15 @@ class PersonalInfo extends StatefulWidget {
 
 class _PersonalInfoState extends State<PersonalInfo> {
   TextEditingController _nameController;
+  TextEditingController _addressController;
   List<EduLevelData> _eduLevelList = [];
+  List<WorkDateData> _wordDateList = [];
   String _selSex;
-  String _cityId='';
-  String _selCity = '请选择现居住所在地';
+  String _workExpId='';
+  String _workExp = '请选择';
+  int _workPos=0;
   String _eduLevel = '请选择';
-  String _eduId = '请选择';
+  String _eduId = '';
   int _eduPos = 0;
   DateTime _birthDate;
   DateTime _graduateDate;
@@ -43,24 +59,48 @@ class _PersonalInfoState extends State<PersonalInfo> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((i) {
       getEduLevel();
+      getWorkDate();
     });
 
     if(widget.detailData!=null){
       _nameController = TextEditingController(text: widget.detailData.realName);
-      _selSex=(1==widget.detailData.sex)?"男":"女";
-      _selCity=widget.detailData.address;
-      _eduId=widget.detailData.education;
+      _addressController= TextEditingController(text: widget.detailData.address);
+      if(widget.detailData.sex!=-1){
+        _selSex=(1==widget.detailData.sex)?"男":"女";
+      }
+      if(widget.detailData.educationId!=null&&widget.detailData.educationId.isNotEmpty){
+        _eduId=widget.detailData.educationId;
+        _eduLevel=widget.detailData.educationName;
+      }
+
+      if(widget.detailData.workDateId!=null&&widget.detailData.workDateId.isNotEmpty){
+        _workExpId=widget.detailData.workDateId;
+        _workExp=widget.detailData.workDateName;
+      }
 
       _birthDate = DateTime.fromMillisecondsSinceEpoch(widget.detailData.birthDate);
       _graduateDate = DateTime.fromMillisecondsSinceEpoch(widget.detailData.graduationDate);
-      _workDate = DateTime.fromMillisecondsSinceEpoch(0);
+      _workDate = DateTime.fromMillisecondsSinceEpoch(widget.detailData.workExp);
     } else {
       _nameController = TextEditingController();
+      _addressController = TextEditingController();
 
       _birthDate=DateTime.now();
       _graduateDate=DateTime.now();
       _workDate=DateTime.now();
     }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    if (_nameController != null) {
+      _nameController.dispose();
+    }
+    if (_addressController != null) {
+      _addressController.dispose();
+    }
+    super.dispose();
   }
 
   @override
@@ -115,14 +155,27 @@ class _PersonalInfoState extends State<PersonalInfo> {
               Utils.showToast('请选择性别');
               return;
             }
-            if(null==_cityId||_cityId.isEmpty){
-              Utils.showToast('请选择居住所在地');
+            if(_addressController.text.isEmpty){
+              Utils.showToast('请填写居住所在地');
               return;
             }
             if(null==_eduId||_eduId.isEmpty){
               Utils.showToast('请选择学历');
               return;
             }
+            if(null==_workExpId||_workExpId.isEmpty){
+              Utils.showToast('请选择工作经验');
+              return;
+            }
+            Navigator.pop(context, PersonalInfoResult(
+                _nameController.text,
+                ("男" == _selSex) ? 1 : 0,
+                _birthDate,
+                _addressController.text,
+                _graduateDate,
+                _eduId,
+                _eduLevel,
+                _workDate,_workExpId,_workExp));
           },
           behavior: HitTestBehavior.opaque,
           child: Padding(
@@ -387,59 +440,97 @@ class _PersonalInfoState extends State<PersonalInfo> {
                     color: Color.fromRGBO(57, 57, 57, 1),
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    FocusScope.of(context).requestFocus(FocusNode());
-
-                    Navigator.push<FilterData>(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CityFilter(initId: _cityId,))).then((value) {
-                      if (value != null)
-                        setState(() {
-                          _cityId= value.filterId;
-                          _selCity = value.filterName;
-                        });
-                    });
-                  },
-                  child: Container(
-                    padding: EdgeInsets.symmetric(
-                        vertical: ScreenUtil().setWidth(40)),
-                    margin: EdgeInsets.only(bottom: ScreenUtil().setWidth(40)),
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: Color.fromRGBO(159, 199, 235, 1),
-                          width: ScreenUtil().setWidth(1),
-                        ),
+                TextField(
+                  controller: _addressController,
+                  autofocus: false,
+                  scrollPadding: EdgeInsets.all(0),
+                  textAlign: TextAlign.start,
+                  maxLines: 1,
+                  cursorColor: Color.fromRGBO(176, 181, 180, 1),
+                  style: TextStyle(
+                      fontSize: ScreenUtil().setSp(28),
+                      color: Color.fromRGBO(95, 94, 94, 1)),
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(
+                      top: ScreenUtil().setWidth(34),
+                      bottom: ScreenUtil().setWidth(34),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color.fromRGBO(159, 199, 235, 1),
+                        width: ScreenUtil().setWidth(1),
                       ),
                     ),
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: Text('$_selCity',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                  wordSpacing: 1,
-                                  letterSpacing: 1,
-                                  fontSize: ScreenUtil().setSp(28),
-                                  color: Color.fromRGBO(95, 94, 94, 1))),
-                        ),
-                        SizedBox(
-                          width: ScreenUtil().setWidth(16),
-                        ),
-                        Image.asset(
-                          'images/img_arrow_right_blue.png',
-                          width: ScreenUtil().setWidth(10),
-                          height: ScreenUtil().setWidth(20),
-                          fit: BoxFit.cover,
-                        )
-                      ],
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color.fromRGBO(159, 199, 235, 1),
+                        width: ScreenUtil().setWidth(1),
+                      ),
+                    ),
+                    hintText: '请填写现居住所在地',
+                    hintStyle: TextStyle(
+                      fontSize: ScreenUtil().setSp(28),
+                      color: Color.fromRGBO(176, 181, 180, 1),
                     ),
                   ),
-                  behavior: HitTestBehavior.opaque,
+                  onSubmitted: (text) {},
                 ),
+                SizedBox(
+                  height: ScreenUtil().setWidth(40),
+                ),
+//                GestureDetector(
+//                  onTap: () {
+//                    FocusScope.of(context).requestFocus(FocusNode());
+//
+//                    Navigator.push<FilterData>(
+//                        context,
+//                        MaterialPageRoute(
+//                            builder: (context) => CityFilter(initId: _cityId,))).then((value) {
+//                      if (value != null)
+//                        setState(() {
+//                          _cityId= value.filterId;
+//                          _selCity = value.filterName;
+//                        });
+//                    });
+//                  },
+//                  child: Container(
+//                    padding: EdgeInsets.symmetric(
+//                        vertical: ScreenUtil().setWidth(40)),
+//                    margin: EdgeInsets.only(bottom: ScreenUtil().setWidth(40)),
+//                    decoration: BoxDecoration(
+//                      border: Border(
+//                        bottom: BorderSide(
+//                          color: Color.fromRGBO(159, 199, 235, 1),
+//                          width: ScreenUtil().setWidth(1),
+//                        ),
+//                      ),
+//                    ),
+//                    child: Row(
+//                      children: <Widget>[
+//                        Expanded(
+//                          child: Text('$_selCity',
+//                              maxLines: 1,
+//                              overflow: TextOverflow.ellipsis,
+//                              style: TextStyle(
+//                                  wordSpacing: 1,
+//                                  letterSpacing: 1,
+//                                  fontSize: ScreenUtil().setSp(28),
+//                                  color: Color.fromRGBO(95, 94, 94, 1))),
+//                        ),
+//                        SizedBox(
+//                          width: ScreenUtil().setWidth(16),
+//                        ),
+//                        Image.asset(
+//                          'images/img_arrow_right_blue.png',
+//                          width: ScreenUtil().setWidth(10),
+//                          height: ScreenUtil().setWidth(20),
+//                          fit: BoxFit.cover,
+//                        )
+//                      ],
+//                    ),
+//                  ),
+//                  behavior: HitTestBehavior.opaque,
+//                ),
                 Text(
                   '毕业时间',
                   maxLines: 1,
@@ -524,6 +615,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                             Navigator.pop(context);
                             setState(() {
                               _eduPos = selPos;
+                              _eduId = _eduLevelList[selPos].id;
                               _eduLevel = _eduLevelList[selPos].educationName;
                             });
                           },
@@ -635,6 +727,76 @@ class _PersonalInfoState extends State<PersonalInfo> {
                   ),
                   behavior: HitTestBehavior.opaque,
                 ),
+                Text(
+                  '工作经验',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: ScreenUtil().setSp(32),
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromRGBO(57, 57, 57, 1),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    FocusScope.of(context).requestFocus(FocusNode());
+                    showCupertinoModalPopup(
+                      context: context,
+                      builder: (context) {
+                        return CraftPicker(
+                          confirm: (selPos) {
+                            Navigator.pop(context);
+                            setState(() {
+                              _workPos = selPos;
+                              _workExpId = _wordDateList[selPos].id;
+                              _workExp = _wordDateList[selPos].workDateName;
+                            });
+                          },
+                          title: '工作经验',
+                          pickList: _wordDateList.map((item)=>item.workDateName).toList(),
+                          selIdx: _workPos,
+                        );
+                      },
+                    );
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                        vertical: ScreenUtil().setWidth(40)),
+                    margin: EdgeInsets.only(bottom: ScreenUtil().setWidth(40)),
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Color.fromRGBO(159, 199, 235, 1),
+                          width: ScreenUtil().setWidth(1),
+                        ),
+                      ),
+                    ),
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Text('$_workExp',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  wordSpacing: 1,
+                                  letterSpacing: 1,
+                                  fontSize: ScreenUtil().setSp(28),
+                                  color: Color.fromRGBO(95, 94, 94, 1))),
+                        ),
+                        SizedBox(
+                          width: ScreenUtil().setWidth(16),
+                        ),
+                        Image.asset(
+                          'images/img_arrow_right_blue.png',
+                          width: ScreenUtil().setWidth(10),
+                          height: ScreenUtil().setWidth(20),
+                          fit: BoxFit.cover,
+                        )
+                      ],
+                    ),
+                  ),
+                  behavior: HitTestBehavior.opaque,
+                ),
                 SizedBox(
                   height: ScreenUtil().setWidth(40),
                 ),
@@ -652,6 +814,17 @@ class _PersonalInfoState extends State<PersonalInfo> {
     if(eduLevelEntity.statusCode==200&&eduLevelEntity.data!=null){
       _eduLevelList.clear();
       _eduLevelList.addAll(eduLevelEntity.data);
+      setState(() {
+      });
+    }
+  }
+
+  /// 经验要求
+  void getWorkDate() async {
+    WorkDateEntity workDateEntity = await NetUtils.getWorkDate(context);
+    if(workDateEntity.statusCode==200&&workDateEntity.data!=null){
+      _wordDateList.clear();
+      _wordDateList.addAll(workDateEntity.data);
       setState(() {
       });
     }

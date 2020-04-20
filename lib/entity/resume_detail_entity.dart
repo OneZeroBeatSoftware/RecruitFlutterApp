@@ -8,9 +8,6 @@ class ResumeDetailEntity with JsonConvert<ResumeDetailEntity> {
 
 class ResumeDetailData with JsonConvert<ResumeDetailData> {
 	ResumeDetailDataResume resume;
-	String age;
-	String education;
-	String workDate;
 	List<ResumeDetailDataCertificate> certificates;
 	List<String> socialHomepage;
 	List<ResumeDetailDataWorkExperience> workExperience;
@@ -20,15 +17,19 @@ class ResumeDetailData with JsonConvert<ResumeDetailData> {
 
 class ResumeDetailDataResume with JsonConvert<ResumeDetailDataResume> {
 	String id;
-	String jobSeekerId;
 	String resumeName;
+	String jobSeekerId;
 	String realName;
-	int sex;
 	int birthDate;
+	int workExp;
+	String age;
+	int sex;
 	String address;
 	int graduationDate;
-	String education;
-	String workDate;
+	String educationId;
+	String educationName;
+	String workDateId;
+	String workDateName;
 	String minSalary;
 	String maxSalary;
 	String workExperienceId;
@@ -50,12 +51,13 @@ class ResumeDetailDataWorkExperience with JsonConvert<ResumeDetailDataWorkExperi
 	String id;
 	String resumeId;
 	String companyName;
-	String position;
-	String industry;
-	String workContent;
-	String department;
+	String industryId;
+	String positionId;
+	String industryName;
+	String positionName;
 	int startDate;
 	int endDate;
+	String department;
 	int state;
 }
 
@@ -63,8 +65,9 @@ class ResumeDetailDataProjectExperience with JsonConvert<ResumeDetailDataProject
 	String id;
 	String resumeId;
 	String projectName;
-	String position;
 	String projectContent;
+	String industryId;
+	String industryName;
 	int startDate;
 	int endDate;
 	int state;
@@ -73,6 +76,8 @@ class ResumeDetailDataProjectExperience with JsonConvert<ResumeDetailDataProject
 class ResumeDetailDataEducationExperience with JsonConvert<ResumeDetailDataEducationExperience> {
 	String id;
 	String resumeId;
+	String school;
+	String educationId;
 	String educationName;
 	String specialty;
 	int startDate;

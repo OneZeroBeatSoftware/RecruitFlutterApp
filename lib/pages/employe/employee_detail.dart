@@ -11,7 +11,6 @@ import 'package:recruit_app/pages/jobs/report.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recruit_app/widgets/list_menu_dialog.dart';
 import 'package:recruit_app/pages/employe/employee_experience.dart';
 import 'package:recruit_app/pages/employe/employee_experience2.dart';
 

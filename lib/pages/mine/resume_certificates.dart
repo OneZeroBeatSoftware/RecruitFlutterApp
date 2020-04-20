@@ -1,20 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recruit_app/entity/resume_detail_entity.dart';
-import 'package:recruit_app/model/mine_model.dart';
-import 'package:recruit_app/pages/mine/edu_item.dart';
-import 'package:recruit_app/pages/mine/job_personal_info.dart';
-import 'package:recruit_app/pages/mine/job_project_exp.dart';
-import 'package:recruit_app/pages/mine/job_work_exp.dart';
-import 'package:recruit_app/pages/mine/project_item.dart';
-import 'package:recruit_app/pages/mine/qualify_item.dart';
-import 'package:recruit_app/pages/mine/work_item.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
-import 'package:recruit_app/widgets/slide_button.dart';
 
-import 'job_edu_exp.dart';
 class CertResult{
   final String certificate;
   final String certificateId;

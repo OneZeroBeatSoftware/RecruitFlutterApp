@@ -9,7 +9,18 @@ import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/craft_date_picker.dart';
 import 'package:recruit_app/widgets/craft_picker.dart';
 import 'package:recruit_app/widgets/remind_dialog.dart';
+class EduExpResult{
+  int index;
+  String school;
+  String eduId;
+  String eduLevel;
+  String profession;
+  DateTime startDate;
+  DateTime endDate;
 
+  EduExpResult(this.index, this.school, this.eduId, this.eduLevel,
+      this.profession, this.startDate, this.endDate);
+}
 class JobEduExp extends StatefulWidget {
   final int index;
   final ResumeDetailDataEducationExperience detailData;
@@ -41,9 +52,10 @@ class _JobEduExpState extends State<JobEduExp> {
     });
 
     if(widget.detailData!=null){
-      _schoolController = TextEditingController();
+      _schoolController = TextEditingController(text: widget.detailData.school);
       _proController = TextEditingController(text: widget.detailData.specialty);
       _eduLevel=widget.detailData.educationName;
+      _eduId=widget.detailData.educationId;
 
       _starDate = DateTime.fromMillisecondsSinceEpoch(widget.detailData.startDate);
       _endDate = DateTime.fromMillisecondsSinceEpoch(widget.detailData.endDate);
@@ -112,6 +124,14 @@ class _JobEduExpState extends State<JobEduExp> {
               Utils.showToast('请填写专业');
               return;
             }
+            Navigator.pop(context, EduExpResult(
+                widget.index,
+                _schoolController.text,
+                _eduId,
+                _eduLevel,
+                _proController.text,
+                _starDate,
+                _endDate));
           },
           behavior: HitTestBehavior.opaque,
           child: Padding(
@@ -418,34 +438,34 @@ class _JobEduExpState extends State<JobEduExp> {
                 SizedBox(
                   height: ScreenUtil().setWidth(80),
                 ),
-                MaterialButton(
-                  elevation: 0,
-                  color: Colors.white,
-                  onPressed: () {
-                    FocusScope.of(context).requestFocus(FocusNode());
-                  },
-                  textColor: Color.fromRGBO(159, 199, 235, 1),
-                  child: Text(
-                    "删除",
-                    style: TextStyle(
-                      fontSize: ScreenUtil().setSp(32),
-                    ),
-                  ),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: ScreenUtil().setWidth(30),
-                    vertical: ScreenUtil().setWidth(20),
-                  ),
-                  shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                        color: Color.fromRGBO(159, 199, 235, 1),
-                        width: ScreenUtil().setWidth(2),
-                      ),
-                      borderRadius:
-                          BorderRadius.circular(ScreenUtil().setWidth(1000))),
-                ),
-                SizedBox(
-                  height: ScreenUtil().setWidth(80),
-                ),
+//                MaterialButton(
+//                  elevation: 0,
+//                  color: Colors.white,
+//                  onPressed: () {
+//                    FocusScope.of(context).requestFocus(FocusNode());
+//                  },
+//                  textColor: Color.fromRGBO(159, 199, 235, 1),
+//                  child: Text(
+//                    "删除",
+//                    style: TextStyle(
+//                      fontSize: ScreenUtil().setSp(32),
+//                    ),
+//                  ),
+//                  padding: EdgeInsets.symmetric(
+//                    horizontal: ScreenUtil().setWidth(30),
+//                    vertical: ScreenUtil().setWidth(20),
+//                  ),
+//                  shape: RoundedRectangleBorder(
+//                      side: BorderSide(
+//                        color: Color.fromRGBO(159, 199, 235, 1),
+//                        width: ScreenUtil().setWidth(2),
+//                      ),
+//                      borderRadius:
+//                          BorderRadius.circular(ScreenUtil().setWidth(1000))),
+//                ),
+//                SizedBox(
+//                  height: ScreenUtil().setWidth(80),
+//                ),
               ],
             ),
           ),

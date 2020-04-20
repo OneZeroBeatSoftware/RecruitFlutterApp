@@ -41,7 +41,7 @@ class BossMineModel{
       String recruiterId, int state, int pageIndex) async {
     BossApplyListEntity applyListEntity = await NetUtils.getRecruiterApplyList(
         context, recruiterId, state, pageIndex);
-    if (applyListEntity != null || applyListEntity.statusCode == 200) {
+    if (applyListEntity != null && applyListEntity.statusCode == 200) {
       if (pageIndex == 1) {
         _applyList.clear();
       }

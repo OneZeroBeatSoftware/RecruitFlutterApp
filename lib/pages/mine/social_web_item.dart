@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recruit_app/entity/resume_detail_entity.dart';
 
 class SocialWebItem extends StatelessWidget {
   final String web;
