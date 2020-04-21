@@ -843,7 +843,6 @@ class _OnlineResumeState extends State<OnlineResume> {
   /// 个人信息填写回调
   void personalInfoResult(PersonalInfoResult value) {
     if (value != null) {
-      int workDate=(DateUtil.getNowDateMs()-value.workDate.millisecondsSinceEpoch)~/31536000000;
       int age=(DateUtil.getNowDateMs()-value.birthDate.millisecondsSinceEpoch)~/31536000000;
       setState(() {
         _detailData.resume.workDateId=value.workExpId;

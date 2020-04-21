@@ -8,6 +8,7 @@ class MainResumeDetailEntity with JsonConvert<MainResumeDetailEntity> {
 
 class MainResumeDetailData with JsonConvert<MainResumeDetailData> {
   MainResumeDetailDataResume resume;
+  String starId;
   String age;
   String education;
   String workDate;

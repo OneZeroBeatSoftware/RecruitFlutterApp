@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:recruit_app/entity/banner_entity.dart';
 import 'package:recruit_app/entity/job_detail_entity.dart';
 import 'package:recruit_app/entity/job_item_entity.dart';
 import 'package:recruit_app/entity/job_list_entity.dart';
@@ -44,6 +45,15 @@ class JobModel with ChangeNotifier {
       return jobEntity;
     }
     Utils.showToast(jobEntity.msg ?? '获取失败，请重新尝试');
+    return null;
+  }
+
+  /// 获取广告图
+  Future<List<BannerData>> getBanner(BuildContext context) async {
+    BannerEntity bannerEntity = await NetUtils.getBanner(context);
+    if (bannerEntity.statusCode ==200) {
+      return bannerEntity.data;
+    }
     return null;
   }
 }

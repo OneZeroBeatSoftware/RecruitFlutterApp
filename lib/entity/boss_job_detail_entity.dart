@@ -8,8 +8,6 @@ class BossJobDetailEntity with JsonConvert<BossJobDetailEntity> {
 
 class BossJobDetailData with JsonConvert<BossJobDetailData> {
 	BossJobDetailDataJob job;
-	BossJobDetailDataIndustry industry;
-	BossJobDetailDataPosition position;
 	List<BossJobDetailDataJobDetail> jobDetails;
 	List<BossJobDetailDataJobTag> jobTags;
 	List<BossJobDetailDataTreatmants> treatments;
@@ -24,38 +22,25 @@ class BossJobDetailDataJob with JsonConvert<BossJobDetailDataJob> {
 	String jobName;
 	String jobContent;
 	String workAddress;
-	int minSalary;
-	int maxSalary;
+	String minSalary;
+	String maxSalary;
 	int releaseDate;
-	int industryId;
-	int positionId;
-	int city;
-	int longitude;
-	int latitude;
-	int recommend;
-	int weight;
-	int educationId;
-	int workDateId;
-	int candidatesTotal;
-	int candidatesCurrent;
+	String industryId;
+	String industryName;
+	String positionId;
+	String positionName;
+	String cityId;
+	String cityName;
+	String educationId;
+	String educationName;
+	String workDateId;
+	String workDateName;
+	String positionTypeName;
+	int sex;
 	int recruitsTotal;
 	int createDate;
-	int state;
-	int sex;
-	int positionType;
-}
-
-class BossJobDetailDataIndustry with JsonConvert<BossJobDetailDataIndustry> {
-	String id;
-	String pid;
-	String industryName;
-	int state;
-}
-
-class BossJobDetailDataPosition with JsonConvert<BossJobDetailDataPosition> {
-	String id;
-	String pid;
-	String positionName;
+	int candidatesTotal;
+	int candidatesCurrent;
 	int state;
 }
 

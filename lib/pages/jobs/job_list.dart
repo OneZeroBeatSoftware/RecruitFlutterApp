@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:provider/provider.dart';
+import 'package:recruit_app/entity/banner_entity.dart';
 import 'package:recruit_app/entity/filter_data.dart';
 import 'package:recruit_app/entity/job_list_entity.dart';
 import 'package:recruit_app/model/job_model.dart';
@@ -12,6 +14,7 @@ import 'package:recruit_app/pages/jobs/job_company_search.dart';
 import 'package:recruit_app/pages/jobs/job_detail.dart';
 import 'package:recruit_app/pages/jobs/job_filter.dart';
 import 'package:recruit_app/pages/jobs/job_row_item.dart';
+import 'package:recruit_app/widgets/web_view.dart';
 
 import '../../application.dart';
 
@@ -40,6 +43,13 @@ class _JobListState extends State<JobList> {
   String _industry='';
   String _jobType='';
 
+  List<BannerData> _bannerList = [BannerData()
+    ..desc = '百度一下'
+    ..url = 'https://www.baidu.com'
+    ..image = '/images/img_job_ad.png'
+  ];
+  bool isNetBanner=false;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -48,6 +58,7 @@ class _JobListState extends State<JobList> {
     _refreshController = EasyRefreshController();
     WidgetsBinding.instance.addPostFrameCallback((call) {
       _jobModel = Provider.of<JobModel>(context);
+      getBanner();
     });
   }
 
@@ -207,10 +218,36 @@ class _JobListState extends State<JobList> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.all(
                             Radius.circular(ScreenUtil().setWidth(10))),
-                        child: Image.asset(
-                          'images/img_job_ad.png',
-                          fit: BoxFit.cover,
+                        child: Container(
+                          width: ScreenUtil().setWidth(654),
                           height: ScreenUtil().setWidth(300),
+                          child: new Swiper.children(
+                            onTap: (index) {
+                              Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => WebViewWidget(title: '${_bannerList[index].desc}',url: '${_bannerList[index].url}',),),);
+                            },
+                            children: _bannerList.map((item){
+                              if(isNetBanner){
+                                return Image.network(
+                                  item.image,
+                                  fit: BoxFit.cover,
+                                );
+                              } else {
+                                return Image.asset(
+                                  item.image,
+                                  fit: BoxFit.cover,
+                                );
+                              }
+                            }).toList(),
+                            autoplay: true,
+                            pagination: new SwiperPagination(
+                              builder: DotSwiperPaginationBuilder(
+                                  activeColor: Color.fromRGBO(0, 0, 0, 0.2),
+                                  color: Colors.white,
+                                  size: 5,
+                                  activeSize: 5),
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -489,6 +526,18 @@ class _JobListState extends State<JobList> {
         15);
     if (_jobEntity != null && _jobEntity.data.records.length > 0) {
       _pageIndex++;
+    }
+  }
+
+  /// 获取banner图
+  getBanner() async {
+    List<BannerData> _bannerData = await _jobModel.getBanner(context);
+    if (_bannerData != null && _bannerData.length > 0) {
+      isNetBanner=true;
+      _bannerList.clear();
+      setState(() {
+        _bannerList.addAll(_bannerData);
+      });
     }
   }
 }

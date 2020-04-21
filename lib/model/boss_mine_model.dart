@@ -4,6 +4,7 @@ import 'package:recruit_app/entity/boss_apply_list_entity.dart';
 import 'package:recruit_app/entity/boss_info_entity.dart';
 import 'package:recruit_app/entity/boss_job_detail_entity.dart';
 import 'package:recruit_app/entity/boss_job_manage_entity.dart';
+import 'package:recruit_app/entity/collection_entity.dart';
 import 'package:recruit_app/entity/main_resume_list_entity.dart';
 import 'package:recruit_app/utils/net_utils.dart';
 import 'package:recruit_app/utils/utils.dart';
@@ -128,8 +129,8 @@ class BossMineModel{
   }
 
   /// 收藏夹操作
-  Future<BaseRespEntity> starSeeker(BuildContext context,String starObjectId, String recruiterId, {String starId}) async {
-    BaseRespEntity baseRespEntity = await NetUtils.starSeeker(context,starObjectId,recruiterId,starId: starId);
+  Future<CollectionEntity> starSeeker(BuildContext context,String starObjectId, String recruiterId, {String starId}) async {
+    CollectionEntity baseRespEntity = await NetUtils.starSeeker(context,starObjectId,recruiterId,starId: starId);
     if (baseRespEntity.statusCode ==200) {
       return baseRespEntity;
     }

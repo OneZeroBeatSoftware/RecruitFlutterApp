@@ -27,6 +27,9 @@ mainResumeDetailDataFromJson(MainResumeDetailData data, Map<String, dynamic> jso
 	if (json['resume'] != null) {
 		data.resume = new MainResumeDetailDataResume().fromJson(json['resume']);
 	}
+	if (json['starId'] != null) {
+		data.starId = json['starId']?.toString();
+	}
 	if (json['age'] != null) {
 		data.age = json['age']?.toString();
 	}
@@ -62,6 +65,7 @@ Map<String, dynamic> mainResumeDetailDataToJson(MainResumeDetailData entity) {
 	if (entity.resume != null) {
 		data['resume'] = entity.resume.toJson();
 	}
+	data['starId'] = entity.starId;
 	data['age'] = entity.age;
 	data['education'] = entity.education;
 	data['workDate'] = entity.workDate;

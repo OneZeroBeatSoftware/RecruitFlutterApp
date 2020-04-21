@@ -8,6 +8,7 @@ class JobDetailEntity with JsonConvert<JobDetailEntity> {
 
 class JobDetailData with JsonConvert<JobDetailData> {
 	JobDetailDataJob job;
+	String starId;
 	JobDetailDataIndustry industry;
 	JobDetailDataPosition position;
 	List<JobDetailDataTags> jobTags;

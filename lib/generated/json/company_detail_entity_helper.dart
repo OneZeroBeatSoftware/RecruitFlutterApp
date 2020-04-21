@@ -27,6 +27,9 @@ companyDetailDataFromJson(CompanyDetailData data, Map<String, dynamic> json) {
 	if (json['company'] != null) {
 		data.company = new CompanyDetailDataCompany().fromJson(json['company']);
 	}
+	if (json['starId'] != null) {
+		data.starId = json['starId']?.toString();
+	}
 	if (json['scale'] != null) {
 		data.scale = json['scale']?.toString();
 	}
@@ -62,6 +65,7 @@ Map<String, dynamic> companyDetailDataToJson(CompanyDetailData entity) {
 	if (entity.company != null) {
 		data['company'] = entity.company.toJson();
 	}
+	data['starId'] = entity.starId;
 	data['scale'] = entity.scale;
 	if (entity.industries != null) {
 		data['industries'] =  entity.industries.map((v) => v.toJson()).toList();

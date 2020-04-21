@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recruit_app/entity/boss_job_detail_entity.dart';
 import 'package:recruit_app/entity/edu_level_entity.dart';
 import 'package:recruit_app/entity/filter_data.dart';
 import 'package:recruit_app/entity/work_date_entity.dart';
@@ -38,7 +37,6 @@ class CompanyPostRecruit extends StatefulWidget {
 
 class _State extends State<CompanyPostRecruit> {
 	bool _isLoad=false;
-	BossJobDetailData _detailData;
 
 	List<EduLevelData> _eduLevelList = [];
 	String _eduLevel;
@@ -54,6 +52,8 @@ class _State extends State<CompanyPostRecruit> {
 	String _industryId='';
 	String _jobType='请选择期望岗位';
 	String _jobTypeId='';
+	String _minSalary='0';
+	String _maxSalary='0';
 
 	@override
 	void initState() {
@@ -108,7 +108,7 @@ class _State extends State<CompanyPostRecruit> {
 					   onTap: () {
 						   Navigator.pop(context);
 					   },
-					   child: Text("保存",
+					   child: Text(widget.isADDMode ? '保存' : '修改',
 						   style: TextStyle(
 							  color: Color.fromRGBO(57, 57, 57, 1),
 							  fontSize: ScreenUtil().setSp(36),
@@ -121,8 +121,8 @@ class _State extends State<CompanyPostRecruit> {
 		   ),
 		   body: _isLoad?Center(heightFactor: 20,child: CupertinoActivityIndicator(),):CommonPageBody(
 				 children: <Widget>[
-					 ProfileItem(title: "求职期望",
-							 value: '平面设计师',
+					 ProfileItem(title: "岗位类型",
+							 value: _jobType,
 							 onClick: () {
 								 Navigator.push<FilterData>(
 										 context,
@@ -137,8 +137,8 @@ class _State extends State<CompanyPostRecruit> {
 									}
 								 });
 							 }),
-					 ProfileItem(title: "职业类型",
-							 value: '广告/设计',
+					 ProfileItem(title: "行业类型",
+							 value: _industryType,
 							 onClick: () {
 								 Navigator.push<FilterData>(
 										 context,
@@ -171,7 +171,7 @@ class _State extends State<CompanyPostRecruit> {
 									 	chooseEduExp();
 									 },),
 									 VDivider(),
-									 Item10(title: '薪资范围', value: '8-10k', onClick: () {
+									 Item10(title: '薪资范围', value: '$_minSalary-${_maxSalary}k', onClick: () {
 										 setupSalary();
 									 },),
 								 ],
@@ -234,35 +234,35 @@ class _State extends State<CompanyPostRecruit> {
 								 ],
 							 )
 					 ),
-
-					 Container(
-						 margin: EdgeInsets.only(
-								 top: ScreenUtil().setHeight(40),
-								 bottom: ScreenUtil().setHeight(82)
-						 ),
-						 height: ScreenUtil().setHeight(72),
-						 width: ScreenUtil().setWidth(652),
-						 child: RaisedButton(
-							 color: Color.fromRGBO(255,255,255,1),
-							 child: Text(widget.isADDMode ? '修改' : '保存',
-									 style: TextStyle(
-											 color: Color.fromRGBO(159,199,235,1),
-											 fontSize: ScreenUtil().setSp(32),
-											 fontWeight: FontWeight.w300
-									 )
-							 ),
-							 onPressed: () {
-							 },
-							 shape: RoundedRectangleBorder(
-									 borderRadius: BorderRadius.all(Radius.circular(20)),
-									 side: BorderSide(
-											 color: Color.fromRGBO(159,199,235,1),
-											 style: BorderStyle.solid,
-											 width: ScreenUtil().setWidth(2)
-									 )
-							 ),
-						 ),
-					 )
+					 SizedBox(height: ScreenUtil().setWidth(80),),
+//					 Container(
+//						 margin: EdgeInsets.only(
+//								 top: ScreenUtil().setHeight(40),
+//								 bottom: ScreenUtil().setHeight(82)
+//						 ),
+//						 height: ScreenUtil().setHeight(72),
+//						 width: ScreenUtil().setWidth(652),
+//						 child: RaisedButton(
+//							 color: Color.fromRGBO(255,255,255,1),
+//							 child: Text(widget.isADDMode ? '保存' : '修改',
+//									 style: TextStyle(
+//											 color: Color.fromRGBO(159,199,235,1),
+//											 fontSize: ScreenUtil().setSp(32),
+//											 fontWeight: FontWeight.w300
+//									 )
+//							 ),
+//							 onPressed: () {
+//							 },
+//							 shape: RoundedRectangleBorder(
+//									 borderRadius: BorderRadius.all(Radius.circular(20)),
+//									 side: BorderSide(
+//											 color: Color.fromRGBO(159,199,235,1),
+//											 style: BorderStyle.solid,
+//											 width: ScreenUtil().setWidth(2)
+//									 )
+//							 ),
+//						 ),
+//					 )
 				 ],
 			 ),
 		);
@@ -277,6 +277,7 @@ class _State extends State<CompanyPostRecruit> {
 						Navigator.pop(context);
 						setState(() {
 							_workDatePos = selPos;
+							_workDateId=_wordDateList[selPos].id;
 							_workDate = _wordDateList[selPos].workDateName;
 						});
 					},
@@ -297,6 +298,7 @@ class _State extends State<CompanyPostRecruit> {
 						Navigator.pop(context);
 						setState(() {
 							_eduPos = selPos;
+							_eduId=_eduLevelList[selPos].id;
 							_eduLevel = _eduLevelList[selPos].educationName;
 						});
 					},
@@ -343,8 +345,17 @@ class _State extends State<CompanyPostRecruit> {
 		BossMineModel.instance.getJobDetail(context, id).then((detail){
 			if(detail!=null){
 				setState(() {
+					_workDateId=detail.job.workDateId;
+					_workDate=detail.job.workDateName;
+					_industryId=detail.job.industryId;
+					_industryType=detail.job.industryName;
+					_jobType=detail.job.positionName;
+					_jobTypeId=detail.job.positionId;
+					_eduId=detail.job.educationId;
+					_eduLevel=detail.job.educationName;
+					_minSalary=detail.job.minSalary;
+					_maxSalary=detail.job.maxSalary;
 					_isLoad=false;
-					_detailData=detail;
 				});
 			} else {
 				Utils.showToast('岗位详情有误，请重试！');

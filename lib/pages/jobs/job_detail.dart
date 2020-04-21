@@ -2,13 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:recruit_app/entity/base_resp_entity.dart';
+import 'package:recruit_app/entity/collection_entity.dart';
 import 'package:recruit_app/entity/job_detail_entity.dart';
 import 'package:recruit_app/model/job_model.dart';
 import 'package:recruit_app/model/mine_model.dart';
 import 'package:recruit_app/pages/companys/company_detail.dart';
 import 'package:recruit_app/pages/jobs/chat_room.dart';
-import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/list_menu_dialog.dart';
 import 'package:recruit_app/pages/jobs/report.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
@@ -35,6 +34,7 @@ class JobDetail extends StatefulWidget {
 
 class _JobDetailState extends State<JobDetail> {
   bool _isCollected=false;
+  String _starId;
   List<String> _reports=[];
   List<String> _reasons=[];
 
@@ -94,9 +94,7 @@ class _JobDetailState extends State<JobDetail> {
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () {
-                  setState(() {
-                    _isCollected=!_isCollected;
-                  });
+                 _operateStar(widget.jobId, _starId);
                 },
                 child: Image.asset(
                   _isCollected?'images/img_heart_focus.png':'images/img_heart_unfocus.png',
@@ -658,19 +656,22 @@ class _JobDetailState extends State<JobDetail> {
     JobDetailEntity jobDetailEntity =
         await _jobModel.getJobDetail(context, jobId);
     if (jobDetailEntity.data != null) {
+      _starId=jobDetailEntity.data.starId;
       setState(() {
+        _isCollected=(_starId!=null&&_starId.isNotEmpty);
         _jobDetailData=jobDetailEntity.data;
       });
     }
   }
 
   /// 收藏夹操作
-  _operateStar(String id,String starId, int index) async {
-    BaseRespEntity _baseEntity = await MineModel.instance.starCompanyJob(
+  _operateStar(String id,String starId) async {
+    CollectionEntity _baseEntity = await MineModel.instance.starCompanyJob(
         context, true, id,Application.sp.getString('jobSeekerId'),starId:(_isCollected?starId:''));
     if (_baseEntity != null) {
-      Utils.showToast(_baseEntity.msg ?? (_isCollected?'取消收藏':'已收藏'));
+//      Utils.showToast(_baseEntity.msg ?? (_isCollected?'取消收藏':'已收藏'));
       setState(() {
+        _starId=_baseEntity.data;
         _isCollected=!_isCollected;
       });
     }

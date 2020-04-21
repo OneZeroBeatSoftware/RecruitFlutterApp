@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:recruit_app/entity/banner_entity.dart';
 import 'package:recruit_app/entity/main_resume_detail_entity.dart';
 import 'package:recruit_app/entity/main_resume_list_entity.dart';
 import 'package:recruit_app/utils/net_utils.dart';
@@ -55,6 +56,15 @@ class MainResumeModel {
       return resumeEntity;
     }
     Utils.showToast(resumeEntity.msg ?? '获取失败，请重新尝试');
+    return null;
+  }
+
+  /// 获取广告图
+  Future<List<BannerData>> getBanner(BuildContext context) async {
+    BannerEntity bannerEntity = await NetUtils.getBanner(context);
+    if (bannerEntity.statusCode ==200) {
+      return bannerEntity.data;
+    }
     return null;
   }
 }

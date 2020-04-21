@@ -27,6 +27,9 @@ jobDetailDataFromJson(JobDetailData data, Map<String, dynamic> json) {
 	if (json['job'] != null) {
 		data.job = new JobDetailDataJob().fromJson(json['job']);
 	}
+	if (json['starId'] != null) {
+		data.starId = json['starId']?.toString();
+	}
 	if (json['industry'] != null) {
 		data.industry = new JobDetailDataIndustry().fromJson(json['industry']);
 	}
@@ -53,6 +56,7 @@ Map<String, dynamic> jobDetailDataToJson(JobDetailData entity) {
 	if (entity.job != null) {
 		data['job'] = entity.job.toJson();
 	}
+	data['starId'] = entity.starId;
 	if (entity.industry != null) {
 		data['industry'] = entity.industry.toJson();
 	}

@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:recruit_app/application.dart';
+import 'package:recruit_app/entity/banner_entity.dart';
 import 'package:recruit_app/entity/filter_data.dart';
 import 'package:recruit_app/model/recruit_resume_model.dart';
 import 'package:recruit_app/pages/employe/employe_row_item.dart';
@@ -11,6 +13,7 @@ import 'package:recruit_app/pages/employe/employee_detail.dart';
 import 'package:recruit_app/pages/jobs/city_filter.dart';
 import 'package:recruit_app/pages/jobs/job_company_search.dart';
 import 'package:recruit_app/pages/jobs/job_filter.dart';
+import 'package:recruit_app/widgets/web_view.dart';
 
 class EmployeeList extends StatefulWidget {
   @override
@@ -34,12 +37,22 @@ class _EmployeeListState extends State<EmployeeList> {
   String _eduLevel='';
   String _salary='';
 
+  List<BannerData> _bannerList = [BannerData()
+    ..desc = '百度一下'
+    ..url = 'https://www.baidu.com'
+    ..image = '/images/img_job_ad.png'
+  ];
+  bool isNetBanner=false;
+
   @override
   void initState() {
     // TODO: implement initState
     _selCity=Application.sp.get('location_city')??'请选择城市';
     _refreshController = EasyRefreshController();
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((callback) {
+      getBanner();
+    });
   }
 
   @override
@@ -198,10 +211,36 @@ class _EmployeeListState extends State<EmployeeList> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.all(
                             Radius.circular(ScreenUtil().setWidth(10))),
-                        child: Image.asset(
-                          'images/img_job_ad.png',
-                          fit: BoxFit.cover,
+                        child: Container(
+                          width: ScreenUtil().setWidth(654),
                           height: ScreenUtil().setWidth(300),
+                          child: new Swiper.children(
+                            onTap: (index) {
+                              Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => WebViewWidget(title: '${_bannerList[index].desc}',url: '${_bannerList[index].url}',),),);
+                            },
+                            children: _bannerList.map((item){
+                              if(isNetBanner){
+                                return Image.network(
+                                  item.image,
+                                  fit: BoxFit.cover,
+                                );
+                              } else {
+                                return Image.asset(
+                                  item.image,
+                                  fit: BoxFit.cover,
+                                );
+                              }
+                            }).toList(),
+                            autoplay: true,
+                            pagination: new SwiperPagination(
+                              builder: DotSwiperPaginationBuilder(
+                                  activeColor: Color.fromRGBO(0, 0, 0, 0.2),
+                                  color: Colors.white,
+                                  size: 5,
+                                  activeSize: 5),
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -478,5 +517,17 @@ class _EmployeeListState extends State<EmployeeList> {
           setState(() {
           });
     });
+  }
+
+  /// 获取banner图
+  getBanner() async {
+    List<BannerData> _bannerData = await MainResumeModel.instance.getBanner(context);
+    if (_bannerData != null && _bannerData.length > 0) {
+      isNetBanner=true;
+      _bannerList.clear();
+      setState(() {
+        _bannerList.addAll(_bannerData);
+      });
+    }
   }
 }

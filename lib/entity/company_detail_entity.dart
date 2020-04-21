@@ -8,6 +8,7 @@ class CompanyDetailEntity with JsonConvert<CompanyDetailEntity> {
 
 class CompanyDetailData with JsonConvert<CompanyDetailData> {
 	CompanyDetailDataCompany company;
+	String starId;
 	String scale;
 	List<CompanyDetailDataIndustry> industries;
 	List<CompanyDetailDataDetail> details;

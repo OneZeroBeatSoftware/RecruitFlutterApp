@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:common_utils/common_utils.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
@@ -8,6 +9,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:recruit_app/application.dart';
 import 'package:recruit_app/entity/age_entity.dart';
 import 'package:recruit_app/entity/apply_list_entity.dart';
+import 'package:recruit_app/entity/banner_entity.dart';
 import 'package:recruit_app/entity/base_resp_entity.dart';
 import 'package:recruit_app/entity/black_list_entity.dart';
 import 'package:recruit_app/entity/boss_apply_list_entity.dart';
@@ -15,6 +17,7 @@ import 'package:recruit_app/entity/boss_info_entity.dart';
 import 'package:recruit_app/entity/boss_job_detail_entity.dart';
 import 'package:recruit_app/entity/boss_job_manage_entity.dart';
 import 'package:recruit_app/entity/city_entity.dart';
+import 'package:recruit_app/entity/collection_entity.dart';
 import 'package:recruit_app/entity/company_detail_entity.dart';
 import 'package:recruit_app/entity/company_job_entity.dart';
 import 'package:recruit_app/entity/company_list_entity.dart';
@@ -206,6 +209,12 @@ class NetUtils {
     } finally {
       Loading.hideLoading(context);
     }
+  }
+
+  /// 获取广告图
+  static Future<BannerEntity> getBanner(BuildContext context) async {
+    var response = await _get(context, '/banner/list',isShowLoading: false);
+    return BannerEntity().fromJson(response.data);
   }
 
   /// 登录
@@ -564,7 +573,7 @@ class NetUtils {
   }
 
   /// 收藏公司/岗位操作
-  static Future<BaseRespEntity> starCompanyJob(BuildContext context, bool isJob,
+  static Future<CollectionEntity> starCompanyJob(BuildContext context, bool isJob,
       String starObjectId, String jobSeekerId, {String starId}) async {
     Map<String, dynamic> params = {};
     params["starObjectId"] = starObjectId;
@@ -574,7 +583,7 @@ class NetUtils {
     params["jobSeekerId"] = jobSeekerId;
     var response = await _post(
         context, '/jobSeeker/${isJob?"starJob":"starCompany"}', params: params);
-    return BaseRespEntity().fromJson(response.data);
+    return CollectionEntity().fromJson(response.data);
   }
 
   /// 求职者获取申请列表
@@ -663,7 +672,7 @@ class NetUtils {
     resume['education']=detailData.resume.educationId;
     resume['graduationDate']='${detailData.resume.graduationDate}';
     resume['workExp']='${detailData.resume.workExp}';
-    resume['age']=detailData.resume.age;
+    resume['age']=(DateUtil.getNowDateMs()-detailData.resume.birthDate)~/31536000000;
     resume['workDate']=detailData.resume.workDateId;
     resume['realName']=detailData.resume.realName;
     resume['sex']=detailData.resume.sex;
@@ -708,7 +717,7 @@ class NetUtils {
 
     detailData.projectExperience.forEach((item){
       Map<String,dynamic> params={};
-      params['position']=item.industryId;
+      params['industry']=item.industryId;
       params['projectContent']=item.projectContent;
       params['projectName']=item.projectName;
       params['endDate']='${item.endDate}';
@@ -819,7 +828,7 @@ class NetUtils {
   }
 
   /// 招聘者收藏求职者操作
-  static Future<BaseRespEntity> starSeeker(BuildContext context,
+  static Future<CollectionEntity> starSeeker(BuildContext context,
       String starObjectId, String recruiterId, {String starId}) async {
     Map<String, dynamic> params = {};
     params["starObjectId"] = starObjectId;
@@ -829,7 +838,7 @@ class NetUtils {
     params["recruiterId"] = recruiterId;
     var response = await _post(
         context, '/recruiter/starSeeker', params: params);
-    return BaseRespEntity().fromJson(response.data);
+    return CollectionEntity().fromJson(response.data);
   }
 
   /// 获取一个招聘者发布的所有招聘信息

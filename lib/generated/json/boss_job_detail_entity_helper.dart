@@ -27,12 +27,6 @@ bossJobDetailDataFromJson(BossJobDetailData data, Map<String, dynamic> json) {
 	if (json['job'] != null) {
 		data.job = new BossJobDetailDataJob().fromJson(json['job']);
 	}
-	if (json['industry'] != null) {
-		data.industry = new BossJobDetailDataIndustry().fromJson(json['industry']);
-	}
-	if (json['position'] != null) {
-		data.position = new BossJobDetailDataPosition().fromJson(json['position']);
-	}
 	if (json['jobDetails'] != null) {
 		data.jobDetails = new List<BossJobDetailDataJobDetail>();
 		(json['jobDetails'] as List).forEach((v) {
@@ -58,12 +52,6 @@ Map<String, dynamic> bossJobDetailDataToJson(BossJobDetailData entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	if (entity.job != null) {
 		data['job'] = entity.job.toJson();
-	}
-	if (entity.industry != null) {
-		data['industry'] = entity.industry.toJson();
-	}
-	if (entity.position != null) {
-		data['position'] = entity.position.toJson();
 	}
 	if (entity.jobDetails != null) {
 		data['jobDetails'] =  entity.jobDetails.map((v) => v.toJson()).toList();
@@ -103,46 +91,49 @@ bossJobDetailDataJobFromJson(BossJobDetailDataJob data, Map<String, dynamic> jso
 		data.workAddress = json['workAddress']?.toString();
 	}
 	if (json['minSalary'] != null) {
-		data.minSalary = json['minSalary']?.toInt();
+		data.minSalary = json['minSalary']?.toString();
 	}
 	if (json['maxSalary'] != null) {
-		data.maxSalary = json['maxSalary']?.toInt();
+		data.maxSalary = json['maxSalary']?.toString();
 	}
 	if (json['releaseDate'] != null) {
 		data.releaseDate = json['releaseDate']?.toInt();
 	}
 	if (json['industryId'] != null) {
-		data.industryId = json['industryId']?.toInt();
+		data.industryId = json['industryId']?.toString();
+	}
+	if (json['industryName'] != null) {
+		data.industryName = json['industryName']?.toString();
 	}
 	if (json['positionId'] != null) {
-		data.positionId = json['positionId']?.toInt();
+		data.positionId = json['positionId']?.toString();
 	}
-	if (json['city'] != null) {
-		data.city = json['city']?.toInt();
+	if (json['positionName'] != null) {
+		data.positionName = json['positionName']?.toString();
 	}
-	if (json['longitude'] != null) {
-		data.longitude = json['longitude']?.toInt();
+	if (json['cityId'] != null) {
+		data.cityId = json['cityId']?.toString();
 	}
-	if (json['latitude'] != null) {
-		data.latitude = json['latitude']?.toInt();
-	}
-	if (json['recommend'] != null) {
-		data.recommend = json['recommend']?.toInt();
-	}
-	if (json['weight'] != null) {
-		data.weight = json['weight']?.toInt();
+	if (json['cityName'] != null) {
+		data.cityName = json['cityName']?.toString();
 	}
 	if (json['educationId'] != null) {
-		data.educationId = json['educationId']?.toInt();
+		data.educationId = json['educationId']?.toString();
+	}
+	if (json['educationName'] != null) {
+		data.educationName = json['educationName']?.toString();
 	}
 	if (json['workDateId'] != null) {
-		data.workDateId = json['workDateId']?.toInt();
+		data.workDateId = json['workDateId']?.toString();
 	}
-	if (json['candidatesTotal'] != null) {
-		data.candidatesTotal = json['candidatesTotal']?.toInt();
+	if (json['workDateName'] != null) {
+		data.workDateName = json['workDateName']?.toString();
 	}
-	if (json['candidatesCurrent'] != null) {
-		data.candidatesCurrent = json['candidatesCurrent']?.toInt();
+	if (json['positionTypeName'] != null) {
+		data.positionTypeName = json['positionTypeName']?.toString();
+	}
+	if (json['sex'] != null) {
+		data.sex = json['sex']?.toInt();
 	}
 	if (json['recruitsTotal'] != null) {
 		data.recruitsTotal = json['recruitsTotal']?.toInt();
@@ -150,14 +141,14 @@ bossJobDetailDataJobFromJson(BossJobDetailDataJob data, Map<String, dynamic> jso
 	if (json['createDate'] != null) {
 		data.createDate = json['createDate']?.toInt();
 	}
+	if (json['candidatesTotal'] != null) {
+		data.candidatesTotal = json['candidatesTotal']?.toInt();
+	}
+	if (json['candidatesCurrent'] != null) {
+		data.candidatesCurrent = json['candidatesCurrent']?.toInt();
+	}
 	if (json['state'] != null) {
 		data.state = json['state']?.toInt();
-	}
-	if (json['sex'] != null) {
-		data.sex = json['sex']?.toInt();
-	}
-	if (json['positionType'] != null) {
-		data.positionType = json['positionType']?.toInt();
 	}
 	return data;
 }
@@ -176,70 +167,21 @@ Map<String, dynamic> bossJobDetailDataJobToJson(BossJobDetailDataJob entity) {
 	data['maxSalary'] = entity.maxSalary;
 	data['releaseDate'] = entity.releaseDate;
 	data['industryId'] = entity.industryId;
+	data['industryName'] = entity.industryName;
 	data['positionId'] = entity.positionId;
-	data['city'] = entity.city;
-	data['longitude'] = entity.longitude;
-	data['latitude'] = entity.latitude;
-	data['recommend'] = entity.recommend;
-	data['weight'] = entity.weight;
+	data['positionName'] = entity.positionName;
+	data['cityId'] = entity.cityId;
+	data['cityName'] = entity.cityName;
 	data['educationId'] = entity.educationId;
+	data['educationName'] = entity.educationName;
 	data['workDateId'] = entity.workDateId;
-	data['candidatesTotal'] = entity.candidatesTotal;
-	data['candidatesCurrent'] = entity.candidatesCurrent;
+	data['workDateName'] = entity.workDateName;
+	data['positionTypeName'] = entity.positionTypeName;
+	data['sex'] = entity.sex;
 	data['recruitsTotal'] = entity.recruitsTotal;
 	data['createDate'] = entity.createDate;
-	data['state'] = entity.state;
-	data['sex'] = entity.sex;
-	data['positionType'] = entity.positionType;
-	return data;
-}
-
-bossJobDetailDataIndustryFromJson(BossJobDetailDataIndustry data, Map<String, dynamic> json) {
-	if (json['id'] != null) {
-		data.id = json['id']?.toString();
-	}
-	if (json['pid'] != null) {
-		data.pid = json['pid']?.toString();
-	}
-	if (json['industryName'] != null) {
-		data.industryName = json['industryName']?.toString();
-	}
-	if (json['state'] != null) {
-		data.state = json['state']?.toInt();
-	}
-	return data;
-}
-
-Map<String, dynamic> bossJobDetailDataIndustryToJson(BossJobDetailDataIndustry entity) {
-	final Map<String, dynamic> data = new Map<String, dynamic>();
-	data['id'] = entity.id;
-	data['pid'] = entity.pid;
-	data['industryName'] = entity.industryName;
-	data['state'] = entity.state;
-	return data;
-}
-
-bossJobDetailDataPositionFromJson(BossJobDetailDataPosition data, Map<String, dynamic> json) {
-	if (json['id'] != null) {
-		data.id = json['id']?.toString();
-	}
-	if (json['pid'] != null) {
-		data.pid = json['pid']?.toString();
-	}
-	if (json['positionName'] != null) {
-		data.positionName = json['positionName']?.toString();
-	}
-	if (json['state'] != null) {
-		data.state = json['state']?.toInt();
-	}
-	return data;
-}
-
-Map<String, dynamic> bossJobDetailDataPositionToJson(BossJobDetailDataPosition entity) {
-	final Map<String, dynamic> data = new Map<String, dynamic>();
-	data['id'] = entity.id;
-	data['pid'] = entity.pid;
-	data['positionName'] = entity.positionName;
+	data['candidatesTotal'] = entity.candidatesTotal;
+	data['candidatesCurrent'] = entity.candidatesCurrent;
 	data['state'] = entity.state;
 	return data;
 }

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:recruit_app/entity/apply_list_entity.dart';
 import 'package:recruit_app/entity/base_resp_entity.dart';
 import 'package:recruit_app/entity/black_list_entity.dart';
+import 'package:recruit_app/entity/collection_entity.dart';
 import 'package:recruit_app/entity/company_item_entity.dart';
 import 'package:recruit_app/entity/intent_list_entity.dart';
 import 'package:recruit_app/entity/job_item_entity.dart';
@@ -129,9 +130,9 @@ class MineModel{
   }
 
   /// 收藏夹操作
-  Future<BaseRespEntity> starCompanyJob(BuildContext context, bool isJob,
+  Future<CollectionEntity> starCompanyJob(BuildContext context, bool isJob,
       String starObjectId, String jobSeekerId, {String starId}) async {
-    BaseRespEntity baseRespEntity = await NetUtils.starCompanyJob(context, isJob,starObjectId,jobSeekerId,starId: starId);
+    CollectionEntity baseRespEntity = await NetUtils.starCompanyJob(context, isJob,starObjectId,jobSeekerId,starId: starId);
     if (baseRespEntity.statusCode ==200) {
       return baseRespEntity;
     }

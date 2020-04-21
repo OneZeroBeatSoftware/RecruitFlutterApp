@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recruit_app/entity/base_resp_entity.dart';
+import 'package:recruit_app/entity/collection_entity.dart';
 import 'package:recruit_app/model/mine_model.dart';
 import 'package:recruit_app/pages/companys/company_detail.dart';
 import 'package:recruit_app/pages/companys/company_row_item.dart';
@@ -257,7 +257,7 @@ class _CollectionSate extends State<Collection> {
 
   /// 移除收藏夹
   _unStar(String id,String starId, int index) async {
-    BaseRespEntity _baseEntity = await MineModel.instance.starCompanyJob(
+    CollectionEntity _baseEntity = await MineModel.instance.starCompanyJob(
         context, _selectFilterType==1, id,Application.sp.getString('jobSeekerId'),starId:starId);
     if (_baseEntity != null) {
       Utils.showToast(_baseEntity.msg ?? '删除成功');

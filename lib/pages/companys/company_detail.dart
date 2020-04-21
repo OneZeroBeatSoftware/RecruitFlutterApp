@@ -8,7 +8,7 @@ import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:recruit_app/entity/base_resp_entity.dart';
+import 'package:recruit_app/entity/collection_entity.dart';
 import 'package:recruit_app/entity/company_detail_entity.dart';
 import 'package:recruit_app/entity/company_job_entity.dart';
 import 'package:recruit_app/model/company_model.dart';
@@ -20,7 +20,6 @@ import 'package:recruit_app/pages/companys/company_pic_item.dart';
 import 'package:recruit_app/pages/companys/company_welfare_dialog.dart';
 import 'package:recruit_app/pages/companys/company_welfare_item.dart';
 import 'package:recruit_app/pages/jobs/job_detail.dart';
-import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/pages/jobs/report.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/remind_column_dialog.dart';
@@ -64,6 +63,7 @@ class _CompanyDetailState extends State<CompanyDetail>
 
   /// 是否关注
   bool _isFocus = false;
+  String _starId;
 
   /// 更多简介手势监听
   TapGestureRecognizer _moreInfoRecognizer;
@@ -420,9 +420,7 @@ class _CompanyDetailState extends State<CompanyDetail>
                         ),
                         behavior: HitTestBehavior.opaque,
                         onTap: () {
-                          setState(() {
-                            _isFocus = !_isFocus;
-                          });
+                          _operateStar(widget.companyId, _starId);
                         },
                       ),
                     ],
@@ -934,7 +932,9 @@ class _CompanyDetailState extends State<CompanyDetail>
     CompanyDetailEntity companyDetailEntity = await _companyModel.getCompanyDetail(
         context, companyId);
     if (companyDetailEntity.data != null) {
+      _starId=companyDetailEntity.data.starId;
       setState(() {
+        _isFocus=(_starId!=null&&_starId.isNotEmpty);
         _detailData = companyDetailEntity.data;
       });
     }
@@ -950,12 +950,13 @@ class _CompanyDetailState extends State<CompanyDetail>
   }
 
   /// 收藏夹操作
-  _operateStar(String id,String starId, int index) async {
-    BaseRespEntity _baseEntity = await MineModel.instance.starCompanyJob(
+  _operateStar(String id,String starId) async {
+    CollectionEntity _baseEntity = await MineModel.instance.starCompanyJob(
         context, false, id,Application.sp.getString('jobSeekerId'),starId:(_isFocus?starId:''));
     if (_baseEntity != null) {
-      Utils.showToast(_baseEntity.msg ?? (_isFocus?'取消关注':'已关注'));
+//      Utils.showToast(_baseEntity.msg ?? (_isFocus?'取消关注':'已关注'));
       setState(() {
+        _starId=_baseEntity.data;
         _isFocus=!_isFocus;
       });
     }

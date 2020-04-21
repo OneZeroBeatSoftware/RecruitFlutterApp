@@ -2,7 +2,7 @@ import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:recruit_app/application.dart';
-import 'package:recruit_app/entity/base_resp_entity.dart';
+import 'package:recruit_app/entity/collection_entity.dart';
 import 'package:recruit_app/entity/main_resume_detail_entity.dart';
 import 'package:recruit_app/model/boss_mine_model.dart';
 import 'package:recruit_app/model/recruit_resume_model.dart';
@@ -31,6 +31,7 @@ class EmployeeDetail extends StatefulWidget {
 
 class _EmployeeDetailState extends State<EmployeeDetail> {
   bool _isCollected=false;
+  String _starId;
   List<String> _reports=[];
 
   MainResumeDetailData _resumeDetailData;
@@ -137,9 +138,11 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () {
-                  setState(() {
-                    _isCollected=!_isCollected;
-                  });
+                  if(_resumeDetailData!=null){
+                    _operateStar(_resumeDetailData.resume.jobSeekerId, _starId);
+                  }else {
+                    Utils.showToast('简历信息有误');
+                  }
                 },
                 child: Image.asset(
                   _isCollected?'images/img_heart_focus.png':'images/img_heart_unfocus.png',
@@ -413,7 +416,9 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
   void getResumeDetail(String resumeId) async {
     MainResumeModel.instance.getResumeDetail(context, resumeId).then((resume){
       if (resume.data != null) {
+        _starId=resume.data.starId;
         setState(() {
+          _isCollected=(_starId!=null&&_starId.isNotEmpty);
           _resumeDetailData=resume.data;
         });
       }
@@ -421,12 +426,13 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
   }
 
   /// 收藏夹操作
-  _operateStar(String id,String starId, int index) async {
-    BaseRespEntity _baseEntity = await BossMineModel.instance.starSeeker(
+  _operateStar(String id,String starId) async {
+    CollectionEntity _baseEntity = await BossMineModel.instance.starSeeker(
         context,id,Application.sp.getString('recruiterId'),starId:(_isCollected?starId:''));
     if (_baseEntity != null) {
-      Utils.showToast(_baseEntity.msg ?? (_isCollected?'取消收藏':'已收藏'));
+//      Utils.showToast(_baseEntity.msg ?? (_isCollected?'取消收藏':'已收藏'));
       setState(() {
+        _starId=_baseEntity.data;
         _isCollected=!_isCollected;
       });
     }
