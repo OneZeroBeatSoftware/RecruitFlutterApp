@@ -54,6 +54,8 @@ class _State extends State<CompanyPostRecruit> {
 	String _jobTypeId='';
 	String _minSalary='0';
 	String _maxSalary='0';
+	int _candidatesCurrent=0;
+	int _candidatesTotal=0;
 
 	@override
 	void initState() {
@@ -220,14 +222,26 @@ class _State extends State<CompanyPostRecruit> {
 									 Item(
 										 '候选人', '', canClick: true,
 										 onClick: () {
-											 Navigator.push(
+											 if (_candidatesCurrent <= 0) {
+												 Utils.showToast('该岗位还没有候选人！');
+												 return;
+											 }
+											 FocusScope.of(context).requestFocus(FocusNode());
+											 Navigator.push<int>(
 													 context,
 													 MaterialPageRoute(
-															 builder: (context) => CompanyJobCandidate()
+															 builder: (context) =>
+																	 CompanyJobCandidate(jobId: widget.jobId,)
 													 )
-											 );
+											 ).then((value) {
+												 if (value != null) {
+													 setState(() {
+														 _candidatesCurrent = value;
+													 });
+												 }
+											 });
 										 },
-										 tailValue: '1/10',
+										 tailValue: '$_candidatesCurrent/$_candidatesTotal',
 										 topPadding: 3,
 									 ),
 									 ProfileStyle.divider,
@@ -355,6 +369,8 @@ class _State extends State<CompanyPostRecruit> {
 					_eduLevel=detail.job.educationName;
 					_minSalary=detail.job.minSalary;
 					_maxSalary=detail.job.maxSalary;
+					_candidatesCurrent=detail.job.candidatesCurrent;
+					_candidatesTotal=detail.job.candidatesTotal;
 					_isLoad=false;
 				});
 			} else {

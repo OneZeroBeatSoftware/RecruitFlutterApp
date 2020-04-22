@@ -16,6 +16,7 @@ import 'package:recruit_app/entity/boss_apply_list_entity.dart';
 import 'package:recruit_app/entity/boss_info_entity.dart';
 import 'package:recruit_app/entity/boss_job_detail_entity.dart';
 import 'package:recruit_app/entity/boss_job_manage_entity.dart';
+import 'package:recruit_app/entity/candidate_entity.dart';
 import 'package:recruit_app/entity/city_entity.dart';
 import 'package:recruit_app/entity/collection_entity.dart';
 import 'package:recruit_app/entity/company_detail_entity.dart';
@@ -873,6 +874,23 @@ class NetUtils {
       params['state']=state;
     }
     var response = await _post(context, '/report/save', params: params,isShowLoading: true);
+    return BaseRespEntity().fromJson(response.data);
+  }
+
+  /// 招聘者获取对应岗位的候选人
+  static Future<CandidateEntity> getCandidateList(BuildContext context,String jobId,int pageIndex,{int pageSize=15,int state=1}) async {
+    var response = await _post(context, '/candidate/list', params: {
+      'jobId': jobId,
+      'state': state,
+      'pageIndex': pageIndex,
+      'pageSize': pageSize
+    },isShowLoading: false);
+    return CandidateEntity().fromJson(response.data);
+  }
+
+  /// 删除候选人
+  static Future<BaseRespEntity> deleteCandidate(BuildContext context, String candidateId) async {
+    var response = await _delete(context, '/candidate/delete/$candidateId',isShowLoading: true);
     return BaseRespEntity().fromJson(response.data);
   }
 }

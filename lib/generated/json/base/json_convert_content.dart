@@ -21,6 +21,8 @@ import 'package:recruit_app/entity/user_entity.dart';
 import 'package:recruit_app/generated/json/user_entity_helper.dart';
 import 'package:recruit_app/entity/seeker_notice_entity.dart';
 import 'package:recruit_app/generated/json/seeker_notice_entity_helper.dart';
+import 'package:recruit_app/entity/candidate_entity.dart';
+import 'package:recruit_app/generated/json/candidate_entity_helper.dart';
 import 'package:recruit_app/entity/resume_list_entity.dart';
 import 'package:recruit_app/generated/json/resume_list_entity_helper.dart';
 import 'package:recruit_app/entity/company_list_entity.dart';
@@ -119,7 +121,10 @@ class JsonConvert<T> {
 			return userDataFromJson(data as UserData, json) as T;			case SeekerNoticeEntity:
 			return seekerNoticeEntityFromJson(data as SeekerNoticeEntity, json) as T;			case SeekerNoticeData:
 			return seekerNoticeDataFromJson(data as SeekerNoticeData, json) as T;			case SeekerNoticeDataRecord:
-			return seekerNoticeDataRecordFromJson(data as SeekerNoticeDataRecord, json) as T;			case ResumeListEntity:
+			return seekerNoticeDataRecordFromJson(data as SeekerNoticeDataRecord, json) as T;			case CandidateEntity:
+			return candidateEntityFromJson(data as CandidateEntity, json) as T;			case CandidateData:
+			return candidateDataFromJson(data as CandidateData, json) as T;			case CandidateDataRecord:
+			return candidateDataRecordFromJson(data as CandidateDataRecord, json) as T;			case ResumeListEntity:
 			return resumeListEntityFromJson(data as ResumeListEntity, json) as T;			case ResumeListData:
 			return resumeListDataFromJson(data as ResumeListData, json) as T;			case CompanyListEntity:
 			return companyListEntityFromJson(data as CompanyListEntity, json) as T;			case MineInfoEntity:
@@ -230,7 +235,10 @@ class JsonConvert<T> {
 			return userDataToJson(data as UserData);			case SeekerNoticeEntity:
 			return seekerNoticeEntityToJson(data as SeekerNoticeEntity);			case SeekerNoticeData:
 			return seekerNoticeDataToJson(data as SeekerNoticeData);			case SeekerNoticeDataRecord:
-			return seekerNoticeDataRecordToJson(data as SeekerNoticeDataRecord);			case ResumeListEntity:
+			return seekerNoticeDataRecordToJson(data as SeekerNoticeDataRecord);			case CandidateEntity:
+			return candidateEntityToJson(data as CandidateEntity);			case CandidateData:
+			return candidateDataToJson(data as CandidateData);			case CandidateDataRecord:
+			return candidateDataRecordToJson(data as CandidateDataRecord);			case ResumeListEntity:
 			return resumeListEntityToJson(data as ResumeListEntity);			case ResumeListData:
 			return resumeListDataToJson(data as ResumeListData);			case CompanyListEntity:
 			return companyListEntityToJson(data as CompanyListEntity);			case MineInfoEntity:
@@ -341,7 +349,10 @@ class JsonConvert<T> {
 			return UserData().fromJson(json);			case 'SeekerNoticeEntity':
 			return SeekerNoticeEntity().fromJson(json);			case 'SeekerNoticeData':
 			return SeekerNoticeData().fromJson(json);			case 'SeekerNoticeDataRecord':
-			return SeekerNoticeDataRecord().fromJson(json);			case 'ResumeListEntity':
+			return SeekerNoticeDataRecord().fromJson(json);			case 'CandidateEntity':
+			return CandidateEntity().fromJson(json);			case 'CandidateData':
+			return CandidateData().fromJson(json);			case 'CandidateDataRecord':
+			return CandidateDataRecord().fromJson(json);			case 'ResumeListEntity':
 			return ResumeListEntity().fromJson(json);			case 'ResumeListData':
 			return ResumeListData().fromJson(json);			case 'CompanyListEntity':
 			return CompanyListEntity().fromJson(json);			case 'MineInfoEntity':
@@ -453,7 +464,10 @@ class JsonConvert<T> {
 			return List<UserData>();			case 'SeekerNoticeEntity':
 			return List<SeekerNoticeEntity>();			case 'SeekerNoticeData':
 			return List<SeekerNoticeData>();			case 'SeekerNoticeDataRecord':
-			return List<SeekerNoticeDataRecord>();			case 'ResumeListEntity':
+			return List<SeekerNoticeDataRecord>();			case 'CandidateEntity':
+			return List<CandidateEntity>();			case 'CandidateData':
+			return List<CandidateData>();			case 'CandidateDataRecord':
+			return List<CandidateDataRecord>();			case 'ResumeListEntity':
 			return List<ResumeListEntity>();			case 'ResumeListData':
 			return List<ResumeListData>();			case 'CompanyListEntity':
 			return List<CompanyListEntity>();			case 'MineInfoEntity':

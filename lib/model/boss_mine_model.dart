@@ -4,6 +4,7 @@ import 'package:recruit_app/entity/boss_apply_list_entity.dart';
 import 'package:recruit_app/entity/boss_info_entity.dart';
 import 'package:recruit_app/entity/boss_job_detail_entity.dart';
 import 'package:recruit_app/entity/boss_job_manage_entity.dart';
+import 'package:recruit_app/entity/candidate_entity.dart';
 import 'package:recruit_app/entity/collection_entity.dart';
 import 'package:recruit_app/entity/main_resume_list_entity.dart';
 import 'package:recruit_app/utils/net_utils.dart';
@@ -175,6 +176,44 @@ class BossMineModel{
       return jobEntity.data;
     }
     Utils.showToast(jobEntity.msg ?? '获取失败，请重新尝试');
+    return null;
+  }
+
+  List<CandidateDataRecord> _candidateList=[];
+  List<CandidateDataRecord> get candidateList => _candidateList;
+  /// 招聘者获取对应岗位的候选人
+  Future<BossMineModel> getCandidateList(BuildContext context,
+      String jobId,int pageIndex) async {
+    CandidateEntity candidateEntity = await NetUtils.getCandidateList(
+        context, jobId,pageIndex);
+    if (candidateEntity != null || candidateEntity.statusCode == 200) {
+      if (pageIndex == 1) {
+        _candidateList.clear();
+      }
+      if (candidateEntity.data.records.length <= 0 && pageIndex == 1) {
+        Utils.showToast('该岗位还没有候选人哦！');
+        return null;
+      } else if (candidateEntity.data.records.length <= 0) {
+        Utils.showToast('没有更多候选人啦！');
+        return null;
+      }
+      _candidateList.addAll(candidateEntity.data.records);
+      return this;
+    }
+    if (pageIndex == 1) {
+      _candidateList.clear();
+    }
+    Utils.showToast(candidateEntity.msg ?? '获取失败，请重新尝试');
+    return null;
+  }
+
+  /// 删除候选人
+  Future<BaseRespEntity> deleteCandidate(BuildContext context, String candidateId) async {
+    BaseRespEntity baseRespEntity = await NetUtils.deleteCandidate(context, candidateId);
+    if (baseRespEntity.statusCode ==200) {
+      return baseRespEntity;
+    }
+    Utils.showToast(baseRespEntity.msg ?? '删除失败，请重新尝试');
     return null;
   }
 }
