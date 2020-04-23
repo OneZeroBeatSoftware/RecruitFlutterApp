@@ -33,6 +33,7 @@ class CompanyDetailDataCompany with JsonConvert<CompanyDetailDataCompany> {
 	String scaleName;
 	String scope;
 	String industryId;
+	String industryName;
 	int state;
 	String cityId;
 	String cityName;

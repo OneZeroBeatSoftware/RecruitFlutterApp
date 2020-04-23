@@ -130,6 +130,9 @@ companyDetailDataCompanyFromJson(CompanyDetailDataCompany data, Map<String, dyna
 	if (json['industryId'] != null) {
 		data.industryId = json['industryId']?.toString();
 	}
+	if (json['industryName'] != null) {
+		data.industryName = json['industryName']?.toString();
+	}
 	if (json['state'] != null) {
 		data.state = json['state']?.toInt();
 	}
@@ -161,6 +164,7 @@ Map<String, dynamic> companyDetailDataCompanyToJson(CompanyDetailDataCompany ent
 	data['scaleName'] = entity.scaleName;
 	data['scope'] = entity.scope;
 	data['industryId'] = entity.industryId;
+	data['industryName'] = entity.industryName;
 	data['state'] = entity.state;
 	data['cityId'] = entity.cityId;
 	data['cityName'] = entity.cityName;

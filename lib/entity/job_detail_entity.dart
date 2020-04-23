@@ -19,6 +19,9 @@ class JobDetailDataJob with JsonConvert<JobDetailDataJob> {
 	String id;
 	String companyId;
 	String companyName;
+	String scope;
+	String managementName;
+	String scaleName;
 	String recruiterId;
 	String realName;
 	String jobName;
@@ -29,17 +32,23 @@ class JobDetailDataJob with JsonConvert<JobDetailDataJob> {
 	int releaseDate;
 	String industryId;
 	String positionId;
-	int city;
+	String industryName;
+	String positionName;
+	int cityId;
+	String cityName;
 	int recommend;
 	int weight;
 	String educationId;
+	String educationName;
 	String workDateId;
+	String workDateName;
+	String positionTypeName;
+	int sex;
 	int candidatesTotal;
 	int candidatesCurrent;
 	int recruitsTotal;
 	int createDate;
 	int state;
-	int positionType;
 }
 
 class JobDetailDataIndustry with JsonConvert<JobDetailDataIndustry> {

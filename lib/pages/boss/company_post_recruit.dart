@@ -66,7 +66,7 @@ class _State extends State<CompanyPostRecruit> {
 
 	List<RecruitType> _recruitList = [];
 	String _recruitType='招聘中';
-	String _recruitTypeId='0';
+	String _recruitTypeId='1';
 	int _recruitTypePos = 0;
 
 	List<RecruitType> _sexList = [];
@@ -91,9 +91,9 @@ class _State extends State<CompanyPostRecruit> {
 	@override
 	void initState() {
 		// TODO: implement initState
-		_recruitList.add(RecruitType('0','招聘中'));
-		_recruitList.add(RecruitType('1','隐藏'));
-		_recruitList.add(RecruitType('2','暂停招聘'));
+		_recruitList.add(RecruitType('1','招聘中'));
+		_recruitList.add(RecruitType('2','隐藏'));
+		_recruitList.add(RecruitType('3','暂停招聘'));
 
 		_sexList.add(RecruitType('2', '性别不限'));
 		_sexList.add(RecruitType('1', '男'));
@@ -812,7 +812,7 @@ class _State extends State<CompanyPostRecruit> {
 		job['candidatesTotal']=_candidateNumController.text;
 		job['recruitsTotal']=_recruitNumController.text;
 		job['state']=_recruitTypeId;
-		job['positionType']=_jobTypeId;
+//		job['positionType']=_jobTypeId;
 		job['sex']=_sexId;
 
 		_tagList.forEach((item){

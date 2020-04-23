@@ -32,6 +32,7 @@ import 'package:recruit_app/entity/job_list_entity.dart';
 import 'package:recruit_app/entity/job_type_entity.dart';
 import 'package:recruit_app/entity/main_resume_detail_entity.dart';
 import 'package:recruit_app/entity/main_resume_list_entity.dart';
+import 'package:recruit_app/entity/management_entity.dart';
 import 'package:recruit_app/entity/mine_info_entity.dart';
 import 'package:recruit_app/entity/resume_detail_entity.dart';
 import 'package:recruit_app/entity/resume_list_entity.dart';
@@ -333,6 +334,12 @@ class NetUtils {
   static Future<AgeEntity> getAgeList(BuildContext context) async {
     var response = await _get(context, '/age/list', params: {});
     return AgeEntity().fromJson(response.data);
+  }
+
+  /// 获取经营状态相关
+  static Future<ManagementEntity> getManagementList(BuildContext context) async {
+    var response = await _get(context, '/management/list', params: {});
+    return ManagementEntity().fromJson(response.data);
   }
 
   /// 获取公司列表

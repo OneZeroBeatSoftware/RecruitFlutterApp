@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:recruit_app/entity/company_detail_entity.dart';
+import 'package:recruit_app/entity/management_entity.dart';
 import 'package:recruit_app/model/company_model.dart';
+import 'package:recruit_app/utils/net_utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/craft_date_time_picker.dart';
+import 'package:recruit_app/widgets/craft_picker.dart';
 import 'package:recruit_app/widgets/profile_divider.dart';
 import 'package:recruit_app/pages/boss/company_introduction.dart';
 import 'package:recruit_app/pages/boss/company_work_time.dart';
@@ -16,7 +19,6 @@ import 'package:recruit_app/pages/boss/company_legal_person.dart';
 import 'package:recruit_app/pages/boss/company_register_capital.dart';
 import 'package:recruit_app/pages/boss/company_unified_credit_code.dart';
 import 'package:recruit_app/pages/boss/company_business_scope.dart';
-import 'package:recruit_app/widgets/menu_list_dialog.dart';
 
 class CompanyInfo extends StatefulWidget {
   final String companyId;
@@ -37,11 +39,17 @@ class _CompanyInfoState extends State<CompanyInfo> {
   /// 公司数据
   CompanyDetailData _detailData;
 
+  List<ManagementData> _manageList = [];
+  String _manage = '请选择';
+  String _manageId = '';
+  int _managePos = 0;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((callback){
+      getManagementList();
       _companyModel=Provider.of<CompanyModel>(context);
       if(widget.companyId!=null&&widget.companyId.isNotEmpty){
         getCompanyDetail(widget.companyId);
@@ -142,7 +150,7 @@ class _CompanyInfoState extends State<CompanyInfo> {
                               ),
                             ],),
                             SizedBox(height: ScreenUtil().setHeight(20)),
-                            Text('${_detailData.company.managementName} ${_detailData.company.scaleName} ${_detailData.company.scope}',
+                            Text('${_detailData.company.managementName} ${_detailData.company.scaleName} ${_detailData.company.industryName}',
                                style: TextStyle(color: Color.fromRGBO(100,100,100,1),
                                   fontSize: ScreenUtil().setSp(28),
                                   fontWeight: FontWeight.w300,
@@ -257,6 +265,7 @@ class _CompanyInfoState extends State<CompanyInfo> {
                         adJustDate();
                       }),
                       Item2("经营状态", '${_detailData.company.managementName}', canClick: true, onClick: () {
+                        FocusScope.of(context).requestFocus(FocusNode());
                         chooseCompanyStatus();
                       }),
                       Item2("统一信用代码", '${_detailData.company.unifiedCreditCode}', canClick: true, onClick: () {
@@ -264,7 +273,7 @@ class _CompanyInfoState extends State<CompanyInfo> {
                            builder: (context)=> CompanyUnifiedCreditCode()
                         ));
                       }),
-                      Item2("经营范围", "计算机软硬件的开发及销售；网络技术、网络产品的研发及销售。（依法须经批准，经相关部门批准后放可开展经营活动）", canClick: true, onClick: () {
+                      Item2("经营范围", '${_detailData.company.scope}', canClick: true, onClick: () {
                         Navigator.push(context, MaterialPageRoute(
                            builder: (context)=> CompanyBusinessScope()
                         ));
@@ -298,21 +307,35 @@ class _CompanyInfoState extends State<CompanyInfo> {
   }
 
   chooseCompanyStatus() {
-    MenuListDialog.showMenu(context, DialogConfig (
+    showCupertinoModalPopup(
+      context: context,
+      builder: (context) {
+        return CraftPicker(
+          confirm: (selPos) {
+            Navigator.pop(context);
+            setState(() {
+              _managePos = selPos;
+              _manageId = _manageList[selPos].id;
+              _manage = _manageList[selPos].managementName;
+            });
+          },
           title: '经营状态',
-          menus: <String> [
-            '存续',
-            '在业',
-            '吊销',
-            '注销',
-            '迁入',
-            '迁出',
-            '停业',
-            '清算'
-          ]
-          
-      )
+          pickList: _manageList.map((item)=>item.managementName).toList(),
+          selIdx: _managePos,
+        );
+      },
     );
+  }
+
+  /// 获取运营状态
+  void getManagementList() async {
+    ManagementEntity manageEntity = await NetUtils.getManagementList(context);
+    if(manageEntity.statusCode==200&&manageEntity.data!=null){
+      _manageList.clear();
+      _manageList.addAll(manageEntity.data);
+      setState(() {
+      });
+    }
   }
 }
 

@@ -116,8 +116,7 @@ class CompanyInfoDialog extends Dialog {
                                   type: '统一信用代码', content: '${detailData.company.unifiedCreditCode}'),
                               CompanyInfoItem(
                                   type: '经营范围　　',
-                                  content:
-                                      '计算机软硬件的开发及销售；网络技术、网络产品的研发及销售。（依法须经批准的项目，经相关部门批准后方可开展经营活动）'),
+                                  content:'${detailData.company.scope}'),
                             ],
                           ),
                         ],

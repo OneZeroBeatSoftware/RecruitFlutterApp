@@ -399,7 +399,7 @@ class _JobDetailState extends State<JobDetail> {
                                       SizedBox(
                                         height: ScreenUtil().setWidth(10),
                                       ),
-                                      Text('已上市 · 800人 · O2O',
+                                      Text('${_jobDetailData.job.managementName} · ${_jobDetailData.job.scaleName} · ${_jobDetailData.job.industryName}',
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(

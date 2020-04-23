@@ -392,7 +392,7 @@ class _CompanyDetailState extends State<CompanyDetail>
                               ),
                               Text('${_detailData.company
                                   .managementName} · ${_detailData
-                                  .company.scaleName} · ${_detailData.company.scope}',
+                                  .company.scaleName} · ${_detailData.company.industryName}',
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(

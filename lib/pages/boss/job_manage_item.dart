@@ -19,11 +19,11 @@ class JobManageItem extends StatelessWidget {
     );
 
     String status='';
-    if(jobManageData.state==1){
-      status='已隐藏';
-    }else if(jobManageData.state==2){
+    if(jobManageData.state==3){
       status='暂停招聘';
-    }else{
+    }else if(jobManageData.state==2){
+      status='已隐藏';
+    }else if(jobManageData.state==1){
       status='招聘中';
     }
     

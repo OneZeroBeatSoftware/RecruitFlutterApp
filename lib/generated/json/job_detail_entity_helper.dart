@@ -82,6 +82,15 @@ jobDetailDataJobFromJson(JobDetailDataJob data, Map<String, dynamic> json) {
 	if (json['companyName'] != null) {
 		data.companyName = json['companyName']?.toString();
 	}
+	if (json['scope'] != null) {
+		data.scope = json['scope']?.toString();
+	}
+	if (json['managementName'] != null) {
+		data.managementName = json['managementName']?.toString();
+	}
+	if (json['scaleName'] != null) {
+		data.scaleName = json['scaleName']?.toString();
+	}
 	if (json['recruiterId'] != null) {
 		data.recruiterId = json['recruiterId']?.toString();
 	}
@@ -112,8 +121,17 @@ jobDetailDataJobFromJson(JobDetailDataJob data, Map<String, dynamic> json) {
 	if (json['positionId'] != null) {
 		data.positionId = json['positionId']?.toString();
 	}
-	if (json['city'] != null) {
-		data.city = json['city']?.toInt();
+	if (json['industryName'] != null) {
+		data.industryName = json['industryName']?.toString();
+	}
+	if (json['positionName'] != null) {
+		data.positionName = json['positionName']?.toString();
+	}
+	if (json['cityId'] != null) {
+		data.cityId = json['cityId']?.toInt();
+	}
+	if (json['cityName'] != null) {
+		data.cityName = json['cityName']?.toString();
 	}
 	if (json['recommend'] != null) {
 		data.recommend = json['recommend']?.toInt();
@@ -124,8 +142,20 @@ jobDetailDataJobFromJson(JobDetailDataJob data, Map<String, dynamic> json) {
 	if (json['educationId'] != null) {
 		data.educationId = json['educationId']?.toString();
 	}
+	if (json['educationName'] != null) {
+		data.educationName = json['educationName']?.toString();
+	}
 	if (json['workDateId'] != null) {
 		data.workDateId = json['workDateId']?.toString();
+	}
+	if (json['workDateName'] != null) {
+		data.workDateName = json['workDateName']?.toString();
+	}
+	if (json['positionTypeName'] != null) {
+		data.positionTypeName = json['positionTypeName']?.toString();
+	}
+	if (json['sex'] != null) {
+		data.sex = json['sex']?.toInt();
 	}
 	if (json['candidatesTotal'] != null) {
 		data.candidatesTotal = json['candidatesTotal']?.toInt();
@@ -142,9 +172,6 @@ jobDetailDataJobFromJson(JobDetailDataJob data, Map<String, dynamic> json) {
 	if (json['state'] != null) {
 		data.state = json['state']?.toInt();
 	}
-	if (json['positionType'] != null) {
-		data.positionType = json['positionType']?.toInt();
-	}
 	return data;
 }
 
@@ -153,6 +180,9 @@ Map<String, dynamic> jobDetailDataJobToJson(JobDetailDataJob entity) {
 	data['id'] = entity.id;
 	data['companyId'] = entity.companyId;
 	data['companyName'] = entity.companyName;
+	data['scope'] = entity.scope;
+	data['managementName'] = entity.managementName;
+	data['scaleName'] = entity.scaleName;
 	data['recruiterId'] = entity.recruiterId;
 	data['realName'] = entity.realName;
 	data['jobName'] = entity.jobName;
@@ -163,17 +193,23 @@ Map<String, dynamic> jobDetailDataJobToJson(JobDetailDataJob entity) {
 	data['releaseDate'] = entity.releaseDate;
 	data['industryId'] = entity.industryId;
 	data['positionId'] = entity.positionId;
-	data['city'] = entity.city;
+	data['industryName'] = entity.industryName;
+	data['positionName'] = entity.positionName;
+	data['cityId'] = entity.cityId;
+	data['cityName'] = entity.cityName;
 	data['recommend'] = entity.recommend;
 	data['weight'] = entity.weight;
 	data['educationId'] = entity.educationId;
+	data['educationName'] = entity.educationName;
 	data['workDateId'] = entity.workDateId;
+	data['workDateName'] = entity.workDateName;
+	data['positionTypeName'] = entity.positionTypeName;
+	data['sex'] = entity.sex;
 	data['candidatesTotal'] = entity.candidatesTotal;
 	data['candidatesCurrent'] = entity.candidatesCurrent;
 	data['recruitsTotal'] = entity.recruitsTotal;
 	data['createDate'] = entity.createDate;
 	data['state'] = entity.state;
-	data['positionType'] = entity.positionType;
 	return data;
 }
 

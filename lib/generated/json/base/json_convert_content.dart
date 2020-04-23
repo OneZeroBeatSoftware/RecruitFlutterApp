@@ -7,6 +7,8 @@ import 'package:recruit_app/entity/job_type_entity.dart';
 import 'package:recruit_app/generated/json/job_type_entity_helper.dart';
 import 'package:recruit_app/entity/age_entity.dart';
 import 'package:recruit_app/generated/json/age_entity_helper.dart';
+import 'package:recruit_app/entity/management_entity.dart';
+import 'package:recruit_app/generated/json/management_entity_helper.dart';
 import 'package:recruit_app/entity/company_detail_entity.dart';
 import 'package:recruit_app/generated/json/company_detail_entity_helper.dart';
 import 'package:recruit_app/entity/job_item_entity.dart';
@@ -93,7 +95,9 @@ class JsonConvert<T> {
 			return jobTypeDataFromJson(data as JobTypeData, json) as T;			case JobSubTypeData:
 			return jobSubTypeDataFromJson(data as JobSubTypeData, json) as T;			case AgeEntity:
 			return ageEntityFromJson(data as AgeEntity, json) as T;			case AgeData:
-			return ageDataFromJson(data as AgeData, json) as T;			case CompanyDetailEntity:
+			return ageDataFromJson(data as AgeData, json) as T;			case ManagementEntity:
+			return managementEntityFromJson(data as ManagementEntity, json) as T;			case ManagementData:
+			return managementDataFromJson(data as ManagementData, json) as T;			case CompanyDetailEntity:
 			return companyDetailEntityFromJson(data as CompanyDetailEntity, json) as T;			case CompanyDetailData:
 			return companyDetailDataFromJson(data as CompanyDetailData, json) as T;			case CompanyDetailDataCompany:
 			return companyDetailDataCompanyFromJson(data as CompanyDetailDataCompany, json) as T;			case CompanyDetailDataIndustry:
@@ -207,7 +211,9 @@ class JsonConvert<T> {
 			return jobTypeDataToJson(data as JobTypeData);			case JobSubTypeData:
 			return jobSubTypeDataToJson(data as JobSubTypeData);			case AgeEntity:
 			return ageEntityToJson(data as AgeEntity);			case AgeData:
-			return ageDataToJson(data as AgeData);			case CompanyDetailEntity:
+			return ageDataToJson(data as AgeData);			case ManagementEntity:
+			return managementEntityToJson(data as ManagementEntity);			case ManagementData:
+			return managementDataToJson(data as ManagementData);			case CompanyDetailEntity:
 			return companyDetailEntityToJson(data as CompanyDetailEntity);			case CompanyDetailData:
 			return companyDetailDataToJson(data as CompanyDetailData);			case CompanyDetailDataCompany:
 			return companyDetailDataCompanyToJson(data as CompanyDetailDataCompany);			case CompanyDetailDataIndustry:
@@ -321,7 +327,9 @@ class JsonConvert<T> {
 			return JobTypeData().fromJson(json);			case 'JobSubTypeData':
 			return JobSubTypeData().fromJson(json);			case 'AgeEntity':
 			return AgeEntity().fromJson(json);			case 'AgeData':
-			return AgeData().fromJson(json);			case 'CompanyDetailEntity':
+			return AgeData().fromJson(json);			case 'ManagementEntity':
+			return ManagementEntity().fromJson(json);			case 'ManagementData':
+			return ManagementData().fromJson(json);			case 'CompanyDetailEntity':
 			return CompanyDetailEntity().fromJson(json);			case 'CompanyDetailData':
 			return CompanyDetailData().fromJson(json);			case 'CompanyDetailDataCompany':
 			return CompanyDetailDataCompany().fromJson(json);			case 'CompanyDetailDataIndustry':
@@ -436,7 +444,9 @@ class JsonConvert<T> {
 			return List<JobTypeData>();			case 'JobSubTypeData':
 			return List<JobSubTypeData>();			case 'AgeEntity':
 			return List<AgeEntity>();			case 'AgeData':
-			return List<AgeData>();			case 'CompanyDetailEntity':
+			return List<AgeData>();			case 'ManagementEntity':
+			return List<ManagementEntity>();			case 'ManagementData':
+			return List<ManagementData>();			case 'CompanyDetailEntity':
 			return List<CompanyDetailEntity>();			case 'CompanyDetailData':
 			return List<CompanyDetailData>();			case 'CompanyDetailDataCompany':
 			return List<CompanyDetailDataCompany>();			case 'CompanyDetailDataIndustry':
