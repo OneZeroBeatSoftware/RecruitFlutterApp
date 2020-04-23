@@ -107,9 +107,9 @@ class CompanyInfoDialog extends Dialog {
                               CompanyInfoItem(type: '企业法人　　', content: '${detailData.company.legalPerson}'),
                               CompanyInfoItem(type: '注册资金　　', content: '${detailData.company.registerCapital}'),
                               CompanyInfoItem(
-                                  type: '注册时间　　', content: '${DateUtil.formatDateMs(detailData.company.registerDate,format: 'yyyy-MM-dd')}'),
+                                  type: '注册时间　　', content: '${DateUtil.formatDateStr(detailData.company.registerDate,format: 'yyyy-MM-dd')}'),
                               CompanyInfoItem(
-                                  type: '经营状态　　', content: '${detailData.company.operateState}'),
+                                  type: '经营状态　　', content: '${detailData.company.managementName}'),
                               CompanyInfoItem(
                                   type: '注册地址　　', content: '${detailData.company.registerAddress}'),
                               CompanyInfoItem(

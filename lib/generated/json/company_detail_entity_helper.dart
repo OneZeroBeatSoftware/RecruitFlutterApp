@@ -30,9 +30,6 @@ companyDetailDataFromJson(CompanyDetailData data, Map<String, dynamic> json) {
 	if (json['starId'] != null) {
 		data.starId = json['starId']?.toString();
 	}
-	if (json['scale'] != null) {
-		data.scale = json['scale']?.toString();
-	}
 	if (json['industries'] != null) {
 		data.industries = new List<CompanyDetailDataIndustry>();
 		(json['industries'] as List).forEach((v) {
@@ -66,7 +63,6 @@ Map<String, dynamic> companyDetailDataToJson(CompanyDetailData entity) {
 		data['company'] = entity.company.toJson();
 	}
 	data['starId'] = entity.starId;
-	data['scale'] = entity.scale;
 	if (entity.industries != null) {
 		data['industries'] =  entity.industries.map((v) => v.toJson()).toList();
 	}
@@ -102,13 +98,10 @@ companyDetailDataCompanyFromJson(CompanyDetailDataCompany data, Map<String, dyna
 		data.legalPerson = json['legalPerson']?.toString();
 	}
 	if (json['registerCapital'] != null) {
-		data.registerCapital = json['registerCapital']?.toDouble();
+		data.registerCapital = json['registerCapital']?.toString();
 	}
 	if (json['registerDate'] != null) {
-		data.registerDate = json['registerDate']?.toInt();
-	}
-	if (json['operateState'] != null) {
-		data.operateState = json['operateState']?.toString();
+		data.registerDate = json['registerDate']?.toString();
 	}
 	if (json['registerAddress'] != null) {
 		data.registerAddress = json['registerAddress']?.toString();
@@ -116,8 +109,20 @@ companyDetailDataCompanyFromJson(CompanyDetailDataCompany data, Map<String, dyna
 	if (json['unifiedCreditCode'] != null) {
 		data.unifiedCreditCode = json['unifiedCreditCode']?.toString();
 	}
-	if (json['companyScale'] != null) {
-		data.companyScale = json['companyScale']?.toInt();
+	if (json['avatar'] != null) {
+		data.avatar = json['avatar']?.toString();
+	}
+	if (json['managementId'] != null) {
+		data.managementId = json['managementId']?.toString();
+	}
+	if (json['managementName'] != null) {
+		data.managementName = json['managementName']?.toString();
+	}
+	if (json['scaleId'] != null) {
+		data.scaleId = json['scaleId']?.toString();
+	}
+	if (json['scaleName'] != null) {
+		data.scaleName = json['scaleName']?.toString();
 	}
 	if (json['scope'] != null) {
 		data.scope = json['scope']?.toString();
@@ -128,8 +133,11 @@ companyDetailDataCompanyFromJson(CompanyDetailDataCompany data, Map<String, dyna
 	if (json['state'] != null) {
 		data.state = json['state']?.toInt();
 	}
-	if (json['city'] != null) {
-		data.city = json['city']?.toInt();
+	if (json['cityId'] != null) {
+		data.cityId = json['cityId']?.toString();
+	}
+	if (json['cityName'] != null) {
+		data.cityName = json['cityName']?.toString();
 	}
 	return data;
 }
@@ -144,14 +152,18 @@ Map<String, dynamic> companyDetailDataCompanyToJson(CompanyDetailDataCompany ent
 	data['legalPerson'] = entity.legalPerson;
 	data['registerCapital'] = entity.registerCapital;
 	data['registerDate'] = entity.registerDate;
-	data['operateState'] = entity.operateState;
 	data['registerAddress'] = entity.registerAddress;
 	data['unifiedCreditCode'] = entity.unifiedCreditCode;
-	data['companyScale'] = entity.companyScale;
+	data['avatar'] = entity.avatar;
+	data['managementId'] = entity.managementId;
+	data['managementName'] = entity.managementName;
+	data['scaleId'] = entity.scaleId;
+	data['scaleName'] = entity.scaleName;
 	data['scope'] = entity.scope;
 	data['industryId'] = entity.industryId;
 	data['state'] = entity.state;
-	data['city'] = entity.city;
+	data['cityId'] = entity.cityId;
+	data['cityName'] = entity.cityName;
 	return data;
 }
 

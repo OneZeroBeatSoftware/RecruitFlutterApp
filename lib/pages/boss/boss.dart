@@ -329,12 +329,12 @@ class _BossMineState extends State<BossMine> {
                          Navigator.push(
                              context,
                              MaterialPageRoute(
-                                 builder: (context) => CompanyPostRecruit()));
+                                 builder: (context) => CompanyPostRecruit(companyId: _mineInfoData.recruiter.companyId,recruitName: _mineInfoData.recruiter.realName,)));
                        } else if (index == 2) {
                          Navigator.push(
                              context,
                              MaterialPageRoute(
-                                 builder: (context) => JobManage()));
+                                 builder: (context) => JobManage(companyId: _mineInfoData.recruiter.companyId,recruitName: _mineInfoData.recruiter.realName,)));
                        } else if (index == 3) {
                          Navigator.push(
                              context,

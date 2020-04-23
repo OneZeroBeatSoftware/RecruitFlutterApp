@@ -1,10 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/common_page_body.dart';
 
 class JobDescribe extends StatefulWidget {
+	final String jobContent;
+
+  const JobDescribe({Key key, this.jobContent}) : super(key: key);
+
 	@override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -20,7 +25,7 @@ class _State extends State<JobDescribe> {
 	@override
 	void initState() {
 		// TODO: implement initState
-		_editController=TextEditingController();
+		_editController=TextEditingController(text: widget.jobContent);
 		super.initState();
 	}
 
@@ -65,8 +70,13 @@ class _State extends State<JobDescribe> {
 			    margin: EdgeInsets.only(right: ScreenUtil().setWidth(48)),
 			    child: GestureDetector(
 				    onTap: () {
-					    Navigator.pop(context);
-				    },
+							FocusScope.of(context).requestFocus(FocusNode());
+							if(_editController.text.isEmpty){
+								Utils.showToast('请填写岗位描述');
+								return;
+							}
+							Navigator.pop(context,_editController.text);
+						},
 				    child: Text("保存",
 					    style: TextStyle(
 					       color: Color.fromRGBO(57,57,57,1),

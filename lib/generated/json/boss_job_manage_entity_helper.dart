@@ -106,6 +106,9 @@ bossJobManageDataRecordFromJson(BossJobManageDataRecord data, Map<String, dynami
 	if (json['avatar'] != null) {
 		data.avatar = json['avatar']?.toString();
 	}
+	if (json['state'] != null) {
+		data.state = json['state']?.toInt();
+	}
 	return data;
 }
 
@@ -127,5 +130,6 @@ Map<String, dynamic> bossJobManageDataRecordToJson(BossJobManageDataRecord entit
 	data['candidatesTotal'] = entity.candidatesTotal;
 	data['candidatesCurrent'] = entity.candidatesCurrent;
 	data['avatar'] = entity.avatar;
+	data['state'] = entity.state;
 	return data;
 }

@@ -8,6 +8,7 @@ import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:recruit_app/entity/base_resp_entity.dart';
 import 'package:recruit_app/entity/collection_entity.dart';
 import 'package:recruit_app/entity/company_detail_entity.dart';
 import 'package:recruit_app/entity/company_job_entity.dart';
@@ -21,6 +22,7 @@ import 'package:recruit_app/pages/companys/company_welfare_dialog.dart';
 import 'package:recruit_app/pages/companys/company_welfare_item.dart';
 import 'package:recruit_app/pages/jobs/job_detail.dart';
 import 'package:recruit_app/pages/jobs/report.dart';
+import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/remind_column_dialog.dart';
 import 'package:recruit_app/widgets/remind_dialog.dart';
@@ -317,6 +319,7 @@ class _CompanyDetailState extends State<CompanyDetail>
                                     },
                                     confirm: () {
                                       Navigator.pop(context);
+                                      _shieldCompany(widget.companyId);
                                     },
                                   );
                                 });
@@ -388,8 +391,8 @@ class _CompanyDetailState extends State<CompanyDetail>
                                 height: ScreenUtil().setWidth(12),
                               ),
                               Text('${_detailData.company
-                                  .operateState} · ${_detailData
-                                  .scale} · ${_detailData.company.scope}',
+                                  .managementName} · ${_detailData
+                                  .company.scaleName} · ${_detailData.company.scope}',
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
@@ -753,7 +756,7 @@ class _CompanyDetailState extends State<CompanyDetail>
                         width: ScreenUtil().setWidth(30),
                       ),
                       Expanded(
-                        child: Text('${DateUtil.formatDateMs(
+                        child: Text('${DateUtil.formatDateStr(
                             _detailData.company.registerDate,
                             format: "yyyy-MM-dd")}',
                             textAlign: TextAlign.end,
@@ -959,6 +962,15 @@ class _CompanyDetailState extends State<CompanyDetail>
         _starId=_baseEntity.data;
         _isFocus=!_isFocus;
       });
+    }
+  }
+
+  /// 屏蔽公司
+  _shieldCompany(String id) async {
+    BaseRespEntity _baseEntity = await MineModel.instance.shieldCompanyJob(
+        context, id, jobSeekerId: Application.sp.getString('jobSeekerId'));
+    if (_baseEntity != null) {
+      Utils.showToast(_baseEntity.msg ?? '已屏蔽');
     }
   }
 }

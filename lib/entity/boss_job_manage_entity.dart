@@ -31,4 +31,5 @@ class BossJobManageDataRecord with JsonConvert<BossJobManageDataRecord> {
 	int candidatesTotal;
 	int candidatesCurrent;
 	String avatar;
+	int state;
 }

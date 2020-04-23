@@ -9,7 +9,6 @@ class CompanyDetailEntity with JsonConvert<CompanyDetailEntity> {
 class CompanyDetailData with JsonConvert<CompanyDetailData> {
 	CompanyDetailDataCompany company;
 	String starId;
-	String scale;
 	List<CompanyDetailDataIndustry> industries;
 	List<CompanyDetailDataDetail> details;
 	List<CompanyDetailDataWelfare> welfare;
@@ -23,16 +22,20 @@ class CompanyDetailDataCompany with JsonConvert<CompanyDetailDataCompany> {
 	String startDate;
 	String endDate;
 	String legalPerson;
-	double registerCapital;
-	int registerDate;
-	String operateState;
+	String registerCapital;
+	String registerDate;
 	String registerAddress;
 	String unifiedCreditCode;
-	int companyScale;
+	String avatar;
+	String managementId;
+	String managementName;
+	String scaleId;
+	String scaleName;
 	String scope;
 	String industryId;
 	int state;
-	int city;
+	String cityId;
+	String cityName;
 }
 
 class CompanyDetailDataIndustry with JsonConvert<CompanyDetailDataIndustry> {

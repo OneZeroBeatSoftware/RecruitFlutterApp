@@ -142,7 +142,7 @@ class _CompanyInfoState extends State<CompanyInfo> {
                               ),
                             ],),
                             SizedBox(height: ScreenUtil().setHeight(20)),
-                            Text('${_detailData.company.operateState} ${_detailData.scale} ${_detailData.company.scope}',
+                            Text('${_detailData.company.managementName} ${_detailData.company.scaleName} ${_detailData.company.scope}',
                                style: TextStyle(color: Color.fromRGBO(100,100,100,1),
                                   fontSize: ScreenUtil().setSp(28),
                                   fontWeight: FontWeight.w300,
@@ -252,11 +252,11 @@ class _CompanyInfoState extends State<CompanyInfo> {
                            builder: (context)=> CompanyRegisterCapital()
                         ));
                       }),
-                      Item2("注册时间", '${DateUtil.formatDateMs(
+                      Item2("注册时间", '${DateUtil.formatDateStr(
                           _detailData.company.registerDate, format: "yyyy-MM-dd")}', canClick: true, onClick: () {
                         adJustDate();
                       }),
-                      Item2("经营状态", '${_detailData.company.operateState}', canClick: true, onClick: () {
+                      Item2("经营状态", '${_detailData.company.managementName}', canClick: true, onClick: () {
                         chooseCompanyStatus();
                       }),
                       Item2("统一信用代码", '${_detailData.company.unifiedCreditCode}', canClick: true, onClick: () {

@@ -17,6 +17,15 @@ class JobManageItem extends StatelessWidget {
       fontSize: ScreenUtil().setWidth(26),
       fontWeight: FontWeight.w300
     );
+
+    String status='';
+    if(jobManageData.state==1){
+      status='已隐藏';
+    }else if(jobManageData.state==2){
+      status='暂停招聘';
+    }else{
+      status='招聘中';
+    }
     
     // TODO: implement build
     return Column(
@@ -73,7 +82,7 @@ class JobManageItem extends StatelessWidget {
                     ],
                   ),
                   Row(children: <Widget>[
-                    Text("已隐藏", style: TextStyle(
+                    Text('$status', style: TextStyle(
                       color: Color.fromRGBO(59,199,235,1),
                       fontSize: ScreenUtil().setSp(24),
                       fontWeight: FontWeight.w300

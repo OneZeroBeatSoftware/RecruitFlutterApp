@@ -216,4 +216,14 @@ class BossMineModel{
     Utils.showToast(baseRespEntity.msg ?? '删除失败，请重新尝试');
     return null;
   }
+
+  /// 添加更新岗位
+  Future<BaseRespEntity> postJob(BuildContext context,Map<String,dynamic> params) async {
+    BaseRespEntity baseRespEntity = await NetUtils.postJob(context,params);
+    if (baseRespEntity.statusCode ==200) {
+      return baseRespEntity;
+    }
+    Utils.showToast(baseRespEntity.msg ?? '获取失败，请重新尝试');
+    return null;
+  }
 }

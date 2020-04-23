@@ -1,11 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/common_page_body.dart';
 import 'package:recruit_app/style/profile_style.dart';
-
+class SalaryResult{
+	 String minSalary;
+	 String maxSalary;
+	 SalaryResult(this.minSalary, this.maxSalary);
+}
 class CompanyJobSalary extends StatefulWidget {
+	final String minSalary;
+	final String maxSalary;
+
+  const CompanyJobSalary({Key key, this.minSalary='', this.maxSalary=''}) : super(key: key);
 	@override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -14,7 +23,30 @@ class CompanyJobSalary extends StatefulWidget {
 }
 
 class _State extends State<CompanyJobSalary> {
+	TextEditingController _minController;
+	TextEditingController _maxController;
+
+	@override
+  void initState() {
+    // TODO: implement initState
+		_minController=TextEditingController(text: widget.minSalary);
+		_maxController=TextEditingController(text: widget.maxSalary);
+		super.initState();
+  }
+
   @override
+  void dispose() {
+    // TODO: implement dispose
+		if(_minController!=null){
+			_minController.dispose();
+		}
+		if(_maxController!=null){
+			_maxController.dispose();
+		}
+    super.dispose();
+  }
+
+	@override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
@@ -48,7 +80,16 @@ class _State extends State<CompanyJobSalary> {
 			    margin: EdgeInsets.only(right: ScreenUtil().setWidth(48)),
 			    child: GestureDetector(
 				    onTap: () {
-					    Navigator.pop(context);
+				    	FocusScope.of(context).requestFocus(FocusNode());
+				    	if(_minController.text.isEmpty){
+				    		Utils.showToast('请填写最低薪资要求');
+				    		return;
+							}
+							if(_maxController.text.isEmpty){
+								Utils.showToast('请填写最高薪资要求');
+								return;
+							}
+							Navigator.pop(context,SalaryResult(_minController.text,_maxController.text));
 				    },
 				    child: Text("保存",
 					    style: TextStyle(
@@ -81,6 +122,7 @@ class _State extends State<CompanyJobSalary> {
 								    width: ScreenUtil().setWidth(100),
 								    child: CupertinoTextField(
 									    maxLines: 1,
+									    controller: _minController,
 									    keyboardType: TextInputType.number,
 									    cursorColor: Color.fromRGBO(176, 181, 180, 1),
 									    textAlign: TextAlign.center,
@@ -115,7 +157,8 @@ class _State extends State<CompanyJobSalary> {
 								    width: ScreenUtil().setWidth(100),
 								    child: CupertinoTextField(
 									    maxLines: 1,
-									    keyboardType: TextInputType.number,
+											controller: _maxController,
+											keyboardType: TextInputType.number,
 									    cursorColor: Color.fromRGBO(176, 181, 180, 1),
 									    textAlign: TextAlign.center,
 									    padding: EdgeInsets.only(

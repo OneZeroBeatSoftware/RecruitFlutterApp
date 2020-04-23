@@ -11,6 +11,10 @@ import 'package:recruit_app/pages/boss/company_post_recruit.dart';
 
 
 class JobManage extends StatefulWidget {
+  final String companyId;
+  final String recruitName;
+
+  const JobManage({Key key, this.companyId, this.recruitName}) : super(key: key);
   @override
   _JobManageState createState() {
     // TODO: implement createState
@@ -101,11 +105,20 @@ class _JobManageState extends State<JobManage> {
                                   jobManageData:  BossMineModel.instance.jobList[index],
                                   index: index),
                               onTap: () {
-                                Navigator.push(
+                                Navigator.push<String>(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => CompanyPostRecruit(isADDMode: false,jobId: BossMineModel.instance.jobList[index].id,),
-                                    ));
+                                      builder: (context) =>
+                                          CompanyPostRecruit(isADDMode: false,
+                                            jobId: BossMineModel.instance
+                                                .jobList[index].id,
+                                            companyId: widget.companyId,
+                                            recruitName: widget.recruitName,),
+                                    )).then((value){
+                                  if (value != null && value == 'success') {
+                                    _refreshController.callRefresh();
+                                  }
+                                });
                               });
                         }
                         return null;

@@ -893,4 +893,10 @@ class NetUtils {
     var response = await _delete(context, '/candidate/delete/$candidateId',isShowLoading: true);
     return BaseRespEntity().fromJson(response.data);
   }
+
+  /// 招聘者添加更新岗位
+  static Future<BaseRespEntity> postJob(BuildContext context, Map<String,dynamic> params) async {
+    var response = await _post(context, '/job/save',params: params);
+    return BaseRespEntity().fromJson(response.data);
+  }
 }
