@@ -39,8 +39,9 @@ class ProfileInput extends StatelessWidget {
 	final String value;
 	final String placeholder;
 	final TextEditingController inputController;
+	final TextInputType inputType;
 
-	ProfileInput({this.title, this.value, this.placeholder = '请输入内容',this.inputController});
+	ProfileInput({this.title, this.value, this.placeholder = '请输入内容',this.inputController, this.inputType=TextInputType.text});
 	
 	@override
   Widget build(BuildContext context) {
@@ -51,6 +52,7 @@ class ProfileInput extends StatelessWidget {
 			Text(title, style: ProfileStyle.titleStyle),
 			SizedBox(height: ScreenUtil().setHeight(10)),
 			TextField(
+				keyboardType: inputType,
 				style: ProfileStyle.valueStyle,
 				controller: inputController,
 				decoration: InputDecoration(

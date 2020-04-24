@@ -1,10 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/common_page_body.dart';
 
 class CompanyBusinessScope extends StatefulWidget {
+	final String scope;
+
+  const CompanyBusinessScope({Key key, this.scope=''}) : super(key: key);
 	@override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -20,14 +24,16 @@ class _State extends State<CompanyBusinessScope> {
 	@override
 	void initState() {
 		// TODO: implement initState
-		_editController=TextEditingController();
+		_editController=TextEditingController(text: widget.scope);
 		super.initState();
 	}
 
 	@override
 	void dispose() {
 		// TODO: implement dispose
-		_editController.dispose();
+		if(_editController!=null){
+			_editController.dispose();
+		}
 		super.dispose();
 	}
 
@@ -41,31 +47,22 @@ class _State extends State<CompanyBusinessScope> {
 		    leftListener: () {
 			    Navigator.pop(context);
 		    },
-		    center: Container(
-		       alignment: Alignment.center,
-		       child: Column(
-			       crossAxisAlignment: CrossAxisAlignment.center,
-			       mainAxisAlignment: MainAxisAlignment.center,
-			       children: <Widget>[
-				       SizedBox(
-					       height: ScreenUtil().setHeight(7),
-				       ),
-				       Text('经营范围',
-					      maxLines: 1,
-					      overflow: TextOverflow.ellipsis,
-					      style: TextStyle(
-						     fontSize: ScreenUtil().setSp(36), color: Color.fromRGBO(68,77,151,1), fontWeight: FontWeight.bold)),
-				       SizedBox(
-					       height: 3,
-				       ),
-			       ],
-		       )),
+		    center: Text('经营范围',
+						maxLines: 1,
+						overflow: TextOverflow.ellipsis,
+						style: TextStyle(
+								fontSize: ScreenUtil().setSp(36), color: Color.fromRGBO(68,77,151,1), fontWeight: FontWeight.bold)),
 		    backgroundColor: Color.fromRGBO(255, 255, 255, 1),
 		    rightAction: Container(
 			    margin: EdgeInsets.only(right: ScreenUtil().setWidth(48)),
 			    child: GestureDetector(
 				    onTap: () {
-					    Navigator.pop(context);
+				    	FocusScope.of(context).requestFocus(FocusNode());
+				    	if(_editController.text.isEmpty){
+				    		Utils.showToast('请填写经营范围');
+				    		return;
+							}
+				    	Navigator.pop(context,_editController.text);
 				    },
 				    child: Text("保存",
 					    style: TextStyle(

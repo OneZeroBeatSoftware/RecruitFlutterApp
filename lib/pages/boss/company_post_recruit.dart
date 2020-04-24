@@ -74,6 +74,11 @@ class _State extends State<CompanyPostRecruit> {
 	String _sexId='2';
 	int _sexPos = 0;
 
+	List<RecruitType> _jobClassifyList = [];
+	String _classify='请选择岗位分类';
+	String _classifyId='';
+	int _classifyPos = 0;
+
 	String _industryType='请选择行业类型';
 	String _industryId='';
 	String _jobType='请选择岗位类型';
@@ -98,6 +103,10 @@ class _State extends State<CompanyPostRecruit> {
 		_sexList.add(RecruitType('2', '性别不限'));
 		_sexList.add(RecruitType('1', '男'));
 		_sexList.add(RecruitType('0', '女'));
+
+		_jobClassifyList.add(RecruitType('1', '技术'));
+		_jobClassifyList.add(RecruitType('2', '人事'));
+		_jobClassifyList.add(RecruitType('3', '财务'));
 
 		_jobNameController=TextEditingController(text: '');
 		_recruitNumController=TextEditingController(text: '');
@@ -172,6 +181,10 @@ class _State extends State<CompanyPostRecruit> {
 							}
 					   	if(_industryId==null||_industryId.isEmpty){
 								Utils.showToast('请选择行业类型');
+								return;
+							}
+							if(_classifyId==null||_classifyId.isEmpty){
+								Utils.showToast('请选择岗位分类');
 								return;
 							}
 							if(_workDateId==null||_workDateId.isEmpty){
@@ -413,6 +426,11 @@ class _State extends State<CompanyPostRecruit> {
 								 });
 							 }
 					 ),
+					 ProfileItem(title: "岗位分类",
+							 value: _classify,
+							 onClick: () {
+								 chooseJobClassify();
+							 }),
 					 Column(
 						 crossAxisAlignment: CrossAxisAlignment.start,
 						 children: <Widget>[
@@ -703,6 +721,28 @@ class _State extends State<CompanyPostRecruit> {
 		);
 	}
 
+	/// 岗位分类
+	chooseJobClassify() {
+		showCupertinoModalPopup(
+			context: context,
+			builder: (context) {
+				return CraftPicker(
+					confirm: (selPos) {
+						Navigator.pop(context);
+						setState(() {
+							_classifyPos = selPos;
+							_classifyId=_jobClassifyList[selPos].id;
+							_classify = _jobClassifyList[selPos].type;
+						});
+					},
+					title: '岗位分类',
+					pickList: _jobClassifyList.map((item)=>item.type).toList(),
+					selIdx: _classifyPos,
+				);
+			},
+		);
+	}
+
 	/// 性别
 	chooseSexType() {
 		showCupertinoModalPopup(
@@ -747,6 +787,15 @@ class _State extends State<CompanyPostRecruit> {
 						_sex=_sexList[i].type;
 						_sexId=_sexList[i].id;
 						_sexPos=i;
+						break;
+					}
+				}
+
+				for(var i=0; i< _jobClassifyList.length;i++){
+					if(_jobClassifyList[i].type==detail.job.positionTypeName) {
+						_classify=_jobClassifyList[i].type;
+						_classifyId=_jobClassifyList[i].id;
+						_classifyPos=i;
 						break;
 					}
 				}
@@ -812,7 +861,7 @@ class _State extends State<CompanyPostRecruit> {
 		job['candidatesTotal']=_candidateNumController.text;
 		job['recruitsTotal']=_recruitNumController.text;
 		job['state']=_recruitTypeId;
-//		job['positionType']=_jobTypeId;
+		job['positionType']=_classifyId;
 		job['sex']=_sexId;
 
 		_tagList.forEach((item){

@@ -93,7 +93,7 @@ class CompanyRowItem extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          '${company.operateState}',
+                          '${company.management}',
                           textAlign: TextAlign.center,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,

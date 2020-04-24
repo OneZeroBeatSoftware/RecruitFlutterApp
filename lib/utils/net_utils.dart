@@ -906,4 +906,10 @@ class NetUtils {
     var response = await _post(context, '/job/save',params: params);
     return BaseRespEntity().fromJson(response.data);
   }
+
+  /// 添加、更新公司信息
+  static Future<BaseRespEntity> editCompany(BuildContext context, Map<String,dynamic> params) async {
+    var response = await _post(context, '/company/save',params: params);
+    return BaseRespEntity().fromJson(response.data);
+  }
 }

@@ -223,7 +223,17 @@ class BossMineModel{
     if (baseRespEntity.statusCode ==200) {
       return baseRespEntity;
     }
-    Utils.showToast(baseRespEntity.msg ?? '获取失败，请重新尝试');
+    Utils.showToast(baseRespEntity.msg ?? '操作失败，请重新尝试');
+    return null;
+  }
+
+  /// 添加、更新公司信息
+  Future<BaseRespEntity> editCompany(BuildContext context,Map<String,dynamic> params) async {
+    BaseRespEntity baseRespEntity = await NetUtils.editCompany(context,params);
+    if (baseRespEntity.statusCode ==200) {
+      return baseRespEntity;
+    }
+    Utils.showToast(baseRespEntity.msg ?? '操作失败，请重新尝试');
     return null;
   }
 }

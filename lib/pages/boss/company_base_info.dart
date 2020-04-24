@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/entity/company_detail_entity.dart';
 import 'package:recruit_app/entity/company_scale_entity.dart';
 import 'package:recruit_app/entity/filter_data.dart';
 import 'package:recruit_app/utils/net_utils.dart';
+import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/common_page_body.dart';
 import 'package:recruit_app/style/profile_style.dart';
@@ -11,7 +13,20 @@ import 'package:recruit_app/widgets/craft_picker.dart';
 import 'package:recruit_app/pages/mine/industry_type.dart';
 import 'package:recruit_app/pages/boss/company_business_license.dart';
 
+class CompanyInfoResult{
+	String industryId;
+	String industryName;
+	String scaleId;
+	String scaleName;
+	String companyName;
+
+	CompanyInfoResult(this.industryId, this.industryName, this.scaleId,
+			this.scaleName, this.companyName);
+}
 class CompanyBaseInfo extends StatefulWidget {
+	final CompanyDetailDataCompany company;
+
+  const CompanyBaseInfo({Key key, this.company}) : super(key: key);
 	@override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -22,7 +37,6 @@ class CompanyBaseInfo extends StatefulWidget {
 
 class _State extends State<CompanyBaseInfo> {
 	TextEditingController _companyController;
-
 
 	String _industry = 'o2o';
 	String _industryId = '';
@@ -35,7 +49,15 @@ class _State extends State<CompanyBaseInfo> {
 	@override
   void initState() {
     // TODO: implement initState
-		_companyController = TextEditingController();
+		if(widget.company!=null){
+			_industry=widget.company.industryName;
+			_industryId=widget.company.industryId;
+			_scale=widget.company.scaleName;
+			_scaleId=widget.company.scaleId;
+			_companyController = TextEditingController(text: widget.company.companyName);
+		}else {
+			_companyController = TextEditingController();
+		}
 		super.initState();
 		WidgetsBinding.instance.addPostFrameCallback((i) {
 			getScaleList();
@@ -61,31 +83,30 @@ class _State extends State<CompanyBaseInfo> {
 		    leftListener: () {
 			    Navigator.pop(context);
 		    },
-		    center: Container(
-		       alignment: Alignment.center,
-		       child: Column(
-			       crossAxisAlignment: CrossAxisAlignment.center,
-			       mainAxisAlignment: MainAxisAlignment.center,
-			       children: <Widget>[
-				       SizedBox(
-					       height: ScreenUtil().setHeight(7),
-				       ),
-				       Text('基本信息',
-					      maxLines: 1,
-					      overflow: TextOverflow.ellipsis,
-					      style: TextStyle(
-						     fontSize: ScreenUtil().setSp(36), color: Color.fromRGBO(68,77,151,1), fontWeight: FontWeight.bold)),
-				       SizedBox(
-					       height: 3,
-				       ),
-			       ],
-		       )),
+		    center: Text('基本信息',
+						maxLines: 1,
+						overflow: TextOverflow.ellipsis,
+						style: TextStyle(
+								fontSize: ScreenUtil().setSp(36), color: Color.fromRGBO(68,77,151,1), fontWeight: FontWeight.bold)),
 		    backgroundColor: Color.fromRGBO(255, 255, 255, 1),
 		    rightAction: Container(
 			    margin: EdgeInsets.only(right: ScreenUtil().setWidth(48)),
 			    child: GestureDetector(
 				    onTap: () {
-				        Navigator.pop(context);
+				    	FocusScope.of(context).requestFocus(FocusNode());
+				    	if(_companyController.text.isEmpty){
+				    		Utils.showToast('请填写公司名称');
+				    		return;
+							}
+				    	if(_scaleId==null||_scaleId.isEmpty){
+								Utils.showToast('请选择公司规模');
+								return;
+							}
+							if(_industryId==null||_industryId.isEmpty){
+								Utils.showToast('请选择公司行业');
+								return;
+							}
+							Navigator.pop(context,CompanyInfoResult(_industryId, _industry, _scaleId, _scale, _companyController.text));
 				    },
 				    child: Text("保存",
 				        style: TextStyle(
@@ -208,7 +229,7 @@ class _State extends State<CompanyBaseInfo> {
     );
   }
   
-	
+	/// 公司规模
 	chooseScopeUnit() {
 		showCupertinoModalPopup(
 			context: context,
