@@ -98,7 +98,7 @@ class JobRowItem extends StatelessWidget {
               ),
               Flexible(
                 child: Text(
-                  job.companyName,
+                  job.companyName??'',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(

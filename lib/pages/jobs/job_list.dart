@@ -46,7 +46,7 @@ class _JobListState extends State<JobList> {
   List<BannerData> _bannerList = [BannerData()
     ..desc = '百度一下'
     ..url = 'https://www.baidu.com'
-    ..image = '/images/img_job_ad.png'
+    ..image = 'images/img_job_ad.png'
   ];
   bool isNetBanner=false;
 
