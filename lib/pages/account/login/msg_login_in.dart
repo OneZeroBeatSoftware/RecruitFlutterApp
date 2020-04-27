@@ -2,7 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:recruit_app/model/user_model.dart';
 import 'package:recruit_app/pages/account/register/register.dart';
+import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 
 class MsgLoginIn extends StatefulWidget {
@@ -11,6 +14,9 @@ class MsgLoginIn extends StatefulWidget {
 }
 
 class _MsgLoginInState extends State<MsgLoginIn> {
+  UserModel _userModel;
+  TextEditingController _phoneController;
+  TextEditingController _codeController;
   Timer _timer;
   var _countDownTime = 0;
 
@@ -29,12 +35,28 @@ class _MsgLoginInState extends State<MsgLoginIn> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    _phoneController=TextEditingController();
+    _codeController=TextEditingController();
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((callback){
+      _userModel=Provider.of<UserModel>(context);
+    });
+  }
+  @override
   void dispose() {
     // TODO: implement dispose
-    super.dispose();
     if (_timer != null) {
       _timer.cancel();
     }
+    if(_phoneController!=null){
+      _phoneController.dispose();
+    }
+    if(_codeController!=null){
+      _codeController.dispose();
+    }
+    super.dispose();
   }
 
   @override
@@ -74,6 +96,7 @@ class _MsgLoginInState extends State<MsgLoginIn> {
                     Expanded(
                       child: TextField(
                         autofocus: false,
+                        controller: _phoneController,
                         keyboardType: TextInputType.phone,
                         maxLines: 1,
                         textAlign: TextAlign.start,
@@ -108,7 +131,11 @@ class _MsgLoginInState extends State<MsgLoginIn> {
                       onTap: () {
                         FocusScope.of(context).requestFocus(FocusNode());
                         if (_countDownTime > 0) return;
-                        _startCountDown();
+                        if (_phoneController.text.isEmpty) {
+                          Utils.showToast('请填写手机号');
+                          return;
+                        }
+                        _getPhoneCode(_phoneController.text);
                       },
                     ),
                   ],
@@ -134,6 +161,7 @@ class _MsgLoginInState extends State<MsgLoginIn> {
                         autofocus: false,
                         keyboardType: TextInputType.number,
                         maxLines: 1,
+                        controller: _codeController,
                         textAlign: TextAlign.start,
                         cursorColor: Color.fromRGBO(159, 199, 235, 1),
                         style: TextStyle(
@@ -156,7 +184,17 @@ class _MsgLoginInState extends State<MsgLoginIn> {
               MaterialButton(
                 elevation: 0,
                 color: Colors.white,
-                onPressed: () {},
+                onPressed: () {
+                  FocusScope.of(context).requestFocus(FocusNode());
+                  if (_phoneController.text.isEmpty) {
+                    Utils.showToast('请填写手机号');
+                    return;
+                  }
+                  if (_codeController.text.isEmpty) {
+                    Utils.showToast('请填写验证码');
+                    return;
+                  }
+                },
                 textColor: Color.fromRGBO(159, 199, 235, 1),
                 child: Text(
                   "登 录",
@@ -207,5 +245,14 @@ class _MsgLoginInState extends State<MsgLoginIn> {
         ),
       ),
     );
+  }
+
+  /// 获取手机验证码
+  _getPhoneCode(String phone) {
+    _userModel.getPhoneCode(context, phone).then((entity) {
+      if (entity != null) {
+        _startCountDown();
+      }
+    });
   }
 }

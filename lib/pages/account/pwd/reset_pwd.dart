@@ -2,6 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:recruit_app/model/user_model.dart';
+import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 
 class ResetPwd extends StatefulWidget {
@@ -10,6 +13,13 @@ class ResetPwd extends StatefulWidget {
 }
 
 class _ResetPwdState extends State<ResetPwd> {
+  UserModel userModel;
+
+  TextEditingController _phoneController = TextEditingController();
+  TextEditingController _pwdController = TextEditingController();
+  TextEditingController _pwd2Controller = TextEditingController();
+  TextEditingController _codeController = TextEditingController();
+
   Timer _timer;
   var _countDownTime=0;
 
@@ -28,8 +38,29 @@ class _ResetPwdState extends State<ResetPwd> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((callback){
+      userModel=Provider.of<UserModel>(context);
+    });
+  }
+
+  @override
   void dispose() {
     // TODO: implement dispose
+    if(_pwdController!=null){
+      _pwdController.dispose();
+    }
+    if(_pwd2Controller!=null){
+      _pwd2Controller.dispose();
+    }
+    if(_phoneController!=null){
+      _phoneController.dispose();
+    }
+    if(_codeController!=null){
+      _codeController.dispose();
+    }
     super.dispose();
     if(_timer!=null){
       _timer.cancel();
@@ -74,6 +105,7 @@ class _ResetPwdState extends State<ResetPwd> {
                       child: TextField(
                         keyboardType: TextInputType.phone,
                         maxLines: 1,
+                        controller: _phoneController,
                         textAlign: TextAlign.start,
                         cursorColor: Color.fromRGBO(159, 199, 235, 1),
                         style: TextStyle(
@@ -108,6 +140,7 @@ class _ResetPwdState extends State<ResetPwd> {
                     Expanded(
                       child: TextField(
                         maxLines: 1,
+                        controller: _codeController,
                         textAlign: TextAlign.start,
                         cursorColor: Color.fromRGBO(159, 199, 235, 1),
                         style: TextStyle(
@@ -137,9 +170,12 @@ class _ResetPwdState extends State<ResetPwd> {
                       ),
                       onTap: () {
                         FocusScope.of(context).requestFocus(FocusNode());
-                        if(_countDownTime>0)
+                        if (_countDownTime > 0) return;
+                        if (_phoneController.text.isEmpty) {
+                          Utils.showToast('请填写手机号');
                           return;
-                        _startCountDown();
+                        }
+                        _getPhoneCode(_phoneController.text);
                       },
                     ),
                   ],
@@ -162,6 +198,7 @@ class _ResetPwdState extends State<ResetPwd> {
                         maxLines: 1,
                         textAlign: TextAlign.start,
                         obscureText: true,
+                        controller: _pwdController,
                         cursorColor: Color.fromRGBO(159, 199, 235, 1),
                         style: TextStyle(
                             fontSize: ScreenUtil().setSp(24),
@@ -200,6 +237,7 @@ class _ResetPwdState extends State<ResetPwd> {
                         maxLines: 1,
                         textAlign: TextAlign.start,
                         obscureText: true,
+                        controller: _pwd2Controller,
                         cursorColor: Color.fromRGBO(159, 199, 235, 1),
                         style: TextStyle(
                             fontSize: ScreenUtil().setSp(24),
@@ -221,7 +259,37 @@ class _ResetPwdState extends State<ResetPwd> {
               MaterialButton(
                 elevation: 0,
                 color: Colors.white,
-                onPressed: () {},
+                onPressed: () {
+                  FocusScope.of(context).requestFocus(FocusNode());
+                  String phone = _phoneController.text;
+                  String pwd = _pwdController.text;
+                  String pwd2 = _pwd2Controller.text;
+                  String code=_codeController.text;
+                  if (phone.isEmpty) {
+                    Utils.showToast('请填写手机号');
+                    return;
+                  }
+                  if (code.isEmpty) {
+                    Utils.showToast('请填写验证码');
+                    return;
+                  }
+                  if (pwd.isEmpty) {
+                    Utils.showToast('请填写密码');
+                    return;
+                  }
+                  if (pwd.length < 6) {
+                    Utils.showToast('密码长度不得少于6位');
+                    return;
+                  }
+                  if (pwd2.isEmpty) {
+                    Utils.showToast('请确认密码');
+                    return;
+                  }
+                  if (pwd != pwd2) {
+                    Utils.showToast('两次密码输入不一致');
+                    return;
+                  }
+                },
                 textColor: Color.fromRGBO(159, 199, 235, 1),
                 child: Text(
                   "重 置",
@@ -248,5 +316,14 @@ class _ResetPwdState extends State<ResetPwd> {
         ),
       ),
     );
+  }
+
+  /// 获取手机验证码
+  _getPhoneCode(String phone) {
+    userModel.getPhoneCode(context, phone).then((entity) {
+      if (entity != null) {
+        _startCountDown();
+      }
+    });
   }
 }

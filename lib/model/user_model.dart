@@ -72,6 +72,17 @@ class UserModel with ChangeNotifier {
     return null;
   }
 
+  /// 获取手机验证码
+  Future<BaseRespEntity> getPhoneCode(BuildContext context,String email) async {
+    BaseRespEntity baseEntity = await NetUtils.getPhoneCode(context,email);
+    if (baseEntity.statusCode ==200) {
+      Utils.showToast(baseEntity.msg ?? '验证码已发送');
+      return baseEntity;
+    }
+    Utils.showToast(baseEntity.msg ?? '验证码发送失败，请重试');
+    return null;
+  }
+
   /// 获取邮箱验证码
   Future<BaseRespEntity> getEmailCode(BuildContext context,String email) async {
     BaseRespEntity baseEntity = await NetUtils.getEmailCode(context,email);

@@ -260,6 +260,15 @@ class NetUtils {
     return BaseRespEntity().fromJson(response.data);
   }
 
+  /// 获取手机验证码
+  static Future<BaseRespEntity> getPhoneCode(
+      BuildContext context, String phoneNumber) async {
+    var response = await _get(context, '/user/getPhoneCode', params: {
+      'phoneNumber': phoneNumber
+    });
+    return BaseRespEntity().fromJson(response.data);
+  }
+
   /// 获取邮箱验证码
   static Future<BaseRespEntity> getEmailCode(
       BuildContext context, String email) async {

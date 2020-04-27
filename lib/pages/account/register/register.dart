@@ -21,6 +21,7 @@ class _RegisterState extends State<Register> {
   TextEditingController _phoneController = TextEditingController();
   TextEditingController _pwdController = TextEditingController();
   TextEditingController _pwd2Controller = TextEditingController();
+  TextEditingController _codeController = TextEditingController();
 
   void _startCountDown() {
     _countDownTime = 60;
@@ -39,6 +40,21 @@ class _RegisterState extends State<Register> {
   @override
   void dispose() {
     // TODO: implement dispose
+    if(_nameController!=null){
+      _nameController.dispose();
+    }
+    if(_pwdController!=null){
+      _pwdController.dispose();
+    }
+    if(_pwd2Controller!=null){
+      _pwd2Controller.dispose();
+    }
+    if(_phoneController!=null){
+      _phoneController.dispose();
+    }
+    if(_codeController!=null){
+      _codeController.dispose();
+    }
     super.dispose();
     if (_timer != null) {
       _timer.cancel();
@@ -233,7 +249,11 @@ class _RegisterState extends State<Register> {
                       onTap: () {
                         FocusScope.of(context).requestFocus(FocusNode());
                         if (_countDownTime > 0) return;
-                        _startCountDown();
+                        if (_phoneController.text.isEmpty) {
+                          Utils.showToast('请填写手机号');
+                          return;
+                        }
+                        _getPhoneCode(_phoneController.text);
                       },
                     ),
                   ],
@@ -258,6 +278,7 @@ class _RegisterState extends State<Register> {
                       child: TextField(
                         keyboardType: TextInputType.number,
                         maxLines: 1,
+                        controller: _codeController,
                         textAlign: TextAlign.start,
                         cursorColor: Color.fromRGBO(159, 199, 235, 1),
                         style: TextStyle(
@@ -285,6 +306,7 @@ class _RegisterState extends State<Register> {
                   String pwd = _pwdController.text;
                   String name = _nameController.text;
                   String pwd2 = _pwd2Controller.text;
+                  String code=_codeController.text;
                   if (name.isEmpty) {
                     Utils.showToast('请填写用户名');
                     return;
@@ -307,6 +329,10 @@ class _RegisterState extends State<Register> {
                   }
                   if (phone.isEmpty) {
                     Utils.showToast('请填写手机号');
+                    return;
+                  }
+                  if (code.isEmpty) {
+                    Utils.showToast('请填写验证码');
                     return;
                   }
                   userModel.register(
@@ -363,5 +389,14 @@ class _RegisterState extends State<Register> {
         ),
       ),
     );
+  }
+
+  /// 获取手机验证码
+  _getPhoneCode(String phone) {
+    userModel.getPhoneCode(context, phone).then((entity) {
+      if (entity != null) {
+        _startCountDown();
+      }
+    });
   }
 }
