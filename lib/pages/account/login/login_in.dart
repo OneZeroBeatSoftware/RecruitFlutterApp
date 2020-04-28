@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:recruit_app/model/user_model.dart';
+import 'package:recruit_app/pages/account/login/email_login_in.dart';
 import 'package:recruit_app/pages/account/login/msg_login_in.dart';
 import 'package:recruit_app/pages/account/pwd/reset_pwd.dart';
 import 'package:recruit_app/pages/account/register/register.dart';
@@ -182,7 +183,14 @@ class _LoginInState extends State<LoginIn> {
                           color: Color.fromRGBO(159, 199, 235, 1),
                         ),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        FocusScope.of(context).requestFocus(FocusNode());
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EmailLoginIn(),
+                            ));
+                      },
                     ),
                   ),
                   MaterialButton(
