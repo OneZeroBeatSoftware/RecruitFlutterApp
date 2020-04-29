@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:recruit_app/application.dart';
 import 'package:recruit_app/model/user_model.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
@@ -76,6 +77,7 @@ class _ReplaceEmail2SettingState extends State<ReplaceEmail2Setting> {
       appBar: CommonAppBar(
         leading: 'images/img_arrow_left_black.png',
         leftListener: () {
+          Navigator.pop(context);
           Navigator.pop(context);
         },
         center: Text(
@@ -307,6 +309,7 @@ class _ReplaceEmail2SettingState extends State<ReplaceEmail2Setting> {
   _updateEmail(String email,String code) {
     _userModel.updateEmail(context, email, code).then((entity) {
       if (entity != null) {
+        Application.sp.setString('email', email);
         Navigator.pop(context);
         Navigator.pop(context);
       }
@@ -317,6 +320,7 @@ class _ReplaceEmail2SettingState extends State<ReplaceEmail2Setting> {
   _unbindEmail(String email,String code) {
     _userModel.unbindEmail(context, email, code).then((entity) {
       if (entity != null) {
+        Application.sp.setString('email', '');
         Navigator.pop(context);
         Navigator.pop(context);
       }

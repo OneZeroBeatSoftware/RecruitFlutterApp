@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/application.dart';
 import 'package:recruit_app/pages/setting/pwd_setting.dart';
 import 'package:recruit_app/pages/setting/replace_email1_setting.dart';
 import 'package:recruit_app/pages/setting/replace_phone1_setting.dart';
@@ -15,6 +16,18 @@ class AccountBindSetting extends StatefulWidget {
 class _AccountBindSettingState extends State<AccountBindSetting> {
   @override
   Widget build(BuildContext context) {
+    String phone= Application.sp.getString('phone');
+    String email= Application.sp.getString('email');
+    if(phone!=null&&phone.isNotEmpty){
+      phone='已绑定';
+    }else {
+      phone='未绑定';
+    }
+    if(email!=null&&email.isNotEmpty){
+      email='已绑定';
+    }else {
+      email='未绑定';
+    }
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -70,7 +83,7 @@ class _AccountBindSettingState extends State<AccountBindSetting> {
                     width: ScreenUtil().setWidth(20),
                   ),
                   Text(
-                    '123****8888',
+                    '$phone',
                     style: TextStyle(
                         color: Color.fromRGBO(176, 181, 180, 1),
                         fontSize: ScreenUtil().setSp(24)),
@@ -186,7 +199,7 @@ class _AccountBindSettingState extends State<AccountBindSetting> {
                     width: ScreenUtil().setWidth(20),
                   ),
                   Text(
-                    '邮箱已绑定',
+                    '$email',
                     style: TextStyle(
                         color: Color.fromRGBO(176, 181, 180, 1),
                         fontSize: ScreenUtil().setSp(24)),

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:recruit_app/application.dart';
 import 'package:recruit_app/model/user_model.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
@@ -67,6 +68,7 @@ class _ReplacePhone2SettingState extends State<ReplacePhone2Setting> {
       appBar: CommonAppBar(
         leading: 'images/img_arrow_left_black.png',
         leftListener: () {
+          Navigator.pop(context);
           Navigator.pop(context);
         },
         backgroundColor: Color.fromRGBO(255, 255, 255, 1),
@@ -247,10 +249,11 @@ class _ReplacePhone2SettingState extends State<ReplacePhone2Setting> {
     });
   }
 
-  /// 改绑邮箱
+  /// 改绑手机
   _updatePhone(String phone,String code) {
     userModel.updatePhone(context, phone, code).then((entity) {
       if (entity != null) {
+        Application.sp.setString('phone', phone);
         Navigator.pop(context);
         Navigator.pop(context);
       }

@@ -10,4 +10,6 @@ class UserData with JsonConvert<UserData> {
 	String token;
 	String jobSeekerId;
 	String recruiterId;
+	String phone;
+	String email;
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/application.dart';
 import 'package:recruit_app/pages/setting/replace_email2_setting.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 
@@ -9,6 +10,28 @@ class ReplaceEmail1Setting extends StatefulWidget {
 }
 
 class _ReplaceEmail1SettingState extends State<ReplaceEmail1Setting> {
+  String email;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    email= Application.sp.getString('email');
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((callback){
+      if(email==null||email.isEmpty){
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ReplaceEmail2Setting(
+              operateEmailType: OperateEmailType.change,
+            ),
+          ),
+        );
+        email='***@jobpin.com';
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,7 +104,7 @@ class _ReplaceEmail1SettingState extends State<ReplaceEmail1Setting> {
             ),
             alignment: Alignment.center,
             child: Text(
-              '12121212@qq.com',
+              '$email',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,

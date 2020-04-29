@@ -3,12 +3,30 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/pages/setting/replace_phone2_setting.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 
+import '../../application.dart';
+
 class ReplacePhone1Setting extends StatefulWidget {
   @override
   _ReplacePhone1SettingState createState() => _ReplacePhone1SettingState();
 }
 
 class _ReplacePhone1SettingState extends State<ReplacePhone1Setting> {
+  String phone;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    phone= Application.sp.getString('phone');
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((callback) {
+      if (phone == null || phone.isEmpty) {
+        Navigator.push(context,
+          MaterialPageRoute(builder: (context) => ReplacePhone2Setting(),),);
+        phone = '*** **** ****';
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +75,7 @@ class _ReplacePhone1SettingState extends State<ReplacePhone1Setting> {
             ),
             alignment: Alignment.center,
             child: Text(
-              '123 8888 8888',
+              '$phone',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
