@@ -24,6 +24,7 @@ class JobIntent extends StatefulWidget {
 class _JobIntentState extends State<JobIntent> {
   int _intentNum = 0;
   int _maxIntent = 0;
+  String _jobState='';
   @override
   void initState() {
     // TODO: implement initState
@@ -32,6 +33,7 @@ class _JobIntentState extends State<JobIntent> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((callback){
       _getIntentList();
+      _getJobState();
     });
   }
   @override
@@ -242,7 +244,7 @@ class _JobIntentState extends State<JobIntent> {
                                   width: ScreenUtil().setWidth(30),
                                 ),
                                 Text(
-                                  '离职-随时到岗',
+                                  '$_jobState',
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                   style: TextStyle(
@@ -269,6 +271,17 @@ class _JobIntentState extends State<JobIntent> {
             ),
           ],
         ),);
+  }
+
+  /// 获取求职状态
+  _getJobState(){
+    MineModel.instance.getJobState(context, Application.sp.get('jobSeekerId')).then((model){
+      if(model!=null){
+        setState(() {
+          _jobState=model;
+        });
+      }
+    });
   }
 
   /// 获取求职期望

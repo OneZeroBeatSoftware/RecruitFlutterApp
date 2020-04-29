@@ -33,6 +33,8 @@ import 'package:recruit_app/entity/mine_info_entity.dart';
 import 'package:recruit_app/generated/json/mine_info_entity_helper.dart';
 import 'package:recruit_app/entity/star_job_entity.dart';
 import 'package:recruit_app/generated/json/star_job_entity_helper.dart';
+import 'package:recruit_app/entity/base_data_entity.dart';
+import 'package:recruit_app/generated/json/base_data_entity_helper.dart';
 import 'package:recruit_app/entity/intent_list_entity.dart';
 import 'package:recruit_app/generated/json/intent_list_entity_helper.dart';
 import 'package:recruit_app/entity/collection_entity.dart';
@@ -137,7 +139,8 @@ class JsonConvert<T> {
 			return mineInfoDataFromJson(data as MineInfoData, json) as T;			case MineInfoDataJobSeeker:
 			return mineInfoDataJobSeekerFromJson(data as MineInfoDataJobSeeker, json) as T;			case StarJobEntity:
 			return starJobEntityFromJson(data as StarJobEntity, json) as T;			case StarJobData:
-			return starJobDataFromJson(data as StarJobData, json) as T;			case IntentListEntity:
+			return starJobDataFromJson(data as StarJobData, json) as T;			case BaseDataEntity:
+			return baseDataEntityFromJson(data as BaseDataEntity, json) as T;			case IntentListEntity:
 			return intentListEntityFromJson(data as IntentListEntity, json) as T;			case IntentListData:
 			return intentListDataFromJson(data as IntentListData, json) as T;			case CollectionEntity:
 			return collectionEntityFromJson(data as CollectionEntity, json) as T;			case WorkDateEntity:
@@ -254,7 +257,8 @@ class JsonConvert<T> {
 			return mineInfoDataToJson(data as MineInfoData);			case MineInfoDataJobSeeker:
 			return mineInfoDataJobSeekerToJson(data as MineInfoDataJobSeeker);			case StarJobEntity:
 			return starJobEntityToJson(data as StarJobEntity);			case StarJobData:
-			return starJobDataToJson(data as StarJobData);			case IntentListEntity:
+			return starJobDataToJson(data as StarJobData);			case BaseDataEntity:
+			return baseDataEntityToJson(data as BaseDataEntity);			case IntentListEntity:
 			return intentListEntityToJson(data as IntentListEntity);			case IntentListData:
 			return intentListDataToJson(data as IntentListData);			case CollectionEntity:
 			return collectionEntityToJson(data as CollectionEntity);			case WorkDateEntity:
@@ -371,7 +375,8 @@ class JsonConvert<T> {
 			return MineInfoData().fromJson(json);			case 'MineInfoDataJobSeeker':
 			return MineInfoDataJobSeeker().fromJson(json);			case 'StarJobEntity':
 			return StarJobEntity().fromJson(json);			case 'StarJobData':
-			return StarJobData().fromJson(json);			case 'IntentListEntity':
+			return StarJobData().fromJson(json);			case 'BaseDataEntity':
+			return BaseDataEntity().fromJson(json);			case 'IntentListEntity':
 			return IntentListEntity().fromJson(json);			case 'IntentListData':
 			return IntentListData().fromJson(json);			case 'CollectionEntity':
 			return CollectionEntity().fromJson(json);			case 'WorkDateEntity':
@@ -489,7 +494,8 @@ class JsonConvert<T> {
 			return List<MineInfoData>();			case 'MineInfoDataJobSeeker':
 			return List<MineInfoDataJobSeeker>();			case 'StarJobEntity':
 			return List<StarJobEntity>();			case 'StarJobData':
-			return List<StarJobData>();			case 'IntentListEntity':
+			return List<StarJobData>();			case 'BaseDataEntity':
+			return List<BaseDataEntity>();			case 'IntentListEntity':
 			return List<IntentListEntity>();			case 'IntentListData':
 			return List<IntentListData>();			case 'CollectionEntity':
 			return List<CollectionEntity>();			case 'WorkDateEntity':

@@ -10,6 +10,7 @@ import 'package:recruit_app/application.dart';
 import 'package:recruit_app/entity/age_entity.dart';
 import 'package:recruit_app/entity/apply_list_entity.dart';
 import 'package:recruit_app/entity/banner_entity.dart';
+import 'package:recruit_app/entity/base_data_entity.dart';
 import 'package:recruit_app/entity/base_resp_entity.dart';
 import 'package:recruit_app/entity/black_list_entity.dart';
 import 'package:recruit_app/entity/boss_apply_list_entity.dart';
@@ -676,6 +677,13 @@ class NetUtils {
       "state": state
     },isShowLoading: false);
     return BossApplyListEntity().fromJson(response.data);
+  }
+
+  /// 获取求职者的求职状态
+  static Future<BaseDataEntity> getJobState(BuildContext context, String id) async {
+    var response = await _get(context, '/jobSeeker/JobState/get/$id', params: {
+    });
+    return BaseDataEntity().fromJson(response.data);
   }
 
   /// 获取全部求职期望

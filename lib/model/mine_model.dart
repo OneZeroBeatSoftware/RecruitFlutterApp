@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:recruit_app/entity/apply_list_entity.dart';
+import 'package:recruit_app/entity/base_data_entity.dart';
 import 'package:recruit_app/entity/base_resp_entity.dart';
 import 'package:recruit_app/entity/black_list_entity.dart';
 import 'package:recruit_app/entity/collection_entity.dart';
@@ -165,6 +166,16 @@ class MineModel{
       _applyList.clear();
     }
     Utils.showToast(applyListEntity.msg ?? '获取失败，请重新尝试');
+    return null;
+  }
+
+  /// 获取求职者求职状态
+  Future<String> getJobState (BuildContext context,String seekerId) async {
+    BaseDataEntity entity = await NetUtils.getJobState(context,seekerId);
+    if (entity!=null&&entity.statusCode ==200) {
+      return entity.data;
+    }
+    Utils.showToast(entity.msg ?? '获取失败，请重新尝试');
     return null;
   }
 
