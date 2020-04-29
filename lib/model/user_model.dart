@@ -36,6 +36,36 @@ class UserModel with ChangeNotifier {
     return null;
   }
 
+  /// 手机验证码登录
+  Future<UserEntity> phoneCodeLogin(BuildContext context, String phone, String code) async {
+    UserEntity user = await NetUtils.phoneCodeLogin(context, phone, code);
+    if (user.statusCode ==200) {
+      Utils.showToast(user.msg ?? '登录成功');
+      Application.sp.setString('token', user.data.token);
+      Application.sp.setString('jobSeekerId', user.data.jobSeekerId);
+      Application.sp.setString('recruiterId', user.data.recruiterId);
+      _saveUserInfo(user);
+      return user;
+    }
+    Utils.showToast(user.msg ?? '登录失败，请检查账号密码');
+    return null;
+  }
+
+  /// 邮箱验证码登录
+  Future<UserEntity> emailCodeLogin(BuildContext context, String email, String code) async {
+    UserEntity user = await NetUtils.emailCodeLogin(context, email, code);
+    if (user.statusCode ==200) {
+      Utils.showToast(user.msg ?? '登录成功');
+      Application.sp.setString('token', user.data.token);
+      Application.sp.setString('jobSeekerId', user.data.jobSeekerId);
+      Application.sp.setString('recruiterId', user.data.recruiterId);
+      _saveUserInfo(user);
+      return user;
+    }
+    Utils.showToast(user.msg ?? '登录失败，请检查账号密码');
+    return null;
+  }
+
   /// 退出登录
   Future<UserEntity> logout(BuildContext context) async {
     UserEntity user = await NetUtils.logout(context);
@@ -49,9 +79,8 @@ class UserModel with ChangeNotifier {
   }
 
   /// 注册
-  Future<UserEntity> register(BuildContext context,String userName, String pwd,String pwd2,String phone,String email) async {
-
-    UserEntity user = await NetUtils.register(context, userName, pwd,pwd2,phone,email);
+  Future<UserEntity> register(BuildContext context,String userName, String pwd,String pwd2,String phone,String email,String code) async {
+    UserEntity user = await NetUtils.register(context, userName, pwd,pwd2,phone,email,code);
     if (user.statusCode ==200) {
       Utils.showToast(user.msg ?? '注册成功');
       return user;
@@ -72,9 +101,33 @@ class UserModel with ChangeNotifier {
     return null;
   }
 
+  /// 手机号重置密码
+  Future<BaseRespEntity> resetPwd(BuildContext context,String tel, String code,String pwd,String pwd2) async {
+    BaseRespEntity baseEntity = await NetUtils.resetPwd(context,tel,code,pwd,pwd2);
+    if (baseEntity.statusCode ==200) {
+      Utils.showToast(baseEntity.msg ?? '密码重置成功');
+      Application.sp.setString('token', '');
+      return baseEntity;
+    }
+    Utils.showToast(baseEntity.msg ?? '密码重置失败，请重试');
+    return null;
+  }
+
+  /// 绑定、修改手机号码
+  Future<BaseRespEntity> updatePhone(BuildContext context,String tel, String code) async {
+    BaseRespEntity baseEntity = await NetUtils.updatePhone(context,tel,code);
+    if (baseEntity.statusCode ==200) {
+      Utils.showToast(baseEntity.msg ?? '绑定成功');
+      Application.sp.setString('token', '');
+      return baseEntity;
+    }
+    Utils.showToast(baseEntity.msg ?? '绑定失败，请重试');
+    return null;
+  }
+
   /// 获取手机验证码
-  Future<BaseRespEntity> getPhoneCode(BuildContext context,String email) async {
-    BaseRespEntity baseEntity = await NetUtils.getPhoneCode(context,email);
+  Future<BaseRespEntity> getPhoneCode(BuildContext context,String tel) async {
+    BaseRespEntity baseEntity = await NetUtils.getPhoneCode(context,tel);
     if (baseEntity.statusCode ==200) {
       Utils.showToast(baseEntity.msg ?? '验证码已发送');
       return baseEntity;
@@ -91,6 +144,17 @@ class UserModel with ChangeNotifier {
       return baseEntity;
     }
     Utils.showToast(baseEntity.msg ?? '验证码发送失败，请重试');
+    return null;
+  }
+
+  /// 解绑邮箱
+  Future<BaseRespEntity> unbindEmail(BuildContext context,String email,String code) async {
+    BaseRespEntity baseEntity = await NetUtils.unbindEmail(context,email,code);
+    if (baseEntity.statusCode ==200) {
+      Utils.showToast(baseEntity.msg ?? '邮箱已解绑');
+      return baseEntity;
+    }
+    Utils.showToast(baseEntity.msg ?? '邮箱解绑失败，请重试');
     return null;
   }
 

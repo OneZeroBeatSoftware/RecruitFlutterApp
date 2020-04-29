@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:recruit_app/entity/base_resp_entity.dart';
 import 'package:recruit_app/model/user_model.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
@@ -259,7 +260,7 @@ class _ResetPwdState extends State<ResetPwd> {
               MaterialButton(
                 elevation: 0,
                 color: Colors.white,
-                onPressed: () {
+                onPressed: () async {
                   FocusScope.of(context).requestFocus(FocusNode());
                   String phone = _phoneController.text;
                   String pwd = _pwdController.text;
@@ -288,6 +289,10 @@ class _ResetPwdState extends State<ResetPwd> {
                   if (pwd != pwd2) {
                     Utils.showToast('两次密码输入不一致');
                     return;
+                  }
+                  BaseRespEntity baseEntity =await userModel.resetPwd(context,phone,code,pwd,pwd2);
+                  if(baseEntity!=null){
+                    Navigator.pop(context);
                   }
                 },
                 textColor: Color.fromRGBO(159, 199, 235, 1),

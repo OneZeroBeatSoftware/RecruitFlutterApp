@@ -22,6 +22,7 @@ class _RegisterState extends State<Register> {
   TextEditingController _pwdController = TextEditingController();
   TextEditingController _pwd2Controller = TextEditingController();
   TextEditingController _codeController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
 
   void _startCountDown() {
     _countDownTime = 60;
@@ -54,6 +55,9 @@ class _RegisterState extends State<Register> {
     }
     if(_codeController!=null){
       _codeController.dispose();
+    }
+    if(_emailController!=null){
+      _emailController.dispose();
     }
     super.dispose();
     if (_timer != null) {
@@ -201,6 +205,44 @@ class _RegisterState extends State<Register> {
                 ),
               ),
               Container(
+                margin: EdgeInsets.only(
+                  top: ScreenUtil().setWidth(14),
+                  bottom: ScreenUtil().setWidth(70),
+                ),
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Color.fromRGBO(229, 229, 229, 1),
+                      width: ScreenUtil().setWidth(2),
+                    ),
+                  ),
+                ),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: TextField(
+                        keyboardType: TextInputType.emailAddress,
+                        maxLines: 1,
+                        controller: _emailController,
+                        textAlign: TextAlign.start,
+                        cursorColor: Color.fromRGBO(159, 199, 235, 1),
+                        style: TextStyle(
+                            fontSize: ScreenUtil().setSp(24),
+                            color: Color.fromRGBO(95, 94, 94, 1)),
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: '请填写邮箱',
+                          hintStyle: TextStyle(
+                            fontSize: ScreenUtil().setSp(24),
+                            color: Color.fromRGBO(176, 181, 180, 1),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
                 margin: EdgeInsets.only(top: ScreenUtil().setWidth(14)),
                 decoration: BoxDecoration(
                   border: Border(
@@ -303,6 +345,7 @@ class _RegisterState extends State<Register> {
                 onPressed: () {
                   FocusScope.of(context).requestFocus(FocusNode());
                   String phone = _phoneController.text;
+                  String email = _emailController.text;
                   String pwd = _pwdController.text;
                   String name = _nameController.text;
                   String pwd2 = _pwd2Controller.text;
@@ -327,6 +370,10 @@ class _RegisterState extends State<Register> {
                     Utils.showToast('两次密码输入不一致');
                     return;
                   }
+                  if (email.isEmpty) {
+                    Utils.showToast('请填写邮箱');
+                    return;
+                  }
                   if (phone.isEmpty) {
                     Utils.showToast('请填写手机号');
                     return;
@@ -336,7 +383,7 @@ class _RegisterState extends State<Register> {
                     return;
                   }
                   userModel.register(
-                      context, name, pwd, pwd2, phone, '163@163.com')
+                      context, name, pwd, pwd2, phone, email,code)
                       .then((value) {
                     if (value != null) {
                       Navigator.pop(context);

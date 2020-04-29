@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:recruit_app/model/user_model.dart';
 import 'package:recruit_app/pages/account/register/register.dart';
+import 'package:recruit_app/pages/home/recruit_home_app.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 
@@ -194,6 +195,17 @@ class _MsgLoginInState extends State<MsgLoginIn> {
                     Utils.showToast('请填写验证码');
                     return;
                   }
+                  _userModel.phoneCodeLogin(context, _phoneController.text, _codeController.text).then((value){
+                    if(value!=null){
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => RecruitHomeApp()),
+                      );
+                    }
+                  });
                 },
                 textColor: Color.fromRGBO(159, 199, 235, 1),
                 child: Text(

@@ -223,7 +223,7 @@ class NetUtils {
   static Future<UserEntity> login(
       BuildContext context, String userName, String password) async {
     var response = await _post(context, '/user/login', params: {
-      'userName': userName,
+      'account': userName,
       'password': password,
     });
     return UserEntity().fromJson(response.data);
@@ -238,9 +238,10 @@ class NetUtils {
 
   /// 注册
   static Future<UserEntity> register(BuildContext context, String userName,
-      String password, String password2, String phone, String email) async {
+      String password, String password2, String phone, String email,String code) async {
     var response = await _post(context, '/user/register', params: {
       'userName': userName,
+      'code': code,
       'password': password,
       'password2': password2,
       'phone': phone,
@@ -269,6 +270,38 @@ class NetUtils {
     return BaseRespEntity().fromJson(response.data);
   }
 
+  /// 手机号重置密码
+  static Future<BaseRespEntity> resetPwd(
+      BuildContext context, String tel, String code,String pwd,String pwd2) async {
+    var response = await _put(context, '/user/update/passwordByCode', params: {
+      'code': code,
+      'phone': tel,
+      'password':pwd,
+      'password2':pwd2
+    },isBody: true);
+    return BaseRespEntity().fromJson(response.data);
+  }
+
+  /// 手机验证码登录
+  static Future<UserEntity> phoneCodeLogin(
+      BuildContext context, String tel,String code) async {
+    var response = await _post(context, '/user/phoneCodeLogin', params: {
+      'code': code,
+      'sign': tel
+    });
+    return UserEntity().fromJson(response.data);
+  }
+
+  /// 绑定、修改手机号码
+  static Future<BaseRespEntity> updatePhone(
+      BuildContext context, String tel,String code) async {
+    var response = await _put(context, '/user/update/phone', params: {
+      'code': code,
+      'sign': tel
+    },isBody: true);
+    return BaseRespEntity().fromJson(response.data);
+  }
+
   /// 获取邮箱验证码
   static Future<BaseRespEntity> getEmailCode(
       BuildContext context, String email) async {
@@ -278,13 +311,33 @@ class NetUtils {
     return BaseRespEntity().fromJson(response.data);
   }
 
+  /// 邮箱验证码登录
+  static Future<UserEntity> emailCodeLogin(
+      BuildContext context, String email,String code) async {
+    var response = await _post(context, '/user/emailCodeLogin', params: {
+      'code': code,
+      'sign': email
+    });
+    return UserEntity().fromJson(response.data);
+  }
+
+  /// 解绑邮箱
+  static Future<BaseRespEntity> unbindEmail(
+      BuildContext context, String email, String code) async {
+    var response = await _put(context, '/user/untying/email', params: {
+      'code': code,
+      'sign': email
+    },isBody: true);
+    return BaseRespEntity().fromJson(response.data);
+  }
+
   /// 改绑邮箱
   static Future<BaseRespEntity> updateEmail(
       BuildContext context, String email,String code) async {
-    var response = await _get(context, '/user/update/email', params: {
-      'email': email,
+    var response = await _put(context, '/user/update/email', params: {
+      'sign': email,
       'code': code
-    });
+    },isBody: true);
     return BaseRespEntity().fromJson(response.data);
   }
 

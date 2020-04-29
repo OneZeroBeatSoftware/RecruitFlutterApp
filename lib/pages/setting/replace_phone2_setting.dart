@@ -212,6 +212,7 @@ class _ReplacePhone2SettingState extends State<ReplacePhone2Setting> {
                   Utils.showToast('请填写验证码');
                   return;
                 }
+                _updatePhone(phone, code);
               },
               textColor: Color.fromRGBO(159, 199, 235, 1),
               child: Text(
@@ -242,6 +243,16 @@ class _ReplacePhone2SettingState extends State<ReplacePhone2Setting> {
     userModel.getPhoneCode(context, phone).then((entity) {
       if (entity != null) {
         _startCountDown();
+      }
+    });
+  }
+
+  /// 改绑邮箱
+  _updatePhone(String phone,String code) {
+    userModel.updatePhone(context, phone, code).then((entity) {
+      if (entity != null) {
+        Navigator.pop(context);
+        Navigator.pop(context);
       }
     });
   }

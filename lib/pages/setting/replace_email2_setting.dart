@@ -254,6 +254,7 @@ class _ReplaceEmail2SettingState extends State<ReplaceEmail2Setting> {
                           },
                           confirm: (){
                             Navigator.pop(context);
+                            _unbindEmail(_emailController.text, _codeController.text);
                           },
                         );
                       });
@@ -305,6 +306,16 @@ class _ReplaceEmail2SettingState extends State<ReplaceEmail2Setting> {
   /// 改绑邮箱
   _updateEmail(String email,String code) {
     _userModel.updateEmail(context, email, code).then((entity) {
+      if (entity != null) {
+        Navigator.pop(context);
+        Navigator.pop(context);
+      }
+    });
+  }
+
+  /// 解绑邮箱
+  _unbindEmail(String email,String code) {
+    _userModel.unbindEmail(context, email, code).then((entity) {
       if (entity != null) {
         Navigator.pop(context);
         Navigator.pop(context);
