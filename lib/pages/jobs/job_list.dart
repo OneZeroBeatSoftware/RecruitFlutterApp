@@ -43,11 +43,7 @@ class _JobListState extends State<JobList> {
   String _industry='';
   String _jobType='';
 
-  List<BannerData> _bannerList = [BannerData()
-    ..desc = '百度一下'
-    ..url = 'https://www.baidu.com'
-    ..image = 'images/img_job_ad.png'
-  ];
+  List<BannerData> _bannerList = [];
   bool isNetBanner=false;
 
   @override
@@ -227,17 +223,10 @@ class _JobListState extends State<JobList> {
                                 MaterialPageRoute(builder: (context) => WebViewWidget(title: '${_bannerList[index].desc}',url: '${_bannerList[index].url}',),),);
                             },
                             children: _bannerList.map((item){
-                              if(isNetBanner){
                                 return Image.network(
                                   item.image,
                                   fit: BoxFit.cover,
                                 );
-                              } else {
-                                return Image.asset(
-                                  item.image,
-                                  fit: BoxFit.cover,
-                                );
-                              }
                             }).toList(),
                             autoplay: true,
                             pagination: new SwiperPagination(

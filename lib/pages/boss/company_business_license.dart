@@ -4,23 +4,30 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:recruit_app/entity/company_detail_entity.dart';
 import 'package:recruit_app/model/file_model.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
+class LicenseResult{
+  List<CompanyDetailDataLicense> licenses;
 
+  LicenseResult(this.licenses);
+}
 class CraftBusinessLicense extends StatefulWidget {
+  final List<CompanyDetailDataLicense> licenses;
+  const CraftBusinessLicense({Key key, this.licenses}) : super(key: key);
   @override
   _CraftFeedbackState createState() => _CraftFeedbackState();
 }
 
 class _CraftFeedbackState extends State<CraftBusinessLicense> {
-  List<String> _imgFile=[];
+  List<CompanyDetailDataLicense> _imgFile=[];
 
   @override
   void initState() {
     // TODO: implement initState
-    _imgFile.add('images/img_img_add_blue.png');
-
+    _imgFile.add(CompanyDetailDataLicense()..image='images/img_img_add_blue.png');
+    _imgFile.addAll(widget.licenses);
     super.initState();
   }
 
@@ -54,6 +61,7 @@ class _CraftFeedbackState extends State<CraftBusinessLicense> {
               Utils.showToast('请上传营业执照');
               return;
             }
+            Navigator.pop(context,LicenseResult(_imgFile.sublist(1,_imgFile.length)));
           },
           behavior: HitTestBehavior.opaque,
           child: Padding(
@@ -125,14 +133,14 @@ class _CraftFeedbackState extends State<CraftBusinessLicense> {
                         }
                         _openGallery();
                       }, behavior: HitTestBehavior.opaque, child: Image.asset(
-                        _imgFile[index],
+                        _imgFile[index].image,
                         width: ScreenUtil().setWidth(120),
                         height: ScreenUtil().setWidth(120),
                         fit: BoxFit.cover,
                       ),);
                     }
                     return GestureDetector(child: Image.network(
-                      _imgFile[index],
+                      _imgFile[index].image,
                       width: ScreenUtil().setWidth(120),
                       height: ScreenUtil().setWidth(120),
                       fit: BoxFit.cover,
@@ -174,7 +182,12 @@ class _CraftFeedbackState extends State<CraftBusinessLicense> {
     String imgPath= await FileModel.instance.uploadFile(context, file);
     if (null!=imgPath) {
       Utils.showToast('上传成功');
-      _imgFile.add(imgPath);
+      _imgFile.add(CompanyDetailDataLicense()
+        ..image = imgPath
+        ..id = ''
+        ..companyId = ''
+        ..state = 1
+        ..desc = '');
       setState(() {
 
       });

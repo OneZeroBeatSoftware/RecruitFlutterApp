@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:recruit_app/entity/edu_level_entity.dart';
 import 'package:recruit_app/entity/resume_detail_entity.dart';
 import 'package:recruit_app/entity/work_date_entity.dart';
+import 'package:recruit_app/model/file_model.dart';
 import 'package:recruit_app/utils/net_utils.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
@@ -240,7 +244,9 @@ class _PersonalInfoState extends State<PersonalInfo> {
                       SizedBox(
                         width: ScreenUtil().setWidth(16),
                       ),
-                      ClipRRect(
+                      GestureDetector(behavior: HitTestBehavior.opaque,onTap: (){
+                        _openGallery();
+                      },child: ClipRRect(
                         borderRadius: BorderRadius.circular(
                           ScreenUtil().setWidth(54),
                         ),
@@ -250,7 +256,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                           height: ScreenUtil().setWidth(108),
                           fit: BoxFit.cover,
                         ),
-                      ),
+                      ),),
                     ],
                   ),
                 ),
@@ -806,6 +812,28 @@ class _PersonalInfoState extends State<PersonalInfo> {
         ),
       ),
     );
+  }
+
+  /// 相册获取图片上传
+  _openGallery() async{
+    var _image=await ImagePicker.pickImage(source: ImageSource.gallery,);
+    if(_image==null){
+      return;
+    }
+    _uploadFile(_image);
+  }
+
+  /// 选中图片后上传图片
+  _uploadFile(File file) async {
+    String imgPath= await FileModel.instance.uploadFile(context, file);
+    if (null!=imgPath) {
+      Utils.showToast('上传成功');
+      setState(() {
+
+      });
+    }else {
+      Utils.showToast('上传失败');
+    }
   }
 
   /// 学历要求

@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:recruit_app/entity/company_detail_entity.dart';
 import 'package:recruit_app/entity/company_scale_entity.dart';
 import 'package:recruit_app/entity/filter_data.dart';
+import 'package:recruit_app/model/file_model.dart';
 import 'package:recruit_app/utils/net_utils.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
@@ -12,6 +16,7 @@ import 'package:recruit_app/style/profile_style.dart';
 import 'package:recruit_app/widgets/craft_picker.dart';
 import 'package:recruit_app/pages/mine/industry_type.dart';
 import 'package:recruit_app/pages/boss/company_business_license.dart';
+import 'package:recruit_app/widgets/network_image.dart';
 
 class CompanyInfoResult{
 	String industryId;
@@ -19,25 +24,28 @@ class CompanyInfoResult{
 	String scaleId;
 	String scaleName;
 	String companyName;
+	String avatar;
+	List<CompanyDetailDataLicense> licenses;
 
 	CompanyInfoResult(this.industryId, this.industryName, this.scaleId,
-			this.scaleName, this.companyName);
+			this.scaleName, this.companyName,this.avatar,this.licenses);
 }
 class CompanyBaseInfo extends StatefulWidget {
-	final CompanyDetailDataCompany company;
+	final CompanyInfoResult company;
 
   const CompanyBaseInfo({Key key, this.company}) : super(key: key);
 	@override
   State<StatefulWidget> createState() {
     // TODO: implement createState
     return _State();
-    
+
   }
 }
 
 class _State extends State<CompanyBaseInfo> {
 	TextEditingController _companyController;
 
+	String _avatar='';
 	String _industry = 'o2o';
 	String _industryId = '';
 
@@ -45,11 +53,17 @@ class _State extends State<CompanyBaseInfo> {
 	String _scaleId='';
 	int _selScale=0;
 	List<CompanyScaleData> _scaleList=[];
+	List<CompanyDetailDataLicense> _licenses=[];
 
 	@override
   void initState() {
     // TODO: implement initState
 		if(widget.company!=null){
+			if(widget.company.licenses!=null){
+				_licenses.clear();
+				_licenses.addAll(widget.company.licenses);
+			}
+			_avatar=widget.company.avatar;
 			_industry=widget.company.industryName;
 			_industryId=widget.company.industryId;
 			_scale=widget.company.scaleName;
@@ -94,6 +108,10 @@ class _State extends State<CompanyBaseInfo> {
 			    child: GestureDetector(
 				    onTap: () {
 				    	FocusScope.of(context).requestFocus(FocusNode());
+							if(_avatar==null||_avatar.isEmpty){
+								Utils.showToast('请选择公司LOGO');
+								return;
+							}
 				    	if(_companyController.text.isEmpty){
 				    		Utils.showToast('请填写公司名称');
 				    		return;
@@ -106,7 +124,7 @@ class _State extends State<CompanyBaseInfo> {
 								Utils.showToast('请选择公司行业');
 								return;
 							}
-							Navigator.pop(context,CompanyInfoResult(_industryId, _industry, _scaleId, _scale, _companyController.text));
+							Navigator.pop(context,CompanyInfoResult(_industryId, _industry, _scaleId, _scale, _companyController.text,_avatar,_licenses));
 				    },
 				    child: Text("保存",
 				        style: TextStyle(
@@ -125,13 +143,13 @@ class _State extends State<CompanyBaseInfo> {
 			        mainAxisAlignment: MainAxisAlignment.spaceBetween,
 			        children: <Widget>[
 			        	Text("头像", style: ProfileStyle.titleStyle,),
-				        ClipRRect(
-					        borderRadius: BorderRadius.circular(50),
-					        child: Image.asset("images/avatar_1.png",
-						        width: ScreenUtil().setWidth(108),
-						        height: ScreenUtil().setWidth(108),
-					        ),
-				        )
+				        GestureDetector(behavior: HitTestBehavior.opaque,onTap: (){_openGallery();},child: ClipRRect(
+									borderRadius: BorderRadius.circular(54),
+									child: NetImage(img: _avatar,
+											placeholder: 'images/img_default_head.png',
+											error: 'images/img_default_head.png',
+											size: ScreenUtil().setWidth(108)),
+								),),
 			        ],
 		        ),
 			    ProfileStyle.divider,
@@ -213,11 +231,21 @@ class _State extends State<CompanyBaseInfo> {
 			          style: ProfileStyle.titleStyle,
 			       ),
 				    onClick: () {
-					    Navigator.push<String>(
+					    Navigator.push<LicenseResult>(
 					       context,
 					       MaterialPageRoute(
-						      builder: (context) => CraftBusinessLicense())
-					    );
+						      builder: (context) => CraftBusinessLicense(licenses: _licenses,))
+					    ).then((value){
+					    	if(value!=null){
+									for (var i=0;i< (value.licenses.length);i++) {
+									  if(i<_licenses.length){
+											_licenses[i].image=value.licenses[i].image;
+										}else {
+									  	_licenses.add(value.licenses[i]);
+										}
+									}
+								}
+							});
 				    },
 				    valueW: Text('已验证', style: TextStyle(
 					    color: Color.fromRGBO(176,181,180,1))
@@ -228,6 +256,28 @@ class _State extends State<CompanyBaseInfo> {
 	    ),
     );
   }
+
+	/// 相册获取图片上传
+	_openGallery() async{
+		var _image=await ImagePicker.pickImage(source: ImageSource.gallery,);
+		if(_image==null){
+			return;
+		}
+		_uploadFile(_image);
+	}
+
+	/// 选中图片后上传图片
+	_uploadFile(File file) async {
+		String imgPath= await FileModel.instance.uploadFile(context, file);
+		if (null!=imgPath) {
+			Utils.showToast('上传成功');
+			setState(() {
+				_avatar=imgPath;
+			});
+		}else {
+			Utils.showToast('上传失败');
+		}
+	}
   
 	/// 公司规模
 	chooseScopeUnit() {

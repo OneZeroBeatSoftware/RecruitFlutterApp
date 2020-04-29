@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/craft_date_time_picker.dart';
 import 'package:recruit_app/widgets/craft_picker.dart';
+import 'package:recruit_app/widgets/network_image.dart';
 import 'package:recruit_app/widgets/profile_divider.dart';
 import 'package:recruit_app/pages/boss/company_introduction.dart';
 import 'package:recruit_app/pages/boss/company_work_time.dart';
@@ -26,6 +28,7 @@ import 'package:recruit_app/pages/boss/company_register_capital.dart';
 import 'package:recruit_app/pages/boss/company_unified_credit_code.dart';
 import 'package:recruit_app/pages/boss/company_business_scope.dart';
 import 'package:recruit_app/widgets/slide_button.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 import '../../application.dart';
 
@@ -55,6 +58,7 @@ class _CompanyInfoState extends State<CompanyInfo> {
   String _manageId = '';
   int _managePos = 0;
 
+  String _companyAva='';
   String _companySummary='';
   String _companyName='';
   String _scaleId='';
@@ -75,6 +79,7 @@ class _CompanyInfoState extends State<CompanyInfo> {
   String _scope='';
 
   List<CompanyDetailDataWelfare> _welfareList = [];
+  List<CompanyDetailDataLicense> _licenses=[];
 
   @override
   void initState() {
@@ -115,6 +120,10 @@ class _CompanyInfoState extends State<CompanyInfo> {
           child: GestureDetector(
             onTap: () {
               FocusScope.of(context).requestFocus(FocusNode());
+              if(_companyAva==null||_companyAva.isEmpty){
+                Utils.showToast('请选择公司logo');
+                return;
+              }
               if(_companyName==null||_companyName.isEmpty){
                 Utils.showToast('请先编辑公司信息');
                 return;
@@ -223,12 +232,15 @@ class _CompanyInfoState extends State<CompanyInfo> {
                                   FocusScope.of(context).requestFocus(FocusNode());
                                   if(widget.companyId!=null&&widget.companyId.isNotEmpty&&_detailData!=null){
                                     Navigator.push<CompanyInfoResult>(context, MaterialPageRoute(
-                                        builder: (context) => CompanyBaseInfo(company:_detailData.company)
+                                        builder: (context) => CompanyBaseInfo(company:CompanyInfoResult(_industryId, _industry, _scaleId, _scaleName, _companyName, _companyAva,_licenses))
                                     )).then((value){
                                       if(value!=null){
+                                        _licenses.clear();
+                                        _licenses.addAll(value.licenses);
                                         _industryId=value.industryId;
                                         _scaleId=value.scaleId;
                                         setState(() {
+                                          _companyAva=value.avatar;
                                           _industry=value.industryName;
                                           _scaleName=value.scaleName;
                                           _companyName=value.companyName;
@@ -240,9 +252,12 @@ class _CompanyInfoState extends State<CompanyInfo> {
                                         builder: (context) => CompanyBaseInfo()
                                     )).then((value){
                                       if(value!=null){
+                                        _licenses.clear();
+                                        _licenses.addAll(value.licenses);
                                         _industryId=value.industryId;
                                         _scaleId=value.scaleId;
                                         setState(() {
+                                          _companyAva=value.avatar;
                                           _industry=value.industryName;
                                           _scaleName=value.scaleName;
                                           _companyName=value.companyName;
@@ -262,8 +277,11 @@ class _CompanyInfoState extends State<CompanyInfo> {
                             )
                           ],),
                           ClipRRect(
-                            borderRadius: BorderRadius.circular(50),
-                            child: Image.asset('images/avatar_14.png', width: ScreenUtil().setWidth(140), height: ScreenUtil().setWidth(140)),
+                            borderRadius: BorderRadius.circular(54),
+                            child: NetImage(img: _companyAva,
+                                placeholder: 'images/img_default_head.png',
+                                error: 'images/img_default_head.png',
+                                size: ScreenUtil().setWidth(108)),
                           ),
                         ],
                       ),
@@ -296,7 +314,7 @@ class _CompanyInfoState extends State<CompanyInfo> {
                           )
                         ]
                       ),
-                      SizedBox(height: ScreenUtil().setSp(40)),
+                      SizedBox(height: ScreenUtil().setWidth(40)),
                       Text(
                           _companySummary.isEmpty?'请填写公司简介':_companySummary,
                           overflow: TextOverflow.ellipsis,
@@ -308,9 +326,6 @@ class _CompanyInfoState extends State<CompanyInfo> {
                             fontSize: ScreenUtil().setSp(24),
                             color: Color.fromRGBO(95,94,94,1),
                           )),
-                      SizedBox(
-                        height: ScreenUtil().setHeight(40),
-                      ),
                       Item("公司地址", '$_cityName$_address', canClick: true,onClick: (){
                         FocusScope.of(context).requestFocus(FocusNode());
                         Navigator.push<AddressResult>(
@@ -575,6 +590,7 @@ class _CompanyInfoState extends State<CompanyInfo> {
         context, companyId);
     if (detailEntity.data != null) {
       _isLoad=false;
+      _companyAva=detailEntity.data.company.avatar;
       _scope=detailEntity.data.company.scope;
       _unifiedCreditCode=detailEntity.data.company.unifiedCreditCode;
       _registerDate=detailEntity.data.company.registerDate;
@@ -593,6 +609,8 @@ class _CompanyInfoState extends State<CompanyInfo> {
       _companySummary=detailEntity.data.company.companySummary;
       _manage=detailEntity.data.company.managementName;
       _manageId=detailEntity.data.company.managementId;
+      _licenses.clear();
+      _licenses.addAll(detailEntity.data.licenses);
       _welfareList.clear();
       _welfareList.addAll(detailEntity.data.welfare);
       setState(() {
@@ -610,6 +628,7 @@ class _CompanyInfoState extends State<CompanyInfo> {
   _editCompany() async {
     Map<String,dynamic> params={};
     List welfare=[];
+    List license=[];
     Map<String,dynamic> company={};
 
     if(widget.companyId!=null&&widget.companyId.isNotEmpty){
@@ -619,6 +638,7 @@ class _CompanyInfoState extends State<CompanyInfo> {
 //    company['AmericanState']=AmericanState;
 //    company['americanState']=_jobNameController.text;
 //    company['avatar']=avatar;
+    company['avatar']=_companyAva;
     company['city']=_cityId;
     company['companyName']=_companyName;
     company['companySummary']=_companySummary;
@@ -651,8 +671,23 @@ class _CompanyInfoState extends State<CompanyInfo> {
       welfare.add(params);
     });
 
+    _licenses.forEach((item){
+      Map<String,dynamic> params={};
+      params['image']=item.image;
+      params['desc']='';
+      params['state']='1';
+      if(item.id!=null&&item.id.isNotEmpty){
+        params['id']=item.id;
+      }
+      if(widget.companyId!=null&&widget.companyId.isNotEmpty){
+        params['companyId']=widget.companyId;
+      }
+      license.add(params);
+    });
+
     params['welfare']=welfare;
     params['company']=company;
+    params['licenses']=license;
 
     print(json.encode(params));
     BaseRespEntity _baseEntity = await BossMineModel.instance.editCompany(context,params);

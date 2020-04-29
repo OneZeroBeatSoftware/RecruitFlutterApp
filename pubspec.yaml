@@ -39,7 +39,7 @@ dependencies:
   get_it: ^3.0.1
   audioplayers: ^0.13.2
   flutter_easyrefresh: ^2.1.0
-  cached_network_image: ^1.1.2+1
+  cached_network_image: ^2.1.0+1
   extended_text: ^0.6.6
   loading_more_list: ^1.0.0
   flustars: ^0.2.6+1
@@ -47,6 +47,7 @@ dependencies:
   package_info: ^0.4.0+16
   flutter_swiper : ^1.1.6
   protobuf: ^1.0.1
+  transparent_image: ^1.0.0
 #  google_sign_in: ^4.2.0
 #  flutter_facebook_login: ^3.0.0
 #  fluwx: ^2.0.5+1

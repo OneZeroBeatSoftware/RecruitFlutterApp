@@ -104,7 +104,8 @@ class JsonConvert<T> {
 			return companyDetailDataIndustryFromJson(data as CompanyDetailDataIndustry, json) as T;			case CompanyDetailDataDetail:
 			return companyDetailDataDetailFromJson(data as CompanyDetailDataDetail, json) as T;			case CompanyDetailDataWelfare:
 			return companyDetailDataWelfareFromJson(data as CompanyDetailDataWelfare, json) as T;			case CompanyDetailDataTag:
-			return companyDetailDataTagFromJson(data as CompanyDetailDataTag, json) as T;			case JobListData:
+			return companyDetailDataTagFromJson(data as CompanyDetailDataTag, json) as T;			case CompanyDetailDataLicense:
+			return companyDetailDataLicenseFromJson(data as CompanyDetailDataLicense, json) as T;			case JobListData:
 			return jobListDataFromJson(data as JobListData, json) as T;			case JobListDataRecord:
 			return jobListDataRecordFromJson(data as JobListDataRecord, json) as T;			case JobListDataTreatments:
 			return jobListDataTreatmentsFromJson(data as JobListDataTreatments, json) as T;			case CityEntity:
@@ -220,7 +221,8 @@ class JsonConvert<T> {
 			return companyDetailDataIndustryToJson(data as CompanyDetailDataIndustry);			case CompanyDetailDataDetail:
 			return companyDetailDataDetailToJson(data as CompanyDetailDataDetail);			case CompanyDetailDataWelfare:
 			return companyDetailDataWelfareToJson(data as CompanyDetailDataWelfare);			case CompanyDetailDataTag:
-			return companyDetailDataTagToJson(data as CompanyDetailDataTag);			case JobListData:
+			return companyDetailDataTagToJson(data as CompanyDetailDataTag);			case CompanyDetailDataLicense:
+			return companyDetailDataLicenseToJson(data as CompanyDetailDataLicense);			case JobListData:
 			return jobListDataToJson(data as JobListData);			case JobListDataRecord:
 			return jobListDataRecordToJson(data as JobListDataRecord);			case JobListDataTreatments:
 			return jobListDataTreatmentsToJson(data as JobListDataTreatments);			case CityEntity:
@@ -336,7 +338,8 @@ class JsonConvert<T> {
 			return CompanyDetailDataIndustry().fromJson(json);			case 'CompanyDetailDataDetail':
 			return CompanyDetailDataDetail().fromJson(json);			case 'CompanyDetailDataWelfare':
 			return CompanyDetailDataWelfare().fromJson(json);			case 'CompanyDetailDataTag':
-			return CompanyDetailDataTag().fromJson(json);			case 'JobListData':
+			return CompanyDetailDataTag().fromJson(json);			case 'CompanyDetailDataLicense':
+			return CompanyDetailDataLicense().fromJson(json);			case 'JobListData':
 			return JobListData().fromJson(json);			case 'JobListDataRecord':
 			return JobListDataRecord().fromJson(json);			case 'JobListDataTreatments':
 			return JobListDataTreatments().fromJson(json);			case 'CityEntity':
@@ -453,7 +456,8 @@ class JsonConvert<T> {
 			return List<CompanyDetailDataIndustry>();			case 'CompanyDetailDataDetail':
 			return List<CompanyDetailDataDetail>();			case 'CompanyDetailDataWelfare':
 			return List<CompanyDetailDataWelfare>();			case 'CompanyDetailDataTag':
-			return List<CompanyDetailDataTag>();			case 'JobListData':
+			return List<CompanyDetailDataTag>();			case 'CompanyDetailDataLicense':
+			return List<CompanyDetailDataLicense>();			case 'JobListData':
 			return List<JobListData>();			case 'JobListDataRecord':
 			return List<JobListDataRecord>();			case 'JobListDataTreatments':
 			return List<JobListDataTreatments>();			case 'CityEntity':

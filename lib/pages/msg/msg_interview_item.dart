@@ -37,7 +37,7 @@ class _MsgInterviewItemState extends State<MsgInterviewItem> {
             ClipRRect(
               borderRadius: BorderRadius.all(
                   Radius.circular(ScreenUtil().setWidth(44))),
-              child: Image.asset('images/ic_ask_resume_action.png',
+              child: FadeInImage.assetNetwork( placeholder: "images/ic_ask_resume_action.png",image:'${widget.interview.avatar}',
                   width: ScreenUtil().setWidth(88),
                   height: ScreenUtil().setWidth(88),
                   fit: BoxFit.cover),

@@ -54,6 +54,12 @@ companyDetailDataFromJson(CompanyDetailData data, Map<String, dynamic> json) {
 			data.tags.add(new CompanyDetailDataTag().fromJson(v));
 		});
 	}
+	if (json['licenses'] != null) {
+		data.licenses = new List<CompanyDetailDataLicense>();
+		(json['licenses'] as List).forEach((v) {
+			data.licenses.add(new CompanyDetailDataLicense().fromJson(v));
+		});
+	}
 	return data;
 }
 
@@ -74,6 +80,9 @@ Map<String, dynamic> companyDetailDataToJson(CompanyDetailData entity) {
 	}
 	if (entity.tags != null) {
 		data['tags'] =  entity.tags.map((v) => v.toJson()).toList();
+	}
+	if (entity.licenses != null) {
+		data['licenses'] =  entity.licenses.map((v) => v.toJson()).toList();
 	}
 	return data;
 }
@@ -275,6 +284,35 @@ Map<String, dynamic> companyDetailDataTagToJson(CompanyDetailDataTag entity) {
 	data['id'] = entity.id;
 	data['companyId'] = entity.companyId;
 	data['tagName'] = entity.tagName;
+	data['state'] = entity.state;
+	return data;
+}
+
+companyDetailDataLicenseFromJson(CompanyDetailDataLicense data, Map<String, dynamic> json) {
+	if (json['id'] != null) {
+		data.id = json['id']?.toString();
+	}
+	if (json['companyId'] != null) {
+		data.companyId = json['companyId']?.toString();
+	}
+	if (json['desc'] != null) {
+		data.desc = json['desc']?.toString();
+	}
+	if (json['image'] != null) {
+		data.image = json['image']?.toString();
+	}
+	if (json['state'] != null) {
+		data.state = json['state']?.toInt();
+	}
+	return data;
+}
+
+Map<String, dynamic> companyDetailDataLicenseToJson(CompanyDetailDataLicense entity) {
+	final Map<String, dynamic> data = new Map<String, dynamic>();
+	data['id'] = entity.id;
+	data['companyId'] = entity.companyId;
+	data['desc'] = entity.desc;
+	data['image'] = entity.image;
 	data['state'] = entity.state;
 	return data;
 }

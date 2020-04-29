@@ -13,6 +13,7 @@ class CompanyDetailData with JsonConvert<CompanyDetailData> {
 	List<CompanyDetailDataDetail> details;
 	List<CompanyDetailDataWelfare> welfare;
 	List<CompanyDetailDataTag> tags;
+	List<CompanyDetailDataLicense> licenses;
 }
 
 class CompanyDetailDataCompany with JsonConvert<CompanyDetailDataCompany> {
@@ -66,5 +67,13 @@ class CompanyDetailDataTag with JsonConvert<CompanyDetailDataTag> {
 	String id;
 	String companyId;
 	String tagName;
+	int state;
+}
+
+class CompanyDetailDataLicense with JsonConvert<CompanyDetailDataLicense> {
+	String id;
+	String companyId;
+	String desc;
+	String image;
 	int state;
 }
