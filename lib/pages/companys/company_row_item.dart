@@ -93,7 +93,7 @@ class CompanyRowItem extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          '${company.management}',
+                          '${company.managementName}',
                           textAlign: TextAlign.center,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,

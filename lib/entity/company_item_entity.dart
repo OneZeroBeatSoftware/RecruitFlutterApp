@@ -12,7 +12,7 @@ class CompanyListDataRecord with JsonConvert<CompanyListDataRecord> {
 	String starId;
 	String companyName;
 	String registerAddress;
-	String management;
+	String managementName;
 	String avatar;
 	String cityName;
 	String scaleName;

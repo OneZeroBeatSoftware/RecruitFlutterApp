@@ -47,8 +47,8 @@ companyListDataRecordFromJson(CompanyListDataRecord data, Map<String, dynamic> j
 	if (json['registerAddress'] != null) {
 		data.registerAddress = json['registerAddress']?.toString();
 	}
-	if (json['management'] != null) {
-		data.management = json['management']?.toString();
+	if (json['managementName'] != null) {
+		data.managementName = json['managementName']?.toString();
 	}
 	if (json['avatar'] != null) {
 		data.avatar = json['avatar']?.toString();
@@ -77,7 +77,7 @@ Map<String, dynamic> companyListDataRecordToJson(CompanyListDataRecord entity) {
 	data['starId'] = entity.starId;
 	data['companyName'] = entity.companyName;
 	data['registerAddress'] = entity.registerAddress;
-	data['management'] = entity.management;
+	data['managementName'] = entity.managementName;
 	data['avatar'] = entity.avatar;
 	data['cityName'] = entity.cityName;
 	data['scaleName'] = entity.scaleName;
