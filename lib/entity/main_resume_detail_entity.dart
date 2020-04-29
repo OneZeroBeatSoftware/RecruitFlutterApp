@@ -9,9 +9,6 @@ class MainResumeDetailEntity with JsonConvert<MainResumeDetailEntity> {
 class MainResumeDetailData with JsonConvert<MainResumeDetailData> {
   MainResumeDetailDataResume resume;
   String starId;
-  String age;
-  String education;
-  String workDate;
   List<MainResumeDetailDataWorkExperience> workExperience;
   List<MainResumeDetailDataProjectExperience> projectExperience;
   List<MainResumeDetailDataEducationExperience> educationExperience;
@@ -22,17 +19,22 @@ class MainResumeDetailDataResume with JsonConvert<MainResumeDetailDataResume> {
   String jobSeekerId;
   String resumeName;
   String realName;
+  String age;
   int sex;
+  int workExp;
   int birthDate;
   String address;
   int graduationDate;
-  int education;
-  int workDate;
+  int educationId;
+  String educationName;
+  int workDateId;
+  String workDateName;
   int minSalary;
   int maxSalary;
   String workExperienceId;
   String projectExperienceId;
   String educationExperienceId;
+  String socialHomepage;
   int defaultResume;
   int state;
 }

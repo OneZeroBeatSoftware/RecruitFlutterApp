@@ -299,7 +299,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                               Padding(
                                 padding: EdgeInsets.only(left: ScreenUtil().setWidth(12)),
                               ),
-                              Text("${_resumeDetailData.workDate}",
+                              Text("${_resumeDetailData.resume.workDateName}",
                                  style: TextStyle(color: Color.fromRGBO(95,94,94,1), fontSize: ScreenUtil().setSp(24))
                               ),
                               Padding(
@@ -312,7 +312,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                               Padding(
                                 padding: EdgeInsets.only(left: ScreenUtil().setWidth(12)),
                               ),
-                              Text("${_resumeDetailData.education}",
+                              Text("${_resumeDetailData.resume.educationName}",
                                  style: TextStyle(color: Color.fromRGBO(95,94,94,1), fontSize: ScreenUtil().setSp(24))
                               ),
                               

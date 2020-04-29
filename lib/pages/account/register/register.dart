@@ -207,7 +207,6 @@ class _RegisterState extends State<Register> {
               Container(
                 margin: EdgeInsets.only(
                   top: ScreenUtil().setWidth(14),
-                  bottom: ScreenUtil().setWidth(70),
                 ),
                 decoration: BoxDecoration(
                   border: Border(

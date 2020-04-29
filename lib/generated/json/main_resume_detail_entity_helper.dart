@@ -30,15 +30,6 @@ mainResumeDetailDataFromJson(MainResumeDetailData data, Map<String, dynamic> jso
 	if (json['starId'] != null) {
 		data.starId = json['starId']?.toString();
 	}
-	if (json['age'] != null) {
-		data.age = json['age']?.toString();
-	}
-	if (json['education'] != null) {
-		data.education = json['education']?.toString();
-	}
-	if (json['workDate'] != null) {
-		data.workDate = json['workDate']?.toString();
-	}
 	if (json['workExperience'] != null) {
 		data.workExperience = new List<MainResumeDetailDataWorkExperience>();
 		(json['workExperience'] as List).forEach((v) {
@@ -66,9 +57,6 @@ Map<String, dynamic> mainResumeDetailDataToJson(MainResumeDetailData entity) {
 		data['resume'] = entity.resume.toJson();
 	}
 	data['starId'] = entity.starId;
-	data['age'] = entity.age;
-	data['education'] = entity.education;
-	data['workDate'] = entity.workDate;
 	if (entity.workExperience != null) {
 		data['workExperience'] =  entity.workExperience.map((v) => v.toJson()).toList();
 	}
@@ -94,8 +82,14 @@ mainResumeDetailDataResumeFromJson(MainResumeDetailDataResume data, Map<String, 
 	if (json['realName'] != null) {
 		data.realName = json['realName']?.toString();
 	}
+	if (json['age'] != null) {
+		data.age = json['age']?.toString();
+	}
 	if (json['sex'] != null) {
 		data.sex = json['sex']?.toInt();
+	}
+	if (json['workExp'] != null) {
+		data.workExp = json['workExp']?.toInt();
 	}
 	if (json['birthDate'] != null) {
 		data.birthDate = json['birthDate']?.toInt();
@@ -106,11 +100,17 @@ mainResumeDetailDataResumeFromJson(MainResumeDetailDataResume data, Map<String, 
 	if (json['graduationDate'] != null) {
 		data.graduationDate = json['graduationDate']?.toInt();
 	}
-	if (json['education'] != null) {
-		data.education = json['education']?.toInt();
+	if (json['educationId'] != null) {
+		data.educationId = json['educationId']?.toInt();
 	}
-	if (json['workDate'] != null) {
-		data.workDate = json['workDate']?.toInt();
+	if (json['educationName'] != null) {
+		data.educationName = json['educationName']?.toString();
+	}
+	if (json['workDateId'] != null) {
+		data.workDateId = json['workDateId']?.toInt();
+	}
+	if (json['workDateName'] != null) {
+		data.workDateName = json['workDateName']?.toString();
 	}
 	if (json['minSalary'] != null) {
 		data.minSalary = json['minSalary']?.toInt();
@@ -127,6 +127,9 @@ mainResumeDetailDataResumeFromJson(MainResumeDetailDataResume data, Map<String, 
 	if (json['educationExperienceId'] != null) {
 		data.educationExperienceId = json['educationExperienceId']?.toString();
 	}
+	if (json['socialHomepage'] != null) {
+		data.socialHomepage = json['socialHomepage']?.toString();
+	}
 	if (json['defaultResume'] != null) {
 		data.defaultResume = json['defaultResume']?.toInt();
 	}
@@ -142,17 +145,22 @@ Map<String, dynamic> mainResumeDetailDataResumeToJson(MainResumeDetailDataResume
 	data['jobSeekerId'] = entity.jobSeekerId;
 	data['resumeName'] = entity.resumeName;
 	data['realName'] = entity.realName;
+	data['age'] = entity.age;
 	data['sex'] = entity.sex;
+	data['workExp'] = entity.workExp;
 	data['birthDate'] = entity.birthDate;
 	data['address'] = entity.address;
 	data['graduationDate'] = entity.graduationDate;
-	data['education'] = entity.education;
-	data['workDate'] = entity.workDate;
+	data['educationId'] = entity.educationId;
+	data['educationName'] = entity.educationName;
+	data['workDateId'] = entity.workDateId;
+	data['workDateName'] = entity.workDateName;
 	data['minSalary'] = entity.minSalary;
 	data['maxSalary'] = entity.maxSalary;
 	data['workExperienceId'] = entity.workExperienceId;
 	data['projectExperienceId'] = entity.projectExperienceId;
 	data['educationExperienceId'] = entity.educationExperienceId;
+	data['socialHomepage'] = entity.socialHomepage;
 	data['defaultResume'] = entity.defaultResume;
 	data['state'] = entity.state;
 	return data;
