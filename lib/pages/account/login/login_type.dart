@@ -1,25 +1,97 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ota_update/ota_update.dart';
+import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 import 'package:recruit_app/model/identity_model.dart';
 import 'package:recruit_app/model/user_model.dart';
 import 'package:recruit_app/pages/account/login/login_in.dart';
 import 'package:recruit_app/utils/net_utils.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../application.dart';
 
-class LoginType extends StatelessWidget {
+class LoginType extends StatefulWidget {
+  @override
+  _LoginTypeState createState() {
+    // TODO: implement createState
+    return _LoginTypeState();
+  }
+}
+
+class _LoginTypeState extends State<LoginType> {
+  String vInfo = '';
+  String progress = '';
+
   void initSetting(BuildContext context) async {
     await Application.initSp();
     UserModel userModel = Provider.of<UserModel>(context);
     userModel.initUser();
   }
+
+  void _initData() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    String version = packageInfo.version;
+    setState(() {
+      vInfo = Platform.isIOS ? 'iOS_$version' : 'android_$version';
+    });
+  }
+
+  void _updateVersion() async {
+    if (Platform.isIOS) {
+      String url =
+          'itms-apps://itunes.apple.com/cn/app/id414478124?mt=8'; // 这是微信的地址，到时候换成自己的应用的地址
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+    } else if (Platform.isAndroid) {
+      String url = 'http://x2.c1578dn.cn/v13/hll/iReader.apk';
+      try {
+        OtaUpdate().execute(url).listen(
+          (OtaEvent event) {
+            print('status:${event.status},value:${event.value}');
+            switch (event.status) {
+              case OtaStatus.DOWNLOADING: // 下载中
+                setState(() {
+                  progress = '下载进度:${event.value}%';
+                });
+                break;
+              case OtaStatus.INSTALLING: //安装中
+                break;
+              case OtaStatus.PERMISSION_NOT_GRANTED_ERROR: // 权限错误
+                print('更新失败，请稍后再试');
+                break;
+              default: // 其他问题
+                break;
+            }
+          },
+        );
+      } catch (e) {
+        print('更新失败，请稍后再试');
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    NetUtils.init();
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((callback) {
+      initSetting(context);
+    });
+    _initData();
+  }
+
   @override
   Widget build(BuildContext context) {
+    // TODO: implement build
     ScreenUtil.init(context, width: 750, height: 1334);
-    NetUtils.init();
-    initSetting(context);
-    IdentityModel identityModel=Provider.of<IdentityModel>(context);
+    IdentityModel identityModel = Provider.of<IdentityModel>(context);
     return Scaffold(
       backgroundColor: Color.fromRGBO(232, 255, 254, 1),
       body: Stack(
@@ -46,7 +118,7 @@ class LoginType extends StatelessWidget {
           ),
           Positioned(
             bottom: ScreenUtil().setWidth(126),
-            child:  Row(
+            child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 MaterialButton(
@@ -76,7 +148,7 @@ class LoginType extends StatelessWidget {
                         width: ScreenUtil().setWidth(2),
                       ),
                       borderRadius:
-                      BorderRadius.circular(ScreenUtil().setWidth(1000))),
+                          BorderRadius.circular(ScreenUtil().setWidth(1000))),
                 ),
                 SizedBox(
                   width: ScreenUtil().setWidth(64),
@@ -108,7 +180,7 @@ class LoginType extends StatelessWidget {
                         width: ScreenUtil().setWidth(2),
                       ),
                       borderRadius:
-                      BorderRadius.circular(ScreenUtil().setWidth(1000))),
+                          BorderRadius.circular(ScreenUtil().setWidth(1000))),
                 ),
               ],
             ),
