@@ -14,6 +14,9 @@ class NetImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return CachedNetworkImage(
         imageUrl: img,
+        fit: BoxFit.cover,
+        width: size,
+        height: size,
         errorWidget: (context, url, error) {
           return Image.asset(placeholder,
               fit: BoxFit.cover,
