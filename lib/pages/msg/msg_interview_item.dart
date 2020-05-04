@@ -2,6 +2,7 @@ import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/entity/seeker_interview_entity.dart';
+import 'package:recruit_app/widgets/network_image.dart';
 import 'package:recruit_app/widgets/slide_button.dart';
 
 class MsgInterviewItem extends StatefulWidget {
@@ -37,10 +38,7 @@ class _MsgInterviewItemState extends State<MsgInterviewItem> {
             ClipRRect(
               borderRadius: BorderRadius.all(
                   Radius.circular(ScreenUtil().setWidth(44))),
-              child: FadeInImage.assetNetwork( placeholder: "images/ic_ask_resume_action.png",image:'${widget.interview.avatar}',
-                  width: ScreenUtil().setWidth(88),
-                  height: ScreenUtil().setWidth(88),
-                  fit: BoxFit.cover),
+              child: NetImage(img:'${widget.interview.avatar}',placeholder:'images/ic_ask_resume_action.png',error:'images/ic_ask_resume_action.png',size:ScreenUtil().setWidth(88)),
             ),
             SizedBox(width: ScreenUtil().setWidth(32)),
             Expanded(
