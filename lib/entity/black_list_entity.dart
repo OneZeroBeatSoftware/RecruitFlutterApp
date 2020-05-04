@@ -18,16 +18,10 @@ class BlackListDataRecord with JsonConvert<BlackListDataRecord> {
 	String id;
 	String shieldId;
 	String companyName;
-	String startDate;
-	String endDate;
-	String legalPerson;
-	int registerCapital;
-	int registerDate;
-	String operateState;
 	String registerAddress;
-	String unifiedCreditCode;
-	int companyScale;
-	String scope;
-	int state;
-	int city;
+	String managementName;
+	String avatar;
+	String cityName;
+	String scaleName;
+	String industryName;
 }

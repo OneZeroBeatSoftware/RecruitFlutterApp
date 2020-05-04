@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/entity/black_list_entity.dart';
+import 'package:recruit_app/widgets/network_image.dart';
 import 'package:recruit_app/widgets/slide_button.dart';
 
 class BlackListItem extends StatelessWidget {
@@ -33,10 +34,7 @@ class BlackListItem extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.all(
                   Radius.circular(ScreenUtil().setWidth(50))),
-              child: Image.asset('images/ic_ask_resume_action.png',
-                  width: ScreenUtil().setWidth(100),
-                  height: ScreenUtil().setWidth(100),
-                  fit: BoxFit.cover),
+              child: NetImage(img: '${company.avatar}',placeholder: 'images/ic_ask_resume_action.png',error: 'images/ic_ask_resume_action.png',size: ScreenUtil().setWidth(100),),
             ),
             SizedBox(width: ScreenUtil().setWidth(32)),
             Expanded(
@@ -71,7 +69,7 @@ class BlackListItem extends StatelessWidget {
                     ),
                     SizedBox(height: ScreenUtil().setWidth(10)),
                     Text(
-                      '${company.registerAddress}',
+                      '${company.cityName}',
                       style: TextStyle(
                         fontSize: ScreenUtil().setSp(26),
                         color: Color.fromRGBO(151, 151, 151, 1),
@@ -97,7 +95,7 @@ class BlackListItem extends StatelessWidget {
                             ),
                           ),
                           child: Text(
-                            '${company.operateState}',
+                            '${company.managementName}',
                             textAlign: TextAlign.center,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -123,7 +121,7 @@ class BlackListItem extends StatelessWidget {
                             ),
                           ),
                           child: Text(
-                            '${company.companyScale}人',
+                            '${company.scaleName}人',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.center,
@@ -149,7 +147,7 @@ class BlackListItem extends StatelessWidget {
                             ),
                           ),
                           child: Text(
-                            '${company.scope}',
+                            '${company.industryName}',
                             textAlign: TextAlign.center,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,

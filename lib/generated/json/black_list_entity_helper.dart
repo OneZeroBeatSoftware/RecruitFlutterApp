@@ -67,41 +67,23 @@ blackListDataRecordFromJson(BlackListDataRecord data, Map<String, dynamic> json)
 	if (json['companyName'] != null) {
 		data.companyName = json['companyName']?.toString();
 	}
-	if (json['startDate'] != null) {
-		data.startDate = json['startDate']?.toString();
-	}
-	if (json['endDate'] != null) {
-		data.endDate = json['endDate']?.toString();
-	}
-	if (json['legalPerson'] != null) {
-		data.legalPerson = json['legalPerson']?.toString();
-	}
-	if (json['registerCapital'] != null) {
-		data.registerCapital = json['registerCapital']?.toInt();
-	}
-	if (json['registerDate'] != null) {
-		data.registerDate = json['registerDate']?.toInt();
-	}
-	if (json['operateState'] != null) {
-		data.operateState = json['operateState']?.toString();
-	}
 	if (json['registerAddress'] != null) {
 		data.registerAddress = json['registerAddress']?.toString();
 	}
-	if (json['unifiedCreditCode'] != null) {
-		data.unifiedCreditCode = json['unifiedCreditCode']?.toString();
+	if (json['managementName'] != null) {
+		data.managementName = json['managementName']?.toString();
 	}
-	if (json['companyScale'] != null) {
-		data.companyScale = json['companyScale']?.toInt();
+	if (json['avatar'] != null) {
+		data.avatar = json['avatar']?.toString();
 	}
-	if (json['scope'] != null) {
-		data.scope = json['scope']?.toString();
+	if (json['cityName'] != null) {
+		data.cityName = json['cityName']?.toString();
 	}
-	if (json['state'] != null) {
-		data.state = json['state']?.toInt();
+	if (json['scaleName'] != null) {
+		data.scaleName = json['scaleName']?.toString();
 	}
-	if (json['city'] != null) {
-		data.city = json['city']?.toInt();
+	if (json['industryName'] != null) {
+		data.industryName = json['industryName']?.toString();
 	}
 	return data;
 }
@@ -111,17 +93,11 @@ Map<String, dynamic> blackListDataRecordToJson(BlackListDataRecord entity) {
 	data['id'] = entity.id;
 	data['shieldId'] = entity.shieldId;
 	data['companyName'] = entity.companyName;
-	data['startDate'] = entity.startDate;
-	data['endDate'] = entity.endDate;
-	data['legalPerson'] = entity.legalPerson;
-	data['registerCapital'] = entity.registerCapital;
-	data['registerDate'] = entity.registerDate;
-	data['operateState'] = entity.operateState;
 	data['registerAddress'] = entity.registerAddress;
-	data['unifiedCreditCode'] = entity.unifiedCreditCode;
-	data['companyScale'] = entity.companyScale;
-	data['scope'] = entity.scope;
-	data['state'] = entity.state;
-	data['city'] = entity.city;
+	data['managementName'] = entity.managementName;
+	data['avatar'] = entity.avatar;
+	data['cityName'] = entity.cityName;
+	data['scaleName'] = entity.scaleName;
+	data['industryName'] = entity.industryName;
 	return data;
 }
