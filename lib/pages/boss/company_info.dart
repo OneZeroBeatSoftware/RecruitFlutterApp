@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +27,6 @@ import 'package:recruit_app/pages/boss/company_register_capital.dart';
 import 'package:recruit_app/pages/boss/company_unified_credit_code.dart';
 import 'package:recruit_app/pages/boss/company_business_scope.dart';
 import 'package:recruit_app/widgets/slide_button.dart';
-import 'package:transparent_image/transparent_image.dart';
 
 import '../../application.dart';
 

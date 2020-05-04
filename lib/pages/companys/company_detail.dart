@@ -24,6 +24,7 @@ import 'package:recruit_app/pages/jobs/job_detail.dart';
 import 'package:recruit_app/pages/jobs/report.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
+import 'package:recruit_app/widgets/network_image.dart';
 import 'package:recruit_app/widgets/remind_column_dialog.dart';
 import 'package:recruit_app/widgets/remind_dialog.dart';
 
@@ -369,10 +370,7 @@ class _CompanyDetailState extends State<CompanyDetail>
                       ClipRRect(
                         borderRadius: BorderRadius.all(
                             Radius.circular(ScreenUtil().setWidth(8))),
-                        child: Image.asset('images/ic_ask_resume_action.png',
-                            width: ScreenUtil().setWidth(80),
-                            height: ScreenUtil().setWidth(80),
-                            fit: BoxFit.cover),
+                        child:NetImage(img: '${_detailData.company.avatar}',placeholder:'images/ic_ask_resume_action.png',error: 'images/ic_ask_resume_action.png',size: ScreenUtil().setWidth(80),),
                       ),
                       SizedBox(width: ScreenUtil().setWidth(20)),
                       Expanded(
@@ -950,6 +948,8 @@ class _CompanyDetailState extends State<CompanyDetail>
     if (jobEntity != null && jobEntity.data.records.length > 0) {
       _pageIndex++;
     }
+    setState(() {
+    });
   }
 
   /// 收藏夹操作

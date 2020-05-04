@@ -257,5 +257,8 @@ class _CompanyListState extends State<CompanyList> {
     if (_companyEntity != null && _companyEntity.data.records.length > 0) {
       _pageIndex++;
     }
+    setState(() {
+
+    });
   }
 }

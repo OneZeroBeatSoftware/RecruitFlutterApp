@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/entity/company_item_entity.dart';
+import 'package:recruit_app/widgets/network_image.dart';
 
 class CompanyRowItem extends StatelessWidget {
   final CompanyListDataRecord company;
@@ -29,10 +30,7 @@ class CompanyRowItem extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.all(
                     Radius.circular(ScreenUtil().setWidth(50))),
-                child: Image.asset('images/ic_ask_resume_action.png',
-                    width: ScreenUtil().setWidth(100),
-                    height: ScreenUtil().setWidth(100),
-                    fit: BoxFit.cover),
+                child: NetImage(img: '${company.avatar}',placeholder: 'images/ic_ask_resume_action.png',error: 'images/ic_ask_resume_action.png',size: ScreenUtil().setWidth(100),),
               ),
               SizedBox(width: ScreenUtil().setWidth(32)),
               Expanded(

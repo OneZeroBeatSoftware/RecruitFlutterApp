@@ -2,6 +2,7 @@ import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/entity/company_detail_entity.dart';
+import 'package:recruit_app/widgets/network_image.dart';
 
 class CompanyInfoDialog extends Dialog {
   final CompanyDetailData detailData;
@@ -72,12 +73,7 @@ class CompanyInfoDialog extends Dialog {
                                 ScreenUtil().setWidth(15),
                               ),
                             ),
-                            child: Image.asset(
-                              'images/timg1.png',
-                              width: ScreenUtil().setWidth(124),
-                              height: ScreenUtil().setWidth(124),
-                              fit: BoxFit.cover,
-                            ),
+                            child:NetImage(img: '${detailData.company.avatar}',placeholder:'images/ic_ask_resume_action.png',error: 'images/ic_ask_resume_action.png',size: ScreenUtil().setWidth(124),),
                           ),
                           SizedBox(
                             height: ScreenUtil().setWidth(44),

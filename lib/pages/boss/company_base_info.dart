@@ -236,13 +236,17 @@ class _State extends State<CompanyBaseInfo> {
 					       MaterialPageRoute(
 						      builder: (context) => CraftBusinessLicense(licenses: _licenses,))
 					    ).then((value){
-					    	if(value!=null){
-									for (var i=0;i< (value.licenses.length);i++) {
-									  if(i<_licenses.length){
-											_licenses[i].image=value.licenses[i].image;
-										}else {
-									  	_licenses.add(value.licenses[i]);
+								if (value != null) {
+									for (var i = 0; i < (value.licenses.length); i++) {
+										if (i < _licenses.length) {
+											_licenses[i].image = value.licenses[i].image;
+										} else {
+											_licenses.add(value.licenses[i]);
 										}
+									}
+									if (_licenses.length > value.licenses.length) {
+										_licenses.removeRange(
+												value.licenses.length, _licenses.length);
 									}
 								}
 							});

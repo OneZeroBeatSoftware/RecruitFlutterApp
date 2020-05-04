@@ -30,13 +30,11 @@ class CompanyModel with ChangeNotifier {
       }else if(comEntity.data.records.length<=0){
         Utils.showToast('没有更多公司啦！');
       }
-      notifyListeners();
       return comEntity;
     }
     if(pageIndex==1){
       _companyList.clear();
     }
-    notifyListeners();
     Utils.showToast(comEntity.msg ?? '获取失败，请重新尝试');
     return null;
   }
@@ -64,13 +62,11 @@ class CompanyModel with ChangeNotifier {
       }else if(comEntity.data.records.length<=0){
         Utils.showToast('没有更多公司啦！');
       }
-      notifyListeners();
       return comEntity;
     }
     if(pageIndex==1){
       _jobList.clear();
     }
-    notifyListeners();
     Utils.showToast(comEntity.msg ?? '获取失败，请重新尝试');
     return null;
   }
