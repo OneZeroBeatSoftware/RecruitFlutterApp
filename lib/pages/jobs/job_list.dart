@@ -50,6 +50,7 @@ class _JobListState extends State<JobList> {
   void initState() {
     // TODO: implement initState
     _selCity=Application.sp.get('location_city')??'请选择城市';
+    _cityId=Application.sp.get('location_city_id')??'';
     super.initState();
     _refreshController = EasyRefreshController();
     WidgetsBinding.instance.addPostFrameCallback((call) {
@@ -113,6 +114,7 @@ class _JobListState extends State<JobList> {
                                   _cityId=value.filterId;
                                   _selCity = value.filterName;
                                 });
+                                _refreshController.callRefresh();
                               }
                             });
                           },
@@ -229,6 +231,7 @@ class _JobListState extends State<JobList> {
                                 );
                             }).toList(),
                             autoplay: true,
+                            physics: BouncingScrollPhysics(),
                             pagination: new SwiperPagination(
                               builder: DotSwiperPaginationBuilder(
                                   activeColor: Color.fromRGBO(0, 0, 0, 0.2),
@@ -387,16 +390,19 @@ class _JobListState extends State<JobList> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => JobFilter(filterType: FilterType.job,),
+                                    builder: (context) => JobFilter(filterType: FilterType.job,age: _age,eduLevel: _eduLevel,salary: _salary,scale: _scale,),
                                   ),
                                 ).then((result){
-                                  if (result != null && (result is FilterResult)) {
+                                  if (result != null &&
+                                      (result is FilterResult)) {
                                     _scale = result.scale;
                                     _industry = result.industry;
                                     _jobType = result.jobType;
                                     _age = result.age;
                                     _salary = result.salary;
-                                    _eduLevel = result.eduLevel;                                  }
+                                    _eduLevel = result.eduLevel;
+                                    _refreshController.callRefresh();
+                                  }
                                 });
                               },
                             ),
@@ -505,17 +511,23 @@ class _JobListState extends State<JobList> {
   }
 
    getJobList() async {
-    JobListEntity _jobEntity = await _jobModel.getJobList(
-        context,
-        _selectFilterType == 1,
-        _selectFilterType == 2,
-        _selectFilterType == 0,
-        '',
-        _pageIndex,
-        15);
+     JobListEntity _jobEntity = await _jobModel.getJobList(
+         context,
+         _selectFilterType == 1,
+         _selectFilterType == 2,
+         _selectFilterType == 0,
+         _pageIndex,
+         15,
+         city: _cityId,
+         age: _age,
+         salary: _salary,
+         scale: _scale,
+         education: _eduLevel);
     if (_jobEntity != null && _jobEntity.data.records.length > 0) {
       _pageIndex++;
     }
+    setState(() {
+    });
   }
 
   /// 获取banner图

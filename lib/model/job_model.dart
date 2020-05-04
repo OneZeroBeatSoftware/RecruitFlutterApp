@@ -15,8 +15,8 @@ class JobModel with ChangeNotifier {
 
   /// 获取岗位列表
   Future<JobListEntity> getJobList(BuildContext context, bool isNearby,
-      bool isNews, bool isRecommend, String jobName, int pageIndex,int pageSize) async {
-    JobListEntity jobEntity = await NetUtils.getJobList(context, isNearby, isNews,isRecommend,jobName,pageIndex,pageSize);
+      bool isNews, bool isRecommend, int pageIndex,int pageSize,{String city,String age,String education,String salary,String scale}) async {
+    JobListEntity jobEntity = await NetUtils.getJobList(context, isNearby, isNews,isRecommend,pageIndex,pageSize,city: city,age:age,education: education,salary: salary,scale:scale);
     if (jobEntity.statusCode ==200) {
       if(pageIndex==1){
         _jobList.clear();
@@ -27,13 +27,11 @@ class JobModel with ChangeNotifier {
       }else if(jobEntity.data.records.length<=0){
         Utils.showToast('没有更多岗位啦！');
       }
-      notifyListeners();
       return jobEntity;
     }
     if(pageIndex==1){
       _jobList.clear();
     }
-    notifyListeners();
     Utils.showToast(jobEntity.msg ?? '获取失败，请重新尝试');
     return null;
   }

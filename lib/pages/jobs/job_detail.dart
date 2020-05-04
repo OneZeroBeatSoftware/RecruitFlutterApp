@@ -310,27 +310,27 @@ class _JobDetailState extends State<JobDetail> {
                             SizedBox(
                               height: ScreenUtil().setWidth(16),
                             ),
-                            Text('岗位要求：',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    fontSize: ScreenUtil().setSp(28),
-                                    color: Color.fromRGBO(95, 94, 94, 1))),
-                            SizedBox(
-                              height: ScreenUtil().setWidth(12),
-                            ),
-                            Text(
-                                '1、本科及以上学历，美术、平面设计等相关专业；\n2、有良好的手绘功底，会设计活动海报，有插画师经验者优先，有广告公司或企业线下活动者优先；',
-                                style: TextStyle(
-                                    wordSpacing: 2,
-                                    letterSpacing: 1,
-                                    height: 1.5,
-                                    fontWeight: FontWeight.w300,
-                                    fontSize: ScreenUtil().setSp(24),
-                                    color: Color.fromRGBO(95, 94, 94, 1))),
-                            SizedBox(
-                              height: ScreenUtil().setWidth(20),
-                            ),
+//                            Text('岗位要求：',
+//                                maxLines: 1,
+//                                overflow: TextOverflow.ellipsis,
+//                                style: TextStyle(
+//                                    fontSize: ScreenUtil().setSp(28),
+//                                    color: Color.fromRGBO(95, 94, 94, 1))),
+//                            SizedBox(
+//                              height: ScreenUtil().setWidth(12),
+//                            ),
+//                            Text(
+//                                '1、本科及以上学历，美术、平面设计等相关专业；\n2、有良好的手绘功底，会设计活动海报，有插画师经验者优先，有广告公司或企业线下活动者优先；',
+//                                style: TextStyle(
+//                                    wordSpacing: 2,
+//                                    letterSpacing: 1,
+//                                    height: 1.5,
+//                                    fontWeight: FontWeight.w300,
+//                                    fontSize: ScreenUtil().setSp(24),
+//                                    color: Color.fromRGBO(95, 94, 94, 1))),
+//                            SizedBox(
+//                              height: ScreenUtil().setWidth(20),
+//                            ),
                             Wrap(
                               spacing: ScreenUtil().setWidth(12),
                               runSpacing: ScreenUtil().setWidth(12),

@@ -13,6 +13,7 @@ class JobListDataRecord with JsonConvert<JobListDataRecord> {
 	String companyName;
 	String jobName;
 	String workAddress;
+	String avatar;
 	double minSalary;
 	double maxSalary;
 	int releaseDate;

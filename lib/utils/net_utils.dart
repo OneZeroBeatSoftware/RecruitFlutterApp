@@ -344,15 +344,30 @@ class NetUtils {
 
   /// 获取岗位列表
   static Future<JobListEntity> getJobList(BuildContext context, bool isNearby,
-      bool isNews, bool isRecommend, String jobName, int pageIndex,int pageSize) async {
-    var response = await _post(context, '/job/list', params: {
-      'isNearby': isNearby,
-      'isNews': isNews,
-      'isRecommend': isRecommend,
-      'jobName': jobName,
-      'pageIndex': pageIndex,
-      'pageSize': pageSize
-    },isShowLoading: false);
+      bool isNews, bool isRecommend, int pageIndex,int pageSize,{String city,String age,String education,String salary,String scale}) async {
+    Map<String,dynamic> params={};
+    params['isNearby']=isNearby;
+    params['isNews']=isNews;
+    params['isRecommend']=isRecommend;
+    params['pageIndex']=pageIndex;
+    params['pageSize']=pageSize;
+    if(city!=null&&city.isNotEmpty){
+      params['city']=city;
+    }
+    if(age!=null&&age.isNotEmpty){
+      params['age']=age;
+    }
+    if(education!=null&&education.isNotEmpty){
+      params['education']=education;
+    }
+    if(salary!=null&&salary.isNotEmpty){
+      params['salary']=salary;
+    }
+    if(scale!=null&&scale.isNotEmpty){
+      params['scale']=scale;
+    }
+
+    var response = await _post(context, '/job/list', params: params,isShowLoading: false);
     return JobListEntity().fromJson(response.data);
   }
 
@@ -745,6 +760,7 @@ class NetUtils {
     List workExperiences=[];
     Map<String,dynamic> resume={};
 
+    resume['avatar']=detailData.resume.avatar;
     resume['address']=detailData.resume.address;
     resume['birthDate']='${detailData.resume.birthDate}';
     resume['education']=detailData.resume.educationId;

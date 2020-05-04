@@ -53,6 +53,9 @@ jobListDataRecordFromJson(JobListDataRecord data, Map<String, dynamic> json) {
 	if (json['workAddress'] != null) {
 		data.workAddress = json['workAddress']?.toString();
 	}
+	if (json['avatar'] != null) {
+		data.avatar = json['avatar']?.toString();
+	}
 	if (json['minSalary'] != null) {
 		data.minSalary = json['minSalary']?.toDouble();
 	}
@@ -100,6 +103,7 @@ Map<String, dynamic> jobListDataRecordToJson(JobListDataRecord entity) {
 	data['companyName'] = entity.companyName;
 	data['jobName'] = entity.jobName;
 	data['workAddress'] = entity.workAddress;
+	data['avatar'] = entity.avatar;
 	data['minSalary'] = entity.minSalary;
 	data['maxSalary'] = entity.maxSalary;
 	data['releaseDate'] = entity.releaseDate;
