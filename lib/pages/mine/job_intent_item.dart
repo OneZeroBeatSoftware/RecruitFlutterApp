@@ -56,9 +56,9 @@ class JobIntentItem extends StatelessWidget {
         ),
       ),
       buttons: <Widget>[
-        buildAction(btnKey, Colors.red, 'images/img_setting_hide.png', () {
-          btnKey.currentState.close();
-        }),
+//        buildAction(btnKey, Colors.red, 'images/img_setting_hide.png', () {
+//          btnKey.currentState.close();
+//        }),
         buildAction(btnKey, Colors.red, 'images/img_del_white.png', () {
           btnKey.currentState.close();
           if(deleteIntent!=null){
