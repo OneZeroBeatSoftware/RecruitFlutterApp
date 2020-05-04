@@ -14,9 +14,11 @@ import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/craft_date_picker.dart';
 import 'package:recruit_app/widgets/craft_picker.dart';
 import 'package:recruit_app/widgets/craft_sex_picker.dart';
+import 'package:recruit_app/widgets/network_image.dart';
 import 'package:recruit_app/widgets/remind_dialog.dart';
 class PersonalInfoResult{
   String name;
+  String avatar;
   int sex;
   DateTime birthDate;
   String address;
@@ -28,7 +30,7 @@ class PersonalInfoResult{
   DateTime workDate;
 
   PersonalInfoResult(this.name, this.sex, this.birthDate, this.address,
-      this.graduateDate, this.eduId, this.eduName, this.workDate,this.workExpId,this.workExp);
+      this.graduateDate, this.eduId, this.eduName, this.workDate,this.workExpId,this.workExp,this.avatar);
 }
 class PersonalInfo extends StatefulWidget {
   final ResumeDetailDataResume detailData;
@@ -46,6 +48,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
   TextEditingController _addressController;
   List<EduLevelData> _eduLevelList = [];
   List<WorkDateData> _wordDateList = [];
+  String _avatar;
   String _selSex;
   String _workExpId='';
   String _workExp = '请选择';
@@ -67,6 +70,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
     });
 
     if(widget.detailData!=null){
+      _avatar=widget.detailData.avatar;
       _nameController = TextEditingController(text: widget.detailData.realName);
       _addressController= TextEditingController(text: widget.detailData.address);
       if(widget.detailData.sex!=-1){
@@ -151,6 +155,10 @@ class _PersonalInfoState extends State<PersonalInfo> {
         rightAction: GestureDetector(
           onTap: () {
             FocusScope.of(context).requestFocus(FocusNode());
+            if(null==_avatar||_avatar.isEmpty){
+              Utils.showToast('请选择头像');
+              return;
+            }
             if(_nameController.text.isEmpty){
               Utils.showToast('请填写名字');
               return;
@@ -179,7 +187,10 @@ class _PersonalInfoState extends State<PersonalInfo> {
                 _graduateDate,
                 _eduId,
                 _eduLevel,
-                _workDate,_workExpId,_workExp));
+                _workDate,
+                _workExpId,
+                _workExp,
+                _avatar));
           },
           behavior: HitTestBehavior.opaque,
           child: Padding(
@@ -250,12 +261,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                         borderRadius: BorderRadius.circular(
                           ScreenUtil().setWidth(54),
                         ),
-                        child: Image.asset(
-                          'images/avatar_15.png',
-                          width: ScreenUtil().setWidth(108),
-                          height: ScreenUtil().setWidth(108),
-                          fit: BoxFit.cover,
-                        ),
+                        child: NetImage(img: '$_avatar',placeholder: 'images/img_default_head.png',error: 'images/img_default_head.png',size: ScreenUtil().setWidth(108),),
                       ),),
                     ],
                   ),
@@ -829,7 +835,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
     if (null!=imgPath) {
       Utils.showToast('上传成功');
       setState(() {
-
+        _avatar=imgPath;
       });
     }else {
       Utils.showToast('上传失败');

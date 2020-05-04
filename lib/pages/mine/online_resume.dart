@@ -17,6 +17,7 @@ import 'package:recruit_app/pages/mine/social_web_item.dart';
 import 'package:recruit_app/pages/mine/work_item.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
+import 'package:recruit_app/widgets/network_image.dart';
 import 'package:recruit_app/widgets/slide_button.dart';
 
 import 'job_edu_exp.dart';
@@ -44,6 +45,7 @@ class _OnlineResumeState extends State<OnlineResume> {
     // TODO: implement initState
     _detailData = ResumeDetailData()
       ..resume = (ResumeDetailDataResume()
+        ..avatar = ''
         ..workDateId = ''
         ..educationId = ''
         ..workDateName = ''
@@ -127,6 +129,10 @@ class _OnlineResumeState extends State<OnlineResume> {
         ),
         rightAction: GestureDetector(onTap: (){
           FocusScope.of(context).requestFocus(FocusNode());
+          if(_detailData.resume.avatar==null||_detailData.resume.avatar.isEmpty){
+            Utils.showToast('请先完善个人信息');
+            return;
+          }
           if(_detailData.resume.realName==null||_detailData.resume.realName.isEmpty){
             Utils.showToast('请先完善个人信息');
             return;
@@ -270,12 +276,7 @@ class _OnlineResumeState extends State<OnlineResume> {
                         borderRadius: BorderRadius.circular(
                           ScreenUtil().setWidth(54),
                         ),
-                        child: Image.asset(
-                          'images/avatar_15.png',
-                          width: ScreenUtil().setWidth(108),
-                          height: ScreenUtil().setWidth(108),
-                          fit: BoxFit.cover,
-                        ),
+                        child: NetImage(img: '${_detailData.resume.avatar}',placeholder: 'images/img_default_head.png',error: 'images/img_default_head.png',size: ScreenUtil().setWidth(108),),
                       ),
                     ],
                   ),
@@ -845,6 +846,7 @@ class _OnlineResumeState extends State<OnlineResume> {
     if (value != null) {
       int age=(DateUtil.getNowDateMs()-value.birthDate.millisecondsSinceEpoch)~/31536000000;
       setState(() {
+        _detailData.resume.avatar=value.avatar;
         _detailData.resume.workDateId=value.workExpId;
         _detailData.resume.workDateName=value.workExp;
         _detailData.resume.age='$age岁';

@@ -88,6 +88,9 @@ resumeDetailDataResumeFromJson(ResumeDetailDataResume data, Map<String, dynamic>
 	if (json['jobSeekerId'] != null) {
 		data.jobSeekerId = json['jobSeekerId']?.toString();
 	}
+	if (json['avatar'] != null) {
+		data.avatar = json['avatar']?.toString();
+	}
 	if (json['realName'] != null) {
 		data.realName = json['realName']?.toString();
 	}
@@ -153,6 +156,7 @@ Map<String, dynamic> resumeDetailDataResumeToJson(ResumeDetailDataResume entity)
 	data['id'] = entity.id;
 	data['resumeName'] = entity.resumeName;
 	data['jobSeekerId'] = entity.jobSeekerId;
+	data['avatar'] = entity.avatar;
 	data['realName'] = entity.realName;
 	data['birthDate'] = entity.birthDate;
 	data['workExp'] = entity.workExp;

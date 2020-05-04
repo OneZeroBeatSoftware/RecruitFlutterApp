@@ -15,6 +15,7 @@ import 'package:recruit_app/pages/mine/mine_interview.dart';
 import 'package:recruit_app/pages/mine/resume_list.dart';
 import 'package:recruit_app/pages/mine/send_resume.dart';
 import 'package:recruit_app/pages/setting/setting.dart';
+import 'package:recruit_app/widgets/network_image.dart';
 
 class Mine extends StatefulWidget {
   @override
@@ -101,12 +102,7 @@ class _MineState extends State<Mine> {
                         borderRadius: BorderRadius.circular(
                           ScreenUtil().setWidth(70),
                         ),
-                        child: Image.asset(
-                          'images/img_icon_harden.png',
-                          width: ScreenUtil().setWidth(140),
-                          height: ScreenUtil().setWidth(140),
-                          fit: BoxFit.cover,
-                        ),
+                        child: NetImage(img: _mineInfoData!=null?_mineInfoData.jobSeeker.avatar:'',placeholder: 'images/img_default_head.png',error: 'images/img_default_head.png',size: ScreenUtil().setWidth(140),),
                       )
                     ],
                   ),
@@ -361,6 +357,7 @@ class _MineState extends State<Mine> {
     if(mineInfoData!=null){
       setState(() {
         options[0].itemStatus='${mineInfoData.jobSeeker.resumeCurrent}/${mineInfoData.jobSeeker.resumeTotal}';
+        options[1].itemStatus='${mineInfoData.jobSeeker.jobState}';
         _mineInfoData=mineInfoData;
       });
     }

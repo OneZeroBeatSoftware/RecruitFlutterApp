@@ -60,6 +60,12 @@ mineInfoDataJobSeekerFromJson(MineInfoDataJobSeeker data, Map<String, dynamic> j
 	if (json['realName'] != null) {
 		data.realName = json['realName']?.toString();
 	}
+	if (json['jobState'] != null) {
+		data.jobState = json['jobState']?.toString();
+	}
+	if (json['avatar'] != null) {
+		data.avatar = json['avatar']?.toString();
+	}
 	if (json['jobIntentionTotal'] != null) {
 		data.jobIntentionTotal = json['jobIntentionTotal']?.toInt();
 	}
@@ -80,6 +86,8 @@ Map<String, dynamic> mineInfoDataJobSeekerToJson(MineInfoDataJobSeeker entity) {
 	data['id'] = entity.id;
 	data['userId'] = entity.userId;
 	data['realName'] = entity.realName;
+	data['jobState'] = entity.jobState;
+	data['avatar'] = entity.avatar;
 	data['jobIntentionTotal'] = entity.jobIntentionTotal;
 	data['jobIntentionCurrent'] = entity.jobIntentionCurrent;
 	data['resumeTotal'] = entity.resumeTotal;

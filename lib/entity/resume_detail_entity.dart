@@ -19,6 +19,7 @@ class ResumeDetailDataResume with JsonConvert<ResumeDetailDataResume> {
 	String id;
 	String resumeName;
 	String jobSeekerId;
+	String avatar;
 	String realName;
 	int birthDate;
 	int workExp;
