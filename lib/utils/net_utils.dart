@@ -773,6 +773,7 @@ class NetUtils {
     resume['resumeName']=detailData.resume.resumeName;
     resume['minSalary']=detailData.resume.minSalary;
     resume['maxSalary']=detailData.resume.maxSalary;
+    resume['defaultResume']=detailData.resume.defaultResume;
     resume['state']=1;
     resume['jobSeekerId']=Application.sp.get('jobSeekerId');
     if(detailData.resume.id!=null&&detailData.resume.id.isNotEmpty){

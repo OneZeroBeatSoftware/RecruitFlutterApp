@@ -69,7 +69,8 @@ class _OnlineResumeState extends State<OnlineResume> {
         ..graduationDate= DateUtil.getNowDateMs()
         ..projectExperienceId = ''
         ..workExperienceId = ''
-        ..socialHomepage=''
+        ..socialHomepage = ''
+        ..defaultResume = 0
       )
       ..educationExperience = []
       ..projectExperience = []
@@ -732,11 +733,14 @@ class _OnlineResumeState extends State<OnlineResume> {
                   height: ScreenUtil().setWidth(1),
                 ),
                 SizedBox(height: ScreenUtil().setWidth(34),),
-                MaterialButton(
+                Offstage(offstage: _detailData.resume.defaultResume==1,child: MaterialButton(
                   elevation: 0,
                   color: Colors.white,
                   onPressed: () {
                     FocusScope.of(context).requestFocus(FocusNode());
+                    setState(() {
+                      _detailData.resume.defaultResume=1;
+                    });
                   },
                   textColor: Color.fromRGBO(159, 199, 235, 1),
                   child: Text(
@@ -756,7 +760,7 @@ class _OnlineResumeState extends State<OnlineResume> {
                       ),
                       borderRadius:
                       BorderRadius.circular(ScreenUtil().setWidth(1000))),
-                ),
+                ),),
                 SizedBox(
                   height: ScreenUtil().setWidth(80),
                 ),
