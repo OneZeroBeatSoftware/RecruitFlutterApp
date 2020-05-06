@@ -2,9 +2,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:recruit_app/entity/company_item_entity.dart';
 import 'package:recruit_app/entity/company_list_entity.dart';
-import 'package:recruit_app/entity/job_item_entity.dart';
-import 'package:recruit_app/entity/job_list_entity.dart';
+import 'package:recruit_app/entity/job_list_data_record_entity.dart';
 import 'package:recruit_app/entity/main_resume_list_entity.dart';
+import 'package:recruit_app/entity/search_job_entity.dart';
 import 'package:recruit_app/utils/net_utils.dart';
 import 'package:recruit_app/utils/utils.dart';
 
@@ -54,16 +54,16 @@ class SearchModel {
   /// 搜索工作
   Future<SearchModel> searchJob (BuildContext context,
       int pageIndex, {int pageSize = 15, String city, String keyword, String scale, String age,String salary,String education}) async {
-    JobListEntity jobEntity = await NetUtils.searchJob(context,pageIndex,pageSize: pageSize,city: city,keyword: keyword,scale: scale,education: education,salary: salary,age: age);
+    SearchJobEntity jobEntity = await NetUtils.searchJob(context,pageIndex,pageSize: pageSize,city: city,keyword: keyword,scale: scale,education: education,salary: salary,age: age);
     if (jobEntity.statusCode ==200) {
       if(pageIndex==1){
         _jobList.clear();
       }
-      _jobList.addAll(jobEntity.data.records);
-      if(jobEntity.data.records.length<=0&&pageIndex==1){
+      _jobList.addAll(jobEntity.data);
+      if(jobEntity.data.length<=0&&pageIndex==1){
         Utils.showToast('没有搜到相关工作哦！');
         return null;
-      }else if(jobEntity.data.records.length<=0){
+      }else if(jobEntity.data.length<=0){
         Utils.showToast('没有更多相关工作啦！');
         return null;
       }

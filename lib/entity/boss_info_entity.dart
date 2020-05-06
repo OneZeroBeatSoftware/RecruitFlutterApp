@@ -15,6 +15,7 @@ class BossInfoData with JsonConvert<BossInfoData> {
 
 class BossInfoDataRecruiter with JsonConvert<BossInfoDataRecruiter> {
 	String id;
+	String avatar;
 	String userId;
 	String companyId;
 	String realName;

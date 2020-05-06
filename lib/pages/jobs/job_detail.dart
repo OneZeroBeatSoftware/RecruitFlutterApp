@@ -13,6 +13,7 @@ import 'package:recruit_app/pages/jobs/report.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/craft_date_time_picker.dart';
 import 'package:recruit_app/widgets/craft_share_board.dart';
+import 'package:recruit_app/widgets/network_image.dart';
 import 'package:recruit_app/widgets/remind_dialog.dart';
 
 import '../../application.dart';
@@ -375,11 +376,7 @@ class _JobDetailState extends State<JobDetail> {
                                     borderRadius: BorderRadius.all(
                                         Radius.circular(
                                             ScreenUtil().setWidth(8))),
-                                    child: Image.asset(
-                                        'images/ic_ask_resume_action.png',
-                                        width: ScreenUtil().setWidth(80),
-                                        height: ScreenUtil().setWidth(80),
-                                        fit: BoxFit.cover),
+                                    child: NetImage(img: '${_jobDetailData.job.avatar}',placeholder: 'images/ic_ask_resume_action.png',error: 'images/ic_ask_resume_action.png',size: ScreenUtil().setWidth(80),),
                                   ),
                                   SizedBox(width: ScreenUtil().setWidth(20)),
                                   Expanded(
@@ -507,7 +504,7 @@ class _JobDetailState extends State<JobDetail> {
                               borderRadius: BorderRadius.circular(
                                   ScreenUtil().setWidth(1000))),
                         )),
-                  ),visible: widget.jobDetailType==JobDetailType.job,),
+                  ),visible: widget.jobDetailType==JobDetailType.job&&_jobDetailData.job.candidatesCurrent<_jobDetailData.job.candidatesTotal,),
                   Visibility(child: SafeArea(
                     top: false,
                     child: Container(

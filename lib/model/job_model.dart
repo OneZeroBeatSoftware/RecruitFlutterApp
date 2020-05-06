@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:recruit_app/entity/banner_entity.dart';
 import 'package:recruit_app/entity/job_detail_entity.dart';
-import 'package:recruit_app/entity/job_item_entity.dart';
+import 'package:recruit_app/entity/job_list_data_record_entity.dart';
 import 'package:recruit_app/entity/job_list_entity.dart';
 import 'package:recruit_app/utils/net_utils.dart';
 import 'package:recruit_app/utils/utils.dart';

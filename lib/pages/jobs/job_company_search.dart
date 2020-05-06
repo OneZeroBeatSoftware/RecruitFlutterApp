@@ -3,7 +3,6 @@ import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/entity/filter_data.dart';
-import 'package:recruit_app/model/recruit_resume_model.dart';
 import 'package:recruit_app/model/search_model.dart';
 import 'package:recruit_app/pages/companys/company_detail.dart';
 import 'package:recruit_app/pages/companys/company_row_item.dart';
@@ -519,14 +518,14 @@ class _JobCompanySearchState extends State<JobCompanySearch> {
                             }
 
                             if (widget.searchType == SearchType.resume &&
-                                index < MainResumeModel.instance.resumeList.length) {
+                                index < SearchModel.instance.resumeList.length) {
                               return GestureDetector(
                                   behavior: HitTestBehavior.opaque,
                                   child: EmployeeRowItem(
-                                      employee: MainResumeModel.instance.resumeList[index],
+                                      employee: SearchModel.instance.resumeList[index],
                                       index: index,
                                       lastItem: index ==
-                                          MainResumeModel.instance.resumeList.length - 1),
+                                          SearchModel.instance.resumeList.length - 1),
                                   onTap: () {
                                     FocusScope.of(context).requestFocus(
                                         FocusNode());
@@ -536,14 +535,14 @@ class _JobCompanySearchState extends State<JobCompanySearch> {
                                           builder: (context) => EmployeeDetail(
                                             resumeDetailType: ResumeDetailType
                                                 .resume,
-                                            resumeId: MainResumeModel.instance
+                                            resumeId: SearchModel.instance
                                                 .resumeList[index].id,),
                                         ));
                                   });
                             }
                             return null;
                           }, childCount: widget.searchType == SearchType.resume
-                              ? MainResumeModel.instance.resumeList.length
+                              ? SearchModel.instance.resumeList.length
                               : (widget.searchType == SearchType.company
                               ? SearchModel.instance.companyList.length
                               : SearchModel.instance.jobList.length)))

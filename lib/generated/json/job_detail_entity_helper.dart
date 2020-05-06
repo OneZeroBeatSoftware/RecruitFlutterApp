@@ -76,6 +76,9 @@ jobDetailDataJobFromJson(JobDetailDataJob data, Map<String, dynamic> json) {
 	if (json['id'] != null) {
 		data.id = json['id']?.toString();
 	}
+	if (json['avatar'] != null) {
+		data.avatar = json['avatar']?.toString();
+	}
 	if (json['companyId'] != null) {
 		data.companyId = json['companyId']?.toString();
 	}
@@ -178,6 +181,7 @@ jobDetailDataJobFromJson(JobDetailDataJob data, Map<String, dynamic> json) {
 Map<String, dynamic> jobDetailDataJobToJson(JobDetailDataJob entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	data['id'] = entity.id;
+	data['avatar'] = entity.avatar;
 	data['companyId'] = entity.companyId;
 	data['companyName'] = entity.companyName;
 	data['scope'] = entity.scope;

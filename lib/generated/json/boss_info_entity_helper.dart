@@ -54,6 +54,9 @@ bossInfoDataRecruiterFromJson(BossInfoDataRecruiter data, Map<String, dynamic> j
 	if (json['id'] != null) {
 		data.id = json['id']?.toString();
 	}
+	if (json['avatar'] != null) {
+		data.avatar = json['avatar']?.toString();
+	}
 	if (json['userId'] != null) {
 		data.userId = json['userId']?.toString();
 	}
@@ -69,6 +72,7 @@ bossInfoDataRecruiterFromJson(BossInfoDataRecruiter data, Map<String, dynamic> j
 Map<String, dynamic> bossInfoDataRecruiterToJson(BossInfoDataRecruiter entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	data['id'] = entity.id;
+	data['avatar'] = entity.avatar;
 	data['userId'] = entity.userId;
 	data['companyId'] = entity.companyId;
 	data['realName'] = entity.realName;

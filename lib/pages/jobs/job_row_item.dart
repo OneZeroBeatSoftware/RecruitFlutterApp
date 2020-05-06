@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recruit_app/entity/job_item_entity.dart';
+import 'package:recruit_app/entity/job_list_data_record_entity.dart';
 import 'package:recruit_app/widgets/network_image.dart';
 
 class JobRowItem extends StatelessWidget {
