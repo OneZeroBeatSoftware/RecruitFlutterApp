@@ -2,6 +2,7 @@ import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/application.dart';
 import 'package:recruit_app/entity/base_resp_entity.dart';
 import 'package:recruit_app/entity/resume_detail_entity.dart';
 import 'package:recruit_app/model/mine_model.dart';
@@ -39,10 +40,19 @@ class _OnlineResumeState extends State<OnlineResume> {
   TextEditingController _resumeNameController;
   TextEditingController _minSalaryController;
   TextEditingController _maxSalaryController;
+  List<ResumeDetailDataEducationExperience> _removeEduExp=[];
+  List<ResumeDetailDataProjectExperience> _removeProjectExp=[];
+  List<ResumeDetailDataWorkExperience> _removeWorkExp=[];
+  List<ResumeDetailDataCertificate> _removeCert=[];
+
 
   @override
   void initState() {
     // TODO: implement initState
+    _removeEduExp.clear();
+    _removeProjectExp.clear();
+    _removeWorkExp.clear();
+    _removeCert.clear();
     _detailData = ResumeDetailData()
       ..resume = (ResumeDetailDataResume()
         ..avatar = ''
@@ -424,6 +434,7 @@ class _OnlineResumeState extends State<OnlineResume> {
                                 btnKey, Colors.red, 'images/img_del_white.png',
                                     () {
                                   btnKey.currentState.close();
+                                  _removeWorkExp.add(_detailData.workExperience[index]);
                                   setState(() {
                                     _detailData.workExperience.removeAt(index);
                                   });
@@ -468,6 +479,7 @@ class _OnlineResumeState extends State<OnlineResume> {
                                 btnKey, Colors.red, 'images/img_del_white.png',
                                     () {
                                   btnKey.currentState.close();
+                                  _removeProjectExp.add(_detailData.projectExperience[index]);
                                   setState(() {
                                     _detailData.projectExperience.removeAt(
                                         index);
@@ -517,6 +529,7 @@ class _OnlineResumeState extends State<OnlineResume> {
                                 btnKey, Colors.red, 'images/img_del_white.png',
                                     () {
                                   btnKey.currentState.close();
+                                  _removeEduExp.add(_detailData.educationExperience[index]);
                                   setState(() {
                                     _detailData.educationExperience.removeAt(
                                         index);
@@ -569,6 +582,7 @@ class _OnlineResumeState extends State<OnlineResume> {
                                 btnKey, Colors.red, 'images/img_del_white.png',
                                     () {
                                   btnKey.currentState.close();
+                                  _removeCert.add(_detailData.certificates[index]);
                                   setState(() {
                                     _detailData.certificates.removeAt(index);
                                   });
@@ -1022,7 +1036,174 @@ class _OnlineResumeState extends State<OnlineResume> {
 
   /// 保存更新简历
   _saveResume() async {
-    BaseRespEntity _baseEntity = await MineModel.instance.saveResume(context,widget?.resumeId,_detailData);
+    List certificates=[];
+    List educationExperiences=[];
+    List projectExperiences=[];
+    List socialHomepage=[];
+    List workExperiences=[];
+    Map<String,dynamic> resume={};
+
+    resume['avatar']=_detailData.resume.avatar;
+    resume['address']=_detailData.resume.address;
+    resume['birthDate']='${_detailData.resume.birthDate}';
+    resume['education']=_detailData.resume.educationId;
+    resume['graduationDate']='${_detailData.resume.graduationDate}';
+    resume['workExp']='${_detailData.resume.workExp}';
+    resume['age']=(DateUtil.getNowDateMs()-_detailData.resume.birthDate)~/31536000000;
+    resume['workDate']=_detailData.resume.workDateId;
+    resume['realName']=_detailData.resume.realName;
+    resume['sex']=_detailData.resume.sex;
+    resume['resumeName']=_detailData.resume.resumeName;
+    resume['minSalary']=_detailData.resume.minSalary;
+    resume['maxSalary']=_detailData.resume.maxSalary;
+    resume['defaultResume']=_detailData.resume.defaultResume;
+    resume['state']=1;
+    resume['jobSeekerId']=Application.sp.get('jobSeekerId');
+    if(_detailData.resume.id!=null&&_detailData.resume.id.isNotEmpty){
+      resume['id']=_detailData.resume.id;
+    }
+
+    _detailData.certificates.forEach((item){
+      Map<String,dynamic> params={};
+      params['certificateName']=item.certificateName;
+      params['state']=item.state;
+      if(item.id!=null&&item.id.isNotEmpty){
+        params['id']=item.id;
+      }
+      if(widget.resumeId!=null&&widget.resumeId.isNotEmpty){
+        params['resumeId']=widget.resumeId;
+      }
+      certificates.add(params);
+    });
+    _removeCert.forEach((item){
+      if(item.id!=null&&item.id.isNotEmpty){
+        Map<String,dynamic> params={};
+        params['certificateName']=item.certificateName;
+        params['state']=0;
+        params['id']=item.id;
+        if(widget.resumeId!=null&&widget.resumeId.isNotEmpty){
+          params['resumeId']=widget.resumeId;
+        }
+        certificates.add(params);
+      }
+    });
+
+    _detailData.educationExperience.forEach((item){
+      Map<String,dynamic> params={};
+      params['educationId']=item.educationId;
+      params['school']=item.school;
+      params['specialty']=item.specialty;
+      params['endDate']='${item.endDate}';
+      params['startDate']='${item.startDate}';
+      params['state']=item.state;
+      if(item.id!=null&&item.id.isNotEmpty){
+        params['id']=item.id;
+      }
+      if(widget.resumeId!=null&&widget.resumeId.isNotEmpty){
+        params['resumeId']=widget.resumeId;
+      }
+      educationExperiences.add(params);
+    });
+    _removeEduExp.forEach((item){
+      if(item.id!=null&&item.id.isNotEmpty){
+        Map<String,dynamic> params={};
+        params['educationId']=item.educationId;
+        params['school']=item.school;
+        params['specialty']=item.specialty;
+        params['endDate']='${item.endDate}';
+        params['startDate']='${item.startDate}';
+        params['state']=0;
+        params['id']=item.id;
+        if(widget.resumeId!=null&&widget.resumeId.isNotEmpty){
+          params['resumeId']=widget.resumeId;
+        }
+        educationExperiences.add(params);
+      }
+    });
+
+    _detailData.projectExperience.forEach((item){
+      Map<String,dynamic> params={};
+      params['industry']=item.industryId;
+      params['projectContent']=item.projectContent;
+      params['projectName']=item.projectName;
+      params['endDate']='${item.endDate}';
+      params['startDate']='${item.startDate}';
+      params['state']=item.state;
+      if(item.id!=null&&item.id.isNotEmpty){
+        params['id']=item.id;
+      }
+      if(widget.resumeId!=null&&widget.resumeId.isNotEmpty){
+        params['resumeId']=widget.resumeId;
+      }
+      projectExperiences.add(params);
+    });
+    _removeProjectExp.forEach((item){
+      if(item.id!=null&&item.id.isNotEmpty){
+        Map<String,dynamic> params={};
+        params['industry']=item.industryId;
+        params['projectContent']=item.projectContent;
+        params['projectName']=item.projectName;
+        params['endDate']='${item.endDate}';
+        params['startDate']='${item.startDate}';
+        params['state']=0;
+        params['id']=item.id;
+        if(widget.resumeId!=null&&widget.resumeId.isNotEmpty){
+          params['resumeId']=widget.resumeId;
+        }
+        projectExperiences.add(params);
+      }
+    });
+
+    _detailData.workExperience.forEach((item){
+      Map<String,dynamic> params={};
+      params['companyName']=item.companyName;
+      params['department']=item.department;
+      params['industry']=item.industryId;
+      params['position']=item.positionId;
+      params['workContent']='';
+      params['endDate']='${item.endDate}';
+      params['startDate']='${item.startDate}';
+      params['state']=item.state;
+      if(item.id!=null&&item.id.isNotEmpty){
+        params['id']=item.id;
+      }
+      if(widget.resumeId!=null&&widget.resumeId.isNotEmpty){
+        params['resumeId']=widget.resumeId;
+      }
+      workExperiences.add(params);
+    });
+    _removeWorkExp.forEach((item){
+      if(item.id!=null&&item.id.isNotEmpty){
+        Map<String,dynamic> params={};
+        params['companyName']=item.companyName;
+        params['department']=item.department;
+        params['industry']=item.industryId;
+        params['position']=item.positionId;
+        params['workContent']='';
+        params['endDate']='${item.endDate}';
+        params['startDate']='${item.startDate}';
+        params['state']=0;
+        params['id']=item.id;
+        if(widget.resumeId!=null&&widget.resumeId.isNotEmpty){
+          params['resumeId']=widget.resumeId;
+        }
+        workExperiences.add(params);
+      }
+    });
+
+    _detailData.socialHomepage.forEach((item){
+      socialHomepage.add(item);
+    });
+
+    Map<String,dynamic> params={};
+    params['certificates']=certificates;
+    params['educationExperiences']=educationExperiences;
+    params['projectExperiences']=projectExperiences;
+    params['resume']=resume;
+    params['socialHomepage']=socialHomepage;
+    params['workExperiences']=workExperiences;
+
+    BaseRespEntity _baseEntity = await MineModel.instance.saveResume(context,params);
     if (_baseEntity != null) {
       Utils.showToast(_baseEntity.msg??((widget.resumeId!=null&&widget.resumeId.isNotEmpty)?'修改成功':'添加成功'));
       Navigator.pop(context,'success');

@@ -266,8 +266,8 @@ class MineModel{
   }
 
   /// 添加更新简历
-  Future<BaseRespEntity> saveResume(BuildContext context,String resumeId,ResumeDetailData detailData) async {
-    BaseRespEntity baseRespEntity = await NetUtils.saveResume(context,resumeId,detailData);
+  Future<BaseRespEntity> saveResume(BuildContext context,Map<String,dynamic> params) async {
+    BaseRespEntity baseRespEntity = await NetUtils.saveResume(context,params);
     if (baseRespEntity.statusCode ==200) {
       return baseRespEntity;
     }
