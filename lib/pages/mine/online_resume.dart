@@ -64,7 +64,6 @@ class _OnlineResumeState extends State<OnlineResume> {
         ..state = 0
         ..birthDate = DateUtil.getNowDateMs()
         ..workExp = DateUtil.getNowDateMs()
-        ..defaultResume = 0
         ..educationExperienceId = ''
         ..graduationDate= DateUtil.getNowDateMs()
         ..projectExperienceId = ''
@@ -738,9 +737,13 @@ class _OnlineResumeState extends State<OnlineResume> {
                   color: Colors.white,
                   onPressed: () {
                     FocusScope.of(context).requestFocus(FocusNode());
-                    setState(() {
-                      _detailData.resume.defaultResume=1;
-                    });
+                    if(widget.resumeId!=null&&widget.resumeId.isNotEmpty){
+                      _setDefaultResume(widget.resumeId);
+                    }else {
+                      setState(() {
+                        _detailData.resume.defaultResume=1;
+                      });
+                    }
                   },
                   textColor: Color.fromRGBO(159, 199, 235, 1),
                   child: Text(
@@ -1000,6 +1003,18 @@ class _OnlineResumeState extends State<OnlineResume> {
         Utils.showToast('简历详情有误，请重试！');
         setState(() {
           _isLoad=false;
+        });
+      }
+    });
+  }
+
+  /// 设置默认简历
+  _setDefaultResume(String id){
+    MineModel.instance.setDefaultResume(context, id).then((value){
+      if (value != null) {
+        Utils.showToast(value.msg??'已设置为默认简历');
+        setState(() {
+          _detailData.resume.defaultResume=1;
         });
       }
     });

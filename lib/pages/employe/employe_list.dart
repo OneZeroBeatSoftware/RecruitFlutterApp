@@ -44,6 +44,7 @@ class _EmployeeListState extends State<EmployeeList> {
   void initState() {
     // TODO: implement initState
     _selCity=Application.sp.get('location_city')??'请选择城市';
+    _cityId=Application.sp.get('location_city_id')??'';
     _refreshController = EasyRefreshController();
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((callback) {
@@ -106,6 +107,7 @@ class _EmployeeListState extends State<EmployeeList> {
                                       _cityId=value.filterId;
                                       _selCity = value.filterName;
                                     });
+                                    _refreshController.callRefresh();
                                   }
                                 });
                               },
@@ -384,10 +386,12 @@ class _EmployeeListState extends State<EmployeeList> {
                                       ),
                                     ).then((result){
                                       if(result!=null&&(result is FilterResult)){
-                                        _sex = result.sex;
+                                        _sex = (result.sex=='男'?'1':'0');
                                         _workDate = result.workDate;
                                         _eduLevel = result.eduLevel;
-                                        _salary = result.salary;                                      }
+                                        _salary = result.salary;
+                                        _refreshController.callRefresh();
+                                      }
                                     });
                                   },
                                 ),
@@ -499,12 +503,16 @@ class _EmployeeListState extends State<EmployeeList> {
         _selectFilterType == 0,
         '',
         _pageIndex,
-        15).then((resumeEntity){
-          if(resumeEntity!=null){
-            _pageIndex++;
-          }
-          setState(() {
-          });
+        15,
+        city: _cityId,
+        education: _eduLevel,
+        salary: _salary,
+        sex:_sex,
+        workDate: _workDate).then((resumeEntity) {
+      if (resumeEntity != null) {
+        _pageIndex++;
+      }
+      setState(() {});
     });
   }
 

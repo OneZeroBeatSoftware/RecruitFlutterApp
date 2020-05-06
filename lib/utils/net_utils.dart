@@ -30,6 +30,7 @@ import 'package:recruit_app/entity/industry_type_entity.dart';
 import 'package:recruit_app/entity/intent_list_entity.dart';
 import 'package:recruit_app/entity/job_detail_entity.dart';
 import 'package:recruit_app/entity/job_list_entity.dart';
+import 'package:recruit_app/entity/job_state_entity.dart';
 import 'package:recruit_app/entity/job_type_entity.dart';
 import 'package:recruit_app/entity/main_resume_detail_entity.dart';
 import 'package:recruit_app/entity/main_resume_list_entity.dart';
@@ -38,6 +39,7 @@ import 'package:recruit_app/entity/mine_info_entity.dart';
 import 'package:recruit_app/entity/resume_detail_entity.dart';
 import 'package:recruit_app/entity/resume_list_entity.dart';
 import 'package:recruit_app/entity/salary_list_entity.dart';
+import 'package:recruit_app/entity/search_job_entity.dart';
 import 'package:recruit_app/entity/seeker_interview_entity.dart';
 import 'package:recruit_app/entity/seeker_notice_entity.dart';
 import 'package:recruit_app/entity/star_company_entity.dart';
@@ -544,7 +546,7 @@ class NetUtils {
   }
 
   /// 搜索工作
-  static Future<JobListEntity> searchJob(BuildContext context,
+  static Future<SearchJobEntity> searchJob(BuildContext context,
       int pageIndex,
       {int pageSize = 15, String city, String keyword, String scale, String age,String salary,String education}) async {
     Map<String,dynamic> params={};
@@ -572,7 +574,7 @@ class NetUtils {
     var response = await _post(context, '/search/job',
         params: params,
         isShowLoading: false);
-    return JobListEntity().fromJson(response.data);
+    return SearchJobEntity().fromJson(response.data);
   }
 
   /// 搜索简历
@@ -606,6 +608,15 @@ class NetUtils {
         params: params,
         isShowLoading: false);
     return MainResumeListEntity().fromJson(response.data);
+  }
+
+  /// 获取全部求职状态
+  static Future<JobStateEntity> getJobStateList(BuildContext context) async {
+    var response = await _post(context, '/jobState/list',params: {
+      'pageIndex': 1,
+      'pageSize': 100,
+    },isShowLoading: true);
+    return JobStateEntity().fromJson(response.data);
   }
 
   /// 获取求职者主页信息
@@ -696,21 +707,21 @@ class NetUtils {
 
   /// 获取求职者的求职状态
   static Future<BaseDataEntity> getJobState(BuildContext context, String id) async {
-    var response = await _get(context, '/jobSeeker/JobState/get/$id', params: {
+    var response = await _get(context, '/jobSeeker/jobState/get/$id', params: {
     });
     return BaseDataEntity().fromJson(response.data);
   }
 
   /// 获取全部求职期望
   static Future<IntentListEntity> getIntentList(BuildContext context, String id) async {
-    var response = await _get(context, '/jobSeeker/JobIntention/get/$id', params: {
+    var response = await _get(context, '/jobSeeker/jobIntention/get/$id', params: {
     });
     return IntentListEntity().fromJson(response.data);
   }
 
   /// 删除求职期望
   static Future<BaseRespEntity> deleteIntent(BuildContext context, String intentId) async {
-    var response = await _delete(context, '/jobSeeker/JobIntention/delete/$intentId',isShowLoading: true);
+    var response = await _delete(context, '/jobSeeker/jobIntention/delete/$intentId',isShowLoading: true);
     return BaseRespEntity().fromJson(response.data);
   }
 
@@ -728,7 +739,7 @@ class NetUtils {
     params["maxSalary"]=maxSalary;
     params["state"]="1";
 
-    var response = await _post(context, '/jobSeeker/JobIntention/save',params: params);
+    var response = await _post(context, '/jobSeeker/jobIntention/save',params: params);
     return BaseRespEntity().fromJson(response.data);
   }
 
@@ -862,6 +873,13 @@ class NetUtils {
     return BaseRespEntity().fromJson(response.data);
   }
 
+  /// 设置默认简历
+  static Future<BaseRespEntity> setDefaultResume(
+      BuildContext context, String resumeId) async {
+    var response = await _put(context, '/jobSeeker/resume/default/$resumeId',isBody: true);
+    return BaseRespEntity().fromJson(response.data);
+  }
+
   // 获取招聘者主页信息
   static Future<BossInfoEntity> getRecruiterInfo(BuildContext context,String id) async {
     var response = await _get(context, '/recruiter/info/$id',isShowLoading: false);
@@ -870,14 +888,29 @@ class NetUtils {
 
   /// 获取招聘者首页人才列表
   static Future<MainResumeListEntity> getMainResumeList(BuildContext context, bool isNearby,
-      bool isNews, bool isRecommend, int pageIndex,int pageSize) async {
-    var response = await _post(context, '/recruiter/resume/list', params: {
-      'isNearby': isNearby,
-      'isNews': isNews,
-      'isRecommend': isRecommend,
-      'pageIndex': pageIndex,
-      'pageSize': pageSize
-    },isShowLoading: false);
+      bool isNews, bool isRecommend, int pageIndex,int pageSize,{String city,String education,String salary,String sex,String workDate}) async {
+    Map<String,dynamic> params={};
+    params['isNearby']=isNearby;
+    params['isNews']=isNews;
+    params['isRecommend']=isRecommend;
+    params['pageIndex']=pageIndex;
+    params['pageSize']=pageSize;
+    if(city!=null&&city.isNotEmpty){
+      params['city']=city;
+    }
+    if(salary!=null&&salary.isNotEmpty){
+      params['salary']=salary;
+    }
+    if(education!=null&&education.isNotEmpty){
+      params['education']=education;
+    }
+    if(sex!=null&&sex.isNotEmpty){
+      params['sex']=sex;
+    }
+    if(workDate!=null&&workDate.isNotEmpty){
+      params['workDate']=workDate;
+    }
+    var response = await _post(context, '/recruiter/resume/list', params: params,isShowLoading: false);
     return MainResumeListEntity().fromJson(response.data);
   }
 

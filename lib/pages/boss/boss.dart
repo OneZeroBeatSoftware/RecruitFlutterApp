@@ -14,6 +14,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/pages/mine/communicate.dart';
 import 'package:recruit_app/pages/mine/mine_interview.dart';
 import 'package:recruit_app/pages/boss/company_post_recruit.dart';
+import 'package:recruit_app/widgets/network_image.dart';
 
 class BossMine extends StatefulWidget {
   @override
@@ -101,12 +102,7 @@ class _BossMineState extends State<BossMine> {
                             borderRadius: BorderRadius.circular(
                               ScreenUtil().setWidth(70),
                             ),
-                            child: Image.asset(
-                              'images/img_icon_harden.png',
-                              width: ScreenUtil().setWidth(140),
-                              height: ScreenUtil().setWidth(140),
-                              fit: BoxFit.cover,
-                            ),
+                            child: NetImage(img: _mineInfoData!=null?'${_mineInfoData.recruiter.avatar}':'',placeholder: 'images/img_icon_harden.png',error: 'images/img_icon_harden.png',size: ScreenUtil().setWidth(140),),
                           )
                         ],
                       ),

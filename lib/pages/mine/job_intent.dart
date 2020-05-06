@@ -8,6 +8,7 @@ import 'package:recruit_app/pages/mine/job_intent_edit.dart';
 import 'package:recruit_app/pages/mine/job_intent_item.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
+import 'package:recruit_app/widgets/craft_picker.dart';
 import 'package:recruit_app/widgets/slide_button.dart';
 
 class JobIntent extends StatefulWidget {
@@ -25,6 +26,8 @@ class _JobIntentState extends State<JobIntent> {
   int _intentNum = 0;
   int _maxIntent = 0;
   String _jobState='';
+  int _selStatePos=0;
+  String _selStateId='';
   @override
   void initState() {
     // TODO: implement initState
@@ -34,6 +37,7 @@ class _JobIntentState extends State<JobIntent> {
     WidgetsBinding.instance.addPostFrameCallback((callback){
       _getIntentList();
       _getJobState();
+      _getJobStateList();
     });
   }
   @override
@@ -263,7 +267,10 @@ class _JobIntentState extends State<JobIntent> {
                               ],
                             ),
                           ),
-                          onTap: () {},
+                          onTap: () {
+                            FocusScope.of(context).requestFocus(FocusNode());
+                            _setJobState();
+                          },
                         ),
                   ),
                 ],
@@ -271,6 +278,28 @@ class _JobIntentState extends State<JobIntent> {
             ),
           ],
         ),);
+  }
+
+  /// 设置求职状态
+  _setJobState() {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (context) {
+        return CraftPicker(
+          confirm: (selPos) {
+            Navigator.pop(context);
+            setState(() {
+              _selStatePos = selPos;
+              _selStateId = MineModel.instance.jobStateList[selPos].id;
+              _jobState = MineModel.instance.jobStateList[selPos].name;
+            });
+          },
+          title: '求职状态',
+          pickList: MineModel.instance.jobStateList.map((item)=>item.name).toList(),
+          selIdx: _selStatePos,
+        );
+      },
+    );
   }
 
   /// 获取求职状态
@@ -290,6 +319,16 @@ class _JobIntentState extends State<JobIntent> {
       if(model!=null){
         setState(() {
           _intentNum=model.intentList.length;
+        });
+      }
+    });
+  }
+
+  /// 获取全部求职状态
+  _getJobStateList(){
+    MineModel.instance.getJobStateList(context).then((model){
+      if(model!=null){
+        setState(() {
         });
       }
     });

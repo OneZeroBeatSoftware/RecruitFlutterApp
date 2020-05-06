@@ -6,7 +6,8 @@ import 'package:recruit_app/entity/black_list_entity.dart';
 import 'package:recruit_app/entity/collection_entity.dart';
 import 'package:recruit_app/entity/company_item_entity.dart';
 import 'package:recruit_app/entity/intent_list_entity.dart';
-import 'package:recruit_app/entity/job_item_entity.dart';
+import 'package:recruit_app/entity/job_list_data_record_entity.dart';
+import 'package:recruit_app/entity/job_state_entity.dart';
 import 'package:recruit_app/entity/mine_info_entity.dart';
 import 'package:recruit_app/entity/resume_detail_entity.dart';
 import 'package:recruit_app/entity/resume_list_entity.dart';
@@ -179,6 +180,21 @@ class MineModel{
     return null;
   }
 
+  List<JobStateDataRecord> _jobStateList=[];
+  List<JobStateDataRecord> get jobStateList => _jobStateList;
+  /// 获取全部求职状态
+  Future<MineModel> getJobStateList (BuildContext context) async {
+    JobStateEntity stateEntity = await NetUtils.getJobStateList(context);
+    if (stateEntity!=null&&stateEntity.statusCode ==200) {
+      _jobStateList.clear();
+      _jobStateList.addAll(stateEntity.data.records);
+      return this;
+    }
+    _jobStateList.clear();
+    Utils.showToast(stateEntity.msg ?? '获取失败，请重新尝试');
+    return null;
+  }
+
   List<IntentListData> _intentList=[];
   List<IntentListData> get intentList => _intentList;
   /// 获取全部求职期望
@@ -256,6 +272,16 @@ class MineModel{
       return baseRespEntity;
     }
     Utils.showToast(baseRespEntity.msg ?? '获取失败，请重新尝试');
+    return null;
+  }
+
+  /// 设置为默认简历
+  Future<BaseRespEntity> setDefaultResume(BuildContext context, String resumeId) async {
+    BaseRespEntity baseRespEntity = await NetUtils.setDefaultResume(context, resumeId);
+    if (baseRespEntity.statusCode ==200) {
+      return baseRespEntity;
+    }
+    Utils.showToast(baseRespEntity.msg ?? '设置失败，请重新尝试');
     return null;
   }
 }
