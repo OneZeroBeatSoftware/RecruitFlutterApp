@@ -150,7 +150,7 @@ class _AboutSoftState extends State<AboutSoft> {
                 ),
                 onTap: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => WebViewWidget(title: '用户协议及隐私政策',url: 'https://www.huaweicloud.com/declaration/hcpn_eula.html',),),);
+                      MaterialPageRoute(builder: (context) => WebViewWidget(title: '用户协议及隐私政策',url: 'https://www.onezerobeat.com/recruit/static/web/user-agreement.html',),),);
                 },
               ),
             ],
