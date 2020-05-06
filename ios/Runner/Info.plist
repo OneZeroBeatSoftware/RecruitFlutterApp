@@ -36,6 +36,8 @@
 	<string>使用照相机拍照，用于交流，反馈。</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>开启麦克风，便于语音交流。</string>
+	<key>io.flutter.embedded_views_preview</key>
+    <string>YES</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
