@@ -78,10 +78,14 @@ class _CompanyInfoState extends State<CompanyInfo> {
 
   List<CompanyDetailDataWelfare> _welfareList = [];
   List<CompanyDetailDataLicense> _licenses=[];
+  List<CompanyDetailDataWelfare> _removeWelfareList = [];
+  List<CompanyDetailDataLicense> _srcLicenses=[];
 
   @override
   void initState() {
     // TODO: implement initState
+    _removeWelfareList.clear();
+    _srcLicenses.clear();
     _isLoad = (widget.companyId != null && widget.companyId.isNotEmpty);
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((callback){
@@ -406,6 +410,7 @@ class _CompanyInfoState extends State<CompanyInfo> {
                                     btnKey, Colors.red, 'images/img_del_white.png',
                                         () {
                                       btnKey.currentState.close();
+                                      _removeWelfareList.add(_welfareList[index]);
                                       setState(() {
                                         _welfareList.removeAt(index);
                                       });
@@ -609,8 +614,11 @@ class _CompanyInfoState extends State<CompanyInfo> {
       _manageId=detailEntity.data.company.managementId;
       _licenses.clear();
       _licenses.addAll(detailEntity.data.licenses);
+      _srcLicenses.clear();
+      _srcLicenses.addAll(detailEntity.data.licenses);
       _welfareList.clear();
       _welfareList.addAll(detailEntity.data.welfare);
+
       setState(() {
         _detailData = detailEntity.data;
       });
@@ -668,6 +676,19 @@ class _CompanyInfoState extends State<CompanyInfo> {
       }
       welfare.add(params);
     });
+    _removeWelfareList.forEach((item){
+      if(item.id!=null&&item.id.isNotEmpty){
+        Map<String,dynamic> params={};
+        params['welfareName']=item.welfareName;
+        params['content']=item.content;
+        params['state']='0';
+        params['id']=item.id;
+        if(widget.companyId!=null&&widget.companyId.isNotEmpty){
+          params['companyId']=widget.companyId;
+        }
+        welfare.add(params);
+      }
+    });
 
     _licenses.forEach((item){
       Map<String,dynamic> params={};
@@ -681,6 +702,24 @@ class _CompanyInfoState extends State<CompanyInfo> {
         params['companyId']=widget.companyId;
       }
       license.add(params);
+    });
+    _srcLicenses.forEach((item){
+      if(item.id!=null&&item.id.isNotEmpty){
+        for(var i=0;i<_licenses.length;i++){
+          if(item.id==_licenses[i].id){
+            continue;
+          }
+          Map<String,dynamic> params={};
+          params['image']=item.image;
+          params['desc']='';
+          params['state']='0';
+          params['id']=item.id;
+          if(widget.companyId!=null&&widget.companyId.isNotEmpty){
+            params['companyId']=widget.companyId;
+          }
+          license.add(params);
+        }
+      }
     });
 
     params['welfare']=welfare;
