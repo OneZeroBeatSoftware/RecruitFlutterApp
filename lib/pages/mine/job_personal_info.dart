@@ -14,7 +14,6 @@ import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/craft_date_picker.dart';
 import 'package:recruit_app/widgets/craft_picker.dart';
 import 'package:recruit_app/widgets/craft_sex_picker.dart';
-import 'package:recruit_app/widgets/network_image.dart';
 import 'package:recruit_app/widgets/remind_dialog.dart';
 class PersonalInfoResult{
   String name;
@@ -155,14 +154,14 @@ class _PersonalInfoState extends State<PersonalInfo> {
         rightAction: GestureDetector(
           onTap: () {
             FocusScope.of(context).requestFocus(FocusNode());
-            if(null==_avatar||_avatar.isEmpty){
-              Utils.showToast('请选择头像');
-              return;
-            }
-            if(_nameController.text.isEmpty){
-              Utils.showToast('请填写名字');
-              return;
-            }
+//            if(null==_avatar||_avatar.isEmpty){
+//              Utils.showToast('请选择头像');
+//              return;
+//            }
+//            if(_nameController.text.isEmpty){
+//              Utils.showToast('请填写名字');
+//              return;
+//            }
             if(null==_selSex||_selSex.isEmpty){
               Utils.showToast('请选择性别');
               return;
@@ -222,95 +221,95 @@ class _PersonalInfoState extends State<PersonalInfo> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Container(
-                  padding: EdgeInsets.only(
-                    top: ScreenUtil().setWidth(38),
-                    bottom: ScreenUtil().setWidth(40),
-                  ),
-                  margin: EdgeInsets.only(
-                    bottom: ScreenUtil().setWidth(40),
-                  ),
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: Color.fromRGBO(159, 199, 235, 1),
-                        width: ScreenUtil().setWidth(1),
-                      ),
-                    ),
-                  ),
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: Text(
-                          '头像',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: ScreenUtil().setSp(32),
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromRGBO(57, 57, 57, 1),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: ScreenUtil().setWidth(16),
-                      ),
-                      GestureDetector(behavior: HitTestBehavior.opaque,onTap: (){
-                        _openGallery();
-                      },child: ClipRRect(
-                        borderRadius: BorderRadius.circular(
-                          ScreenUtil().setWidth(54),
-                        ),
-                        child: NetImage(img: '$_avatar',placeholder: 'images/img_default_head.png',error: 'images/img_default_head.png',size: ScreenUtil().setWidth(108),),
-                      ),),
-                    ],
-                  ),
-                ),
-                Text(
-                  '姓名',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: ScreenUtil().setSp(32),
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromRGBO(57, 57, 57, 1),
-                  ),
-                ),
-                TextField(
-                  controller: _nameController,
-                  autofocus: false,
-                  scrollPadding: EdgeInsets.all(0),
-                  textAlign: TextAlign.start,
-                  maxLines: 1,
-                  cursorColor: Color.fromRGBO(176, 181, 180, 1),
-                  style: TextStyle(
-                      fontSize: ScreenUtil().setSp(28),
-                      color: Color.fromRGBO(95, 94, 94, 1)),
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(
-                      top: ScreenUtil().setWidth(34),
-                      bottom: ScreenUtil().setWidth(34),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color.fromRGBO(159, 199, 235, 1),
-                        width: ScreenUtil().setWidth(1),
-                      ),
-                    ),
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color.fromRGBO(159, 199, 235, 1),
-                        width: ScreenUtil().setWidth(1),
-                      ),
-                    ),
-                    hintText: '请填写姓名',
-                    hintStyle: TextStyle(
-                      fontSize: ScreenUtil().setSp(28),
-                      color: Color.fromRGBO(176, 181, 180, 1),
-                    ),
-                  ),
-                  onSubmitted: (text) {},
-                ),
+//                Container(
+//                  padding: EdgeInsets.only(
+//                    top: ScreenUtil().setWidth(38),
+//                    bottom: ScreenUtil().setWidth(40),
+//                  ),
+//                  margin: EdgeInsets.only(
+//                    bottom: ScreenUtil().setWidth(40),
+//                  ),
+//                  decoration: BoxDecoration(
+//                    border: Border(
+//                      bottom: BorderSide(
+//                        color: Color.fromRGBO(159, 199, 235, 1),
+//                        width: ScreenUtil().setWidth(1),
+//                      ),
+//                    ),
+//                  ),
+//                  child: Row(
+//                    children: <Widget>[
+//                      Expanded(
+//                        child: Text(
+//                          '头像',
+//                          maxLines: 1,
+//                          overflow: TextOverflow.ellipsis,
+//                          style: TextStyle(
+//                            fontSize: ScreenUtil().setSp(32),
+//                            fontWeight: FontWeight.bold,
+//                            color: Color.fromRGBO(57, 57, 57, 1),
+//                          ),
+//                        ),
+//                      ),
+//                      SizedBox(
+//                        width: ScreenUtil().setWidth(16),
+//                      ),
+//                      GestureDetector(behavior: HitTestBehavior.opaque,onTap: (){
+//                        _openGallery();
+//                      },child: ClipRRect(
+//                        borderRadius: BorderRadius.circular(
+//                          ScreenUtil().setWidth(54),
+//                        ),
+//                        child: NetImage(img: '$_avatar',placeholder: 'images/img_default_head.png',error: 'images/img_default_head.png',size: ScreenUtil().setWidth(108),),
+//                      ),),
+//                    ],
+//                  ),
+//                ),
+//                Text(
+//                  '姓名',
+//                  maxLines: 1,
+//                  overflow: TextOverflow.ellipsis,
+//                  style: TextStyle(
+//                    fontSize: ScreenUtil().setSp(32),
+//                    fontWeight: FontWeight.bold,
+//                    color: Color.fromRGBO(57, 57, 57, 1),
+//                  ),
+//                ),
+//                TextField(
+//                  controller: _nameController,
+//                  autofocus: false,
+//                  scrollPadding: EdgeInsets.all(0),
+//                  textAlign: TextAlign.start,
+//                  maxLines: 1,
+//                  cursorColor: Color.fromRGBO(176, 181, 180, 1),
+//                  style: TextStyle(
+//                      fontSize: ScreenUtil().setSp(28),
+//                      color: Color.fromRGBO(95, 94, 94, 1)),
+//                  decoration: InputDecoration(
+//                    contentPadding: EdgeInsets.only(
+//                      top: ScreenUtil().setWidth(34),
+//                      bottom: ScreenUtil().setWidth(34),
+//                    ),
+//                    focusedBorder: UnderlineInputBorder(
+//                      borderSide: BorderSide(
+//                        color: Color.fromRGBO(159, 199, 235, 1),
+//                        width: ScreenUtil().setWidth(1),
+//                      ),
+//                    ),
+//                    enabledBorder: UnderlineInputBorder(
+//                      borderSide: BorderSide(
+//                        color: Color.fromRGBO(159, 199, 235, 1),
+//                        width: ScreenUtil().setWidth(1),
+//                      ),
+//                    ),
+//                    hintText: '请填写姓名',
+//                    hintStyle: TextStyle(
+//                      fontSize: ScreenUtil().setSp(28),
+//                      color: Color.fromRGBO(176, 181, 180, 1),
+//                    ),
+//                  ),
+//                  onSubmitted: (text) {},
+//                ),
                 SizedBox(
                   height: ScreenUtil().setWidth(40),
                 ),

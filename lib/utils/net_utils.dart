@@ -633,6 +633,20 @@ class NetUtils {
     return MineInfoEntity().fromJson(response.data);
   }
 
+  /// 添加、修改求职者信息
+  static Future<BaseRespEntity> saveJobSeeker(BuildContext context,String id,String userId,String avatar,String realName) async {
+    Map<String,dynamic> params={};
+    params["userId"] = userId;
+    params["avatar"] = avatar;
+    params["realName"] = realName;
+    if (id != null && id.isNotEmpty) {
+      params["id"] = id;
+    }
+
+    var response = await _post(context, '/jobSeeker/save',params: params,isShowLoading: true);
+    return BaseRespEntity().fromJson(response.data);
+  }
+
   /// 获取黑名单列表
   static Future<BlackListEntity> getShieldList(BuildContext context,String id,int pageIndex,int pageSize) async {
     var response = await _post(context, '/jobSeeker/shield',params: {
@@ -787,6 +801,20 @@ class NetUtils {
   static Future<BossInfoEntity> getRecruiterInfo(BuildContext context,String id) async {
     var response = await _get(context, '/recruiter/info/$id',isShowLoading: false);
     return BossInfoEntity().fromJson(response.data);
+  }
+
+  /// 添加、修改招聘者信息
+  static Future<BaseRespEntity> saveRecruiter(BuildContext context,String id,String userId,String avatar,String realName) async {
+    Map<String,dynamic> params={};
+    params["userId"] = userId;
+    params["avatar"] = avatar;
+    params["realName"] = realName;
+    if (id != null && id.isNotEmpty) {
+      params["id"] = id;
+    }
+
+    var response = await _post(context, '/recruiter/save',params: params,isShowLoading: true);
+    return BaseRespEntity().fromJson(response.data);
   }
 
   /// 获取招聘者首页人才列表

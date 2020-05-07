@@ -4,6 +4,7 @@ import 'package:recruit_app/application.dart';
 import 'package:recruit_app/entity/boss_info_entity.dart';
 import 'package:recruit_app/model/boss_mine_model.dart';
 import 'package:recruit_app/model/me_list.dart';
+import 'package:recruit_app/pages/boss/boss_base_info.dart';
 import 'package:recruit_app/pages/boss/boss_collection.dart';
 import 'package:recruit_app/pages/boss/company_info.dart';
 import 'package:recruit_app/pages/boss/job_manage.dart';
@@ -28,10 +29,14 @@ class BossMine extends StatefulWidget {
 class _BossMineState extends State<BossMine> {
   List<Me> options = MeOptions.loadBossOptions();
   BossInfoData _mineInfoData;
+  String _userName='';
+  String _avatar='';
 
   @override
   void initState() {
     // TODO: implement initState
+    _userName=Application.sp.getString('recruiterName')??'';
+    _avatar=Application.sp.getString('recruiterAvatar')??'';
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((callback){
       _getMainInfo();
@@ -81,19 +86,39 @@ class _BossMineState extends State<BossMine> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Row(
+                      GestureDetector(onTap: (){
+                        FocusScope.of(context).requestFocus(FocusNode());
+                        Navigator.push<BossBaseInfoResult>(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                BossBaseInfo(
+                                  id: _mineInfoData != null ? _mineInfoData
+                                      .recruiter.id : '',
+                                  avatar: _avatar,
+                                  userName: _userName,),),).then((value) {
+                          if (value != null && _mineInfoData != null) {
+                            Application.sp.setString('recruiterName', value.userName);
+                            Application.sp.setString('recruiterAvatar',value.avatar);
+                            setState(() {
+                              _avatar=value.avatar;
+                              _userName=value.userName;
+                            });
+                          }
+                        });
+                      },child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Expanded(
                             child: Text(
-                              _mineInfoData!=null?_mineInfoData.recruiter.realName:'',
+                              _userName,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                 color: Colors.white,
-                                 fontSize: ScreenUtil().setSp(48),
-                                 fontWeight: FontWeight.bold),
+                                  color: Colors.white,
+                                  fontSize: ScreenUtil().setSp(48),
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                           SizedBox(
@@ -103,10 +128,10 @@ class _BossMineState extends State<BossMine> {
                             borderRadius: BorderRadius.circular(
                               ScreenUtil().setWidth(70),
                             ),
-                            child: NetImage(img: _mineInfoData!=null?'${_mineInfoData.recruiter.avatar}':'',placeholder: 'images/img_icon_harden.png',error: 'images/img_icon_harden.png',size: ScreenUtil().setWidth(140),),
+                            child: NetImage(img: _avatar,placeholder: 'images/img_icon_harden.png',error: 'images/img_icon_harden.png',size: ScreenUtil().setWidth(140),),
                           )
                         ],
-                      ),
+                      ),behavior: HitTestBehavior.opaque,),
                       SizedBox(
                         height: ScreenUtil().setWidth(56),
                       ),
@@ -411,7 +436,11 @@ class _BossMineState extends State<BossMine> {
   _getMainInfo() async{
     BossInfoData mineInfoData=await BossMineModel.instance.getRecruiterInfo(context, Application.sp.get('recruiterId'));
     if(mineInfoData!=null){
+      Application.sp.setString('recruiterName', mineInfoData.recruiter.realName);
+      Application.sp.setString('recruiterAvatar', mineInfoData.recruiter.avatar);
       setState(() {
+        _avatar=mineInfoData.recruiter.avatar;
+        _userName=mineInfoData.recruiter.realName;
         _mineInfoData=mineInfoData;
       });
     }

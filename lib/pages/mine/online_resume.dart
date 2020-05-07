@@ -55,7 +55,7 @@ class _OnlineResumeState extends State<OnlineResume> {
     _removeCert.clear();
     _detailData = ResumeDetailData()
       ..resume = (ResumeDetailDataResume()
-        ..avatar = ''
+        ..avatar = Application.sp.getString('jobSeekerAvatar')??''
         ..workDateId = ''
         ..educationId = ''
         ..workDateName = ''
@@ -66,7 +66,7 @@ class _OnlineResumeState extends State<OnlineResume> {
         ..minSalary = '0'
         ..sex = -1
         ..resumeName = ''
-        ..realName = ''
+        ..realName = Application.sp.getString('jobSeekerName')??''
         ..jobSeekerId = ''
         ..minSalary=''
         ..maxSalary=''
@@ -139,14 +139,14 @@ class _OnlineResumeState extends State<OnlineResume> {
         ),
         rightAction: GestureDetector(onTap: (){
           FocusScope.of(context).requestFocus(FocusNode());
-          if(_detailData.resume.avatar==null||_detailData.resume.avatar.isEmpty){
-            Utils.showToast('请先完善个人信息');
-            return;
-          }
-          if(_detailData.resume.realName==null||_detailData.resume.realName.isEmpty){
-            Utils.showToast('请先完善个人信息');
-            return;
-          }
+//          if(_detailData.resume.avatar==null||_detailData.resume.avatar.isEmpty){
+//            Utils.showToast('请先完善个人信息');
+//            return;
+//          }
+//          if(_detailData.resume.realName==null||_detailData.resume.realName.isEmpty){
+//            Utils.showToast('请先完善个人信息');
+//            return;
+//          }
           if(_detailData.resume.sex==-1) {
             Utils.showToast('请先完善个人信息');
             return;

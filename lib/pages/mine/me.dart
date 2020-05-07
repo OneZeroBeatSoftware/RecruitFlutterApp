@@ -14,6 +14,7 @@ import 'package:recruit_app/pages/mine/job_intent.dart';
 import 'package:recruit_app/pages/mine/mine_interview.dart';
 import 'package:recruit_app/pages/mine/resume_list.dart';
 import 'package:recruit_app/pages/mine/send_resume.dart';
+import 'package:recruit_app/pages/mine/user_base_info.dart';
 import 'package:recruit_app/pages/setting/setting.dart';
 import 'package:recruit_app/widgets/network_image.dart';
 
@@ -28,10 +29,15 @@ class Mine extends StatefulWidget {
 class _MineState extends State<Mine> {
   List<Me> options = MeOptions.loadOptions();
   MineInfoData _mineInfoData;
+  String _userName='';
+  String _avatar='';
 
   @override
   void initState() {
     // TODO: implement initState
+    _userName=Application.sp.getString('jobSeekerName')??'';
+    _avatar=Application.sp.getString('jobSeekerAvatar')??'';
+
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((callback){
       _getMainInfo();
@@ -80,13 +86,13 @@ class _MineState extends State<Mine> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Row(
+                  GestureDetector(behavior: HitTestBehavior.opaque,child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Expanded(
                         child: Text(
-                          _mineInfoData!=null?_mineInfoData.jobSeeker.realName:'',
+                          _userName,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -102,10 +108,35 @@ class _MineState extends State<Mine> {
                         borderRadius: BorderRadius.circular(
                           ScreenUtil().setWidth(70),
                         ),
-                        child: NetImage(img: _mineInfoData!=null?_mineInfoData.jobSeeker.avatar:'',placeholder: 'images/img_default_head.png',error: 'images/img_default_head.png',size: ScreenUtil().setWidth(140),),
+                        child: NetImage(img: _avatar,placeholder: 'images/img_default_head.png',error: 'images/img_default_head.png',size: ScreenUtil().setWidth(140),),
                       )
                     ],
-                  ),
+                  ),onTap: (){
+                    FocusScope.of(context).requestFocus(FocusNode());
+                    Navigator.push<UserBaseInfoResult>(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            UserBaseInfo(
+                              id: _mineInfoData != null ? _mineInfoData
+                                  .jobSeeker.id : '',
+                              avatar: _avatar,
+                              userName: _userName,
+                              changeJobState: (jobState) {
+                                setState(() {
+                                  options[1].itemStatus = '$jobState';
+                                });
+                              },),),).then((value) {
+                      if (value != null) {
+                        Application.sp.setString('jobSeekerName', value.userName);
+                        Application.sp.setString('jobSeekerAvatar',value.avatar);
+                        setState(() {
+                          _avatar=value.avatar;
+                          _userName=value.userName;
+                        });
+                      }
+                    });
+                  },),
                   SizedBox(
                     height: ScreenUtil().setWidth(56),
                   ),
@@ -365,7 +396,11 @@ class _MineState extends State<Mine> {
   _getMainInfo() async{
     MineInfoData mineInfoData=await MineModel.instance.getSeekerInfo(context, Application.sp.get('jobSeekerId'));
     if(mineInfoData!=null){
+      Application.sp.setString('jobSeekerName', mineInfoData.jobSeeker.realName);
+      Application.sp.setString('jobSeekerAvatar', mineInfoData.jobSeeker.avatar);
       setState(() {
+        _avatar=mineInfoData.jobSeeker.avatar;
+        _userName=mineInfoData.jobSeeker.realName;
         options[0].itemStatus='${mineInfoData.jobSeeker.resumeCurrent}/${mineInfoData.jobSeeker.resumeTotal}';
         options[1].itemStatus='${mineInfoData.jobSeeker.jobStateName}';
         _mineInfoData=mineInfoData;
