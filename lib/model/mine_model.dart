@@ -42,6 +42,16 @@ class MineModel{
     return null;
   }
 
+  /// 添加、修改求职者信息
+  Future<BaseRespEntity> saveJobSeeker(BuildContext context,String id,String userId,String avatar,String realName) async {
+    BaseRespEntity baseRespEntity = await NetUtils.saveJobSeeker(context,id,userId,avatar,realName);
+    if (baseRespEntity.statusCode ==200) {
+      return baseRespEntity;
+    }
+    Utils.showToast(baseRespEntity.msg ?? '修改失败，请重新尝试');
+    return null;
+  }
+
   List<BlackListDataRecord> _shieldList=[];
   List<BlackListDataRecord> get shieldList => _shieldList;
   /// 获取黑名单列表
