@@ -195,6 +195,16 @@ class MineModel{
     return null;
   }
 
+  /// 修改求职状态
+  Future<BaseRespEntity> changeJobState(BuildContext context, String jobSeekerId,String jobStateId) async {
+    BaseRespEntity baseRespEntity = await NetUtils.changeJobState(context, jobSeekerId,jobStateId);
+    if (baseRespEntity.statusCode ==200) {
+      return baseRespEntity;
+    }
+    Utils.showToast(baseRespEntity.msg ?? '修改失败，请重新尝试');
+    return null;
+  }
+
   List<IntentListData> _intentList=[];
   List<IntentListData> get intentList => _intentList;
   /// 获取全部求职期望

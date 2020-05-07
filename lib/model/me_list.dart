@@ -1,7 +1,7 @@
 class MeOptions {
   static List<Me> _allOptions = <Me>[
     Me(imgPath: 'images/img_edit_resume_gray.png', itemName: '编辑简历', itemStatus: '0/0'),
-    Me(imgPath: 'images/img_job_intent_gray.png', itemName: '管理求职意向', itemStatus: '离职-随时到岗'),
+    Me(imgPath: 'images/img_job_intent_gray.png', itemName: '管理求职意向', itemStatus: ''),
     Me(imgPath: 'images/img_love_gray.png', itemName: '收藏夹', itemStatus: ''),
     Me(imgPath: 'images/img_blacklist_gray.png', itemName: '黑名单', itemStatus: ''),
     Me(imgPath: 'images/img_help_gray.png', itemName: '帮助与反馈',),

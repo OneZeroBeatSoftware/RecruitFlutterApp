@@ -1,12 +1,10 @@
 import 'dart:io';
 
-import 'package:common_utils/common_utils.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:recruit_app/application.dart';
 import 'package:recruit_app/entity/age_entity.dart';
 import 'package:recruit_app/entity/apply_list_entity.dart';
 import 'package:recruit_app/entity/banner_entity.dart';
@@ -608,6 +606,16 @@ class NetUtils {
         params: params,
         isShowLoading: false);
     return MainResumeListEntity().fromJson(response.data);
+  }
+
+  /// 求职状态修改
+  static Future<BaseRespEntity> changeJobState(
+      BuildContext context, String jobSeekerId,String jobState) async {
+    var response = await _put(context, '/jobSeeker/jobState/change', params: {
+      'jobSeekerId': jobSeekerId,
+      'jobState': jobState
+    },isBody: true);
+    return BaseRespEntity().fromJson(response.data);
   }
 
   /// 获取全部求职状态

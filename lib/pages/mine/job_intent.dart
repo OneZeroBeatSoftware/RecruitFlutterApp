@@ -14,7 +14,8 @@ import 'package:recruit_app/widgets/slide_button.dart';
 class JobIntent extends StatefulWidget {
   final int intentNum;
   final int maxIntent;
-  const JobIntent({Key key, this.intentNum=0, this.maxIntent=0}) : super(key: key);
+  final Function(String) changeJobState;
+  const JobIntent({Key key, this.intentNum=0, this.maxIntent=0, this.changeJobState}) : super(key: key);
   @override
   _JobIntentState createState() {
     // TODO: implement createState
@@ -288,11 +289,7 @@ class _JobIntentState extends State<JobIntent> {
         return CraftPicker(
           confirm: (selPos) {
             Navigator.pop(context);
-            setState(() {
-              _selStatePos = selPos;
-              _selStateId = MineModel.instance.jobStateList[selPos].id;
-              _jobState = MineModel.instance.jobStateList[selPos].name;
-            });
+            _changeJobState(Application.sp.get('jobSeekerId'), MineModel.instance.jobStateList[selPos].id,selPos);
           },
           title: '求职状态',
           pickList: MineModel.instance.jobStateList.map((item)=>item.name).toList(),
@@ -332,6 +329,23 @@ class _JobIntentState extends State<JobIntent> {
         });
       }
     });
+  }
+
+  /// 修改求职状态
+  _changeJobState(String jobSeekId,String jobStateId,int selPos) async {
+    BaseRespEntity _baseEntity = await MineModel.instance
+        .changeJobState(context,jobSeekId,jobStateId);
+    if (_baseEntity != null) {
+      Utils.showToast(_baseEntity.msg??'修改成功');
+      if(widget.changeJobState!=null){
+        widget.changeJobState(MineModel.instance.jobStateList[selPos].name);
+      }
+      setState(() {
+        _selStatePos = selPos;
+        _selStateId = MineModel.instance.jobStateList[selPos].id;
+        _jobState = MineModel.instance.jobStateList[selPos].name;
+      });
+    }
   }
 
   /// 删除求职期望

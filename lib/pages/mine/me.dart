@@ -306,9 +306,19 @@ class _MineState extends State<Mine> {
                               builder: (context) => Collection()));
                     } else if (index == 1) {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => JobIntent(intentNum: _mineInfoData!=null?_mineInfoData.jobSeeker.jobIntentionCurrent:0,maxIntent: _mineInfoData!=null?_mineInfoData.jobSeeker.jobIntentionTotal:0,)));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              JobIntent(
+                                intentNum: _mineInfoData != null ? _mineInfoData
+                                    .jobSeeker.jobIntentionCurrent : 0,
+                                maxIntent: _mineInfoData != null ? _mineInfoData
+                                    .jobSeeker.jobIntentionTotal : 0,
+                                changeJobState: (jobState) {
+                                  setState(() {
+                                    options[1].itemStatus = '$jobState';
+                                  });
+                                },),),);
                     } else if (index == 0) {
                       Navigator.push(
                           context,
@@ -357,7 +367,7 @@ class _MineState extends State<Mine> {
     if(mineInfoData!=null){
       setState(() {
         options[0].itemStatus='${mineInfoData.jobSeeker.resumeCurrent}/${mineInfoData.jobSeeker.resumeTotal}';
-        options[1].itemStatus='${mineInfoData.jobSeeker.jobState}';
+        options[1].itemStatus='${mineInfoData.jobSeeker.jobStateName}';
         _mineInfoData=mineInfoData;
       });
     }

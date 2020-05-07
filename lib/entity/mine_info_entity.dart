@@ -17,7 +17,7 @@ class MineInfoDataJobSeeker with JsonConvert<MineInfoDataJobSeeker> {
 	String id;
 	String userId;
 	String realName;
-	String jobState;
+	String jobStateName;
 	String avatar;
 	int jobIntentionTotal;
 	int jobIntentionCurrent;
