@@ -14,6 +14,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/pages/mine/communicate.dart';
 import 'package:recruit_app/pages/mine/mine_interview.dart';
 import 'package:recruit_app/pages/boss/company_post_recruit.dart';
+import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/network_image.dart';
 
 class BossMine extends StatefulWidget {
@@ -322,32 +323,56 @@ class _BossMineState extends State<BossMine> {
                              MaterialPageRoute(
                                  builder: (context) => CompanyInfo(companyId:_mineInfoData.recruiter.companyId)));
                        } else if (index == 1) {
+                         if(_mineInfoData==null) {
+                           Utils.showToast('正在获取个人信息，请稍后再试');
+                           return;
+                         }
                          Navigator.push(
                              context,
                              MaterialPageRoute(
                                  builder: (context) => CompanyPostRecruit(companyId: _mineInfoData.recruiter.companyId,recruitName: _mineInfoData.recruiter.realName,)));
                        } else if (index == 2) {
+                         if(_mineInfoData==null) {
+                           Utils.showToast('正在获取个人信息，请稍后再试');
+                           return;
+                         }
                          Navigator.push(
                              context,
                              MaterialPageRoute(
                                  builder: (context) => JobManage(companyId: _mineInfoData.recruiter.companyId,recruitName: _mineInfoData.recruiter.realName,)));
                        } else if (index == 3) {
+                         if(_mineInfoData==null) {
+                           Utils.showToast('正在获取个人信息，请稍后再试');
+                           return;
+                         }
                          Navigator.push(
                              context,
                              MaterialPageRoute(
                                  builder: (context) => BossCollectionJob(title: '收藏夹',type: BossCollectionType.star,)));
                        } else if (index == 4) {
+                         if(_mineInfoData==null) {
+                           Utils.showToast('正在获取个人信息，请稍后再试');
+                           return;
+                         }
                          Navigator.push(
                              context,
                              MaterialPageRoute(
                                  builder: (context) => BossCollectionJob(title: '黑名单',type: BossCollectionType.shield,)));
                        }
                        else if (index == 5) {
+                         if(_mineInfoData==null) {
+                           Utils.showToast('正在获取个人信息，请稍后再试');
+                           return;
+                         }
                          Navigator.push(
                              context,
                              MaterialPageRoute(
                                  builder: (context) => HelpFeedback()));
                        } else if (index == 6) {
+                         if(_mineInfoData==null) {
+                           Utils.showToast('正在获取个人信息，请稍后再试');
+                           return;
+                         }
                          Navigator.push(
                              context,
                              MaterialPageRoute(

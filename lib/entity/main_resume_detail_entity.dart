@@ -24,6 +24,7 @@ class MainResumeDetailDataResume with JsonConvert<MainResumeDetailDataResume> {
   int workExp;
   int birthDate;
   String address;
+  String avatar;
   int graduationDate;
   int educationId;
   String educationName;

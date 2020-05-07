@@ -90,63 +90,63 @@ class _CityFilterState extends State<CityFilter> {
             margin: EdgeInsets.symmetric(
                 vertical: ScreenUtil().setWidth(24),
                 horizontal: ScreenUtil().setWidth(48)),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  flex: 1,
-                  child: Text(
-                    "定位城市",
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: ScreenUtil().setSp(32),
-                      color: Color.fromRGBO(57, 57, 57, 1),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: ScreenUtil().setWidth(12),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    width: ScreenUtil().setWidth(204),
-                    child: Row(
-                      children: <Widget>[
-                        Image.asset(
-                          'images/img_search_blue.png',
-                          width: ScreenUtil().setWidth(26),
-                          height: ScreenUtil().setWidth(26),
-                          fit: BoxFit.contain,
-                        ),
-                        Expanded(
-                          child: Text(
-                            "｜请输入城市名称",
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: ScreenUtil().setSp(24),
-                              color: Color.fromRGBO(159, 199, 235, 1),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    padding: EdgeInsets.symmetric(
-                      horizontal: ScreenUtil().setWidth(10),
-                      vertical: ScreenUtil().setWidth(10),
-                    ),
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Color.fromRGBO(159, 199, 235, 1),
-                          width: ScreenUtil().setWidth(2),
-                        ),
-                        borderRadius:
-                            BorderRadius.circular(ScreenUtil().setWidth(1000))),
-                  ),
-                ),
-              ],
-            ),
+//            child: Row(
+//              children: <Widget>[
+//                Expanded(
+//                  flex: 1,
+//                  child: Text(
+//                    "定位城市",
+//                    maxLines: 1,
+//                    overflow: TextOverflow.ellipsis,
+//                    style: TextStyle(
+//                      fontSize: ScreenUtil().setSp(32),
+//                      color: Color.fromRGBO(57, 57, 57, 1),
+//                    ),
+//                  ),
+//                ),
+//                SizedBox(
+//                  width: ScreenUtil().setWidth(12),
+//                ),
+//                Expanded(
+//                  flex: 1,
+//                  child: Container(
+//                    width: ScreenUtil().setWidth(204),
+//                    child: Row(
+//                      children: <Widget>[
+//                        Image.asset(
+//                          'images/img_search_blue.png',
+//                          width: ScreenUtil().setWidth(26),
+//                          height: ScreenUtil().setWidth(26),
+//                          fit: BoxFit.contain,
+//                        ),
+//                        Expanded(
+//                          child: Text(
+//                            "｜请输入城市名称",
+//                            maxLines: 1,
+//                            overflow: TextOverflow.ellipsis,
+//                            style: TextStyle(
+//                              fontSize: ScreenUtil().setSp(24),
+//                              color: Color.fromRGBO(159, 199, 235, 1),
+//                            ),
+//                          ),
+//                        ),
+//                      ],
+//                    ),
+//                    padding: EdgeInsets.symmetric(
+//                      horizontal: ScreenUtil().setWidth(10),
+//                      vertical: ScreenUtil().setWidth(10),
+//                    ),
+//                    decoration: BoxDecoration(
+//                        border: Border.all(
+//                          color: Color.fromRGBO(159, 199, 235, 1),
+//                          width: ScreenUtil().setWidth(2),
+//                        ),
+//                        borderRadius:
+//                            BorderRadius.circular(ScreenUtil().setWidth(1000))),
+//                  ),
+//                ),
+//              ],
+//            ),
           ),
           GestureDetector(
             behavior: HitTestBehavior.opaque,
@@ -193,7 +193,7 @@ class _CityFilterState extends State<CityFilter> {
 //                  );
 //                },
 //              );
-              Navigator.pop(context,FilterData('', '洛杉矶'));
+              Navigator.pop(context,FilterData('', '全国'));
             },
             child: Container(
               margin:
@@ -216,7 +216,7 @@ class _CityFilterState extends State<CityFilter> {
                 ),
               ),
               child: Text(
-                '洛杉矶',
+                '全国',
                 maxLines: 1,
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,

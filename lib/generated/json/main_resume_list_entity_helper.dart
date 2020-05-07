@@ -76,6 +76,9 @@ mainResumeListDataRecordFromJson(MainResumeListDataRecord data, Map<String, dyna
 	if (json['resumeName'] != null) {
 		data.resumeName = json['resumeName']?.toString();
 	}
+	if (json['avatar'] != null) {
+		data.avatar = json['avatar']?.toString();
+	}
 	if (json['sex'] != null) {
 		data.sex = json['sex']?.toInt();
 	}
@@ -102,6 +105,7 @@ Map<String, dynamic> mainResumeListDataRecordToJson(MainResumeListDataRecord ent
 	data['jobSeekerId'] = entity.jobSeekerId;
 	data['realName'] = entity.realName;
 	data['resumeName'] = entity.resumeName;
+	data['avatar'] = entity.avatar;
 	data['sex'] = entity.sex;
 	data['workDateName'] = entity.workDateName;
 	data['minSalary'] = entity.minSalary;

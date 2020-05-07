@@ -240,7 +240,7 @@ class _LoginInState extends State<LoginIn> {
                   Container(
                     margin: EdgeInsets.only(top: ScreenUtil().setWidth(20)),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         GestureDetector(
                           behavior: HitTestBehavior.opaque,
@@ -261,25 +261,25 @@ class _LoginInState extends State<LoginIn> {
                             );
                           },
                         ),
-                        GestureDetector(
-                          behavior: HitTestBehavior.opaque,
-                          child: Text(
-                            '先逛逛',
-                            style: TextStyle(
-                              fontSize: ScreenUtil().setSp(24),
-                              color: Color.fromRGBO(176, 181, 180, 1),
-                            ),
-                          ),
-                          onTap: () {
-                            FocusScope.of(context).requestFocus(FocusNode());
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => RecruitHomeApp(),
-                              ),
-                            );
-                          },
-                        ),
+//                        GestureDetector(
+//                          behavior: HitTestBehavior.opaque,
+//                          child: Text(
+//                            '先逛逛',
+//                            style: TextStyle(
+//                              fontSize: ScreenUtil().setSp(24),
+//                              color: Color.fromRGBO(176, 181, 180, 1),
+//                            ),
+//                          ),
+//                          onTap: () {
+//                            FocusScope.of(context).requestFocus(FocusNode());
+//                            Navigator.push(
+//                              context,
+//                              MaterialPageRoute(
+//                                builder: (context) => RecruitHomeApp(),
+//                              ),
+//                            );
+//                          },
+//                        ),
                       ],
                     ),
                   ),

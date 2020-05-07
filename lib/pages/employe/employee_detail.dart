@@ -13,6 +13,7 @@ import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/pages/employe/employee_experience.dart';
 import 'package:recruit_app/pages/employe/employee_experience2.dart';
+import 'package:recruit_app/widgets/network_image.dart';
 
 enum ResumeDetailType {resume, interview}
 
@@ -106,20 +107,20 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                 children: <Widget>[
                   ClipRRect(
                     borderRadius: BorderRadius.circular(28),
-                    child: Image.asset('images/avatar_14.png', width: ScreenUtil().setWidth(44), height: ScreenUtil().setWidth(44)),
+                    child: NetImage(img:_resumeDetailData==null?'images/avatar_14.png':'${_resumeDetailData.resume.avatar}',placeholder: 'images/avatar_14.png',error: 'images/avatar_14.png',size: ScreenUtil().setWidth(44),),
                   ),
-                  SizedBox(
-                    width: ScreenUtil().setWidth(24),
-                  ),
-                  Align(
-                     alignment: Alignment.centerRight,
-                     child: Text(_resumeDetailData==null?'':_resumeDetailData.resume.realName,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                           fontSize: ScreenUtil().setSp(36),
-                           fontWeight: FontWeight.bold,
-                           color: Color.fromRGBO(20, 20, 20, 1)))),
+//                  SizedBox(
+//                    width: ScreenUtil().setWidth(24),
+//                  ),
+//                  Align(
+//                     alignment: Alignment.centerRight,
+//                     child: Text(_resumeDetailData==null?'':_resumeDetailData.resume.realName,
+//                        maxLines: 1,
+//                        overflow: TextOverflow.ellipsis,
+//                        style: TextStyle(
+//                           fontSize: ScreenUtil().setSp(36),
+//                           fontWeight: FontWeight.bold,
+//                           color: Color.fromRGBO(20, 20, 20, 1)))),
                 ],),
               SizedBox(
                 height: 3,

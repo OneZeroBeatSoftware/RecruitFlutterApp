@@ -97,6 +97,9 @@ mainResumeDetailDataResumeFromJson(MainResumeDetailDataResume data, Map<String, 
 	if (json['address'] != null) {
 		data.address = json['address']?.toString();
 	}
+	if (json['avatar'] != null) {
+		data.avatar = json['avatar']?.toString();
+	}
 	if (json['graduationDate'] != null) {
 		data.graduationDate = json['graduationDate']?.toInt();
 	}
@@ -150,6 +153,7 @@ Map<String, dynamic> mainResumeDetailDataResumeToJson(MainResumeDetailDataResume
 	data['workExp'] = entity.workExp;
 	data['birthDate'] = entity.birthDate;
 	data['address'] = entity.address;
+	data['avatar'] = entity.avatar;
 	data['graduationDate'] = entity.graduationDate;
 	data['educationId'] = entity.educationId;
 	data['educationName'] = entity.educationName;
