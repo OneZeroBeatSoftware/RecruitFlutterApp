@@ -29,6 +29,7 @@ class UserModel with ChangeNotifier {
       Application.sp.setString('token', user.data.token);
       Application.sp.setString('jobSeekerId', user.data.jobSeekerId);
       Application.sp.setString('recruiterId', user.data.recruiterId);
+      Application.sp.setString('userId', user.data.userId);
       Application.sp.setString('phone', user.data.phone);
       Application.sp.setString('email', user.data.email);
       _saveUserInfo(user);
@@ -46,6 +47,7 @@ class UserModel with ChangeNotifier {
       Application.sp.setString('token', user.data.token);
       Application.sp.setString('jobSeekerId', user.data.jobSeekerId);
       Application.sp.setString('recruiterId', user.data.recruiterId);
+      Application.sp.setString('userId', user.data.userId);
       Application.sp.setString('phone', user.data.phone);
       Application.sp.setString('email', user.data.email);
       _saveUserInfo(user);
@@ -63,6 +65,7 @@ class UserModel with ChangeNotifier {
       Application.sp.setString('token', user.data.token);
       Application.sp.setString('jobSeekerId', user.data.jobSeekerId);
       Application.sp.setString('recruiterId', user.data.recruiterId);
+      Application.sp.setString('userId', user.data.userId);
       Application.sp.setString('phone', user.data.phone);
       Application.sp.setString('email', user.data.email);
       _saveUserInfo(user);

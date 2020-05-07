@@ -9,6 +9,7 @@ class UserEntity with JsonConvert<UserEntity> {
 class UserData with JsonConvert<UserData> {
 	String token;
 	String jobSeekerId;
+	String userId;
 	String recruiterId;
 	String phone;
 	String email;

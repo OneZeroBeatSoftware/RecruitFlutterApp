@@ -30,6 +30,9 @@ userDataFromJson(UserData data, Map<String, dynamic> json) {
 	if (json['jobSeekerId'] != null) {
 		data.jobSeekerId = json['jobSeekerId']?.toString();
 	}
+	if (json['userId'] != null) {
+		data.userId = json['userId']?.toString();
+	}
 	if (json['recruiterId'] != null) {
 		data.recruiterId = json['recruiterId']?.toString();
 	}
@@ -46,6 +49,7 @@ Map<String, dynamic> userDataToJson(UserData entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	data['token'] = entity.token;
 	data['jobSeekerId'] = entity.jobSeekerId;
+	data['userId'] = entity.userId;
 	data['recruiterId'] = entity.recruiterId;
 	data['phone'] = entity.phone;
 	data['email'] = entity.email;
