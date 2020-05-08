@@ -7,6 +7,7 @@ import 'package:recruit_app/entity/job_detail_entity.dart';
 import 'package:recruit_app/model/job_model.dart';
 import 'package:recruit_app/model/mine_model.dart';
 import 'package:recruit_app/pages/companys/company_detail.dart';
+import 'package:recruit_app/pages/jobs/candidate_room.dart';
 import 'package:recruit_app/pages/jobs/chat_room.dart';
 import 'package:recruit_app/widgets/list_menu_dialog.dart';
 import 'package:recruit_app/pages/jobs/report.dart';
@@ -424,20 +425,37 @@ class _JobDetailState extends State<JobDetail> {
                             SizedBox(
                               height: ScreenUtil().setWidth(38),
                             ),
-                            ClipRRect(
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(ScreenUtil().setWidth(30))),
-                              child: Image.asset(
-                                  'images/img_location_example.png',
-                                  height: ScreenUtil().setWidth(400),
-                                  fit: BoxFit.cover),
-                            ),
                             Container(
-                              color: Color.fromRGBO(159, 199, 235, 1),
-                              height: ScreenUtil().setWidth(1),
-                              margin: EdgeInsets.only(
-                                  top: ScreenUtil().setWidth(38),
-                                  bottom: ScreenUtil().setWidth(48)),
+                              alignment: Alignment.center,
+                              height: ScreenUtil().setWidth(400),
+                              child: Text("地图",style: TextStyle(color: Color.fromRGBO(159, 199, 235, 1),),),
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Color.fromRGBO(159, 199, 235, 1),
+                                    width: ScreenUtil().setWidth(1),
+                                    style: BorderStyle.solid,
+
+                                  ),
+                                  borderRadius: BorderRadius.circular(20)
+                              ),
+                            ),
+//                            ClipRRect(
+//                              borderRadius: BorderRadius.all(
+//                                  Radius.circular(ScreenUtil().setWidth(30))),
+//                              child: Image.asset(
+//                                  'images/img_location_example.png',
+//                                  height: ScreenUtil().setWidth(400),
+//                                  fit: BoxFit.cover),
+//                            ),
+//                            Container(
+//                              color: Color.fromRGBO(159, 199, 235, 1),
+//                              height: ScreenUtil().setWidth(1),
+//                              margin: EdgeInsets.only(
+//                                  top: ScreenUtil().setWidth(38),
+//                                  bottom: ScreenUtil().setWidth(48)),
+//                            ),
+                            SizedBox(
+                              height: ScreenUtil().setWidth(38),
                             ),
                             Row(
                               children: <Widget>[
@@ -489,7 +507,7 @@ class _JobDetailState extends State<JobDetail> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ChatRoom()));
+                                    builder: (context) => CandidateRoom()));
                           },
                           textColor: Color.fromRGBO(159, 199, 235, 1),
                           child: Text("立即沟通",style: TextStyle(fontSize: ScreenUtil().setSp(32),),),
