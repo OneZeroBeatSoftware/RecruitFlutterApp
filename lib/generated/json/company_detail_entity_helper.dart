@@ -60,6 +60,12 @@ companyDetailDataFromJson(CompanyDetailData data, Map<String, dynamic> json) {
 			data.licenses.add(new CompanyDetailDataLicense().fromJson(v));
 		});
 	}
+	if (json['companyImages'] != null) {
+		data.companyImages = new List<CompanyImage>();
+		(json['companyImages'] as List).forEach((v) {
+			data.companyImages.add(new CompanyImage().fromJson(v));
+		});
+	}
 	return data;
 }
 
@@ -83,6 +89,9 @@ Map<String, dynamic> companyDetailDataToJson(CompanyDetailData entity) {
 	}
 	if (entity.licenses != null) {
 		data['licenses'] =  entity.licenses.map((v) => v.toJson()).toList();
+	}
+	if (entity.companyImages != null) {
+		data['companyImages'] =  entity.companyImages.map((v) => v.toJson()).toList();
 	}
 	return data;
 }
@@ -313,6 +322,31 @@ Map<String, dynamic> companyDetailDataLicenseToJson(CompanyDetailDataLicense ent
 	data['companyId'] = entity.companyId;
 	data['desc'] = entity.desc;
 	data['image'] = entity.image;
+	data['state'] = entity.state;
+	return data;
+}
+
+companyImageFromJson(CompanyImage data, Map<String, dynamic> json) {
+	if (json['id'] != null) {
+		data.id = json['id']?.toString();
+	}
+	if (json['companyId'] != null) {
+		data.companyId = json['companyId']?.toString();
+	}
+	if (json['companyImage'] != null) {
+		data.companyImage = json['companyImage']?.toString();
+	}
+	if (json['state'] != null) {
+		data.state = json['state']?.toInt();
+	}
+	return data;
+}
+
+Map<String, dynamic> companyImageToJson(CompanyImage entity) {
+	final Map<String, dynamic> data = new Map<String, dynamic>();
+	data['id'] = entity.id;
+	data['companyId'] = entity.companyId;
+	data['companyImage'] = entity.companyImage;
 	data['state'] = entity.state;
 	return data;
 }

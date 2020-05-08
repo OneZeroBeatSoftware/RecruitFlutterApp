@@ -54,6 +54,7 @@ class _State extends State<CompanyBaseInfo> {
 	int _selScale=0;
 	List<CompanyScaleData> _scaleList=[];
 	List<CompanyDetailDataLicense> _licenses=[];
+	int _licensesLength=0;
 
 	@override
   void initState() {
@@ -72,6 +73,7 @@ class _State extends State<CompanyBaseInfo> {
 		}else {
 			_companyController = TextEditingController();
 		}
+		_licensesLength=_licenses.length;
 		super.initState();
 		WidgetsBinding.instance.addPostFrameCallback((i) {
 			getScaleList();
@@ -122,6 +124,10 @@ class _State extends State<CompanyBaseInfo> {
 							}
 							if(_industryId==null||_industryId.isEmpty){
 								Utils.showToast('请选择公司行业');
+								return;
+							}
+							if (_licenses.length<1) {
+								Utils.showToast('请上传营业执照');
 								return;
 							}
 							Navigator.pop(context,CompanyInfoResult(_industryId, _industry, _scaleId, _scale, _companyController.text,_avatar,_licenses));
@@ -248,10 +254,13 @@ class _State extends State<CompanyBaseInfo> {
 										_licenses.removeRange(
 												value.licenses.length, _licenses.length);
 									}
+									setState(() {
+									  _licensesLength=_licenses.length;
+									});
 								}
 							});
 				    },
-				    valueW: Text('已验证', style: TextStyle(
+				    valueW: Text(_licensesLength>0?'已验证':'未验证', style: TextStyle(
 					    color: Color.fromRGBO(176,181,180,1))
 				    ),
 			    ),

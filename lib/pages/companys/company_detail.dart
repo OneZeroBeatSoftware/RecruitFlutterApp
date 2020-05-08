@@ -477,30 +477,30 @@ class _CompanyDetailState extends State<CompanyDetail>
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: ScreenUtil().setWidth(28),
+                  Offstage(child: Column(crossAxisAlignment: CrossAxisAlignment.start,children: <Widget>[      SizedBox(
+                    height: ScreenUtil().setWidth(30),
                   ),
-                  Container(
-                    height: ScreenUtil().setWidth(90),
-                    child: ListView.builder(
-                        physics: BouncingScrollPhysics(),
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        itemCount: _detailData.welfare.length,
-                        itemBuilder: (context, index) {
-                          if (index < _detailData.welfare.length) {
-                            return CompanyWelfareItem(
-                              welfareData: _detailData.welfare[index],
-                              index: index,
-                              isLastItem: index ==
-                                  _detailData.welfare.length - 1,
-                            );
-                          }
-                          return null;
-                        }),
-                  ),
+                    Container(
+                      height: ScreenUtil().setWidth(90),
+                      child: ListView.builder(
+                          physics: BouncingScrollPhysics(),
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: _detailData.welfare.length,
+                          itemBuilder: (context, index) {
+                            if (index < _detailData.welfare.length) {
+                              return CompanyWelfareItem(
+                                welfareData: _detailData.welfare[index],
+                                index: index,
+                                isLastItem: index ==
+                                    _detailData.welfare.length - 1,
+                              );
+                            }
+                            return null;
+                          }),
+                    ),],),offstage: _detailData.welfare.length<1,),
                   SizedBox(
-                    height: ScreenUtil().setWidth(52),
+                    height: ScreenUtil().setWidth(30),
                   ),
                   Text('公司简介',
                       maxLines: 1,
@@ -548,27 +548,27 @@ class _CompanyDetailState extends State<CompanyDetail>
                           fontSize: ScreenUtil().setSp(32),
                           fontWeight: FontWeight.w500,
                           color: Colors.white)),
-                  SizedBox(
+                  Offstage(child: Column(crossAxisAlignment: CrossAxisAlignment.start,children: <Widget>[SizedBox(
                     height: ScreenUtil().setWidth(30),
                   ),
-                  Container(
-                    height: ScreenUtil().setWidth(200),
-                    child: ListView.builder(
-                        physics: BouncingScrollPhysics(),
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        itemCount: _picList.length,
-                        itemBuilder: (context, index) {
-                          if (index < _picList.length) {
-                            return CompanyPicItem(
-                              picData: _picList[index],
-                              index: index,
-                              isLastItem: index == _picList.length - 1,
-                            );
-                          }
-                          return null;
-                        }),
-                  ),
+                    Container(
+                      height: ScreenUtil().setWidth(200),
+                      child: ListView.builder(
+                          physics: BouncingScrollPhysics(),
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: _detailData.companyImages.length,
+                          itemBuilder: (context, index) {
+                            if (index < _detailData.companyImages.length) {
+                              return CompanyPicItem(
+                                picData: _detailData.companyImages[index],
+                                index: index,
+                                isLastItem: index == _detailData.companyImages.length - 1,
+                              );
+                            }
+                            return null;
+                          }),
+                    ),],),offstage: _detailData.companyImages.length<1,),
                   SizedBox(
                     height: ScreenUtil().setWidth(30),
                   ),
@@ -584,83 +584,106 @@ class _CompanyDetailState extends State<CompanyDetail>
                   SizedBox(
                     height: ScreenUtil().setWidth(30),
                   ),
-                  ClipRRect(
-                    borderRadius: BorderRadius.all(
-                        Radius.circular(ScreenUtil().setWidth(30))),
-                    child: Image.asset('images/img_location_example.png',
-                        height: ScreenUtil().setWidth(400),
-                        fit: BoxFit.cover),
-                  ),
-                  SizedBox(
-                    height: ScreenUtil().setWidth(30),
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Expanded(
-                        child: Text('公司还有9个其他办公地址',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                wordSpacing: 1,
-                                letterSpacing: 1,
-                                fontSize: ScreenUtil().setSp(26),
-                                color: Colors.white)),
-                      ),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      Text('查看全部',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              wordSpacing: 1,
-                              letterSpacing: 1,
-                              fontSize: ScreenUtil().setSp(26),
-                              color: Color.fromRGBO(181, 182, 183, 1))),
-                    ],
-                  ),
-                  SizedBox(
-                    height: ScreenUtil().setWidth(30),
-                  ),
-                  Text('公司官网',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                  Text('${_detailData.company.cityName} ${_detailData.company.registerAddress}',
                       style: TextStyle(
                           wordSpacing: 1,
                           letterSpacing: 1,
-                          fontSize: ScreenUtil().setSp(32),
-                          fontWeight: FontWeight.w500,
+                          fontSize: ScreenUtil().setSp(26),
                           color: Colors.white)),
                   SizedBox(
                     height: ScreenUtil().setWidth(30),
                   ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Expanded(
-                        child: Text('http://www.tencent.com',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                wordSpacing: 1,
-                                letterSpacing: 1,
-                                fontSize: ScreenUtil().setSp(26),
-                                color: Colors.white)),
-                      ),
-                      SizedBox(
-                        height: ScreenUtil().setWidth(30),
-                      ),
-                      Image.asset(
-                        'images/f3_right_arrow_white.png',
-                        width: ScreenUtil().setWidth(20),
-                        height: ScreenUtil().setWidth(20),
-                        fit: BoxFit.contain,
-                      ),
-                    ],
+//                  ClipRRect(
+//                    borderRadius: BorderRadius.all(
+//                        Radius.circular(ScreenUtil().setWidth(30))),
+//                    child: Image.asset('images/img_location_example.png',
+//                        height: ScreenUtil().setWidth(400),
+//                        fit: BoxFit.cover),
+//                  ),
+                  Container(
+                    alignment: Alignment.center,
+                    height: ScreenUtil().setWidth(400),
+                    child: Text("地图",style: TextStyle(color: Colors.white),),
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.white,
+                          width: ScreenUtil().setWidth(1),
+                          style: BorderStyle.solid,
+
+                        ),
+                        borderRadius: BorderRadius.circular(20)
+                    ),
                   ),
+//                  SizedBox(
+//                    height: ScreenUtil().setWidth(30),
+//                  ),
+//                  Row(
+//                    crossAxisAlignment: CrossAxisAlignment.center,
+//                    mainAxisAlignment: MainAxisAlignment.start,
+//                    children: <Widget>[
+//                      Expanded(
+//                        child: Text('公司还有9个其他办公地址',
+//                            maxLines: 1,
+//                            overflow: TextOverflow.ellipsis,
+//                            style: TextStyle(
+//                                wordSpacing: 1,
+//                                letterSpacing: 1,
+//                                fontSize: ScreenUtil().setSp(26),
+//                                color: Colors.white)),
+//                      ),
+//                      SizedBox(
+//                        width: 15,
+//                      ),
+//                      Text('查看全部',
+//                          maxLines: 1,
+//                          overflow: TextOverflow.ellipsis,
+//                          style: TextStyle(
+//                              wordSpacing: 1,
+//                              letterSpacing: 1,
+//                              fontSize: ScreenUtil().setSp(26),
+//                              color: Color.fromRGBO(181, 182, 183, 1))),
+//                    ],
+//                  ),
+//                  SizedBox(
+//                    height: ScreenUtil().setWidth(30),
+//                  ),
+//                  Text('公司官网',
+//                      maxLines: 1,
+//                      overflow: TextOverflow.ellipsis,
+//                      style: TextStyle(
+//                          wordSpacing: 1,
+//                          letterSpacing: 1,
+//                          fontSize: ScreenUtil().setSp(32),
+//                          fontWeight: FontWeight.w500,
+//                          color: Colors.white)),
+//                  SizedBox(
+//                    height: ScreenUtil().setWidth(30),
+//                  ),
+//                  Row(
+//                    crossAxisAlignment: CrossAxisAlignment.center,
+//                    mainAxisAlignment: MainAxisAlignment.start,
+//                    children: <Widget>[
+//                      Expanded(
+//                        child: Text('http://www.tencent.com',
+//                            maxLines: 1,
+//                            overflow: TextOverflow.ellipsis,
+//                            style: TextStyle(
+//                                wordSpacing: 1,
+//                                letterSpacing: 1,
+//                                fontSize: ScreenUtil().setSp(26),
+//                                color: Colors.white)),
+//                      ),
+//                      SizedBox(
+//                        height: ScreenUtil().setWidth(30),
+//                      ),
+//                      Image.asset(
+//                        'images/f3_right_arrow_white.png',
+//                        width: ScreenUtil().setWidth(20),
+//                        height: ScreenUtil().setWidth(20),
+//                        fit: BoxFit.contain,
+//                      ),
+//                    ],
+//                  ),
                   SizedBox(
                     height: ScreenUtil().setWidth(30),
                   ),

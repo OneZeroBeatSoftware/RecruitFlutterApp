@@ -11,6 +11,8 @@ import 'package:recruit_app/entity/management_entity.dart';
 import 'package:recruit_app/model/boss_mine_model.dart';
 import 'package:recruit_app/model/company_model.dart';
 import 'package:recruit_app/pages/boss/company_address.dart';
+import 'package:recruit_app/pages/boss/company_image_list.dart';
+import 'package:recruit_app/pages/companys/company_pic_item.dart';
 import 'package:recruit_app/utils/net_utils.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
@@ -80,6 +82,8 @@ class _CompanyInfoState extends State<CompanyInfo> {
   List<CompanyDetailDataLicense> _licenses=[];
   List<CompanyDetailDataWelfare> _removeWelfareList = [];
   List<CompanyDetailDataLicense> _srcLicenses=[];
+  List<CompanyImage> _companyImg=[];
+  List<CompanyImage> _srcCompanyImg=[];
 
   @override
   void initState() {
@@ -140,6 +144,14 @@ class _CompanyInfoState extends State<CompanyInfo> {
               }
               if(_companySummary==null||_companySummary.isEmpty){
                 Utils.showToast('请先编辑公司简介');
+                return;
+              }
+              if (_licenses.length<1) {
+                Utils.showToast('请上传营业执照');
+                return;
+              }
+              if(_companyImg.length<1){
+                Utils.showToast('请至少上传一张公司照片');
                 return;
               }
               if(_cityId==null||_cityId.isEmpty||_address==null||_address.isEmpty){
@@ -328,6 +340,53 @@ class _CompanyInfoState extends State<CompanyInfo> {
                             fontSize: ScreenUtil().setSp(24),
                             color: Color.fromRGBO(95,94,94,1),
                           )),
+                      ProfileDivider(),
+                      Item("公司照片", '', canClick: true,onClick: (){
+                        FocusScope.of(context).requestFocus(FocusNode());
+                        Navigator.push<CompanyImageResult>(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CompanyImageList(companyImage: _companyImg,))
+                        ).then((value){
+                          if (value != null) {
+                            for (var i = 0; i < (value.companyImages.length); i++) {
+                              if (i < _companyImg.length) {
+                                _companyImg[i].companyImage = value.companyImages[i].companyImage;
+                              } else {
+                                _companyImg.add(value.companyImages[i]);
+                              }
+                            }
+                            if (_companyImg.length > value.companyImages.length) {
+                              _companyImg.removeRange(
+                                  value.companyImages.length, _companyImg.length);
+                            }
+                            setState(() {
+                            });
+                          }
+                        });
+                      },),
+                      Offstage(child: Column(crossAxisAlignment: CrossAxisAlignment.start,children: <Widget>[SizedBox(
+                        height: ScreenUtil().setWidth(30),
+                      ),
+                        Container(
+                          height: ScreenUtil().setWidth(200),
+                          child: ListView.builder(
+                              physics: BouncingScrollPhysics(),
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemCount: _companyImg.length,
+                              itemBuilder: (context, index) {
+                                if (index < _companyImg.length) {
+                                  return CompanyPicItem(
+                                    picData: _companyImg[index],
+                                    index: index,
+                                    isLastItem: index == _companyImg.length - 1,
+                                  );
+                                }
+                                return null;
+                              }),
+                        ),],),offstage: _companyImg.length<1,),
+                      ProfileDivider(),
                       Item("公司地址", '$_cityName$_address', canClick: true,onClick: (){
                         FocusScope.of(context).requestFocus(FocusNode());
                         Navigator.push<AddressResult>(
@@ -618,6 +677,10 @@ class _CompanyInfoState extends State<CompanyInfo> {
       _srcLicenses.addAll(detailEntity.data.licenses);
       _welfareList.clear();
       _welfareList.addAll(detailEntity.data.welfare);
+      _companyImg.clear();
+      _companyImg.addAll(detailEntity.data.companyImages);
+      _srcCompanyImg.clear();
+      _srcCompanyImg.addAll(detailEntity.data.companyImages);
 
       setState(() {
         _detailData = detailEntity.data;
@@ -635,6 +698,7 @@ class _CompanyInfoState extends State<CompanyInfo> {
     Map<String,dynamic> params={};
     List welfare=[];
     List license=[];
+    List companyImages=[];
     Map<String,dynamic> company={};
 
     if(widget.companyId!=null&&widget.companyId.isNotEmpty){
@@ -705,10 +769,14 @@ class _CompanyInfoState extends State<CompanyInfo> {
     });
     _srcLicenses.forEach((item){
       if(item.id!=null&&item.id.isNotEmpty){
+        bool isDelete=true;
         for(var i=0;i<_licenses.length;i++){
           if(item.id==_licenses[i].id){
-            continue;
+            isDelete=false;
+            break;
           }
+        }
+        if(isDelete){
           Map<String,dynamic> params={};
           params['image']=item.image;
           params['desc']='';
@@ -722,9 +790,44 @@ class _CompanyInfoState extends State<CompanyInfo> {
       }
     });
 
+    _companyImg.forEach((item){
+      Map<String,dynamic> params={};
+      params['companyImage']=item.companyImage;
+      params['state']='1';
+      if(item.id!=null&&item.id.isNotEmpty){
+        params['id']=item.id;
+      }
+      if(widget.companyId!=null&&widget.companyId.isNotEmpty){
+        params['companyId']=widget.companyId;
+      }
+      companyImages.add(params);
+    });
+    _srcCompanyImg.forEach((item){
+      if(item.id!=null&&item.id.isNotEmpty){
+        bool isDelete=true;
+        for(var i=0;i<_companyImg.length;i++){
+          if(item.id==_companyImg[i].id){
+            isDelete=false;
+            break;
+          }
+        }
+        if(isDelete){
+          Map<String,dynamic> params={};
+          params['companyImage']=item.companyImage;
+          params['state']='0';
+          params['id']=item.id;
+          if(widget.companyId!=null&&widget.companyId.isNotEmpty){
+            params['companyId']=widget.companyId;
+          }
+          companyImages.add(params);
+        }
+      }
+    });
+
     params['welfare']=welfare;
     params['company']=company;
     params['licenses']=license;
+    params['companyImages']=companyImages;
 
     print(json.encode(params));
     BaseRespEntity _baseEntity = await BossMineModel.instance.editCompany(context,params);

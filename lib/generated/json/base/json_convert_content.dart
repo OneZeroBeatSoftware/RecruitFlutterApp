@@ -113,7 +113,8 @@ class JsonConvert<T> {
 			return companyDetailDataDetailFromJson(data as CompanyDetailDataDetail, json) as T;			case CompanyDetailDataWelfare:
 			return companyDetailDataWelfareFromJson(data as CompanyDetailDataWelfare, json) as T;			case CompanyDetailDataTag:
 			return companyDetailDataTagFromJson(data as CompanyDetailDataTag, json) as T;			case CompanyDetailDataLicense:
-			return companyDetailDataLicenseFromJson(data as CompanyDetailDataLicense, json) as T;			case JobListData:
+			return companyDetailDataLicenseFromJson(data as CompanyDetailDataLicense, json) as T;			case CompanyImage:
+			return companyImageFromJson(data as CompanyImage, json) as T;			case JobListData:
 			return jobListDataFromJson(data as JobListData, json) as T;			case CityEntity:
 			return cityEntityFromJson(data as CityEntity, json) as T;			case CityData:
 			return cityDataFromJson(data as CityData, json) as T;			case CityDataCity:
@@ -235,7 +236,8 @@ class JsonConvert<T> {
 			return companyDetailDataDetailToJson(data as CompanyDetailDataDetail);			case CompanyDetailDataWelfare:
 			return companyDetailDataWelfareToJson(data as CompanyDetailDataWelfare);			case CompanyDetailDataTag:
 			return companyDetailDataTagToJson(data as CompanyDetailDataTag);			case CompanyDetailDataLicense:
-			return companyDetailDataLicenseToJson(data as CompanyDetailDataLicense);			case JobListData:
+			return companyDetailDataLicenseToJson(data as CompanyDetailDataLicense);			case CompanyImage:
+			return companyImageToJson(data as CompanyImage);			case JobListData:
 			return jobListDataToJson(data as JobListData);			case CityEntity:
 			return cityEntityToJson(data as CityEntity);			case CityData:
 			return cityDataToJson(data as CityData);			case CityDataCity:
@@ -357,7 +359,8 @@ class JsonConvert<T> {
 			return CompanyDetailDataDetail().fromJson(json);			case 'CompanyDetailDataWelfare':
 			return CompanyDetailDataWelfare().fromJson(json);			case 'CompanyDetailDataTag':
 			return CompanyDetailDataTag().fromJson(json);			case 'CompanyDetailDataLicense':
-			return CompanyDetailDataLicense().fromJson(json);			case 'JobListData':
+			return CompanyDetailDataLicense().fromJson(json);			case 'CompanyImage':
+			return CompanyImage().fromJson(json);			case 'JobListData':
 			return JobListData().fromJson(json);			case 'CityEntity':
 			return CityEntity().fromJson(json);			case 'CityData':
 			return CityData().fromJson(json);			case 'CityDataCity':
@@ -480,7 +483,8 @@ class JsonConvert<T> {
 			return List<CompanyDetailDataDetail>();			case 'CompanyDetailDataWelfare':
 			return List<CompanyDetailDataWelfare>();			case 'CompanyDetailDataTag':
 			return List<CompanyDetailDataTag>();			case 'CompanyDetailDataLicense':
-			return List<CompanyDetailDataLicense>();			case 'JobListData':
+			return List<CompanyDetailDataLicense>();			case 'CompanyImage':
+			return List<CompanyImage>();			case 'JobListData':
 			return List<JobListData>();			case 'CityEntity':
 			return List<CityEntity>();			case 'CityData':
 			return List<CityData>();			case 'CityDataCity':
