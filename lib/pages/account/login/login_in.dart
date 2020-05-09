@@ -286,73 +286,73 @@ class _LoginInState extends State<LoginIn> {
                 ],
               ),
             ),
-            Positioned(
-              child: Row(
-                children: <Widget>[
-                  GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    child: Image.asset(
-                      'images/img_login_wechat.png',
-                      width: ScreenUtil().setWidth(50),
-                      height: ScreenUtil().setWidth(50),
-                      fit: BoxFit.contain,
-                    ),
-                    onTap: () {
-                      FocusScope.of(context).requestFocus(FocusNode());
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ThirdRegister(),
-                        ),
-                      );
-                    },
-                  ),
-                  SizedBox(
-                    width: ScreenUtil().setWidth(30),
-                  ),
-                  GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    child: Image.asset(
-                      'images/img_login_facebook.png',
-                      width: ScreenUtil().setWidth(50),
-                      height: ScreenUtil().setWidth(50),
-                      fit: BoxFit.contain,
-                    ),
-                    onTap: () {
-                      FocusScope.of(context).requestFocus(FocusNode());
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ThirdRegister(),
-                        ),
-                      );
-                    },
-                  ),
-                  SizedBox(
-                    width: ScreenUtil().setWidth(30),
-                  ),
-                  GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    child: Image.asset(
-                      'images/img_login_google.png',
-                      width: ScreenUtil().setWidth(50),
-                      height: ScreenUtil().setWidth(50),
-                      fit: BoxFit.contain,
-                    ),
-                    onTap: () {
-                      FocusScope.of(context).requestFocus(FocusNode());
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ThirdRegister(),
-                        ),
-                      );
-                    },
-                  ),
-                ],
-              ),
-              bottom: ScreenUtil().setWidth(136),
-            ),
+//            Positioned(
+//              child: Row(
+//                children: <Widget>[
+//                  GestureDetector(
+//                    behavior: HitTestBehavior.opaque,
+//                    child: Image.asset(
+//                      'images/img_login_wechat.png',
+//                      width: ScreenUtil().setWidth(50),
+//                      height: ScreenUtil().setWidth(50),
+//                      fit: BoxFit.contain,
+//                    ),
+//                    onTap: () {
+//                      FocusScope.of(context).requestFocus(FocusNode());
+//                      Navigator.push(
+//                        context,
+//                        MaterialPageRoute(
+//                          builder: (context) => ThirdRegister(),
+//                        ),
+//                      );
+//                    },
+//                  ),
+//                  SizedBox(
+//                    width: ScreenUtil().setWidth(30),
+//                  ),
+//                  GestureDetector(
+//                    behavior: HitTestBehavior.opaque,
+//                    child: Image.asset(
+//                      'images/img_login_facebook.png',
+//                      width: ScreenUtil().setWidth(50),
+//                      height: ScreenUtil().setWidth(50),
+//                      fit: BoxFit.contain,
+//                    ),
+//                    onTap: () {
+//                      FocusScope.of(context).requestFocus(FocusNode());
+//                      Navigator.push(
+//                        context,
+//                        MaterialPageRoute(
+//                          builder: (context) => ThirdRegister(),
+//                        ),
+//                      );
+//                    },
+//                  ),
+//                  SizedBox(
+//                    width: ScreenUtil().setWidth(30),
+//                  ),
+//                  GestureDetector(
+//                    behavior: HitTestBehavior.opaque,
+//                    child: Image.asset(
+//                      'images/img_login_google.png',
+//                      width: ScreenUtil().setWidth(50),
+//                      height: ScreenUtil().setWidth(50),
+//                      fit: BoxFit.contain,
+//                    ),
+//                    onTap: () {
+//                      FocusScope.of(context).requestFocus(FocusNode());
+//                      Navigator.push(
+//                        context,
+//                        MaterialPageRoute(
+//                          builder: (context) => ThirdRegister(),
+//                        ),
+//                      );
+//                    },
+//                  ),
+//                ],
+//              ),
+//              bottom: ScreenUtil().setWidth(136),
+//            ),
           ],
         ),
       ),

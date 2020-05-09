@@ -63,7 +63,8 @@ class _MsgInterviewItemState extends State<MsgInterviewItem> {
                           width: ScreenUtil().setWidth(16),
                         ),
                         Text(
-                          '待处理',
+//                          '待处理',
+                          '面试邀请',
                           style: TextStyle(
                             fontSize: ScreenUtil().setSp(24),
                             color: Color.fromRGBO(159, 199, 235, 1),

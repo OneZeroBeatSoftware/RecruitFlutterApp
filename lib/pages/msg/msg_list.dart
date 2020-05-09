@@ -33,7 +33,8 @@ class MsgList extends StatefulWidget {
 }
 
 class _MsgListState extends State<MsgList> {
-  bool _firstType = true;
+//  bool _firstType = true;
+  bool _firstType = false;
   bool _secondType = true;
 
   int _interviewPage = 1;
@@ -78,113 +79,134 @@ class _MsgListState extends State<MsgList> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+//            Padding(
+//              padding: EdgeInsets.symmetric(
+//                horizontal: ScreenUtil().setWidth(48),
+//                vertical: ScreenUtil().setWidth(28),
+//              ),
+//              child: Row(
+//                crossAxisAlignment: CrossAxisAlignment.center,
+//                children: <Widget>[
+//                  BadgeView(
+//                    badgeSize: ScreenUtil().setWidth(10),
+//                    badgeColor: Color.fromRGBO(255, 0, 0, 1),
+//                    isShowBadge: false,
+//                    content: '互动',
+//                    fontWeight:
+//                        _firstType ? FontWeight.bold : FontWeight.normal,
+//                    fontSize: ScreenUtil().setSp(36),
+//                    textColor: _firstType
+//                        ? Color.fromRGBO(20, 20, 20, 1)
+//                        : Color.fromRGBO(95, 94, 94, 1),
+//                    onTap: () {
+//                      setState(() {
+//                        _firstType = true;
+//                        _secondType = true;
+//                      });
+//                    },
+//                  ),
+//                  SizedBox(
+//                    width: ScreenUtil().setWidth(60),
+//                  ),
+//                  BadgeView(
+//                    badgeSize: ScreenUtil().setWidth(10),
+//                    badgeColor: Color.fromRGBO(255, 0, 0, 1),
+//                    isShowBadge: true,
+//                    content: '通知',
+//                    fontWeight:
+//                        _firstType ? FontWeight.normal : FontWeight.bold,
+//                    fontSize: ScreenUtil().setSp(36),
+//                    textColor: _firstType
+//                        ? Color.fromRGBO(95, 94, 94, 1)
+//                        : Color.fromRGBO(20, 20, 20, 1),
+//                    onTap: () {
+//                      setState(() {
+//                        _firstType = false;
+//                        _secondType = true;
+//                      });
+//                    },
+//                  ),
+//                ],
+//              ),
+//            ),
+//            Container(
+//              height: ScreenUtil().setWidth(1),
+//              color: Color.fromRGBO(245, 245, 245, 1),
+//            ),
+//            Padding(
+//              padding: EdgeInsets.symmetric(
+//                horizontal: ScreenUtil().setWidth(48),
+//                vertical: ScreenUtil().setWidth(25),
+//              ),
+//              child: Row(
+//                crossAxisAlignment: CrossAxisAlignment.center,
+//                children: <Widget>[
+//                  BadgeView(
+//                    badgeSize: ScreenUtil().setWidth(10),
+//                    badgeColor: Color.fromRGBO(255, 0, 0, 1),
+//                    isShowBadge: false,
+//                    content: _firstType ? '招呼' : '面试邀请',
+//                    fontWeight:
+//                        _secondType ? FontWeight.bold : FontWeight.normal,
+//                    fontSize: ScreenUtil().setSp(32),
+//                    textColor: _secondType
+//                        ? Color.fromRGBO(68, 77, 151, 1)
+//                        : Color.fromRGBO(95, 94, 94, 1),
+//                    onTap: () {
+//                      setState(() {
+//                        _secondType = true;
+//                      });
+//                    },
+//                  ),
+//                  SizedBox(
+//                    width: ScreenUtil().setWidth(30),
+//                  ),
+//                  BadgeView(
+//                    badgeSize: ScreenUtil().setWidth(10),
+//                    badgeColor: Color.fromRGBO(255, 0, 0, 1),
+//                    isShowBadge: true,
+//                    content: _firstType ? '沟通中' : '系统',
+//                    fontWeight:
+//                        _secondType ? FontWeight.normal : FontWeight.bold,
+//                    fontSize: ScreenUtil().setSp(32),
+//                    textColor: _secondType
+//                        ? Color.fromRGBO(95, 94, 94, 1)
+//                        : Color.fromRGBO(68, 77, 151, 1),
+//                    onTap: () {
+//                      setState(() {
+//                        _secondType = false;
+//                      });
+//                    },
+//                  ),
+//                ],
+//              ),
+//            ),
+//            Container(
+//              margin: EdgeInsets.only(
+//                left: ScreenUtil().setWidth(48),
+//                right: ScreenUtil().setWidth(48),
+//              ),
+//              height: ScreenUtil().setWidth(1),
+//              color: Color.fromRGBO(159, 199, 235, 1),
+//            ),
             Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: ScreenUtil().setWidth(48),
                 vertical: ScreenUtil().setWidth(28),
               ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  BadgeView(
-                    badgeSize: ScreenUtil().setWidth(10),
-                    badgeColor: Color.fromRGBO(255, 0, 0, 1),
-                    isShowBadge: false,
-                    content: '互动',
-                    fontWeight:
-                        _firstType ? FontWeight.bold : FontWeight.normal,
-                    fontSize: ScreenUtil().setSp(36),
-                    textColor: _firstType
-                        ? Color.fromRGBO(20, 20, 20, 1)
-                        : Color.fromRGBO(95, 94, 94, 1),
-                    onTap: () {
-                      setState(() {
-                        _firstType = true;
-                        _secondType = true;
-                      });
-                    },
-                  ),
-                  SizedBox(
-                    width: ScreenUtil().setWidth(60),
-                  ),
-                  BadgeView(
-                    badgeSize: ScreenUtil().setWidth(10),
-                    badgeColor: Color.fromRGBO(255, 0, 0, 1),
-                    isShowBadge: true,
-                    content: '通知',
-                    fontWeight:
-                        _firstType ? FontWeight.normal : FontWeight.bold,
-                    fontSize: ScreenUtil().setSp(36),
-                    textColor: _firstType
-                        ? Color.fromRGBO(95, 94, 94, 1)
-                        : Color.fromRGBO(20, 20, 20, 1),
-                    onTap: () {
-                      setState(() {
-                        _firstType = false;
-                        _secondType = true;
-                      });
-                    },
-                  ),
-                ],
+              child: BadgeView(
+                badgeSize: ScreenUtil().setWidth(10),
+                badgeColor: Color.fromRGBO(255, 0, 0, 1),
+                isShowBadge: false,
+                content: '面试',
+                fontWeight: FontWeight.bold,
+                fontSize: ScreenUtil().setSp(36),
+                textColor:Color.fromRGBO(68, 77, 151, 1),
+                onTap: () {
+                },
               ),
             ),
             Container(
-              height: ScreenUtil().setWidth(1),
-              color: Color.fromRGBO(245, 245, 245, 1),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: ScreenUtil().setWidth(48),
-                vertical: ScreenUtil().setWidth(25),
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  BadgeView(
-                    badgeSize: ScreenUtil().setWidth(10),
-                    badgeColor: Color.fromRGBO(255, 0, 0, 1),
-                    isShowBadge: false,
-                    content: _firstType ? '招呼' : '面试邀请',
-                    fontWeight:
-                        _secondType ? FontWeight.bold : FontWeight.normal,
-                    fontSize: ScreenUtil().setSp(32),
-                    textColor: _secondType
-                        ? Color.fromRGBO(68, 77, 151, 1)
-                        : Color.fromRGBO(95, 94, 94, 1),
-                    onTap: () {
-                      setState(() {
-                        _secondType = true;
-                      });
-                    },
-                  ),
-                  SizedBox(
-                    width: ScreenUtil().setWidth(30),
-                  ),
-                  BadgeView(
-                    badgeSize: ScreenUtil().setWidth(10),
-                    badgeColor: Color.fromRGBO(255, 0, 0, 1),
-                    isShowBadge: true,
-                    content: _firstType ? '沟通中' : '系统',
-                    fontWeight:
-                        _secondType ? FontWeight.normal : FontWeight.bold,
-                    fontSize: ScreenUtil().setSp(32),
-                    textColor: _secondType
-                        ? Color.fromRGBO(95, 94, 94, 1)
-                        : Color.fromRGBO(68, 77, 151, 1),
-                    onTap: () {
-                      setState(() {
-                        _secondType = false;
-                      });
-                    },
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(
-                left: ScreenUtil().setWidth(48),
-                right: ScreenUtil().setWidth(48),
-              ),
               height: ScreenUtil().setWidth(1),
               color: Color.fromRGBO(159, 199, 235, 1),
             ),
