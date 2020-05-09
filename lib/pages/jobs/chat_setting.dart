@@ -98,7 +98,7 @@ class _ChatSettingState extends State<ChatSetting> {
             },
           ),
           CommonSwitch(
-            value: true,
+            value: false,
             onChanged: (value) {},
             margin: EdgeInsets.symmetric(
               horizontal: ScreenUtil().setWidth(48),
@@ -116,7 +116,7 @@ class _ChatSettingState extends State<ChatSetting> {
             activeColor: Color.fromRGBO(105, 191, 211, 1),
           ),
           CommonSwitch(
-            value: true,
+            value: false,
             onChanged: (value) {},
             margin: EdgeInsets.symmetric(
               horizontal: ScreenUtil().setWidth(48),
@@ -134,7 +134,7 @@ class _ChatSettingState extends State<ChatSetting> {
             activeColor: Color.fromRGBO(105, 191, 211, 1),
           ),
           CommonSwitch(
-            value: true,
+            value: false,
             onChanged: (value) {},
             margin: EdgeInsets.symmetric(
               horizontal: ScreenUtil().setWidth(48),

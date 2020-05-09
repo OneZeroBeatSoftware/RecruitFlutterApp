@@ -85,7 +85,7 @@ class _PrivateSettingState extends State<PrivateSetting> {
             },
           ),
           CommonSwitch(
-            value: true,
+            value: false,
             onChanged: (value) {},
             margin: EdgeInsets.symmetric(
               horizontal: ScreenUtil().setWidth(48),

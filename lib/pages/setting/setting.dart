@@ -152,56 +152,56 @@ class _SettingState extends State<Setting> {
                         builder: (context) => NotifySetting()));
             },
           ),
-          GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: Color.fromRGBO(159, 199, 235, 1),
-                    width: ScreenUtil().setWidth(1),
-                  ),
-                ),
-              ),
-              padding: EdgeInsets.symmetric(
-                vertical: ScreenUtil().setWidth(40),
-              ),
-              margin: EdgeInsets.symmetric(
-                horizontal: ScreenUtil().setWidth(48),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child: Text(
-                      '隐私设置',
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      style: TextStyle(
-                          color: Color.fromRGBO(95, 94, 94, 1),
-                          fontSize: ScreenUtil().setSp(28)),
-                    ),
-                  ),
-                  SizedBox(
-                    width: ScreenUtil().setWidth(20),
-                  ),
-                  Image.asset(
-                    'images/img_arrow_right_blue.png',
-                    width: ScreenUtil().setWidth(10),
-                    height: ScreenUtil().setWidth(20),
-                    fit: BoxFit.cover,
-                  )
-                ],
-              ),
-            ),
-            onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => PrivateSetting()));
-            },
-          ),
+//          GestureDetector(
+//            behavior: HitTestBehavior.opaque,
+//            child: Container(
+//              decoration: BoxDecoration(
+//                border: Border(
+//                  bottom: BorderSide(
+//                    color: Color.fromRGBO(159, 199, 235, 1),
+//                    width: ScreenUtil().setWidth(1),
+//                  ),
+//                ),
+//              ),
+//              padding: EdgeInsets.symmetric(
+//                vertical: ScreenUtil().setWidth(40),
+//              ),
+//              margin: EdgeInsets.symmetric(
+//                horizontal: ScreenUtil().setWidth(48),
+//              ),
+//              child: Row(
+//                mainAxisAlignment: MainAxisAlignment.start,
+//                crossAxisAlignment: CrossAxisAlignment.center,
+//                children: <Widget>[
+//                  Expanded(
+//                    child: Text(
+//                      '隐私设置',
+//                      overflow: TextOverflow.ellipsis,
+//                      maxLines: 1,
+//                      style: TextStyle(
+//                          color: Color.fromRGBO(95, 94, 94, 1),
+//                          fontSize: ScreenUtil().setSp(28)),
+//                    ),
+//                  ),
+//                  SizedBox(
+//                    width: ScreenUtil().setWidth(20),
+//                  ),
+//                  Image.asset(
+//                    'images/img_arrow_right_blue.png',
+//                    width: ScreenUtil().setWidth(10),
+//                    height: ScreenUtil().setWidth(20),
+//                    fit: BoxFit.cover,
+//                  )
+//                ],
+//              ),
+//            ),
+//            onTap: () {
+//                Navigator.push(
+//                    context,
+//                    MaterialPageRoute(
+//                        builder: (context) => PrivateSetting()));
+//            },
+//          ),
           GestureDetector(
             behavior: HitTestBehavior.opaque,
             child: Container(

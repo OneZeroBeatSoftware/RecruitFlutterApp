@@ -9,6 +9,7 @@ import 'package:recruit_app/pages/boss/boss_collection.dart';
 import 'package:recruit_app/pages/boss/company_info.dart';
 import 'package:recruit_app/pages/boss/job_manage.dart';
 import 'package:recruit_app/pages/mine/about_soft.dart';
+import 'package:recruit_app/pages/mine/feedback.dart';
 import 'package:recruit_app/pages/mine/help_feedback.dart';
 import 'package:recruit_app/pages/setting/setting.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -402,7 +403,7 @@ class _BossMineState extends State<BossMine> {
                          Navigator.push(
                              context,
                              MaterialPageRoute(
-                                 builder: (context) => HelpFeedback()));
+                                 builder: (context) => CraftFeedback()));
                        } else if (index == 6) {
                          Navigator.push(
                              context,

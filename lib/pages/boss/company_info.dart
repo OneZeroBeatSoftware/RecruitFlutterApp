@@ -650,7 +650,7 @@ class _CompanyInfoState extends State<CompanyInfo> {
   void getCompanyDetail(String companyId) async {
     CompanyDetailEntity detailEntity = await _companyModel.getCompanyDetail(
         context, companyId);
-    if (detailEntity.data != null) {
+    if (detailEntity != null) {
       _isLoad=false;
       _companyAva=detailEntity.data.company.avatar;
       _scope=detailEntity.data.company.scope;

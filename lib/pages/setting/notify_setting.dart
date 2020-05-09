@@ -33,7 +33,7 @@ class _NotifySettingState extends State<NotifySetting> {
         physics: BouncingScrollPhysics(),
         children: <Widget>[
           CommonSwitch(
-            value: true,
+            value: false,
             onChanged: (value) {},
             margin: EdgeInsets.symmetric(
               horizontal: ScreenUtil().setWidth(48),
@@ -51,7 +51,7 @@ class _NotifySettingState extends State<NotifySetting> {
             activeColor: Color.fromRGBO(105, 191, 211, 1),
           ),
           CommonSwitch(
-            value: true,
+            value: false,
             onChanged: (value) {},
             margin: EdgeInsets.symmetric(
               horizontal: ScreenUtil().setWidth(48),
