@@ -7,7 +7,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:recruit_app/entity/company_detail_entity.dart';
 import 'package:recruit_app/model/file_model.dart';
-import 'package:recruit_app/pages/companys/company_pic_item.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 

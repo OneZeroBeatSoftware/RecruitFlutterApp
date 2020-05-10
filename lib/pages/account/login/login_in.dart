@@ -6,7 +6,6 @@ import 'package:recruit_app/pages/account/login/email_login_in.dart';
 import 'package:recruit_app/pages/account/login/msg_login_in.dart';
 import 'package:recruit_app/pages/account/pwd/reset_pwd.dart';
 import 'package:recruit_app/pages/account/register/register.dart';
-import 'package:recruit_app/pages/account/register/third_register.dart';
 import 'package:recruit_app/pages/home/recruit_home_app.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';

@@ -88,6 +88,9 @@ seekerInterviewDataRecordFromJson(SeekerInterviewDataRecord data, Map<String, dy
 	if (json['avatar'] != null) {
 		data.avatar = json['avatar']?.toString();
 	}
+	if (json['state'] != null) {
+		data.state = json['state']?.toString();
+	}
 	return data;
 }
 
@@ -103,5 +106,6 @@ Map<String, dynamic> seekerInterviewDataRecordToJson(SeekerInterviewDataRecord e
 	data['address'] = entity.address;
 	data['phone'] = entity.phone;
 	data['avatar'] = entity.avatar;
+	data['state'] = entity.state;
 	return data;
 }

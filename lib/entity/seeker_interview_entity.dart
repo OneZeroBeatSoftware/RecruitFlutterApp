@@ -25,4 +25,5 @@ class SeekerInterviewDataRecord with JsonConvert<SeekerInterviewDataRecord> {
 	String address;
 	String phone;
 	String avatar;
+	String state;
 }

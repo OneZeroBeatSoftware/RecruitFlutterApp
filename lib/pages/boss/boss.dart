@@ -4,13 +4,13 @@ import 'package:recruit_app/application.dart';
 import 'package:recruit_app/entity/boss_info_entity.dart';
 import 'package:recruit_app/model/boss_mine_model.dart';
 import 'package:recruit_app/model/me_list.dart';
+import 'package:recruit_app/model/msg_type.dart';
 import 'package:recruit_app/pages/boss/boss_base_info.dart';
 import 'package:recruit_app/pages/boss/boss_collection.dart';
 import 'package:recruit_app/pages/boss/company_info.dart';
 import 'package:recruit_app/pages/boss/job_manage.dart';
 import 'package:recruit_app/pages/mine/about_soft.dart';
 import 'package:recruit_app/pages/mine/feedback.dart';
-import 'package:recruit_app/pages/mine/help_feedback.dart';
 import 'package:recruit_app/pages/setting/setting.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/pages/mine/communicate.dart';
@@ -217,7 +217,7 @@ class _BossMineState extends State<BossMine> {
                                 Navigator.push(
                                    context,
                                    MaterialPageRoute(
-                                      builder: (context) => MineInterView(interviewType: InterviewType.recruiter,)));
+                                      builder: (context) => MineInterView(msgType: MsgType.recruiter,)));
                               },
                             ),
                           ),

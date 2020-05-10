@@ -118,56 +118,56 @@ class JobRowItem extends StatelessWidget {
           SizedBox(
             height: ScreenUtil().setWidth(10),
           ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Expanded(
-                  child: job.treatments!=null?Wrap(
-                children: job.treatments
-                    .asMap()
-                    .keys
-                    .map(
-                      (index) => Text(
-                        '${job.treatments[index].treatmentName}${index == (job.treatments.length - 1) ? "" : " ｜ "}',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: ScreenUtil().setSp(26),
-                          color: Color.fromRGBO(151, 151, 151, 1),
-                        ),
-                      ),
-                    )
-                    .toList(),
-              ):Container()),
-              SizedBox(
-                width: ScreenUtil().setWidth(8),
-              ),
-              Container(
-                alignment: Alignment.center,
-                child: Text(
-                  "立即投递",
-                  textAlign: TextAlign.center,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: ScreenUtil().setSp(26),
-                    color: Color.fromRGBO(159, 199, 235, 1),
-                  ),
-                ),
-                padding: EdgeInsets.symmetric(
-                  horizontal: ScreenUtil().setWidth(26),
-                  vertical: ScreenUtil().setWidth(12),
-                ),
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Color.fromRGBO(159, 199, 235, 1),
-                      width: ScreenUtil().setWidth(2),
-                    ),
-                    borderRadius:
-                        BorderRadius.circular(ScreenUtil().setWidth(1000))),
-              ),
-            ],
-          ),
+//          Row(
+//            crossAxisAlignment: CrossAxisAlignment.center,
+//            children: <Widget>[
+//              Expanded(
+//                  child: job.treatments!=null?Wrap(
+//                children: job.treatments
+//                    .asMap()
+//                    .keys
+//                    .map(
+//                      (index) => Text(
+//                        '${job.treatments[index].treatmentName}${index == (job.treatments.length - 1) ? "" : " ｜ "}',
+//                        maxLines: 1,
+//                        overflow: TextOverflow.ellipsis,
+//                        style: TextStyle(
+//                          fontSize: ScreenUtil().setSp(26),
+//                          color: Color.fromRGBO(151, 151, 151, 1),
+//                        ),
+//                      ),
+//                    )
+//                    .toList(),
+//              ):Container()),
+//              SizedBox(
+//                width: ScreenUtil().setWidth(8),
+//              ),
+//              Container(
+//                alignment: Alignment.center,
+//                child: Text(
+//                  "立即投递",
+//                  textAlign: TextAlign.center,
+//                  maxLines: 1,
+//                  overflow: TextOverflow.ellipsis,
+//                  style: TextStyle(
+//                    fontSize: ScreenUtil().setSp(26),
+//                    color: Color.fromRGBO(159, 199, 235, 1),
+//                  ),
+//                ),
+//                padding: EdgeInsets.symmetric(
+//                  horizontal: ScreenUtil().setWidth(26),
+//                  vertical: ScreenUtil().setWidth(12),
+//                ),
+//                decoration: BoxDecoration(
+//                    border: Border.all(
+//                      color: Color.fromRGBO(159, 199, 235, 1),
+//                      width: ScreenUtil().setWidth(2),
+//                    ),
+//                    borderRadius:
+//                        BorderRadius.circular(ScreenUtil().setWidth(1000))),
+//              ),
+//            ],
+//          ),
         ],
       ),
     );

@@ -8,7 +8,6 @@ import 'package:recruit_app/model/user_model.dart';
 import 'package:recruit_app/pages/account/login/login_type.dart';
 import 'package:recruit_app/pages/setting/account_bind_setting.dart';
 import 'package:recruit_app/pages/setting/notify_setting.dart';
-import 'package:recruit_app/pages/setting/private_setting.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/remind_dialog.dart';
 

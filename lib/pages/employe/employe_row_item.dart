@@ -135,33 +135,33 @@ class EmployeeRowItem extends StatelessWidget {
                 ),
               ),
               SizedBox.fromSize(size: Size(1, ScreenUtil().setHeight(54))),
-              GestureDetector(
-                onTap: () {
-                  if(onCommunicateClick != null) {
-                    onCommunicateClick();
-                  }
-                },
-                child: Container(
-                  constraints: BoxConstraints.tight(Size(ScreenUtil().setWidth(160), ScreenUtil().setHeight(46))),
-                  alignment: Alignment.center,
-                  child: Text(
-                    "立即沟通",
-                    textAlign: TextAlign.center,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: ScreenUtil().setSp(26),
-                      color: Color.fromRGBO(159, 199, 235, 1),
-                    ),
-                  ),
-                  decoration: BoxDecoration(
-                     border: Border.all(
-                       color: Color.fromRGBO(159, 199, 235, 1),
-                       width: ScreenUtil().setWidth(2),
-                     ),
-                     borderRadius: BorderRadius.circular(ScreenUtil().setWidth(1000))),
-                ),
-              ),
+//              GestureDetector(
+//                onTap: () {
+//                  if(onCommunicateClick != null) {
+//                    onCommunicateClick();
+//                  }
+//                },
+//                child: Container(
+//                  constraints: BoxConstraints.tight(Size(ScreenUtil().setWidth(160), ScreenUtil().setHeight(46))),
+//                  alignment: Alignment.center,
+//                  child: Text(
+//                    "立即沟通",
+//                    textAlign: TextAlign.center,
+//                    maxLines: 1,
+//                    overflow: TextOverflow.ellipsis,
+//                    style: TextStyle(
+//                      fontSize: ScreenUtil().setSp(26),
+//                      color: Color.fromRGBO(159, 199, 235, 1),
+//                    ),
+//                  ),
+//                  decoration: BoxDecoration(
+//                     border: Border.all(
+//                       color: Color.fromRGBO(159, 199, 235, 1),
+//                       width: ScreenUtil().setWidth(2),
+//                     ),
+//                     borderRadius: BorderRadius.circular(ScreenUtil().setWidth(1000))),
+//                ),
+//              ),
             ],
           ),
         ],

@@ -477,13 +477,16 @@ class NetUtils {
   }
 
   /// 获取全部面试邀请
-  static Future<SeekerInterviewEntity> getInterviewList(BuildContext context, int pageIndex,int pageSize,{String jobSeekerId,String recruiterId}) async {
+  static Future<SeekerInterviewEntity> getInterviewList(BuildContext context, int pageIndex,int pageSize,{String jobSeekerId,String recruiterId,String state}) async {
     Map<String,dynamic> params={};
     if(jobSeekerId!=null&&jobSeekerId.isNotEmpty){
       params["jobSeekerId"]=jobSeekerId;
     }
     if(recruiterId!=null&&recruiterId.isNotEmpty){
       params["recruiterId"]=recruiterId;
+    }
+    if(state!=null&&state.isNotEmpty){
+      params["state"]=state;
     }
     params["pageIndex"]=pageIndex;
     params["pageSize"]=pageSize;

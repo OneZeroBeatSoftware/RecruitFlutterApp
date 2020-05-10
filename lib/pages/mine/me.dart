@@ -5,12 +5,12 @@ import 'package:recruit_app/application.dart';
 import 'package:recruit_app/entity/mine_info_entity.dart';
 import 'package:recruit_app/model/me_list.dart';
 import 'package:recruit_app/model/mine_model.dart';
+import 'package:recruit_app/model/msg_type.dart';
 import 'package:recruit_app/pages/mine/about_soft.dart';
 import 'package:recruit_app/pages/mine/black_list.dart';
 import 'package:recruit_app/pages/mine/collection.dart';
 import 'package:recruit_app/pages/mine/communicate.dart';
 import 'package:recruit_app/pages/mine/feedback.dart';
-import 'package:recruit_app/pages/mine/help_feedback.dart';
 import 'package:recruit_app/pages/mine/job_intent.dart';
 import 'package:recruit_app/pages/mine/mine_interview.dart';
 import 'package:recruit_app/pages/mine/resume_list.dart';
@@ -259,7 +259,7 @@ class _MineState extends State<Mine> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => MineInterView(interviewType: InterviewType.seeker,)));
+                                    builder: (context) => MineInterView(msgType: MsgType.seeker,)));
                           },
                         ),
                       ),

@@ -1,0 +1,4 @@
+enum MsgType{
+  recruiter,
+  seeker
+}

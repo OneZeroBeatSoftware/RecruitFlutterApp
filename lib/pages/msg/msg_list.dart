@@ -7,6 +7,7 @@ import 'package:recruit_app/application.dart';
 import 'package:recruit_app/entity/base_resp_entity.dart';
 import 'package:recruit_app/entity/seeker_interview_entity.dart';
 import 'package:recruit_app/entity/seeker_notice_entity.dart';
+import 'package:recruit_app/model/msg_type.dart';
 import 'package:recruit_app/model/seeker_interview_model.dart';
 import 'package:recruit_app/model/seeker_notice_model.dart';
 import 'package:recruit_app/pages/employe/employee_detail.dart';
@@ -20,10 +21,6 @@ import 'package:recruit_app/pages/msg/service_chat_room.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/badge_widget.dart';
 import 'package:recruit_app/widgets/slide_button.dart';
-enum MsgType{
-  recruiter,
-  seeker
-}
 class MsgList extends StatefulWidget {
   final MsgType msgType;
 
@@ -272,6 +269,7 @@ class _MsgListState extends State<MsgList> {
                         },
                           behavior: HitTestBehavior.opaque,
                           child: MsgInterviewItem(
+                            msgType: widget.msgType,
                             btnKey: key,
                             index: idx,
                             interview: InterviewModel.instance

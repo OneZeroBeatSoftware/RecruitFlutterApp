@@ -2,6 +2,7 @@ import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/entity/seeker_interview_entity.dart';
+import 'package:recruit_app/model/msg_type.dart';
 import 'package:recruit_app/widgets/network_image.dart';
 import 'package:recruit_app/widgets/slide_button.dart';
 
@@ -10,8 +11,9 @@ class MsgInterviewItem extends StatefulWidget {
   final SeekerInterviewDataRecord interview;
   final int index;
   final Function(int) deleteItem;
+  final MsgType msgType;
 
-  const MsgInterviewItem({Key key, @required this.btnKey,@required this.interview, this.deleteItem,@required this.index}) : super(key: key);
+  const MsgInterviewItem({Key key, @required this.btnKey,@required this.interview, this.deleteItem,@required this.index, this.msgType=MsgType.seeker}) : super(key: key);
 
   @override
   _MsgInterviewItemState createState() => _MsgInterviewItemState();
@@ -20,6 +22,37 @@ class MsgInterviewItem extends StatefulWidget {
 class _MsgInterviewItemState extends State<MsgInterviewItem> {
   @override
   Widget build(BuildContext context) {
+    String status='';
+    switch (widget.interview.state) {
+      case "0":
+        status='已删除';
+        break;
+      case "1":
+        status=widget.msgType==MsgType.recruiter?'已收到':'已投递';
+        break;
+      case "2":
+        status=widget.msgType==MsgType.recruiter?'邀请':'收到的邀请';
+        break;
+      case "3":
+        status='待面试';
+        break;
+      case "4":
+        status='已面试';
+        break;
+      case "5":
+        status=widget.msgType==MsgType.recruiter?'拒绝':'被拒绝';
+        break;
+      case "6":
+        status='通过';
+        break;
+      case "7":
+        status='沟通过';
+        break;
+      case "8":
+        status='候选';
+        break;
+    }
+
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch,children: <Widget>[SlideButton(
       key: widget.btnKey,
       singleButtonWidth: ScreenUtil().setWidth(116),
@@ -63,8 +96,7 @@ class _MsgInterviewItemState extends State<MsgInterviewItem> {
                           width: ScreenUtil().setWidth(16),
                         ),
                         Text(
-//                          '待处理',
-                          '面试邀请',
+                          '$status',
                           style: TextStyle(
                             fontSize: ScreenUtil().setSp(24),
                             color: Color.fromRGBO(159, 199, 235, 1),
