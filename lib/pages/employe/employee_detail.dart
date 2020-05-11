@@ -2,20 +2,23 @@ import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:recruit_app/application.dart';
+import 'package:recruit_app/entity/boss_job_manage_entity.dart';
+import 'package:recruit_app/entity/candidate_update_entity.dart';
 import 'package:recruit_app/entity/collection_entity.dart';
 import 'package:recruit_app/entity/main_resume_detail_entity.dart';
 import 'package:recruit_app/model/boss_mine_model.dart';
 import 'package:recruit_app/model/recruit_resume_model.dart';
-import 'package:recruit_app/pages/employe/boss_chat_room.dart';
+import 'package:recruit_app/pages/employe/candidate_boss_room.dart';
 import 'package:recruit_app/pages/jobs/report.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/pages/employe/employee_experience.dart';
 import 'package:recruit_app/pages/employe/employee_experience2.dart';
+import 'package:recruit_app/widgets/list_menu_dialog.dart';
 import 'package:recruit_app/widgets/network_image.dart';
 
-enum ResumeDetailType {resume, interview}
+enum ResumeDetailType {resume, interview,readOnly}
 
 class EmployeeDetail extends StatefulWidget {
   final String resumeId;
@@ -43,6 +46,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((i) {
       getResumeDetail(widget.resumeId);
+      _getJobList(true);
     });
   }
 
@@ -54,12 +58,19 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
     List<Experience2> educationExperiences = [];
 
     List<Widget> _bottomOperateView=[];
-    if(widget.resumeDetailType==ResumeDetailType.interview){
-      _bottomOperateView.add(FlexButton(btnTitle: '取消面试',));
-      _bottomOperateView.add(FlexButton(flex: 2, btnTitle: '申请调整时间',));
-    }else {
-      _bottomOperateView.add(FlexButton(btnTitle: '立即沟通',));
-    }
+//    if(widget.resumeDetailType==ResumeDetailType.interview){
+//      _bottomOperateView.add(FlexButton(btnTitle: '取消面试',));
+//      _bottomOperateView.add(FlexButton(flex: 2, btnTitle: '申请调整时间',));
+//    }else {
+      _bottomOperateView.add(FlexButton(btnTitle: '立即沟通',onPressed: (){
+        FocusScope.of(context).requestFocus(FocusNode());
+        if(BossMineModel.instance.jobList.length<1){
+          _getJobList(false);
+          return;
+        }
+        _showJobList();
+      },));
+//    }
 
     if(_resumeDetailData!=null){
       _resumeDetailData.workExperience.forEach((item){
@@ -133,7 +144,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
             ],
           )),
           backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-          rightAction: Row(
+          rightAction: Offstage(child: Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               GestureDetector(
@@ -214,7 +225,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                 width: ScreenUtil().setWidth(48),
               ),
             ],
-          ),
+          ),offstage: widget.resumeDetailType==ResumeDetailType.readOnly,)
         ),
         body: _resumeDetailData == null
             ? Container(
@@ -396,19 +407,19 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                 ),
               ),
             ),
-            SafeArea(
-              top: false,
-              child: Padding(
-                padding: EdgeInsets.only(
-                   left: ScreenUtil().setWidth(48),
-                   right: ScreenUtil().setWidth(48),
-                ),
-                child: Row(
-                  //2020 0403 下面的按钮不一定都存在，要根据跳转界面的功能进行隐藏、显示下面的按钮
-                  children: _bottomOperateView,
-                ),
-              )
-            ),
+            Offstage(child: SafeArea(
+                top: false,
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    left: ScreenUtil().setWidth(48),
+                    right: ScreenUtil().setWidth(48),
+                  ),
+                  child: Row(
+                    //2020 0403 下面的按钮不一定都存在，要根据跳转界面的功能进行隐藏、显示下面的按钮
+                    children: _bottomOperateView,
+                  ),
+                )
+            ),offstage: widget.resumeDetailType==ResumeDetailType.readOnly,),
           ],
         ));
   }
@@ -438,14 +449,73 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
       });
     }
   }
+
+  /// 获取岗位列表
+  _getJobList(bool isFirstLoad) {
+    BossMineModel.instance.getJobList(context, Application.sp.getString('recruiterId'),1,pageSize: 100).then((model){
+      if(model!=null&&!isFirstLoad){
+        _showJobList();
+      }
+    });
+  }
+
+  _showJobList() {
+    showGeneralDialog(
+      context: context,
+      pageBuilder: (context, animation1, animation2) {
+        return null;
+      },
+      barrierColor: Colors.black.withOpacity(0.4),
+      barrierDismissible: true,
+      barrierLabel: "Dismiss",
+      transitionDuration: Duration(milliseconds: 300),
+      transitionBuilder: (context, animation1, animation2, widget) {
+        final curvedValue =
+            Curves.easeInOut.transform(animation1.value) - 1.0;
+        return Transform(
+          transform:
+          Matrix4.translationValues(0.0, curvedValue * -300, 0.0),
+          child: Opacity(
+            opacity: animation1.value,
+            child: ListMenuDialog(
+              title: '选择岗位',
+              cancel: () {
+                Navigator.pop(context);
+              },
+              confirm: () {
+                Navigator.pop(context);
+              },
+              itemSelected: (index) {
+                Navigator.pop(context);
+                _saveCandidate(BossMineModel.instance.jobList[index], _resumeDetailData.resume.jobSeekerId, _resumeDetailData.resume.id);
+              },
+              lists: BossMineModel.instance.jobList.map((e) => e.jobName).toList(),
+            ),
+          ),
+        );
+      },
+    );
+  }
+  /// 添加、更新候选人信息
+  _saveCandidate(BossJobManageDataRecord job,String jobSeekerId,String resumeId) async {
+    CandidateUpdateData _baseEntity = await BossMineModel.instance
+        .saveCandidate(context,job.id,jobSeekerId,resumeId,1);
+    if (_baseEntity != null) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => CandidateBossRoom(jobData: job,candidateData: _baseEntity,resumeData: _resumeDetailData,)));
+    }
+  }
 }
 
 class FlexButton extends StatelessWidget {
   
   final int flex;
   final String btnTitle;
+  final Function onPressed;
   
-  FlexButton({this.flex = 1, this.btnTitle});
+  FlexButton({this.flex = 1, this.btnTitle, this.onPressed});
   
   @override
   Widget build(BuildContext context) {
@@ -462,8 +532,9 @@ class FlexButton extends StatelessWidget {
          child: MaterialButton(
            minWidth: ScreenUtil().setWidth(652),
            onPressed: () {
-             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => BossChatRoom()));
+             if(onPressed!=null){
+               onPressed();
+             }
            },
            textColor: Color.fromRGBO(159,199,235,1),
            child: Text(btnTitle),

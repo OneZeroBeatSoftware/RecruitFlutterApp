@@ -3,160 +3,235 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/entity/base_resp_entity.dart';
+import 'package:recruit_app/entity/boss_job_manage_entity.dart';
 import 'package:recruit_app/entity/candidate_update_entity.dart';
 import 'package:recruit_app/entity/interview_update_entity.dart';
-import 'package:recruit_app/entity/job_detail_entity.dart';
-import 'package:recruit_app/entity/resume_detail_entity.dart';
-import 'package:recruit_app/entity/resume_list_entity.dart';
+import 'package:recruit_app/entity/main_resume_detail_entity.dart';
 import 'package:recruit_app/model/boss_mine_model.dart';
-import 'package:recruit_app/model/mine_model.dart';
 import 'package:recruit_app/model/seeker_interview_model.dart';
-import 'package:recruit_app/pages/jobs/candidate_room_intro.dart';
+import 'package:recruit_app/pages/employe/candidate_boss_room_intro.dart';
 import 'package:recruit_app/widgets/craft_date_time_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class CandidateRoom extends StatefulWidget {
+class CandidateBossRoom extends StatefulWidget {
   final CandidateUpdateData candidateData;
-  final JobDetailData jobData;
-  final ResumeListData resumeData;
+  final BossJobManageDataRecord jobData;
+  final MainResumeDetailData resumeData;
 
-  const CandidateRoom(
+  const CandidateBossRoom(
       {Key key, this.candidateData, this.jobData, this.resumeData})
       : super(key: key);
 
   @override
-  _CandidateRoomState createState() {
+  _CandidateBossRoomState createState() {
     // TODO: implement createState
-    return _CandidateRoomState();
+    return _CandidateBossRoomState();
   }
 }
 
-class _CandidateRoomState extends State<CandidateRoom> {
-  ResumeDetailData _resumeDetailData;
-
+class _CandidateBossRoomState extends State<CandidateBossRoom> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _getResumeDetail(widget.resumeData.id);
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     List<Widget> operateWidget = [];
-    if (widget.candidateData.interview.state == '1') {
+    operateWidget.add(Expanded(
+      flex: 1,
+      child: GestureDetector(
+        onTap: () async {
+          String url = 'tel:${widget.resumeData.resume.phone}';
+          if (await canLaunch(url)) {
+            await launch(url);
+          } else {
+            print('暂不支持电话联系');
+          }
+        },
+        behavior: HitTestBehavior.opaque,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Image.asset('images/img_tel_gray.png',
+                width: ScreenUtil().setWidth(22),
+                height: ScreenUtil().setWidth(34),
+                fit: BoxFit.contain),
+            SizedBox(
+              height: ScreenUtil().setWidth(10),
+            ),
+            Text('电话',
+                style: TextStyle(
+                    fontSize: ScreenUtil().setSp(24),
+                    color: Color.fromRGBO(95, 94, 94, 1)))
+          ],
+        ),
+      ),
+    ));
+    if (widget.candidateData.interview == null) {
       operateWidget.add(Expanded(
+        flex: 1,
         child: GestureDetector(
           onTap: () {
-            _inviteInterView(widget.candidateData.interview.id,
-                widget.candidateData.interview.interviewDate, '3');
+            _adJustInterviewTime(false);
+          },
+          behavior: HitTestBehavior.opaque,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Image.asset('images/img_send_resunme.png',
+                  width: ScreenUtil().setWidth(38),
+                  height: ScreenUtil().setWidth(34),
+                  fit: BoxFit.contain),
+              SizedBox(
+                height: ScreenUtil().setWidth(10),
+              ),
+              Text('邀请面试',
+                  style: TextStyle(
+                      fontSize: ScreenUtil().setSp(24),
+                      color: Color.fromRGBO(95, 94, 94, 1)))
+            ],
+          ),
+        ),
+      ));
+    }
+    operateWidget.add(Expanded(
+      flex: 1,
+      child: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+          _deleteCandidate(widget.candidateData.candidate.id);
+        },
+        behavior: HitTestBehavior.opaque,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Image.asset('images/img_not_interested.png',
+                width: ScreenUtil().setWidth(38),
+                height: ScreenUtil().setWidth(34),
+                fit: BoxFit.contain),
+            SizedBox(
+              height: ScreenUtil().setWidth(10),
+            ),
+            Text('不感兴趣',
+                style: TextStyle(
+                    fontSize: ScreenUtil().setSp(24),
+                    color: Color.fromRGBO(95, 94, 94, 1)))
+          ],
+        ),
+      ),
+    ));
+
+    List<Widget> interViewOperate=[];
+    interViewOperate.add(Expanded(
+      child: GestureDetector(
+        onTap: () {
+          _inviteInterView(
+              widget.candidateData.interview.id,
+              widget.candidateData.interview.interviewDate,
+              '4');
+        },
+        child: Container(
+          height: ScreenUtil().setWidth(90),
+          alignment: Alignment.center,
+          child: Text(
+            '取消',
+            textAlign: TextAlign.center,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+                color: Color.fromRGBO(
+                    159, 199, 235, 1),
+                fontSize:
+                ScreenUtil().setSp(28)),
+          ),
+        ),
+        behavior: HitTestBehavior.opaque,
+      ),
+    ));
+    interViewOperate.add(Expanded(
+      child: GestureDetector(
+        onTap: () {
+          _adJustInterviewTime(true);
+        },
+        behavior: HitTestBehavior.opaque,
+        child: Container(
+          height: ScreenUtil().setWidth(90),
+          alignment: Alignment.center,
+          child: Text(
+            '调整时间',
+            textAlign: TextAlign.center,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+                color: Color.fromRGBO(
+                    159, 199, 235, 1),
+                fontSize:
+                ScreenUtil().setSp(28)),
+          ),
+        ),
+      ),
+    ));
+    if(widget.candidateData.interview.state=='2'){
+      interViewOperate.add(Expanded(
+        child: GestureDetector(
+          onTap: () {
+            _inviteInterView(
+                widget.candidateData
+                    .interview.id,
+                widget.candidateData
+                    .interview.interviewDate,
+                '6');
           },
           child: Container(
-            height: ScreenUtil().setWidth(90),
+            height:
+            ScreenUtil().setWidth(90),
             alignment: Alignment.center,
             child: Text(
-              '拒绝',
+              '不录取',
               textAlign: TextAlign.center,
               maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+              overflow:
+              TextOverflow.ellipsis,
               style: TextStyle(
-                  color: Color.fromRGBO(159, 199, 235, 1),
-                  fontSize: ScreenUtil().setSp(28)),
+                  color: Color.fromRGBO(
+                      159, 199, 235, 1),
+                  fontSize: ScreenUtil()
+                      .setSp(28)),
             ),
           ),
           behavior: HitTestBehavior.opaque,
         ),
       ));
-      operateWidget.add(Expanded(
+      interViewOperate.add(Expanded(
         child: GestureDetector(
           onTap: () {
-            _adJustInterviewTime();
+            _inviteInterView(
+                widget.candidateData.interview.id,
+                widget.candidateData.interview.interviewDate,
+                '5');
           },
           behavior: HitTestBehavior.opaque,
           child: Container(
-            height: ScreenUtil().setWidth(90),
+            height:
+            ScreenUtil().setWidth(90),
             alignment: Alignment.center,
             child: Text(
-              '调整时间',
+              '录取',
               textAlign: TextAlign.center,
               maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+              overflow:
+              TextOverflow.ellipsis,
               style: TextStyle(
-                  color: Color.fromRGBO(159, 199, 235, 1),
-                  fontSize: ScreenUtil().setSp(28)),
-            ),
-          ),
-        ),
-      ));
-      operateWidget.add(Expanded(
-        child: GestureDetector(
-          onTap: () {
-            _inviteInterView(widget.candidateData.interview.id,
-                widget.candidateData.interview.interviewDate, '2');
-          },
-          child: Container(
-            height: ScreenUtil().setWidth(90),
-            alignment: Alignment.center,
-            child: Text(
-              '接受',
-              textAlign: TextAlign.center,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                  color: Color.fromRGBO(159, 199, 235, 1),
-                  fontSize: ScreenUtil().setSp(28)),
-            ),
-          ),
-          behavior: HitTestBehavior.opaque,
-        ),
-      ));
-    } else if (widget.candidateData.interview.state == '2') {
-      operateWidget.add(Expanded(
-        child: GestureDetector(
-          onTap: () {
-            _inviteInterView(widget.candidateData.interview.id,
-                widget.candidateData.interview.interviewDate, '4');
-          },
-          child: Container(
-            height: ScreenUtil().setWidth(90),
-            alignment: Alignment.center,
-            child: Text(
-              '取消',
-              textAlign: TextAlign.center,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                  color: Color.fromRGBO(159, 199, 235, 1),
-                  fontSize: ScreenUtil().setSp(28)),
-            ),
-          ),
-          behavior: HitTestBehavior.opaque,
-        ),
-      ));
-      operateWidget.add(Expanded(
-        child: GestureDetector(
-          onTap: () {
-            _adJustInterviewTime();
-          },
-          behavior: HitTestBehavior.opaque,
-          child: Container(
-            height: ScreenUtil().setWidth(90),
-            alignment: Alignment.center,
-            child: Text(
-              '调整时间',
-              textAlign: TextAlign.center,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                  color: Color.fromRGBO(159, 199, 235, 1),
-                  fontSize: ScreenUtil().setSp(28)),
+                  color: Color.fromRGBO(
+                      159, 199, 235, 1),
+                  fontSize: ScreenUtil()
+                      .setSp(28)),
             ),
           ),
         ),
       ));
     }
-
     String status = '面试邀请';
     if (widget.candidateData.interview != null) {
       switch (widget.candidateData.interview.state) {
@@ -191,7 +266,7 @@ class _CandidateRoomState extends State<CandidateRoom> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Text('${widget.jobData.job.realName}',
+            Text('${widget.resumeData.resume.realName}',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
@@ -228,69 +303,12 @@ class _CandidateRoomState extends State<CandidateRoom> {
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Expanded(
-                  flex: 1,
-                  child: GestureDetector(
-                    onTap: () async {
-                      String url = 'tel:${widget.jobData.job.phone}';
-                      if (await canLaunch(url)) {
-                        await launch(url);
-                      } else {
-                        print('暂不支持电话联系');
-                      }
-                    },
-                    behavior: HitTestBehavior.opaque,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Image.asset('images/img_tel_gray.png',
-                            width: ScreenUtil().setWidth(22),
-                            height: ScreenUtil().setWidth(34),
-                            fit: BoxFit.contain),
-                        SizedBox(
-                          height: ScreenUtil().setWidth(10),
-                        ),
-                        Text('电话',
-                            style: TextStyle(
-                                fontSize: ScreenUtil().setSp(24),
-                                color: Color.fromRGBO(95, 94, 94, 1)))
-                      ],
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: GestureDetector(
-                    onTap: () {
-                      FocusScope.of(context).requestFocus(FocusNode());
-                      _deleteCandidate(widget.candidateData.candidate.id);
-                    },
-                    behavior: HitTestBehavior.opaque,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Image.asset('images/img_not_interested.png',
-                            width: ScreenUtil().setWidth(38),
-                            height: ScreenUtil().setWidth(34),
-                            fit: BoxFit.contain),
-                        SizedBox(
-                          height: ScreenUtil().setWidth(10),
-                        ),
-                        Text('不感兴趣',
-                            style: TextStyle(
-                                fontSize: ScreenUtil().setSp(24),
-                                color: Color.fromRGBO(95, 94, 94, 1)))
-                      ],
-                    ),
-                  ),
-                ),
-              ],
+              children: operateWidget,
             ),
           ),
-          CandidateRoomIntro(
+          CandidateBossRoomIntro(
             jobData: widget.jobData,
-            resumeData: _resumeDetailData,
+            resumeData: widget.resumeData,
           ),
           widget.candidateData.interview == null
               ? Container()
@@ -368,7 +386,7 @@ class _CandidateRoomState extends State<CandidateRoom> {
                                   ),
                                 ),
                                 child: Row(
-                                  children: operateWidget,
+                                  children: interViewOperate,
                                 ),
                               )
                             : Container(),
@@ -382,22 +400,27 @@ class _CandidateRoomState extends State<CandidateRoom> {
   }
 
   /// 调整时间
-  void _adJustInterviewTime() {
+  void _adJustInterviewTime(bool isModify) {
     showCupertinoModalPopup(
       context: context,
       builder: (context) {
         return CraftDateTimePicker(
-          title: '调整面试时间',
+          title: isModify ? '调整面试时间' : '面试时间',
           initialTime: widget.candidateData.interview != null
               ? DateUtil.getDateTimeByMs(
                   widget.candidateData.interview.interviewDate)
               : DateTime.now(),
           confirm: (datetime) {
             Navigator.pop(context);
-            _inviteInterView(
-                widget.candidateData.interview.id,
-                datetime.millisecondsSinceEpoch,
-                widget.candidateData.interview.state);
+            if (isModify) {
+              _inviteInterView(
+                  widget.candidateData.interview.id,
+                  datetime.millisecondsSinceEpoch,
+                  widget.candidateData.interview.state
+                  );
+            } else {
+              _inviteInterView(null,datetime.millisecondsSinceEpoch,null);
+            }
           },
         );
       },
@@ -412,24 +435,22 @@ class _CandidateRoomState extends State<CandidateRoom> {
       id: id,
       state: state,
       interviewDate: interviewDate,
-      address:
-          '${widget.jobData.job.cityName}${widget.jobData.job.workAddress}',
-      companyId: widget.jobData.job.companyId,
-      jobId: widget.jobData.job.id,
-      jobSeekerId: widget.resumeData.jobSeekerId,
-      recruiterId: widget.jobData.job.recruiterId,
+      address: '${widget.jobData.cityName}${widget.jobData.workAddress}',
+      companyId: widget.jobData.companyId,
+      jobId: widget.jobData.id,
+      jobSeekerId: widget.resumeData.resume.jobSeekerId,
+      recruiterId: widget.jobData.recruiterId,
     );
     if (_baseEntity != null) {
       CandidateUpdateDataApply interview = CandidateUpdateDataApply()
         ..id = _baseEntity.data.id
         ..interviewDate = interviewDate
         ..state = state
-        ..recruiterId = widget.jobData.job.recruiterId
-        ..jobSeekerId = widget.resumeData.jobSeekerId
-        ..companyId = widget.jobData.job.companyId
-        ..jobId = widget.jobData.job.id
-        ..address =
-            '${widget.jobData.job.cityName}${widget.jobData.job.workAddress}';
+        ..recruiterId = widget.jobData.recruiterId
+        ..jobSeekerId = widget.resumeData.resume.jobSeekerId
+        ..companyId = widget.jobData.companyId
+        ..jobId = widget.jobData.id
+        ..address = '${widget.jobData.cityName}${widget.jobData.workAddress}';
       setState(() {
         widget.candidateData.interview = interview;
       });
@@ -443,16 +464,5 @@ class _CandidateRoomState extends State<CandidateRoom> {
     if (_baseEntity != null) {
       Navigator.pop(context);
     }
-  }
-
-  /// 获取简历详情
-  _getResumeDetail(String id) {
-    MineModel.instance.getResumeDetail(context, id).then((detail) {
-      if (detail != null) {
-        setState(() {
-          _resumeDetailData = detail;
-        });
-      }
-    });
   }
 }

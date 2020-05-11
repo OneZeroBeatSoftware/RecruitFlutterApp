@@ -86,20 +86,20 @@ class ListMenuDialog extends Dialog {
                             ),
                           ),
                         ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: GestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            onTap: confirm,
-                            child: Text(
-                              '确定',
-                              style: TextStyle(
-                                color: Color.fromRGBO(95, 94, 94, 1),
-                                fontSize: ScreenUtil().setSp(28),
-                              ),
-                            ),
-                          ),
-                        ),
+//                        Align(
+//                          alignment: Alignment.centerRight,
+//                          child: GestureDetector(
+//                            behavior: HitTestBehavior.opaque,
+//                            onTap: confirm,
+//                            child: Text(
+//                              '确定',
+//                              style: TextStyle(
+//                                color: Color.fromRGBO(95, 94, 94, 1),
+//                                fontSize: ScreenUtil().setSp(28),
+//                              ),
+//                            ),
+//                          ),
+//                        ),
                       ],
                     ),
                   ),

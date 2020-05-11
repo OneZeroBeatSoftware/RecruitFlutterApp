@@ -2,13 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:recruit_app/entity/candidate_update_entity.dart';
 import 'package:recruit_app/entity/collection_entity.dart';
 import 'package:recruit_app/entity/job_detail_entity.dart';
+import 'package:recruit_app/entity/resume_list_entity.dart';
+import 'package:recruit_app/model/boss_mine_model.dart';
 import 'package:recruit_app/model/job_model.dart';
 import 'package:recruit_app/model/mine_model.dart';
 import 'package:recruit_app/pages/companys/company_detail.dart';
 import 'package:recruit_app/pages/jobs/candidate_room.dart';
 import 'package:recruit_app/pages/jobs/chat_room.dart';
+import 'package:recruit_app/widgets/craft_list_dialog.dart';
 import 'package:recruit_app/widgets/list_menu_dialog.dart';
 import 'package:recruit_app/pages/jobs/report.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
@@ -19,7 +23,7 @@ import 'package:recruit_app/widgets/remind_dialog.dart';
 
 import '../../application.dart';
 
-enum JobDetailType {job, interview}
+enum JobDetailType {job, interview,readOnly}
 
 class JobDetail extends StatefulWidget {
   final String jobId;
@@ -55,6 +59,7 @@ class _JobDetailState extends State<JobDetail> {
     WidgetsBinding.instance.addPostFrameCallback((i) {
       _jobModel = Provider.of<JobModel>(context);
       getJobDetail(widget.jobId);
+      _getResumeList(true);
     });
   }
 
@@ -90,13 +95,13 @@ class _JobDetailState extends State<JobDetail> {
             ],
           ),
           backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-          rightAction: Row(
+          rightAction: Offstage(child: Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () {
-                 _operateStar(widget.jobId, _starId);
+                  _operateStar(widget.jobId, _starId);
                 },
                 child: Image.asset(
                   _isCollected?'images/img_heart_focus.png':'images/img_heart_unfocus.png',
@@ -169,7 +174,7 @@ class _JobDetailState extends State<JobDetail> {
                 width: ScreenUtil().setWidth(48),
               ),
             ],
-          ),
+          ),offstage: widget.jobDetailType==JobDetailType.readOnly,),
         ),
         body: _jobDetailData == null
             ? Container(
@@ -496,7 +501,7 @@ class _JobDetailState extends State<JobDetail> {
                     color: Color.fromRGBO(245, 245, 245, 1),
                   ),
 
-                  Visibility(child: SafeArea(
+                  Offstage(child: SafeArea(
                     top: false,
                     child: Container(
                         padding: EdgeInsets.symmetric(
@@ -504,10 +509,12 @@ class _JobDetailState extends State<JobDetail> {
                             vertical: ScreenUtil().setWidth(16)),
                         child: MaterialButton(
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => CandidateRoom()));
+                            FocusScope.of(context).requestFocus(FocusNode());
+                            if(MineModel.instance.resumeList.length<1){
+                              _getResumeList(false);
+                              return;
+                            }
+                            _showResumeList();
                           },
                           textColor: Color.fromRGBO(159, 199, 235, 1),
                           child: Text("立即沟通",style: TextStyle(fontSize: ScreenUtil().setSp(32),),),
@@ -522,52 +529,80 @@ class _JobDetailState extends State<JobDetail> {
                               borderRadius: BorderRadius.circular(
                                   ScreenUtil().setWidth(1000))),
                         )),
-                  ),visible: widget.jobDetailType==JobDetailType.job&&_jobDetailData.job.candidatesCurrent<_jobDetailData.job.candidatesTotal,),
-                  Visibility(child: SafeArea(
-                    top: false,
-                    child: Container(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: ScreenUtil().setWidth(48),
-                            vertical: ScreenUtil().setWidth(16)),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(child: MaterialButton(
-                              onPressed: () {
-                                cancelInterview();
-                              },
-                              elevation: 0,
-                              color: Color.fromRGBO(227, 226, 226, 1),
-                              textColor: Color.fromRGBO(255, 255, 255, 1),
-                              child: Text("取消面试",maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: ScreenUtil().setSp(32),),),
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: ScreenUtil().setWidth(30),
-                                  vertical: ScreenUtil().setWidth(16)),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      ScreenUtil().setWidth(1000))),
-                            ),flex: 118,),
-                            SizedBox(width: ScreenUtil().setWidth(32),),
-                            Expanded(child: MaterialButton(
-                              onPressed: () {
-                                adJustInterviewTime();
-                              },
-                              elevation: 0,
-                              textColor: Color.fromRGBO(159, 199, 235, 1),
-                              child: Text("申请调整时间",maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: ScreenUtil().setSp(32),),),
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: ScreenUtil().setWidth(30),
-                                  vertical: ScreenUtil().setWidth(16)),
-                              shape: RoundedRectangleBorder(
-                                  side: BorderSide(
-                                    color: Color.fromRGBO(159, 199, 235, 1),
-                                    width: ScreenUtil().setWidth(2),
-                                  ),
-                                  borderRadius: BorderRadius.circular(
-                                      ScreenUtil().setWidth(1000))),
-                            ),flex: 193,),
-                          ],
-                        )),
-                  ),visible: widget.jobDetailType==JobDetailType.interview,),
+                  ),offstage: widget.jobDetailType==JobDetailType.readOnly,),
+
+//                  Visibility(child: SafeArea(
+//                    top: false,
+//                    child: Container(
+//                        padding: EdgeInsets.symmetric(
+//                            horizontal: ScreenUtil().setWidth(48),
+//                            vertical: ScreenUtil().setWidth(16)),
+//                        child: MaterialButton(
+//                          onPressed: () {
+//                            Navigator.push(
+//                                context,
+//                                MaterialPageRoute(
+//                                    builder: (context) => CandidateRoom()));
+//                          },
+//                          textColor: Color.fromRGBO(159, 199, 235, 1),
+//                          child: Text("立即沟通",style: TextStyle(fontSize: ScreenUtil().setSp(32),),),
+//                          padding: EdgeInsets.symmetric(
+//                              horizontal: ScreenUtil().setWidth(30),
+//                              vertical: ScreenUtil().setWidth(16)),
+//                          shape: RoundedRectangleBorder(
+//                              side: BorderSide(
+//                                color: Color.fromRGBO(159, 199, 235, 1),
+//                                width: ScreenUtil().setWidth(2),
+//                              ),
+//                              borderRadius: BorderRadius.circular(
+//                                  ScreenUtil().setWidth(1000))),
+//                        )),
+//                  ),visible: widget.jobDetailType==JobDetailType.job&&_jobDetailData.job.candidatesCurrent<_jobDetailData.job.candidatesTotal,),
+//                  Visibility(child: SafeArea(
+//                    top: false,
+//                    child: Container(
+//                        padding: EdgeInsets.symmetric(
+//                            horizontal: ScreenUtil().setWidth(48),
+//                            vertical: ScreenUtil().setWidth(16)),
+//                        child: Row(
+//                          children: <Widget>[
+//                            Expanded(child: MaterialButton(
+//                              onPressed: () {
+//                                cancelInterview();
+//                              },
+//                              elevation: 0,
+//                              color: Color.fromRGBO(227, 226, 226, 1),
+//                              textColor: Color.fromRGBO(255, 255, 255, 1),
+//                              child: Text("取消面试",maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: ScreenUtil().setSp(32),),),
+//                              padding: EdgeInsets.symmetric(
+//                                  horizontal: ScreenUtil().setWidth(30),
+//                                  vertical: ScreenUtil().setWidth(16)),
+//                              shape: RoundedRectangleBorder(
+//                                  borderRadius: BorderRadius.circular(
+//                                      ScreenUtil().setWidth(1000))),
+//                            ),flex: 118,),
+//                            SizedBox(width: ScreenUtil().setWidth(32),),
+//                            Expanded(child: MaterialButton(
+//                              onPressed: () {
+//                                adJustInterviewTime();
+//                              },
+//                              elevation: 0,
+//                              textColor: Color.fromRGBO(159, 199, 235, 1),
+//                              child: Text("申请调整时间",maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: ScreenUtil().setSp(32),),),
+//                              padding: EdgeInsets.symmetric(
+//                                  horizontal: ScreenUtil().setWidth(30),
+//                                  vertical: ScreenUtil().setWidth(16)),
+//                              shape: RoundedRectangleBorder(
+//                                  side: BorderSide(
+//                                    color: Color.fromRGBO(159, 199, 235, 1),
+//                                    width: ScreenUtil().setWidth(2),
+//                                  ),
+//                                  borderRadius: BorderRadius.circular(
+//                                      ScreenUtil().setWidth(1000))),
+//                            ),flex: 193,),
+//                          ],
+//                        )),
+//                  ),visible: widget.jobDetailType==JobDetailType.interview,),
 
                 ],
               ));
@@ -689,6 +724,47 @@ class _JobDetailState extends State<JobDetail> {
         _starId=_baseEntity.data;
         _isCollected=!_isCollected;
       });
+    }
+  }
+
+  /// 获取简历列表
+  _getResumeList(bool isFirstLoad){
+    MineModel.instance.getResumeList(context, Application.sp.get('jobSeekerId')).then((model){
+      if(model!=null&&!isFirstLoad){
+        _showResumeList();
+      }
+    });
+  }
+
+  /// 发送简历显示简历列表
+  void _showResumeList() {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (context) {
+        return ListDialog(
+          menus: MineModel.instance.resumeList.map((e) => e.resumeName).toList(),
+          itemSelected: (index) {
+            Navigator.pop(context);
+            _saveCandidate(widget.jobId, Application.sp.getString('jobSeekerId'), MineModel.instance.resumeList[index]);
+          },
+          cancel: () {
+            Navigator.pop(context);
+          },
+          title: '选择简历',
+        );
+      },
+    );
+  }
+
+  /// 添加、更新候选人信息
+  _saveCandidate(String jobId,String jobSeekerId,ResumeListData resume) async {
+    CandidateUpdateData _baseEntity = await BossMineModel.instance
+        .saveCandidate(context,jobId,jobSeekerId,resume.id,2);
+    if (_baseEntity != null) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => CandidateRoom(jobData: _jobDetailData,candidateData: _baseEntity,resumeData: resume,)));
     }
   }
 }

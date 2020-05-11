@@ -137,7 +137,7 @@ class _MineInterViewState extends State<MineInterView> {
     if(widget.msgType==MsgType.recruiter){
       _interviewEntity= await InterviewModel.instance.getInterviewList(context, _pageIndex, 15,recruiterId: Application.sp.get('recruiterId'));
     }else {
-      _interviewEntity= await InterviewModel.instance.getInterviewList(context, _pageIndex, 15,jobSeekerId: Application.sp.get('jobSeekerId'),state: '3');
+      _interviewEntity= await InterviewModel.instance.getInterviewList(context, _pageIndex, 15,jobSeekerId: Application.sp.get('jobSeekerId'),state: '2');
     }
     if (_interviewEntity != null && _interviewEntity.data.records.length > 0) {
       _pageIndex++;

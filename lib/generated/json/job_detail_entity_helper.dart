@@ -175,6 +175,9 @@ jobDetailDataJobFromJson(JobDetailDataJob data, Map<String, dynamic> json) {
 	if (json['state'] != null) {
 		data.state = json['state']?.toInt();
 	}
+	if (json['phone'] != null) {
+		data.phone = json['phone']?.toString();
+	}
 	return data;
 }
 
@@ -214,6 +217,7 @@ Map<String, dynamic> jobDetailDataJobToJson(JobDetailDataJob entity) {
 	data['recruitsTotal'] = entity.recruitsTotal;
 	data['createDate'] = entity.createDate;
 	data['state'] = entity.state;
+	data['phone'] = entity.phone;
 	return data;
 }
 

@@ -16,6 +16,7 @@ import 'package:recruit_app/entity/boss_info_entity.dart';
 import 'package:recruit_app/entity/boss_job_detail_entity.dart';
 import 'package:recruit_app/entity/boss_job_manage_entity.dart';
 import 'package:recruit_app/entity/candidate_entity.dart';
+import 'package:recruit_app/entity/candidate_update_entity.dart';
 import 'package:recruit_app/entity/city_entity.dart';
 import 'package:recruit_app/entity/collection_entity.dart';
 import 'package:recruit_app/entity/company_detail_entity.dart';
@@ -26,6 +27,7 @@ import 'package:recruit_app/entity/edu_level_entity.dart';
 import 'package:recruit_app/entity/file_upload_entity.dart';
 import 'package:recruit_app/entity/industry_type_entity.dart';
 import 'package:recruit_app/entity/intent_list_entity.dart';
+import 'package:recruit_app/entity/interview_update_entity.dart';
 import 'package:recruit_app/entity/job_detail_entity.dart';
 import 'package:recruit_app/entity/job_list_entity.dart';
 import 'package:recruit_app/entity/job_state_entity.dart';
@@ -501,6 +503,46 @@ class NetUtils {
     return BaseRespEntity().fromJson(response.data);
   }
 
+  /// 添加、更新面试邀请
+  static Future<InterviewUpdateEntity> saveInterview(BuildContext context, {
+    String address,
+    String companyId,
+    String id,
+    int interviewDate,
+    String jobId,
+    String jobSeekerId,
+    String recruiterId,
+    String state
+  }) async {
+    Map<String,dynamic> params={};
+    if(address!=null&&address.isNotEmpty){
+      params['address']=address;
+    }
+    if(companyId!=null&&companyId.isNotEmpty){
+      params['companyId']=companyId;
+    }
+    if(id!=null&&id.isNotEmpty){
+      params['id']=id;
+    }
+    if(interviewDate!=null){
+      params['interviewDate']=interviewDate;
+    }
+    if(jobId!=null&&jobId.isNotEmpty){
+      params['jobId']=jobId;
+    }
+    if(jobSeekerId!=null&&jobSeekerId.isNotEmpty){
+      params['jobSeekerId']=jobSeekerId;
+    }
+    if(recruiterId!=null&&recruiterId.isNotEmpty){
+      params['recruiterId']=recruiterId;
+    }
+    if(state!=null&&state.isNotEmpty){
+      params['state']=state;
+    }
+    var response = await _post(context, '/interview/save', params: params);
+    return InterviewUpdateEntity().fromJson(response.data);
+  }
+
   /// 获取通知列表
   static Future<SeekerNoticeEntity> getNoticeList(BuildContext context,int pageIndex,int pageSize) async {
     var response = await _post(context, '/notice/list', params: {
@@ -953,6 +995,17 @@ class NetUtils {
   static Future<BaseRespEntity> deleteCandidate(BuildContext context, String candidateId) async {
     var response = await _delete(context, '/candidate/delete/$candidateId',isShowLoading: true);
     return BaseRespEntity().fromJson(response.data);
+  }
+
+  /// 添加、更新候选人信息
+  static Future<CandidateUpdateEntity> saveCandidate(BuildContext context,String jobId,String jobSeekerId,String resumeId,int type) async {
+    Map<String,dynamic> params={};
+    params['jobId']=jobId;
+    params['jobSeekerId']=jobSeekerId;
+    params['resumeId']=resumeId;
+    params['type']=type;
+    var response = await _post(context, '/candidate/save', params: params);
+    return CandidateUpdateEntity().fromJson(response.data);
   }
 
   /// 招聘者添加更新岗位

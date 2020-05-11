@@ -1,4 +1,3 @@
-import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
@@ -212,6 +211,7 @@ class Candidate extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     MainResumeListDataRecord employee = MainResumeListDataRecord()
+      ..avatar=candidateDataRecord.avatar
       ..id = candidateDataRecord.resumeId
       ..jobSeekerId = candidateDataRecord.jobSeekerId
       ..realName = candidateDataRecord.realName
@@ -235,31 +235,31 @@ class Candidate extends StatelessWidget {
                        )
                    );
                }),
-            Padding(
-                padding: EdgeInsets.only(
-                   left: ScreenUtil().setWidth(48),
-                   top: ScreenUtil().setHeight(18),
-                   bottom: ScreenUtil().setHeight(20),
-                ),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                        Text(
-                          '${DateUtil.formatDateMs(candidateDataRecord.completeDate,format:"yyyy年MM月dd日HH:mm")}完成面试',
-                            style: TextStyle(
-                               color: Color.fromRGBO(194,203,202,1),
-                               fontSize: ScreenUtil().setHeight(22),
-                               fontWeight: FontWeight.w300,
-                               letterSpacing: 1
-                            ),
-                        ),
-                    ],
-                ),
-            ),
-            Container(
-                color: Color.fromRGBO(245,245,245,1),
-                height: ScreenUtil().setHeight(6)
-            )
+//            Padding(
+//                padding: EdgeInsets.only(
+//                   left: ScreenUtil().setWidth(48),
+//                   top: ScreenUtil().setHeight(18),
+//                   bottom: ScreenUtil().setHeight(20),
+//                ),
+//                child: Row(
+//                    mainAxisAlignment: MainAxisAlignment.start,
+//                    children: <Widget>[
+//                        Text(
+//                          '${DateUtil.formatDateMs(candidateDataRecord.completeDate,format:"yyyy年MM月dd日HH:mm")}完成面试',
+//                            style: TextStyle(
+//                               color: Color.fromRGBO(194,203,202,1),
+//                               fontSize: ScreenUtil().setHeight(22),
+//                               fontWeight: FontWeight.w300,
+//                               letterSpacing: 1
+//                            ),
+//                        ),
+//                    ],
+//                ),
+//            ),
+//            Container(
+//                color: Color.fromRGBO(245,245,245,1),
+//                height: ScreenUtil().setHeight(6)
+//            )
         ],
     );
   }

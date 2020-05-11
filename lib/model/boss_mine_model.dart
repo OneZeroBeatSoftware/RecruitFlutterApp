@@ -5,6 +5,7 @@ import 'package:recruit_app/entity/boss_info_entity.dart';
 import 'package:recruit_app/entity/boss_job_detail_entity.dart';
 import 'package:recruit_app/entity/boss_job_manage_entity.dart';
 import 'package:recruit_app/entity/candidate_entity.dart';
+import 'package:recruit_app/entity/candidate_update_entity.dart';
 import 'package:recruit_app/entity/collection_entity.dart';
 import 'package:recruit_app/entity/main_resume_list_entity.dart';
 import 'package:recruit_app/utils/net_utils.dart';
@@ -153,9 +154,9 @@ class BossMineModel{
   List<BossJobManageDataRecord> get jobList => _jobList;
   /// 获取招聘者发布的所有岗位
   Future<BossMineModel> getJobList(BuildContext context,
-      String recruiterId,int pageIndex) async {
+      String recruiterId,int pageIndex,{int pageSize=15}) async {
     BossJobManageEntity jobEntity = await NetUtils.getRecruiterJobs(
-        context, recruiterId,pageIndex);
+        context, recruiterId,pageIndex,pageSize: pageSize);
     if (jobEntity != null || jobEntity.statusCode == 200) {
       if (pageIndex == 1) {
         _jobList.clear();
@@ -224,6 +225,16 @@ class BossMineModel{
       return baseRespEntity;
     }
     Utils.showToast(baseRespEntity.msg ?? '删除失败，请重新尝试');
+    return null;
+  }
+
+  /// 添加、更新候选人信息
+  Future<CandidateUpdateData> saveCandidate(BuildContext context, String jobId,String jobSeekerId,String resumeId,int type) async {
+    CandidateUpdateEntity baseRespEntity = await NetUtils.saveCandidate(context, jobId,jobSeekerId,resumeId,type);
+    if (baseRespEntity.statusCode ==200) {
+//      Utils.showToast(baseRespEntity.msg??'');
+      return baseRespEntity.data;
+    }
     return null;
   }
 

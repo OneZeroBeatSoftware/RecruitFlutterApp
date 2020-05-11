@@ -38,6 +38,7 @@ class MainResumeDetailDataResume with JsonConvert<MainResumeDetailDataResume> {
   String socialHomepage;
   int defaultResume;
   int state;
+  String phone;
 }
 
 class MainResumeDetailDataWorkExperience

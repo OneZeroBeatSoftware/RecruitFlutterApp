@@ -218,10 +218,13 @@ class _EmployeeListState extends State<EmployeeList> {
                                 MaterialPageRoute(builder: (context) => WebViewWidget(title: '${_bannerList[index].desc}',url: '${_bannerList[index].url}',),),);
                             },
                             children: _bannerList.map((item){
-                                return Image.network(
-                                  item.image,
-                                  fit: BoxFit.cover,
-                                );
+                              if (item.image == null) {
+                                return null;
+                              }
+                              return Image.network(
+                                item.image,
+                                fit: BoxFit.cover,
+                              );
                             }).toList(),
                             autoplay: true,
                             pagination: new SwiperPagination(

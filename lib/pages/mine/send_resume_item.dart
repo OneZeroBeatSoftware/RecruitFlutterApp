@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/entity/apply_list_entity.dart';
+import 'package:recruit_app/widgets/network_image.dart';
 
 class SendResumeItem extends StatelessWidget {
   final ApplyListDataRecord job;
@@ -87,12 +88,7 @@ class SendResumeItem extends StatelessWidget {
             children: <Widget>[
               ClipRRect(
                 borderRadius: BorderRadius.circular(ScreenUtil().setWidth(22)),
-                child: Image.asset(
-                  'images/avatar_${index % 16 + 1}.png',
-                  width: ScreenUtil().setWidth(44),
-                  height: ScreenUtil().setWidth(44),
-                  fit: BoxFit.cover,
-                ),
+                child: NetImage(img: '${job.avatar}',placeholder: 'images/avatar_${index % 16 + 1}.png',error: 'images/avatar_${index % 16 + 1}.png',size: ScreenUtil().setWidth(44),),
               ),
               SizedBox(
                 width: ScreenUtil().setWidth(12),

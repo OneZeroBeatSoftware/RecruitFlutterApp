@@ -50,6 +50,7 @@ class JobDetailDataJob with JsonConvert<JobDetailDataJob> {
 	int recruitsTotal;
 	int createDate;
 	int state;
+	String phone;
 }
 
 class JobDetailDataIndustry with JsonConvert<JobDetailDataIndustry> {

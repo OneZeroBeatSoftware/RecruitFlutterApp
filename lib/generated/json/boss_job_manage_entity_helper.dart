@@ -61,6 +61,9 @@ bossJobManageDataRecordFromJson(BossJobManageDataRecord data, Map<String, dynami
 	if (json['id'] != null) {
 		data.id = json['id']?.toString();
 	}
+	if (json['recruiterId'] != null) {
+		data.recruiterId = json['recruiterId']?.toString();
+	}
 	if (json['companyId'] != null) {
 		data.companyId = json['companyId']?.toString();
 	}
@@ -84,6 +87,9 @@ bossJobManageDataRecordFromJson(BossJobManageDataRecord data, Map<String, dynami
 	}
 	if (json['city'] != null) {
 		data.city = json['city']?.toInt();
+	}
+	if (json['cityName'] != null) {
+		data.cityName = json['cityName']?.toString();
 	}
 	if (json['educationId'] != null) {
 		data.educationId = json['educationId']?.toString();
@@ -115,6 +121,7 @@ bossJobManageDataRecordFromJson(BossJobManageDataRecord data, Map<String, dynami
 Map<String, dynamic> bossJobManageDataRecordToJson(BossJobManageDataRecord entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	data['id'] = entity.id;
+	data['recruiterId'] = entity.recruiterId;
 	data['companyId'] = entity.companyId;
 	data['companyName'] = entity.companyName;
 	data['jobName'] = entity.jobName;
@@ -123,6 +130,7 @@ Map<String, dynamic> bossJobManageDataRecordToJson(BossJobManageDataRecord entit
 	data['maxSalary'] = entity.maxSalary;
 	data['releaseDate'] = entity.releaseDate;
 	data['city'] = entity.city;
+	data['cityName'] = entity.cityName;
 	data['educationId'] = entity.educationId;
 	data['educationName'] = entity.educationName;
 	data['workDateId'] = entity.workDateId;

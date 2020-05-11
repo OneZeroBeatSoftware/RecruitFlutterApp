@@ -24,32 +24,23 @@ class _MsgInterviewItemState extends State<MsgInterviewItem> {
   Widget build(BuildContext context) {
     String status='';
     switch (widget.interview.state) {
-      case "0":
-        status='已删除';
-        break;
       case "1":
-        status=widget.msgType==MsgType.recruiter?'已收到':'已投递';
+        status='待接受';
         break;
       case "2":
-        status=widget.msgType==MsgType.recruiter?'邀请':'收到的邀请';
-        break;
-      case "3":
         status='待面试';
         break;
+      case "3":
+        status='拒绝';
+        break;
       case "4":
-        status='已面试';
+        status='取消';
         break;
       case "5":
-        status=widget.msgType==MsgType.recruiter?'拒绝':'被拒绝';
-        break;
-      case "6":
         status='通过';
         break;
-      case "7":
-        status='沟通过';
-        break;
-      case "8":
-        status='候选';
+      case "6":
+        status='未通过';
         break;
     }
 

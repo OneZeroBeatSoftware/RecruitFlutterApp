@@ -91,6 +91,9 @@ bossApplyListDataRecordFromJson(BossApplyListDataRecord data, Map<String, dynami
 	if (json['applyDate'] != null) {
 		data.applyDate = json['applyDate']?.toInt();
 	}
+	if (json['avatar'] != null) {
+		data.avatar = json['avatar']?.toString();
+	}
 	return data;
 }
 
@@ -107,5 +110,6 @@ Map<String, dynamic> bossApplyListDataRecordToJson(BossApplyListDataRecord entit
 	data['educationName'] = entity.educationName;
 	data['state'] = entity.state;
 	data['applyDate'] = entity.applyDate;
+	data['avatar'] = entity.avatar;
 	return data;
 }

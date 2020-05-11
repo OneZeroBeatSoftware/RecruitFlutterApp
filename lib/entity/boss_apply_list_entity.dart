@@ -26,4 +26,5 @@ class BossApplyListDataRecord with JsonConvert<BossApplyListDataRecord> {
 	String educationName;
 	int state;
 	int applyDate;
+	String avatar;
 }

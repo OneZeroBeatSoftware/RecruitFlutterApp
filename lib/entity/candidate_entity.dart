@@ -21,6 +21,7 @@ class CandidateDataRecord with JsonConvert<CandidateDataRecord> {
 	String resumeId;
 	String realName;
 	String resumeName;
+	String avatar;
 	int sex;
 	String workDateName;
 	int minSalary;

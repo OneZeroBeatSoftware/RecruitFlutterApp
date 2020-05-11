@@ -26,6 +26,7 @@ class ApplyListDataRecord with JsonConvert<ApplyListDataRecord> {
 	String city;
 	String educationId;
 	String educationName;
+	String avatar;
 	String workDateId;
 	String workDateName;
 	String candidatesTotal;

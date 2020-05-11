@@ -16,6 +16,7 @@ class BossJobManageData with JsonConvert<BossJobManageData> {
 
 class BossJobManageDataRecord with JsonConvert<BossJobManageDataRecord> {
 	String id;
+	String recruiterId;
 	String companyId;
 	String companyName;
 	String jobName;
@@ -24,6 +25,7 @@ class BossJobManageDataRecord with JsonConvert<BossJobManageDataRecord> {
 	int maxSalary;
 	int releaseDate;
 	int city;
+	String cityName;
 	String educationId;
 	String educationName;
 	String workDateId;

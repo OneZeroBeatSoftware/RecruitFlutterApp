@@ -1,6 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:recruit_app/entity/base_resp_entity.dart';
+import 'package:recruit_app/entity/interview_update_entity.dart';
 import 'package:recruit_app/entity/seeker_interview_entity.dart';
 import 'package:recruit_app/utils/net_utils.dart';
 import 'package:recruit_app/utils/utils.dart';
@@ -51,6 +52,33 @@ class InterviewModel {
       return baseRespEntity;
     }
     Utils.showToast(baseRespEntity.msg ?? '删除失败，请重新尝试');
+    return null;
+  }
+
+  /// 添加更新面试信息
+  Future<InterviewUpdateEntity>saveInterview(BuildContext context, {
+    String address,
+    String companyId,
+    String id,
+    int interviewDate,
+    String jobId,
+    String jobSeekerId,
+    String recruiterId,
+    String state
+  }) async  {
+    InterviewUpdateEntity baseRespEntity = await NetUtils.saveInterview(
+        context, address: address,
+        companyId: companyId,
+        id: id,
+        interviewDate: interviewDate,
+        jobId: jobId,
+        jobSeekerId: jobSeekerId,
+        recruiterId: recruiterId,
+        state: state);
+    if (baseRespEntity.statusCode ==200) {
+      return baseRespEntity;
+    }
+    Utils.showToast(baseRespEntity.msg ?? '邀请失败，请重新尝试');
     return null;
   }
 }

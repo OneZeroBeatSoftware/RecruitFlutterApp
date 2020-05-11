@@ -139,6 +139,9 @@ mainResumeDetailDataResumeFromJson(MainResumeDetailDataResume data, Map<String, 
 	if (json['state'] != null) {
 		data.state = json['state']?.toInt();
 	}
+	if (json['phone'] != null) {
+		data.phone = json['phone']?.toString();
+	}
 	return data;
 }
 
@@ -167,6 +170,7 @@ Map<String, dynamic> mainResumeDetailDataResumeToJson(MainResumeDetailDataResume
 	data['socialHomepage'] = entity.socialHomepage;
 	data['defaultResume'] = entity.defaultResume;
 	data['state'] = entity.state;
+	data['phone'] = entity.phone;
 	return data;
 }
 

@@ -76,6 +76,9 @@ candidateDataRecordFromJson(CandidateDataRecord data, Map<String, dynamic> json)
 	if (json['resumeName'] != null) {
 		data.resumeName = json['resumeName']?.toString();
 	}
+	if (json['avatar'] != null) {
+		data.avatar = json['avatar']?.toString();
+	}
 	if (json['sex'] != null) {
 		data.sex = json['sex']?.toInt();
 	}
@@ -105,6 +108,7 @@ Map<String, dynamic> candidateDataRecordToJson(CandidateDataRecord entity) {
 	data['resumeId'] = entity.resumeId;
 	data['realName'] = entity.realName;
 	data['resumeName'] = entity.resumeName;
+	data['avatar'] = entity.avatar;
 	data['sex'] = entity.sex;
 	data['workDateName'] = entity.workDateName;
 	data['minSalary'] = entity.minSalary;
