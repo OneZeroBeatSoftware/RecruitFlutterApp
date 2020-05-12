@@ -272,6 +272,11 @@ class _CandidateRoomState extends State<CandidateRoom> {
                   child: GestureDetector(
                     onTap: () {
                       FocusScope.of(context).requestFocus(FocusNode());
+                      if (widget.candidateData.candidate == null ||
+                          widget.candidateData.candidate.id == null ||
+                          widget.candidateData.candidate.id.isEmpty) {
+                        return;
+                      }
                       _deleteCandidate(widget.candidateData.candidate.id);
                     },
                     behavior: HitTestBehavior.opaque,

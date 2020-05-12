@@ -10,6 +10,7 @@ import 'package:recruit_app/entity/main_resume_detail_entity.dart';
 import 'package:recruit_app/model/boss_mine_model.dart';
 import 'package:recruit_app/model/seeker_interview_model.dart';
 import 'package:recruit_app/pages/employe/candidate_boss_room_intro.dart';
+import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/craft_date_time_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -100,6 +101,11 @@ class _CandidateBossRoomState extends State<CandidateBossRoom> {
       child: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
+          if (widget.candidateData.candidate == null ||
+              widget.candidateData.candidate.id == null ||
+              widget.candidateData.candidate.id.isEmpty) {
+            return;
+          }
           _deleteCandidate(widget.candidateData.candidate.id);
         },
         behavior: HitTestBehavior.opaque,

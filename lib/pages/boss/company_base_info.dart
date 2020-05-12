@@ -234,6 +234,8 @@ class _State extends State<CompanyBaseInfo> {
 			    ),
 			    NextLevel(
 			       titleW: Text("营业执照",
+			          maxLines: 1,
+			          overflow: TextOverflow.ellipsis,
 			          style: ProfileStyle.titleStyle,
 			       ),
 				    onClick: () {

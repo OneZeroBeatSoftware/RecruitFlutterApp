@@ -127,7 +127,7 @@ class ProfileItem extends StatelessWidget {
 		    Text(title, style: ProfileStyle.titleStyle),
 		    SizedBox(height: ScreenUtil().setHeight(40)),
 		    NextLevel(
-			    titleW: Text(value, style: ProfileStyle.valueStyle),
+			    titleW: Text(value, maxLines:1,overflow:TextOverflow.ellipsis,style: ProfileStyle.valueStyle),
 			    onClick: () {
 						FocusScope.of(context).requestFocus(FocusNode());
 						if(onClick != null) {
@@ -171,7 +171,7 @@ class NextLevel extends StatelessWidget {
 				mainAxisAlignment: MainAxisAlignment.spaceBetween,
 				
 				children: <Widget>[
-					this.titleW,
+					Expanded(child: this.titleW),
 					Row(
 						children: tailWs,
 					),
