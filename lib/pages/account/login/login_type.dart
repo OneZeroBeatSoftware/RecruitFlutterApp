@@ -5,7 +5,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ota_update/ota_update.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
+import 'package:recruit_app/entity/banner_entity.dart';
 import 'package:recruit_app/model/identity_model.dart';
+import 'package:recruit_app/model/recruit_resume_model.dart';
 import 'package:recruit_app/model/user_model.dart';
 import 'package:recruit_app/pages/account/login/login_in.dart';
 import 'package:recruit_app/utils/net_utils.dart';
@@ -79,7 +81,9 @@ class _LoginTypeState extends State<LoginType> {
   @override
   void initState() {
     // TODO: implement initState
-    NetUtils.init();
+    NetUtils.init(success: (){
+      getBanner();
+    });
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((callback) {
       initSetting(context);
@@ -188,5 +192,11 @@ class _LoginTypeState extends State<LoginType> {
         ],
       ),
     );
+  }
+  /// 获取banner图
+  getBanner() async {
+    List<BannerData> _bannerData = await MainResumeModel.instance.getBanner(context);
+    if (_bannerData != null && _bannerData.length > 0) {
+    }
   }
 }

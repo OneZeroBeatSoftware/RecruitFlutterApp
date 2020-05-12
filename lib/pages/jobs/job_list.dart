@@ -1,3 +1,4 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
@@ -9,6 +10,7 @@ import 'package:recruit_app/entity/banner_entity.dart';
 import 'package:recruit_app/entity/filter_data.dart';
 import 'package:recruit_app/entity/job_list_entity.dart';
 import 'package:recruit_app/model/job_model.dart';
+import 'package:recruit_app/model/recruit_resume_model.dart';
 import 'package:recruit_app/pages/jobs/city_filter.dart';
 import 'package:recruit_app/pages/jobs/job_company_search.dart';
 import 'package:recruit_app/pages/jobs/job_detail.dart';
@@ -44,18 +46,20 @@ class _JobListState extends State<JobList> {
   String _jobType='';
 
   List<BannerData> _bannerList = [];
-  bool isNetBanner=false;
 
   @override
   void initState() {
     // TODO: implement initState
     _selCity=Application.sp.get('location_city')??'请选择城市';
     _cityId=Application.sp.get('location_city_id')??'';
-    super.initState();
     _refreshController = EasyRefreshController();
+    _bannerList=MainResumeModel.instance.bannerList;
+    if(_bannerList==null){
+      _bannerList = [];
+    }
+    super.initState();
     WidgetsBinding.instance.addPostFrameCallback((call) {
       _jobModel = Provider.of<JobModel>(context);
-      getBanner();
     });
   }
 
@@ -233,6 +237,7 @@ class _JobListState extends State<JobList> {
                                 fit: BoxFit.cover,
                               );
                             }).toList(),
+                            duration: 500,
                             autoplay: true,
                             physics: BouncingScrollPhysics(),
                             pagination: new SwiperPagination(
@@ -531,17 +536,5 @@ class _JobListState extends State<JobList> {
     }
     setState(() {
     });
-  }
-
-  /// 获取banner图
-  getBanner() async {
-    List<BannerData> _bannerData = await _jobModel.getBanner(context);
-    if (_bannerData != null && _bannerData.length > 0) {
-      isNetBanner=true;
-      _bannerList.clear();
-      setState(() {
-        _bannerList.addAll(_bannerData);
-      });
-    }
   }
 }

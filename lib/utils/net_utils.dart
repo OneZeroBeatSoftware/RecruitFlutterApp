@@ -55,7 +55,7 @@ class NetUtils {
   static Dio _dio;
   static final String baseUrl = 'https://www.onezerobeat.com/recruit';
 
-  static void init() async {
+  static void init({Function() success}) async {
     Directory tempDir = await getTemporaryDirectory();
     String tempPath = tempDir.path;
     CookieJar cj = PersistCookieJar(dir: tempPath);
@@ -64,6 +64,9 @@ class NetUtils {
       ..interceptors
           .add(CustomLogInterceptor(responseBody: true, requestBody: true))
     ..interceptors.add(TokenInterceptor());
+    if(success!=null){
+      success();
+    }
   }
 
   static Future<Response> _delete(

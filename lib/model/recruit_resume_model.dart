@@ -59,10 +59,14 @@ class MainResumeModel {
     return null;
   }
 
+  List<BannerData> _bannerList=[];
+  List<BannerData> get bannerList => _bannerList;
   /// 获取广告图
   Future<List<BannerData>> getBanner(BuildContext context) async {
     BannerEntity bannerEntity = await NetUtils.getBanner(context);
     if (bannerEntity.statusCode ==200) {
+      _bannerList.clear();
+      _bannerList.addAll(bannerEntity.data);
       return bannerEntity.data;
     }
     return null;

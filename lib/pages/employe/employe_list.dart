@@ -1,3 +1,4 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
@@ -38,7 +39,6 @@ class _EmployeeListState extends State<EmployeeList> {
   String _salary='';
 
   List<BannerData> _bannerList = [];
-  bool isNetBanner=false;
 
   @override
   void initState() {
@@ -46,10 +46,11 @@ class _EmployeeListState extends State<EmployeeList> {
     _selCity=Application.sp.get('location_city')??'请选择城市';
     _cityId=Application.sp.get('location_city_id')??'';
     _refreshController = EasyRefreshController();
+    _bannerList=MainResumeModel.instance.bannerList;
+    if(_bannerList==null){
+      _bannerList = [];
+    }
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((callback) {
-      getBanner();
-    });
   }
 
   @override
@@ -226,6 +227,7 @@ class _EmployeeListState extends State<EmployeeList> {
                                 fit: BoxFit.cover,
                               );
                             }).toList(),
+                            duration: 500,
                             autoplay: true,
                             pagination: new SwiperPagination(
                               builder: DotSwiperPaginationBuilder(
@@ -517,17 +519,5 @@ class _EmployeeListState extends State<EmployeeList> {
       }
       setState(() {});
     });
-  }
-
-  /// 获取banner图
-  getBanner() async {
-    List<BannerData> _bannerData = await MainResumeModel.instance.getBanner(context);
-    if (_bannerData != null && _bannerData.length > 0) {
-      isNetBanner=true;
-      _bannerList.clear();
-      setState(() {
-        _bannerList.addAll(_bannerData);
-      });
-    }
   }
 }
