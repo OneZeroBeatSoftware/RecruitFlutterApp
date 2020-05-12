@@ -253,6 +253,14 @@ class _MsgListState extends State<MsgList> {
                           child: MsgChatItem(btnKey: key),);
                       } else if (!_firstType && _secondType) {
                         return GestureDetector(onTap: () {
+                          if(InterviewModel.instance.interviewList[idx].state=='7'){
+                            Utils.showToast('求职者已不是候选人，面试取消');
+                            return;
+                          }
+                          if(InterviewModel.instance.interviewList[idx].state=='8'){
+                            Utils.showToast('岗位信息已删除，面试取消');
+                            return;
+                          }
                           Navigator.push(
                             context,
                             MaterialPageRoute(

@@ -91,6 +91,14 @@ class _MineInterViewState extends State<MineInterView> {
                   if (idx < InterviewModel.instance.interviewList.length) {
                     return GestureDetector(
                       onTap: () {
+                        if(InterviewModel.instance.interviewList[idx].state=='7'){
+                          Utils.showToast('求职者已不是候选人，面试取消');
+                          return;
+                        }
+                        if(InterviewModel.instance.interviewList[idx].state=='8'){
+                          Utils.showToast('岗位信息已删除，面试取消');
+                          return;
+                        }
                         if(widget.msgType==MsgType.recruiter) {
                           Navigator.push(
                               context,

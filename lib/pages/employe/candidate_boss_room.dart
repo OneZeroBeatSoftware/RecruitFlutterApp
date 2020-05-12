@@ -254,6 +254,12 @@ class _CandidateBossRoomState extends State<CandidateBossRoom> {
         case "6":
           status = '未通过';
           break;
+        case "7":
+          status='取消候选';
+          break;
+        case "8":
+          status='岗位失效';
+          break;
       }
     }
 
