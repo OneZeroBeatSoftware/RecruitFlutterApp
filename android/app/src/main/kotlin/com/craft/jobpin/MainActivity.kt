@@ -1,4 +1,4 @@
-package com.recruit.recruit_app
+package com.craft.jobpin
 
 import android.os.Bundle
 import io.flutter.app.FlutterActivity

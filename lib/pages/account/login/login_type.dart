@@ -31,6 +31,9 @@ class _LoginTypeState extends State<LoginType> {
     await Application.initSp();
     UserModel userModel = Provider.of<UserModel>(context);
     userModel.initUser();
+    NetUtils.init(success: (){
+      getBanner();
+    });
   }
 
   void _initData() async {
@@ -81,9 +84,6 @@ class _LoginTypeState extends State<LoginType> {
   @override
   void initState() {
     // TODO: implement initState
-    NetUtils.init(success: (){
-      getBanner();
-    });
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((callback) {
       initSetting(context);

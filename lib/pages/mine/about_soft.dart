@@ -13,7 +13,7 @@ class AboutSoft extends StatefulWidget {
 class _AboutSoftState extends State<AboutSoft> {
   String _appName='JobPin';
   String _version='1.0.0';
-//  String _packageName='com.recruit.recruit_app';
+//  String _packageName='com.craft.jobpin';
 //  String _buildNumber='1';
 
   @override
