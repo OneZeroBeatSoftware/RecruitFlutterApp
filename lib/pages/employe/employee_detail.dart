@@ -7,6 +7,7 @@ import 'package:recruit_app/entity/candidate_update_entity.dart';
 import 'package:recruit_app/entity/collection_entity.dart';
 import 'package:recruit_app/entity/main_resume_detail_entity.dart';
 import 'package:recruit_app/model/boss_mine_model.dart';
+import 'package:recruit_app/model/mine_model.dart';
 import 'package:recruit_app/model/recruit_resume_model.dart';
 import 'package:recruit_app/pages/employe/candidate_boss_room.dart';
 import 'package:recruit_app/pages/jobs/report.dart';
@@ -37,6 +38,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
   bool _isCollected=false;
   String _starId;
   List<String> _reports=[];
+  String _jobState='';
 
   MainResumeDetailData _resumeDetailData;
 
@@ -78,7 +80,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
             '${DateUtil.formatDateMs(
                 item.startDate, format: 'yyyy-MM-dd')}-${DateUtil.formatDateMs(
                 item.endDate, format: 'yyyy-MM-dd')}',
-            <String>['地产设计', '插画师', '设计部门']));
+            <String>[]));
       });
 
       _resumeDetailData.projectExperience.forEach((item){
@@ -86,7 +88,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
             '${DateUtil.formatDateMs(
                 item.startDate, format: 'yyyy-MM-dd')}-${DateUtil.formatDateMs(
                 item.endDate, format: 'yyyy-MM-dd')}',
-            <String>['地产设计', '插画师', '设计部门']));
+            <String>[]));
       });
 
       _resumeDetailData.educationExperience.forEach((item){
@@ -344,7 +346,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                           Text("个人信息",
                              style: TextStyle(color: Color.fromRGBO(57,57,57,1), fontSize: ScreenUtil().setSp(36),fontWeight: FontWeight.w500)
                           ),
-                          Text("离职-随时到岗",
+                          Text("$_jobState",
                              style: TextStyle(color: Color.fromRGBO(95,94,94,1), fontSize: ScreenUtil().setSp(24), fontWeight: FontWeight.w300)
                           ),
                         ],
@@ -394,7 +396,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                         style: TextStyle(color: Color.fromRGBO(95,94,94,1), fontSize: ScreenUtil().setSp(28)),
                       ),
                       SizedBox(height: ScreenUtil().setHeight(12)),
-                      Text("wwww.onezerobeat.com",
+                      Text(_resumeDetailData.resume.socialHomepage.replaceAll(',', '\n'),
                         style: TextStyle(color: Color.fromRGBO(95,94,94,1), fontSize: ScreenUtil().setSp(28)),
                       ),
                       Container(
@@ -428,10 +430,24 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
   void getResumeDetail(String resumeId) async {
     MainResumeModel.instance.getResumeDetail(context, resumeId).then((resume){
       if (resume.data != null) {
+        _getJobState(resume.data.resume.jobSeekerId);
         _starId=resume.data.starId;
         setState(() {
           _isCollected=(_starId!=null&&_starId.isNotEmpty);
           _resumeDetailData=resume.data;
+        });
+      }
+    });
+  }
+
+  /// 获取求职状态
+  _getJobState(String id) {
+    MineModel.instance
+        .getJobState(context, id)
+        .then((model) {
+      if (model != null) {
+        setState(() {
+          _jobState = model;
         });
       }
     });
