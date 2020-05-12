@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:recruit_app/application.dart';
+import 'package:recruit_app/entity/base_resp_entity.dart';
 import 'package:recruit_app/model/boss_mine_model.dart';
 import 'package:recruit_app/pages/boss/job_manage_item.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/pages/boss/company_post_recruit.dart';
+import 'package:recruit_app/widgets/slide_button.dart';
 
 
 class JobManage extends StatefulWidget {
@@ -99,11 +102,25 @@ class _JobManageState extends State<JobManage> {
                   SliverList(
                       delegate: SliverChildBuilderDelegate((context, index) {
                         if (index < BossMineModel.instance.jobList.length) {
+                          var key = GlobalKey<SlideButtonState>();
                           return GestureDetector(
                               behavior: HitTestBehavior.opaque,
-                              child: JobManageItem(
-                                  jobManageData:  BossMineModel.instance.jobList[index],
-                                  index: index),
+                              child: SlideButton(
+                                key: key,
+                                singleButtonWidth: ScreenUtil().setWidth(116),
+                                child: Container(
+                                  color: Colors.white,
+                                  child: JobManageItem(
+                                      jobManageData:  BossMineModel.instance.jobList[index],
+                                      index: index),
+                                ),
+                                buttons: <Widget>[
+                                  buildAction(key, Colors.red, () {
+                                    key.currentState.close();
+                                    _deleteJob(BossMineModel.instance.jobList[index].id, index);
+                                  }),
+                                ],
+                              ),
                               onTap: () {
                                 Navigator.push<String>(
                                     context,
@@ -130,6 +147,24 @@ class _JobManageState extends State<JobManage> {
         ));
   }
 
+  InkWell buildAction(GlobalKey<SlideButtonState> key, Color color,
+      GestureTapCallback tap) {
+    return InkWell(
+      onTap: tap,
+      child: Container(
+        alignment: Alignment.center,
+        width: ScreenUtil().setWidth(116),
+        color: color,
+        child: Image.asset(
+          'images/img_del_white.png',
+          width: ScreenUtil().setWidth(30),
+          height: ScreenUtil().setWidth(38),
+          fit: BoxFit.contain,
+        ),
+      ),
+    );
+  }
+
   /// 获取岗位列表
   _getJobList() {
     BossMineModel.instance.getJobList(context, Application.sp.getString('recruiterId'),_pageIndex).then((model){
@@ -138,5 +173,17 @@ class _JobManageState extends State<JobManage> {
       }
       setState(() {});
     });
+  }
+
+  /// 删除岗位信息
+  _deleteJob(String id,int index) async {
+    BaseRespEntity _baseEntity = await BossMineModel.instance
+        .deleteJob(context,id);
+    if (_baseEntity != null) {
+      Utils.showToast(_baseEntity.msg??'删除成功');
+      BossMineModel.instance.jobList.removeAt(index);
+      setState(() {
+      });
+    }
   }
 }

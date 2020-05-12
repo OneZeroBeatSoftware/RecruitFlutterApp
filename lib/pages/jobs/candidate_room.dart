@@ -45,116 +45,118 @@ class _CandidateRoomState extends State<CandidateRoom> {
   @override
   Widget build(BuildContext context) {
     List<Widget> operateWidget = [];
-    if (widget.candidateData.interview.state == '1') {
-      operateWidget.add(Expanded(
-        child: GestureDetector(
-          onTap: () {
-            _inviteInterView(widget.candidateData.interview.id,
-                widget.candidateData.interview.interviewDate, '3');
-          },
-          child: Container(
-            height: ScreenUtil().setWidth(90),
-            alignment: Alignment.center,
-            child: Text(
-              '拒绝',
-              textAlign: TextAlign.center,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                  color: Color.fromRGBO(159, 199, 235, 1),
-                  fontSize: ScreenUtil().setSp(28)),
+    if(widget.candidateData.interview!=null){
+      if (widget.candidateData.interview.state == '1') {
+        operateWidget.add(Expanded(
+          child: GestureDetector(
+            onTap: () {
+              _inviteInterView(widget.candidateData.interview.id,
+                  widget.candidateData.interview.interviewDate, '3');
+            },
+            child: Container(
+              height: ScreenUtil().setWidth(90),
+              alignment: Alignment.center,
+              child: Text(
+                '拒绝',
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    color: Color.fromRGBO(159, 199, 235, 1),
+                    fontSize: ScreenUtil().setSp(28)),
+              ),
+            ),
+            behavior: HitTestBehavior.opaque,
+          ),
+        ));
+        operateWidget.add(Expanded(
+          child: GestureDetector(
+            onTap: () {
+              _adJustInterviewTime();
+            },
+            behavior: HitTestBehavior.opaque,
+            child: Container(
+              height: ScreenUtil().setWidth(90),
+              alignment: Alignment.center,
+              child: Text(
+                '调整时间',
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    color: Color.fromRGBO(159, 199, 235, 1),
+                    fontSize: ScreenUtil().setSp(28)),
+              ),
             ),
           ),
-          behavior: HitTestBehavior.opaque,
-        ),
-      ));
-      operateWidget.add(Expanded(
-        child: GestureDetector(
-          onTap: () {
-            _adJustInterviewTime();
-          },
-          behavior: HitTestBehavior.opaque,
-          child: Container(
-            height: ScreenUtil().setWidth(90),
-            alignment: Alignment.center,
-            child: Text(
-              '调整时间',
-              textAlign: TextAlign.center,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                  color: Color.fromRGBO(159, 199, 235, 1),
-                  fontSize: ScreenUtil().setSp(28)),
+        ));
+        operateWidget.add(Expanded(
+          child: GestureDetector(
+            onTap: () {
+              _inviteInterView(widget.candidateData.interview.id,
+                  widget.candidateData.interview.interviewDate, '2');
+            },
+            child: Container(
+              height: ScreenUtil().setWidth(90),
+              alignment: Alignment.center,
+              child: Text(
+                '接受',
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    color: Color.fromRGBO(159, 199, 235, 1),
+                    fontSize: ScreenUtil().setSp(28)),
+              ),
+            ),
+            behavior: HitTestBehavior.opaque,
+          ),
+        ));
+      } else if (widget.candidateData.interview.state == '2') {
+        operateWidget.add(Expanded(
+          child: GestureDetector(
+            onTap: () {
+              _inviteInterView(widget.candidateData.interview.id,
+                  widget.candidateData.interview.interviewDate, '4');
+            },
+            child: Container(
+              height: ScreenUtil().setWidth(90),
+              alignment: Alignment.center,
+              child: Text(
+                '取消',
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    color: Color.fromRGBO(159, 199, 235, 1),
+                    fontSize: ScreenUtil().setSp(28)),
+              ),
+            ),
+            behavior: HitTestBehavior.opaque,
+          ),
+        ));
+        operateWidget.add(Expanded(
+          child: GestureDetector(
+            onTap: () {
+              _adJustInterviewTime();
+            },
+            behavior: HitTestBehavior.opaque,
+            child: Container(
+              height: ScreenUtil().setWidth(90),
+              alignment: Alignment.center,
+              child: Text(
+                '调整时间',
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    color: Color.fromRGBO(159, 199, 235, 1),
+                    fontSize: ScreenUtil().setSp(28)),
+              ),
             ),
           ),
-        ),
-      ));
-      operateWidget.add(Expanded(
-        child: GestureDetector(
-          onTap: () {
-            _inviteInterView(widget.candidateData.interview.id,
-                widget.candidateData.interview.interviewDate, '2');
-          },
-          child: Container(
-            height: ScreenUtil().setWidth(90),
-            alignment: Alignment.center,
-            child: Text(
-              '接受',
-              textAlign: TextAlign.center,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                  color: Color.fromRGBO(159, 199, 235, 1),
-                  fontSize: ScreenUtil().setSp(28)),
-            ),
-          ),
-          behavior: HitTestBehavior.opaque,
-        ),
-      ));
-    } else if (widget.candidateData.interview.state == '2') {
-      operateWidget.add(Expanded(
-        child: GestureDetector(
-          onTap: () {
-            _inviteInterView(widget.candidateData.interview.id,
-                widget.candidateData.interview.interviewDate, '4');
-          },
-          child: Container(
-            height: ScreenUtil().setWidth(90),
-            alignment: Alignment.center,
-            child: Text(
-              '取消',
-              textAlign: TextAlign.center,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                  color: Color.fromRGBO(159, 199, 235, 1),
-                  fontSize: ScreenUtil().setSp(28)),
-            ),
-          ),
-          behavior: HitTestBehavior.opaque,
-        ),
-      ));
-      operateWidget.add(Expanded(
-        child: GestureDetector(
-          onTap: () {
-            _adJustInterviewTime();
-          },
-          behavior: HitTestBehavior.opaque,
-          child: Container(
-            height: ScreenUtil().setWidth(90),
-            alignment: Alignment.center,
-            child: Text(
-              '调整时间',
-              textAlign: TextAlign.center,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                  color: Color.fromRGBO(159, 199, 235, 1),
-                  fontSize: ScreenUtil().setSp(28)),
-            ),
-          ),
-        ),
-      ));
+        ));
+      }
     }
 
     String status = '面试邀请';

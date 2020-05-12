@@ -1014,6 +1014,12 @@ class NetUtils {
     return BaseRespEntity().fromJson(response.data);
   }
 
+  /// 招聘者删除岗位
+  static Future<BaseRespEntity> deleteJob(BuildContext context, String jobId) async {
+    var response = await _delete(context, '/job/delete/$jobId',isShowLoading: true);
+    return BaseRespEntity().fromJson(response.data);
+  }
+
   /// 添加、更新公司信息
   static Future<BaseRespEntity> editCompany(BuildContext context, Map<String,dynamic> params) async {
     var response = await _post(context, '/company/save',params: params);

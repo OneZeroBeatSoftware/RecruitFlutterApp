@@ -172,6 +172,7 @@ class _CandidateBossRoomState extends State<CandidateBossRoom> {
         ),
       ),
     ));
+    if(widget.candidateData.interview!=null){
     if(widget.candidateData.interview.state=='2'){
       interViewOperate.add(Expanded(
         child: GestureDetector(
@@ -231,7 +232,7 @@ class _CandidateBossRoomState extends State<CandidateBossRoom> {
           ),
         ),
       ));
-    }
+    }}
     String status = '面试邀请';
     if (widget.candidateData.interview != null) {
       switch (widget.candidateData.interview.state) {
@@ -419,7 +420,7 @@ class _CandidateBossRoomState extends State<CandidateBossRoom> {
                   widget.candidateData.interview.state
                   );
             } else {
-              _inviteInterView(null,datetime.millisecondsSinceEpoch,null);
+              _inviteInterView(null,datetime.millisecondsSinceEpoch,'1');
             }
           },
         );
