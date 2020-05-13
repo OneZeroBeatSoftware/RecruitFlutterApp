@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:recruit_app/application.dart';
-import 'package:recruit_app/entity/base_resp_entity.dart';
+import 'package:recruit_app/entity/base_info_entity.dart';
 import 'package:recruit_app/model/boss_mine_model.dart';
 import 'package:recruit_app/model/file_model.dart';
 import 'package:recruit_app/utils/utils.dart';
@@ -17,12 +17,17 @@ class BossBaseInfoResult{
 
   BossBaseInfoResult(this.userName, this.avatar);
 }
+enum BossEnterType{
+  init,
+  modify
+}
 class BossBaseInfo extends StatefulWidget {
   final String userName;
   final String avatar;
   final String id;
+  final BossEnterType enterType;
 
-  const BossBaseInfo({Key key, this.userName, this.avatar, this.id})
+  const BossBaseInfo({Key key, this.userName='', this.avatar='', this.id, this.enterType=BossEnterType.modify})
       : super(key: key);
 
   @override
@@ -63,6 +68,10 @@ class _BossBaseInfoState extends State<BossBaseInfo> {
         ),
         leading: 'images/img_arrow_left_black.png',
         leftListener: () {
+          if(widget.enterType==BossEnterType.init){
+            Utils.showToast('请先完善招聘者身份信息');
+            return;
+          }
           FocusScope.of(context).requestFocus(FocusNode());
           Navigator.pop(context);
         },
@@ -248,10 +257,13 @@ class _BossBaseInfoState extends State<BossBaseInfo> {
 
   /// 添加、修改招聘者信息
   _saveRecruiter(String id,String avatar,String name) async {
-    BaseRespEntity _baseEntity = await BossMineModel.instance.saveRecruiter(
+    BaseInfoEntity _baseEntity = await BossMineModel.instance.saveRecruiter(
         context, id, Application.sp.getString('userId'),avatar,name);
     if (_baseEntity != null) {
       Utils.showToast(_baseEntity.msg ?? '修改成功');
+      Application.sp.setString('recruiterId', _baseEntity.data.id);
+      Application.sp.setString('recruiterName', name);
+      Application.sp.setString('recruiterAvatar',avatar);
       Navigator.pop(context,BossBaseInfoResult(name, avatar));
     }
   }

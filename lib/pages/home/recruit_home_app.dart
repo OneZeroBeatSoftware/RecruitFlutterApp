@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:recruit_app/application.dart';
 import 'package:recruit_app/model/identity_model.dart';
 import 'package:recruit_app/model/msg_type.dart';
 import 'package:recruit_app/pages/boss/boss.dart';
+import 'package:recruit_app/pages/boss/boss_base_info.dart';
 import 'package:recruit_app/pages/companys/company_list.dart';
 import 'package:recruit_app/pages/employe/employe_list.dart';
 import 'package:recruit_app/pages/jobs/job_list.dart';
 import 'package:recruit_app/pages/mine/me.dart';
+import 'package:recruit_app/pages/mine/user_base_info.dart';
 import 'package:recruit_app/pages/msg/msg_list.dart';
 
 class RecruitHomeApp extends StatefulWidget {
@@ -193,6 +196,41 @@ class _RecruitHomeState extends State<RecruitHomeApp> {
 //      _selectedIndex = index;
 //    });
 //  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      IdentityModel identityModel=Provider.of<IdentityModel>(context);
+      if (identityModel.identity==Identity.boss&&Application.sp.get('recruiterId')==null){
+        Navigator.push<BossBaseInfoResult>(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                BossBaseInfo(enterType: BossEnterType.init,),),).then((value) {
+          if (value != null) {
+          }
+        });
+      } else if(identityModel.identity==Identity.employee&&Application.sp.get('jobSeekerId')==null){
+        Navigator.push<UserBaseInfoResult>(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                UserBaseInfo(enterType: EnterType.init,),),).then((value) {
+          if (value != null) {
+
+          }
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

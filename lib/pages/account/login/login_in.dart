@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:recruit_app/application.dart';
 import 'package:recruit_app/model/user_model.dart';
 import 'package:recruit_app/pages/account/login/email_login_in.dart';
 import 'package:recruit_app/pages/account/login/msg_login_in.dart';
@@ -22,8 +23,16 @@ class _LoginInState extends State<LoginIn> {
   UserModel userModel;
   @override
   void initState() {
-    _phoneController = TextEditingController();
-    _pwdController = TextEditingController();
+    if(Application.sp.get('loginName')!=null){
+      _phoneController = TextEditingController(text: '${Application.sp.get('loginName')}');
+    }else {
+      _phoneController = TextEditingController();
+    }
+    if(Application.sp.get('loginPwd')!=null){
+      _pwdController = TextEditingController(text: '${Application.sp.get('loginPwd')}');
+    }else {
+      _pwdController = TextEditingController();
+    }
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((callback){
       userModel=Provider.of<UserModel>(context);
@@ -202,7 +211,7 @@ class _LoginInState extends State<LoginIn> {
                       String phone = _phoneController.text;
                       String pwd = _pwdController.text;
                       if (phone.isEmpty) {
-                        Utils.showToast('请填写登录手机号');
+                        Utils.showToast('请填写用户名');
                         return;
                       }
                       if (pwd.isEmpty) {
@@ -211,6 +220,8 @@ class _LoginInState extends State<LoginIn> {
                       }
                       userModel.login(context, phone, pwd).then((value){
                         if(value!=null){
+                          Application.sp.setString('loginName', phone);
+                          Application.sp.setString('loginPwd', pwd);
                           Navigator.pop(context);
                           Navigator.push(
                             context,

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:recruit_app/entity/base_info_entity.dart';
 import 'package:recruit_app/entity/base_resp_entity.dart';
 import 'package:recruit_app/entity/boss_apply_list_entity.dart';
 import 'package:recruit_app/entity/boss_info_entity.dart';
@@ -38,12 +39,12 @@ class BossMineModel{
   }
 
   /// 添加、修改招聘者信息
-  Future<BaseRespEntity> saveRecruiter(BuildContext context,String id,String userId,String avatar,String realName) async {
-    BaseRespEntity baseRespEntity = await NetUtils.saveRecruiter(context,id,userId,avatar,realName);
+  Future<BaseInfoEntity> saveRecruiter(BuildContext context,String id,String userId,String avatar,String realName) async {
+    BaseInfoEntity baseRespEntity = await NetUtils.saveRecruiter(context,id,userId,avatar,realName);
     if (baseRespEntity.statusCode ==200) {
       return baseRespEntity;
     }
-    Utils.showToast(baseRespEntity.msg ?? '修改失败，请重新尝试');
+    Utils.showToast(baseRespEntity.msg ?? '操作失败，请重新尝试');
     return null;
   }
 

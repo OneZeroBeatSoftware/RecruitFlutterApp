@@ -99,8 +99,6 @@ class _BossMineState extends State<BossMine> {
                                   avatar: _avatar,
                                   userName: _userName,),),).then((value) {
                           if (value != null && _mineInfoData != null) {
-                            Application.sp.setString('recruiterName', value.userName);
-                            Application.sp.setString('recruiterAvatar',value.avatar);
                             setState(() {
                               _avatar=value.avatar;
                               _userName=value.userName;

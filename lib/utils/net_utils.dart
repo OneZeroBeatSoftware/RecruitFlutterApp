@@ -9,6 +9,7 @@ import 'package:recruit_app/entity/age_entity.dart';
 import 'package:recruit_app/entity/apply_list_entity.dart';
 import 'package:recruit_app/entity/banner_entity.dart';
 import 'package:recruit_app/entity/base_data_entity.dart';
+import 'package:recruit_app/entity/base_info_entity.dart';
 import 'package:recruit_app/entity/base_resp_entity.dart';
 import 'package:recruit_app/entity/black_list_entity.dart';
 import 'package:recruit_app/entity/boss_apply_list_entity.dart';
@@ -682,7 +683,7 @@ class NetUtils {
   }
 
   /// 添加、修改求职者信息
-  static Future<BaseRespEntity> saveJobSeeker(BuildContext context,String id,String userId,String avatar,String realName) async {
+  static Future<BaseInfoEntity> saveJobSeeker(BuildContext context,String id,String userId,String avatar,String realName) async {
     Map<String,dynamic> params={};
     params["userId"] = userId;
     params["avatar"] = avatar;
@@ -692,7 +693,7 @@ class NetUtils {
     }
 
     var response = await _post(context, '/jobSeeker/save',params: params,isShowLoading: true);
-    return BaseRespEntity().fromJson(response.data);
+    return BaseInfoEntity().fromJson(response.data);
   }
 
   /// 获取黑名单列表
@@ -852,7 +853,7 @@ class NetUtils {
   }
 
   /// 添加、修改招聘者信息
-  static Future<BaseRespEntity> saveRecruiter(BuildContext context,String id,String userId,String avatar,String realName) async {
+  static Future<BaseInfoEntity> saveRecruiter(BuildContext context,String id,String userId,String avatar,String realName) async {
     Map<String,dynamic> params={};
     params["userId"] = userId;
     params["avatar"] = avatar;
@@ -862,7 +863,7 @@ class NetUtils {
     }
 
     var response = await _post(context, '/recruiter/save',params: params,isShowLoading: true);
-    return BaseRespEntity().fromJson(response.data);
+    return BaseInfoEntity().fromJson(response.data);
   }
 
   /// 获取招聘者首页人才列表

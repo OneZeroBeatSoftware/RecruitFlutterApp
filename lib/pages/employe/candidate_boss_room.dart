@@ -10,7 +10,6 @@ import 'package:recruit_app/entity/main_resume_detail_entity.dart';
 import 'package:recruit_app/model/boss_mine_model.dart';
 import 'package:recruit_app/model/seeker_interview_model.dart';
 import 'package:recruit_app/pages/employe/candidate_boss_room_intro.dart';
-import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/craft_date_time_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 

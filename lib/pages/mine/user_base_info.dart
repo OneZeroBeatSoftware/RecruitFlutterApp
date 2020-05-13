@@ -5,12 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:recruit_app/application.dart';
-import 'package:recruit_app/entity/base_resp_entity.dart';
+import 'package:recruit_app/entity/base_info_entity.dart';
 import 'package:recruit_app/model/file_model.dart';
 import 'package:recruit_app/model/mine_model.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
-import 'package:recruit_app/widgets/craft_picker.dart';
 import 'package:recruit_app/widgets/network_image.dart';
 class UserBaseInfoResult{
   String userName;
@@ -18,13 +17,18 @@ class UserBaseInfoResult{
 
   UserBaseInfoResult(this.userName, this.avatar);
 }
+enum EnterType{
+  init,
+  modify
+}
 class UserBaseInfo extends StatefulWidget {
   final String userName;
   final String avatar;
   final String id;
+  final EnterType enterType;
   final Function(String) changeJobState;
 
-  const UserBaseInfo({Key key, this.userName, this.avatar, this.changeJobState, this.id})
+  const UserBaseInfo({Key key, this.userName='', this.avatar='', this.changeJobState, this.id, this.enterType=EnterType.modify})
       : super(key: key);
 
   @override
@@ -38,9 +42,9 @@ class _UserBaseInfoState extends State<UserBaseInfo> {
   TextEditingController _nameController;
   String _avatar;
 
-  String _jobState = '';
-  int _selStatePos = 0;
-  String _selStateId = '';
+//  String _jobState = '';
+//  int _selStatePos = 0;
+//  String _selStateId = '';
 
   @override
   void initState() {
@@ -48,10 +52,10 @@ class _UserBaseInfoState extends State<UserBaseInfo> {
     super.initState();
     _avatar = widget.avatar;
     _nameController = TextEditingController(text: widget.userName);
-    WidgetsBinding.instance.addPostFrameCallback((callback) {
-      _getJobState();
-      _getJobStateList();
-    });
+//    WidgetsBinding.instance.addPostFrameCallback((callback) {
+//      _getJobState();
+//      _getJobStateList();
+//    });
   }
 
   @override
@@ -76,6 +80,10 @@ class _UserBaseInfoState extends State<UserBaseInfo> {
         ),
         leading: 'images/img_arrow_left_black.png',
         leftListener: () {
+          if(widget.enterType==EnterType.init){
+            Utils.showToast('请先完善求职者身份信息');
+            return;
+          }
           FocusScope.of(context).requestFocus(FocusNode());
           Navigator.pop(context);
         },
@@ -227,65 +235,65 @@ class _UserBaseInfoState extends State<UserBaseInfo> {
                   ),
                   onSubmitted: (text) {},
                 ),
-                GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(
-                        vertical: ScreenUtil().setWidth(50)),
-                    margin: EdgeInsets.only(
-                        bottom: ScreenUtil().setWidth(48)),
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: Color.fromRGBO(159, 199, 235, 1),
-                          width: ScreenUtil().setWidth(1),
-                        ),
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Expanded(
-                          child: Text(
-                            '求职状态',
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromRGBO(57, 57, 57, 1),
-                                fontSize: ScreenUtil().setSp(32)),
-                          ),
-                        ),
-                        SizedBox(
-                          width: ScreenUtil().setWidth(30),
-                        ),
-                        Text(
-                          '$_jobState',
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style: TextStyle(
-                            color: Color.fromRGBO(176, 181, 180, 1),
-                            fontSize: ScreenUtil().setSp(24),
-                          ),
-                        ),
-                        SizedBox(
-                          width: ScreenUtil().setWidth(16),
-                        ),
-                        Image.asset(
-                          'images/img_arrow_right_blue.png',
-                          width: ScreenUtil().setWidth(10),
-                          height: ScreenUtil().setWidth(20),
-                          fit: BoxFit.cover,
-                        )
-                      ],
-                    ),
-                  ),
-                  onTap: () {
-                    FocusScope.of(context).requestFocus(FocusNode());
-                    _setJobState();
-                  },
-                ),
+//                GestureDetector(
+//                  behavior: HitTestBehavior.opaque,
+//                  child: Container(
+//                    padding: EdgeInsets.symmetric(
+//                        vertical: ScreenUtil().setWidth(50)),
+//                    margin: EdgeInsets.only(
+//                        bottom: ScreenUtil().setWidth(48)),
+//                    decoration: BoxDecoration(
+//                      border: Border(
+//                        bottom: BorderSide(
+//                          color: Color.fromRGBO(159, 199, 235, 1),
+//                          width: ScreenUtil().setWidth(1),
+//                        ),
+//                      ),
+//                    ),
+//                    child: Row(
+//                      mainAxisAlignment: MainAxisAlignment.start,
+//                      crossAxisAlignment: CrossAxisAlignment.center,
+//                      children: <Widget>[
+//                        Expanded(
+//                          child: Text(
+//                            '求职状态',
+//                            overflow: TextOverflow.ellipsis,
+//                            maxLines: 1,
+//                            style: TextStyle(
+//                                fontWeight: FontWeight.bold,
+//                                color: Color.fromRGBO(57, 57, 57, 1),
+//                                fontSize: ScreenUtil().setSp(32)),
+//                          ),
+//                        ),
+//                        SizedBox(
+//                          width: ScreenUtil().setWidth(30),
+//                        ),
+//                        Text(
+//                          '$_jobState',
+//                          overflow: TextOverflow.ellipsis,
+//                          maxLines: 1,
+//                          style: TextStyle(
+//                            color: Color.fromRGBO(176, 181, 180, 1),
+//                            fontSize: ScreenUtil().setSp(24),
+//                          ),
+//                        ),
+//                        SizedBox(
+//                          width: ScreenUtil().setWidth(16),
+//                        ),
+//                        Image.asset(
+//                          'images/img_arrow_right_blue.png',
+//                          width: ScreenUtil().setWidth(10),
+//                          height: ScreenUtil().setWidth(20),
+//                          fit: BoxFit.cover,
+//                        )
+//                      ],
+//                    ),
+//                  ),
+//                  onTap: () {
+//                    FocusScope.of(context).requestFocus(FocusNode());
+//                    _setJobState();
+//                  },
+//                ),
               ],
             ),
           ),
@@ -320,68 +328,71 @@ class _UserBaseInfoState extends State<UserBaseInfo> {
 
   /// 添加、修改求职者信息
   _saveJobSeeker(String id,String avatar,String name) async {
-    BaseRespEntity _baseEntity = await MineModel.instance.saveJobSeeker(
+    BaseInfoEntity _baseEntity = await MineModel.instance.saveJobSeeker(
         context, id, Application.sp.getString('userId'),avatar,name);
     if (_baseEntity != null) {
       Utils.showToast(_baseEntity.msg ?? '修改成功');
+      Application.sp.setString('jobSeekerId',_baseEntity.data.id);
+      Application.sp.setString('jobSeekerName', name);
+      Application.sp.setString('jobSeekerAvatar',avatar);
       Navigator.pop(context,UserBaseInfoResult(name, avatar));
     }
   }
 
-  /// 设置求职状态
-  _setJobState() {
-    showCupertinoModalPopup(
-      context: context,
-      builder: (context) {
-        return CraftPicker(
-          confirm: (selPos) {
-            Navigator.pop(context);
-            _changeJobState(Application.sp.get('jobSeekerId'), MineModel.instance.jobStateList[selPos].id,selPos);
-          },
-          title: '求职状态',
-          pickList: MineModel.instance.jobStateList.map((item)=>item.name).toList(),
-          selIdx: _selStatePos,
-        );
-      },
-    );
-  }
-
-  /// 获取求职状态
-  _getJobState() {
-    MineModel.instance
-        .getJobState(context, Application.sp.get('jobSeekerId'))
-        .then((model) {
-      if (model != null) {
-        setState(() {
-          _jobState = model;
-        });
-      }
-    });
-  }
-
-  /// 获取全部求职状态
-  _getJobStateList() {
-    MineModel.instance.getJobStateList(context).then((model) {
-      if (model != null) {
-        setState(() {});
-      }
-    });
-  }
-
-  /// 修改求职状态
-  _changeJobState(String jobSeekId, String jobStateId, int selPos) async {
-    BaseRespEntity _baseEntity =
-        await MineModel.instance.changeJobState(context, jobSeekId, jobStateId);
-    if (_baseEntity != null) {
-      Utils.showToast(_baseEntity.msg ?? '修改成功');
-      if (widget.changeJobState != null) {
-        widget.changeJobState(MineModel.instance.jobStateList[selPos].name);
-      }
-      setState(() {
-        _selStatePos = selPos;
-        _selStateId = MineModel.instance.jobStateList[selPos].id;
-        _jobState = MineModel.instance.jobStateList[selPos].name;
-      });
-    }
-  }
+//  /// 设置求职状态
+//  _setJobState() {
+//    showCupertinoModalPopup(
+//      context: context,
+//      builder: (context) {
+//        return CraftPicker(
+//          confirm: (selPos) {
+//            Navigator.pop(context);
+//            _changeJobState(Application.sp.get('jobSeekerId'), MineModel.instance.jobStateList[selPos].id,selPos);
+//          },
+//          title: '求职状态',
+//          pickList: MineModel.instance.jobStateList.map((item)=>item.name).toList(),
+//          selIdx: _selStatePos,
+//        );
+//      },
+//    );
+//  }
+//
+//  /// 获取求职状态
+//  _getJobState() {
+//    MineModel.instance
+//        .getJobState(context, Application.sp.get('jobSeekerId'))
+//        .then((model) {
+//      if (model != null) {
+//        setState(() {
+//          _jobState = model;
+//        });
+//      }
+//    });
+//  }
+//
+//  /// 获取全部求职状态
+//  _getJobStateList() {
+//    MineModel.instance.getJobStateList(context).then((model) {
+//      if (model != null) {
+//        setState(() {});
+//      }
+//    });
+//  }
+//
+//  /// 修改求职状态
+//  _changeJobState(String jobSeekId, String jobStateId, int selPos) async {
+//    BaseRespEntity _baseEntity =
+//        await MineModel.instance.changeJobState(context, jobSeekId, jobStateId);
+//    if (_baseEntity != null) {
+//      Utils.showToast(_baseEntity.msg ?? '修改成功');
+//      if (widget.changeJobState != null) {
+//        widget.changeJobState(MineModel.instance.jobStateList[selPos].name);
+//      }
+//      setState(() {
+//        _selStatePos = selPos;
+//        _selStateId = MineModel.instance.jobStateList[selPos].id;
+//        _jobState = MineModel.instance.jobStateList[selPos].name;
+//      });
+//    }
+//  }
 }

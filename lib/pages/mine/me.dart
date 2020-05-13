@@ -129,8 +129,6 @@ class _MineState extends State<Mine> {
                                 });
                               },),),).then((value) {
                       if (value != null) {
-                        Application.sp.setString('jobSeekerName', value.userName);
-                        Application.sp.setString('jobSeekerAvatar',value.avatar);
                         setState(() {
                           _avatar=value.avatar;
                           _userName=value.userName;
