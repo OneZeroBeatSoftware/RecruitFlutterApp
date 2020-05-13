@@ -7,23 +7,24 @@ import 'package:recruit_app/pages/employe/tag.dart';
 class Experience extends StatelessWidget {
 	String _coName;
 	String _workTime;
-	List<String> _tags = ['地产设计', '平面设计', '设计部'];
+	String _workContent;
+//	List<String> _tags = ['地产设计', '平面设计', '设计部'];
 	
-	Experience(this._coName, this._workTime, this._tags);
+	Experience(this._coName, this._workTime, this._workContent);
 	
 	@override
 	Widget build(BuildContext context) {
-		List<Tag> tagViews = [];
-		
-		for(String tag in _tags) {
-			tagViews.add(Tag(tag));
-		}
-		print(' size: ' + tagViews.length.toString());
-		
+//		List<Tag> tagViews = [];
+//
+//		for(String tag in _tags) {
+//			tagViews.add(Tag(tag));
+//		}
+
 		// TODO: implement build
 		return Container(
-			margin: EdgeInsets.only(top: ScreenUtil().setHeight(12)),
+			margin: EdgeInsets.only(top: ScreenUtil().setWidth(16)),
 			child: Column(
+				crossAxisAlignment: CrossAxisAlignment.stretch,
 				children: <Widget>[
 					Row(
 						mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -41,11 +42,14 @@ class Experience extends StatelessWidget {
 								  fontWeight: FontWeight.w300))
 						],
 					),
-					SizedBox(height: ScreenUtil().setHeight(14)),
-					Row(
-						mainAxisAlignment: MainAxisAlignment.start,
-						children: tagViews,
-					)
+					SizedBox(height: ScreenUtil().setWidth(10)),
+					Text('$_workContent',
+						style: TextStyle(color: Color.fromRGBO(95,94,94,1), fontSize: ScreenUtil().setSp(26)),
+					),
+//					Row(
+//						mainAxisAlignment: MainAxisAlignment.start,
+//						children: tagViews,
+//					)
 				],
 			),
 		);

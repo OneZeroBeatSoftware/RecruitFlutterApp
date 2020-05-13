@@ -184,11 +184,17 @@ mainResumeDetailDataWorkExperienceFromJson(MainResumeDetailDataWorkExperience da
 	if (json['companyName'] != null) {
 		data.companyName = json['companyName']?.toString();
 	}
-	if (json['position'] != null) {
-		data.position = json['position']?.toString();
+	if (json['positionId'] != null) {
+		data.positionId = json['positionId']?.toString();
 	}
-	if (json['industry'] != null) {
-		data.industry = json['industry']?.toString();
+	if (json['positionName'] != null) {
+		data.positionName = json['positionName']?.toString();
+	}
+	if (json['industryName'] != null) {
+		data.industryName = json['industryName']?.toString();
+	}
+	if (json['industryId'] != null) {
+		data.industryId = json['industryId']?.toString();
 	}
 	if (json['workContent'] != null) {
 		data.workContent = json['workContent']?.toString();
@@ -213,8 +219,10 @@ Map<String, dynamic> mainResumeDetailDataWorkExperienceToJson(MainResumeDetailDa
 	data['id'] = entity.id;
 	data['resumeId'] = entity.resumeId;
 	data['companyName'] = entity.companyName;
-	data['position'] = entity.position;
-	data['industry'] = entity.industry;
+	data['positionId'] = entity.positionId;
+	data['positionName'] = entity.positionName;
+	data['industryName'] = entity.industryName;
+	data['industryId'] = entity.industryId;
 	data['workContent'] = entity.workContent;
 	data['department'] = entity.department;
 	data['startDate'] = entity.startDate;

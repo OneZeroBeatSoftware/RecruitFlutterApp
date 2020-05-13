@@ -80,7 +80,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
             '${DateUtil.formatDateMs(
                 item.startDate, format: 'yyyy-MM-dd')}-${DateUtil.formatDateMs(
                 item.endDate, format: 'yyyy-MM-dd')}',
-            <String>[]));
+            '${item.department} ${item.positionName}'));
       });
 
       _resumeDetailData.projectExperience.forEach((item){
@@ -88,7 +88,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
             '${DateUtil.formatDateMs(
                 item.startDate, format: 'yyyy-MM-dd')}-${DateUtil.formatDateMs(
                 item.endDate, format: 'yyyy-MM-dd')}',
-            <String>[]));
+            '${item.projectContent}'));
       });
 
       _resumeDetailData.educationExperience.forEach((item){

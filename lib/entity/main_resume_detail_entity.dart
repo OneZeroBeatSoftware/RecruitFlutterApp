@@ -46,8 +46,10 @@ class MainResumeDetailDataWorkExperience
   String id;
   String resumeId;
   String companyName;
-  String position;
-  String industry;
+  String positionId;
+  String positionName;
+  String industryName;
+  String industryId;
   String workContent;
   String department;
   int startDate;
