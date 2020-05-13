@@ -71,7 +71,7 @@ class _LoginInState extends State<LoginIn> {
                         Expanded(
                           child: TextField(
                             autofocus: false,
-                            keyboardType: TextInputType.phone,
+//                            keyboardType: TextInputType.phone,
                             maxLines: 1,
                             textAlign: TextAlign.start,
                             cursorColor: Color.fromRGBO(159, 199, 235, 1),
@@ -82,7 +82,7 @@ class _LoginInState extends State<LoginIn> {
                               contentPadding: EdgeInsets.only(
                                   right: ScreenUtil().setWidth(14)),
                               border: InputBorder.none,
-                              hintText: '手机号码',
+                              hintText: '用户名',
                               hintStyle: TextStyle(
                                 fontSize: ScreenUtil().setSp(24),
                                 color: Color.fromRGBO(176, 181, 180, 1),
