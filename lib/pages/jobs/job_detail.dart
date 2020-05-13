@@ -245,7 +245,7 @@ class _JobDetailState extends State<JobDetail> {
                                 SizedBox(
                                   width: ScreenUtil().setWidth(12),
                                 ),
-                                Text('${_jobDetailData.job.workAddress}',
+                                Text('${_jobDetailData.job.cityName}${_jobDetailData.job.workAddress}',
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(

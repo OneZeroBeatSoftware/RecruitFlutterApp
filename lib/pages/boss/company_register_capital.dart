@@ -81,9 +81,9 @@ class _State extends State<CompanyRegisterCapital> {
 	    body: CommonPageBody(
 		    children: <Widget>[
 			    ProfileInput(title: "注册资金", placeholder: '请输入资金',inputController:_editController,inputType: TextInputType.number,),
-			    ProfileItem(title: "货币单位", value: '美金', onClick: () {
-				    chooseMoneyUnit();
-			    })
+//			    ProfileItem(title: "货币单位", value: '美金', onClick: () {
+//				    chooseMoneyUnit();
+//			    })
 		    ],
 	    )
     );
