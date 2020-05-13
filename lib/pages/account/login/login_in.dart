@@ -16,12 +16,14 @@ class LoginIn extends StatefulWidget {
 }
 
 class _LoginInState extends State<LoginIn> {
-  final TextEditingController _phoneController = TextEditingController(text:'test');
-  final TextEditingController _pwdController = TextEditingController(text:'111111');
+  TextEditingController _phoneController;
+  TextEditingController _pwdController;
 
   UserModel userModel;
   @override
   void initState() {
+    _phoneController = TextEditingController();
+    _pwdController = TextEditingController();
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((callback){
       userModel=Provider.of<UserModel>(context);
