@@ -79,7 +79,7 @@ class ProfileText extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
 	List<Widget> bottomW = <Widget>[];
-	bottomW.add(Text(value));
+	bottomW.add(Expanded(child: Text(value)));
 	
 	if(canClick) {
 		bottomW.add(Image.asset('images/img_arrow_right_blue.png',
@@ -100,7 +100,6 @@ class ProfileText extends StatelessWidget {
 					}
 				},
 				child: Row(
-					mainAxisAlignment: MainAxisAlignment.spaceBetween,
 					children: bottomW,
 				),
 			),
@@ -168,8 +167,6 @@ class NextLevel extends StatelessWidget {
 				}
 			},
 			child: Row(
-				mainAxisAlignment: MainAxisAlignment.spaceBetween,
-				
 				children: <Widget>[
 					Expanded(child: this.titleW),
 					Row(

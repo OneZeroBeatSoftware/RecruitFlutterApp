@@ -223,73 +223,72 @@ class _CompanyInfoState extends State<CompanyInfo> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Column(
+                          Expanded(child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                            Row(children: <Widget>[
-                              Text(_companyName,
-                                 maxLines: 1,
-                                 overflow: TextOverflow.ellipsis,
-                                 style: TextStyle(
-                                    wordSpacing: 2,
-                                    letterSpacing: 2,
-                                    fontSize: ScreenUtil().setSp(40),
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromRGBO(37, 38, 39, 1))
-                              ),
-                              SizedBox(width: ScreenUtil().setWidth(12)),
-                              GestureDetector(
-                                child: Image.asset('images/img_edit_resume_gray.png', width: ScreenUtil().setWidth(30), height: ScreenUtil().setWidth(30)),
-                                onTap: () {
-                                  FocusScope.of(context).requestFocus(FocusNode());
-                                  if(widget.companyId!=null&&widget.companyId.isNotEmpty&&_detailData!=null){
-                                    Navigator.push<CompanyInfoResult>(context, MaterialPageRoute(
-                                        builder: (context) => CompanyBaseInfo(company:CompanyInfoResult(_industryId, _industry, _scaleId, _scaleName, _companyName, _companyAva,_licenses))
-                                    )).then((value){
-                                      if(value!=null){
-                                        _licenses.clear();
-                                        _licenses.addAll(value.licenses);
-                                        _industryId=value.industryId;
-                                        _scaleId=value.scaleId;
-                                        setState(() {
-                                          _companyAva=value.avatar;
-                                          _industry=value.industryName;
-                                          _scaleName=value.scaleName;
-                                          _companyName=value.companyName;
-                                        });
-                                      }
-                                    });
-                                  }else{
-                                    Navigator.push<CompanyInfoResult>(context, MaterialPageRoute(
-                                        builder: (context) => CompanyBaseInfo()
-                                    )).then((value){
-                                      if(value!=null){
-                                        _licenses.clear();
-                                        _licenses.addAll(value.licenses);
-                                        _industryId=value.industryId;
-                                        _scaleId=value.scaleId;
-                                        setState(() {
-                                          _companyAva=value.avatar;
-                                          _industry=value.industryName;
-                                          _scaleName=value.scaleName;
-                                          _companyName=value.companyName;
-                                        });
-                                      }
-                                    });
-                                  }
-                                },
-                              ),
-                            ],),
-                            SizedBox(height: ScreenUtil().setHeight(20)),
-                            Text('$_manage$_scaleName$_industry'.isNotEmpty?'$_manage $_scaleName $_industry':'请编辑公司信息',
-                               style: TextStyle(color: Color.fromRGBO(100,100,100,1),
+                              Row(children: <Widget>[
+                                Text(_companyName,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        wordSpacing: 2,
+                                        letterSpacing: 2,
+                                        fontSize: ScreenUtil().setSp(40),
+                                        fontWeight: FontWeight.bold,
+                                        color: Color.fromRGBO(37, 38, 39, 1))
+                                ),
+                                SizedBox(width: ScreenUtil().setWidth(12)),
+                                GestureDetector(
+                                  child: Image.asset('images/img_edit_resume_gray.png', width: ScreenUtil().setWidth(30), height: ScreenUtil().setWidth(30)),
+                                  onTap: () {
+                                    FocusScope.of(context).requestFocus(FocusNode());
+                                    if(widget.companyId!=null&&widget.companyId.isNotEmpty&&_detailData!=null){
+                                      Navigator.push<CompanyInfoResult>(context, MaterialPageRoute(
+                                          builder: (context) => CompanyBaseInfo(company:CompanyInfoResult(_industryId, _industry, _scaleId, _scaleName, _companyName, _companyAva,_licenses))
+                                      )).then((value){
+                                        if(value!=null){
+                                          _licenses.clear();
+                                          _licenses.addAll(value.licenses);
+                                          _industryId=value.industryId;
+                                          _scaleId=value.scaleId;
+                                          setState(() {
+                                            _companyAva=value.avatar;
+                                            _industry=value.industryName;
+                                            _scaleName=value.scaleName;
+                                            _companyName=value.companyName;
+                                          });
+                                        }
+                                      });
+                                    }else{
+                                      Navigator.push<CompanyInfoResult>(context, MaterialPageRoute(
+                                          builder: (context) => CompanyBaseInfo()
+                                      )).then((value){
+                                        if(value!=null){
+                                          _licenses.clear();
+                                          _licenses.addAll(value.licenses);
+                                          _industryId=value.industryId;
+                                          _scaleId=value.scaleId;
+                                          setState(() {
+                                            _companyAva=value.avatar;
+                                            _industry=value.industryName;
+                                            _scaleName=value.scaleName;
+                                            _companyName=value.companyName;
+                                          });
+                                        }
+                                      });
+                                    }
+                                  },
+                                ),
+                              ],),
+                              SizedBox(height: ScreenUtil().setHeight(20)),
+                              Text('$_manage$_scaleName$_industry'.isNotEmpty?'$_manage $_scaleName $_industry':'请编辑公司信息',
+                                style: TextStyle(color: Color.fromRGBO(100,100,100,1),
                                   fontSize: ScreenUtil().setSp(28),
                                   fontWeight: FontWeight.w300,
-                               ),
-                            )
-                          ],),
+                                ),
+                              )
+                            ],),),
                           ClipRRect(
                             borderRadius: BorderRadius.circular(54),
                             child: NetImage(img: _companyAva,
@@ -302,15 +301,14 @@ class _CompanyInfoState extends State<CompanyInfo> {
                       Container(margin: EdgeInsets.only(top: ScreenUtil().setHeight(40), bottom: ScreenUtil().setHeight(40)),
                          color: Color.fromRGBO(159,199,235,1), constraints: BoxConstraints.expand(height: ScreenUtil().setHeight(1))),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Text("公司简介", 
+                          Expanded(child: Text("公司简介",
                             style: TextStyle(
-                              color: Color.fromRGBO(57,57,57,1),
-                              fontSize: ScreenUtil().setSp(32),
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 1
-                            ),),
+                                color: Color.fromRGBO(57,57,57,1),
+                                fontSize: ScreenUtil().setSp(32),
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1
+                            ),),),
                           GestureDetector(
                             child: Image.asset('images/img_edit_resume_gray.png', width: ScreenUtil().setWidth(30), height: ScreenUtil().setWidth(30)),
                             onTap: () {
@@ -867,25 +865,25 @@ class Item extends StatelessWidget {
     // TODO: implement build
     List<Widget> widgets = [];
     
-    widgets.add(Row(
+    widgets.add(Expanded(child: Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Text(this.title,
-           style: TextStyle(color: Color.fromRGBO(57,57,57,1),
+          style: TextStyle(color: Color.fromRGBO(57,57,57,1),
               fontSize: ScreenUtil().setSp(32),
               fontWeight: FontWeight.bold,
               letterSpacing: 1
-           ),
-           
+          ),
+
         ),
         SizedBox(width: ScreenUtil().setWidth(18)),
         Text(this.value,
-           style: TextStyle(color: Color.fromRGBO(100,100,100,1),
-              fontSize: ScreenUtil().setSp(24), fontWeight: FontWeight.w300)
+            style: TextStyle(color: Color.fromRGBO(100,100,100,1),
+                fontSize: ScreenUtil().setSp(24), fontWeight: FontWeight.w300)
         ),
       ],
-    ));
+    )));
     List<Widget> tailW = [
       Row(
         children: <Widget>[
@@ -930,7 +928,6 @@ class Item extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.only(top: ScreenUtil().setHeight(topPadding)),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: widgets,
         ),
       )
@@ -951,14 +948,14 @@ class Item2 extends StatelessWidget {
     // TODO: implement build
 
     List<Widget> titleW = <Widget>[];
-    titleW.add(Text(this.title,
+    titleW.add(Expanded(child: Text(this.title,
       style: TextStyle(
-         color: Color.fromRGBO(57,57,57,1),
-         fontSize: ScreenUtil().setSp(28),
-         fontWeight: FontWeight.w400,
-         letterSpacing: 1
+          color: Color.fromRGBO(57,57,57,1),
+          fontSize: ScreenUtil().setSp(28),
+          fontWeight: FontWeight.w400,
+          letterSpacing: 1
       ),
-    ));
+    )));
     
     if(canClick) {
       titleW.add(Image.asset('images/img_arrow_right_blue.png',
@@ -983,7 +980,6 @@ class Item2 extends StatelessWidget {
               SizedBox(height: ScreenUtil().setHeight(40)),
               Row(
                 children: titleW,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
               ),
               SizedBox(height: ScreenUtil().setHeight(2)),
               Text(this.value,

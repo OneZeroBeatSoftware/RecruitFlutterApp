@@ -222,10 +222,9 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(
+                          Expanded(child: Text(
                             '${_resumeDetailData.resume.realName}',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -234,7 +233,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                               fontWeight: FontWeight.bold,
                               color: Color.fromRGBO(20, 20, 20, 1),
                             ),
-                          ),
+                          ),),
                           Row(children: <Widget>[
                             Text(
                               '期望薪资',
@@ -262,12 +261,11 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                       ),
                       SizedBox(height: ScreenUtil().setHeight(14)),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          Text("${_resumeDetailData.resume.address}",
-                            style: TextStyle(color: Color.fromRGBO(95,94,94,1), fontSize: ScreenUtil().setSp(24))
-                          ),
+                          Expanded(child: Text("${_resumeDetailData.resume.address}",
+                              style: TextStyle(color: Color.fromRGBO(95,94,94,1), fontSize: ScreenUtil().setSp(24))
+                          ),),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -312,15 +310,15 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                         height: ScreenUtil().setHeight(1),
                       ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Text("个人信息",
                              style: TextStyle(color: Color.fromRGBO(57,57,57,1), fontSize: ScreenUtil().setSp(36),fontWeight: FontWeight.w500)
                           ),
-                          Text("$_jobState",
-                             style: TextStyle(color: Color.fromRGBO(95,94,94,1), fontSize: ScreenUtil().setSp(24), fontWeight: FontWeight.w300)
-                          ),
+                          Expanded(child: Text("$_jobState",
+                              textAlign: TextAlign.right,
+                              style: TextStyle(color: Color.fromRGBO(95,94,94,1), fontSize: ScreenUtil().setSp(24), fontWeight: FontWeight.w300)
+                          ),),
                         ],
                       ),
                       SizedBox(height: ScreenUtil().setHeight(30)),

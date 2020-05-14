@@ -42,25 +42,24 @@ class JobManageItem extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                Row(
+                Expanded(child: Row(
                   children: <Widget>[
                     Text(jobManageData.jobName, style: TextStyle(
-                      color: Color.fromRGBO(1,51,51,1),
-                      fontSize: ScreenUtil().setSp(36),
-                      fontWeight: FontWeight.w400
+                        color: Color.fromRGBO(1,51,51,1),
+                        fontSize: ScreenUtil().setSp(36),
+                        fontWeight: FontWeight.w400
                     ),),
                     SizedBox(width: ScreenUtil().setWidth(28)),
                     Text('候选人${jobManageData.candidatesCurrent}/${jobManageData.candidatesTotal}',
                       style: TextStyle(
-                      color: Color.fromRGBO(176,181,180,1),
-                      fontWeight: FontWeight.w300,
-                      fontSize: ScreenUtil().setSp(24),
-                       letterSpacing: 1
-                    ),),
+                          color: Color.fromRGBO(176,181,180,1),
+                          fontWeight: FontWeight.w300,
+                          fontSize: ScreenUtil().setSp(24),
+                          letterSpacing: 1
+                      ),),
                   ],
-                ),
+                ),),
                 Text('${jobManageData.minSalary}/${jobManageData.maxSalary}K', style: TextStyle(
                   color: Color.fromRGBO(68,77,151,1),
                   fontSize: ScreenUtil().setSp(36),
@@ -70,9 +69,8 @@ class JobManageItem extends StatelessWidget {
               ],),
               SizedBox(height: ScreenUtil().setHeight(15)),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Row(
+                  Expanded(child: Row(
                     children: <Widget>[
                       Text(jobManageData.workAddress, style: row2TextStyle),
                       ProfileVerticalDivider(),
@@ -80,7 +78,7 @@ class JobManageItem extends StatelessWidget {
                       ProfileVerticalDivider(),
                       Text(jobManageData.educationName, style: row2TextStyle),
                     ],
-                  ),
+                  ),),
                   Row(children: <Widget>[
                     Text('$status', style: TextStyle(
                       color: Color.fromRGBO(59,199,235,1),

@@ -146,9 +146,8 @@ class _State extends State<CompanyBaseInfo> {
 	    body: CommonPageBody(
 		    children: <Widget>[
 		        Row(
-			        mainAxisAlignment: MainAxisAlignment.spaceBetween,
 			        children: <Widget>[
-			        	Text("头像", style: ProfileStyle.titleStyle,),
+			        	Expanded(child: Text("头像", style: ProfileStyle.titleStyle,),),
 				        GestureDetector(behavior: HitTestBehavior.opaque,onTap: (){_openGallery();},child: ClipRRect(
 									borderRadius: BorderRadius.circular(54),
 									child: NetImage(img: _avatar,

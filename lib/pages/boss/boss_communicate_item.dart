@@ -27,9 +27,8 @@ class BossCommunicateItem extends StatelessWidget {
         children: <Widget>[
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Column(
+              Expanded(child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Row(
@@ -129,7 +128,7 @@ class BossCommunicateItem extends StatelessWidget {
                   )
                   ),
                 ],
-              ),
+              ),),
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[

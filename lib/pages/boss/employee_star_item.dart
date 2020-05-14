@@ -18,9 +18,8 @@ class EmployeeStarItem extends StatelessWidget {
 			padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(48), vertical: ScreenUtil().setWidth(40)),
 			child: Row(
 				crossAxisAlignment: CrossAxisAlignment.start,
-				mainAxisAlignment: MainAxisAlignment.spaceBetween,
 				children: <Widget>[
-					Column(
+					Expanded(child: Column(
 						crossAxisAlignment: CrossAxisAlignment.start,
 						children: <Widget>[
 							Row(
@@ -36,22 +35,22 @@ class EmployeeStarItem extends StatelessWidget {
 											employee.realName,
 											overflow: TextOverflow.ellipsis,
 											style: TextStyle(
-											   fontSize: ScreenUtil().setSp(36),
-											   fontWeight: FontWeight.w500,
-											   color: Color.fromRGBO(20,20,20,1)),
+													fontSize: ScreenUtil().setSp(36),
+													fontWeight: FontWeight.w500,
+													color: Color.fromRGBO(20,20,20,1)),
 										),
 										constraints: BoxConstraints(minWidth: ScreenUtil().setWidth(50), maxWidth: ScreenUtil().setWidth(350)),
-									
+
 									),
 									SizedBox.fromSize(size: Size(ScreenUtil().setWidth(12), ScreenUtil().setHeight(12))),
 									Text(
 										"在线",
 										style: TextStyle(
-										   fontSize: ScreenUtil().setSp(24),
-										   fontWeight: FontWeight.w300,
-										   color: Color.fromRGBO(176,181,180,1)),
+												fontSize: ScreenUtil().setSp(24),
+												fontWeight: FontWeight.w300,
+												color: Color.fromRGBO(176,181,180,1)),
 									),
-								
+
 								],
 							),
 							Container(
@@ -60,12 +59,12 @@ class EmployeeStarItem extends StatelessWidget {
 									employee.resumeName,
 									overflow: TextOverflow.ellipsis,
 									style: TextStyle(
-									   fontSize: ScreenUtil().setSp(32),
-									   fontWeight: FontWeight.w500,
-									   color: Color.fromRGBO(57,57,57,1)),
+											fontSize: ScreenUtil().setSp(32),
+											fontWeight: FontWeight.w500,
+											color: Color.fromRGBO(57,57,57,1)),
 								),
 								constraints: BoxConstraints(minWidth: ScreenUtil().setWidth(150), maxWidth: ScreenUtil().setWidth(350)),
-							
+
 							),
 							SizedBox.fromSize(size: Size(ScreenUtil().setWidth(1), ScreenUtil().setWidth(10))),
 							Container(height: ScreenUtil().setHeight(36), child:
@@ -77,16 +76,16 @@ class EmployeeStarItem extends StatelessWidget {
 									Text(
 										1==employee.sex?'男':'女',
 										style: TextStyle(
-										   fontSize: ScreenUtil().setSp(26),
-										   fontWeight: FontWeight.w300,
-										   color: Color.fromRGBO(95,94,94,1)),
+												fontSize: ScreenUtil().setSp(26),
+												fontWeight: FontWeight.w300,
+												color: Color.fromRGBO(95,94,94,1)),
 									),
 									Padding(
 										padding: EdgeInsets.only(left: ScreenUtil().setWidth(12)),
 									),
 									Container(color: Color.fromRGBO(127, 127, 127, 1),
-									   height: ScreenUtil().setHeight(20),
-									   width: ScreenUtil().setWidth(1)
+											height: ScreenUtil().setHeight(20),
+											width: ScreenUtil().setWidth(1)
 									)
 									,
 									Padding(
@@ -95,16 +94,16 @@ class EmployeeStarItem extends StatelessWidget {
 									Text(
 										'${employee.workDateName}',
 										style: TextStyle(
-										   fontSize: ScreenUtil().setSp(26),
-										   fontWeight: FontWeight.w300,
-										   color: Color.fromRGBO(95,94,94,1)),
+												fontSize: ScreenUtil().setSp(26),
+												fontWeight: FontWeight.w300,
+												color: Color.fromRGBO(95,94,94,1)),
 									),
 									Padding(
 										padding: EdgeInsets.only(left: ScreenUtil().setWidth(12)),
 									),
 									Container(color: Color.fromRGBO(127, 127, 127, 1),
-									   height: ScreenUtil().setHeight(20),
-									   width: ScreenUtil().setWidth(1)
+											height: ScreenUtil().setHeight(20),
+											width: ScreenUtil().setWidth(1)
 									),
 									Padding(
 										padding: EdgeInsets.only(left: ScreenUtil().setWidth(12)),
@@ -112,15 +111,15 @@ class EmployeeStarItem extends StatelessWidget {
 									Text(
 										'${employee.educationName}',
 										style: TextStyle(
-										   fontSize: ScreenUtil().setSp(26),
-										   fontWeight: FontWeight.w300,
-										   color: Color.fromRGBO(95,94,94,1)),
+												fontSize: ScreenUtil().setSp(26),
+												fontWeight: FontWeight.w300,
+												color: Color.fromRGBO(95,94,94,1)),
 									),
 								],
 							)
 							),
 						],
-					),
+					),),
 					Column(
 						mainAxisAlignment: MainAxisAlignment.start,
 						children: <Widget>[

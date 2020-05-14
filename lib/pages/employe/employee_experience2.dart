@@ -16,14 +16,13 @@ class Experience2 extends StatelessWidget {
 		return Container(
 			margin: EdgeInsets.only(top: ScreenUtil().setHeight(12)),
 			child: Row(
-				mainAxisAlignment: MainAxisAlignment.spaceBetween,
 				crossAxisAlignment: CrossAxisAlignment.center,
 				children: <Widget>[
-					Text(_title,
-					   style: TextStyle(
-						  color: Color.fromRGBO(95, 94, 94, 1),
-						  fontSize: ScreenUtil().setSp(26),
-						  fontWeight: FontWeight.w300)),
+					Expanded(child: Text(_title,
+							style: TextStyle(
+									color: Color.fromRGBO(95, 94, 94, 1),
+									fontSize: ScreenUtil().setSp(26),
+									fontWeight: FontWeight.w300)),),
 					Text(_value,
 					   style: TextStyle(
 						  color: Color.fromRGBO(176, 181, 180, 1),
