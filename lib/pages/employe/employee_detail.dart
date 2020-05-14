@@ -2,6 +2,7 @@ import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:recruit_app/application.dart';
+import 'package:recruit_app/entity/base_resp_entity.dart';
 import 'package:recruit_app/entity/boss_job_manage_entity.dart';
 import 'package:recruit_app/entity/candidate_update_entity.dart';
 import 'package:recruit_app/entity/collection_entity.dart';
@@ -18,6 +19,8 @@ import 'package:recruit_app/pages/employe/employee_experience.dart';
 import 'package:recruit_app/pages/employe/employee_experience2.dart';
 import 'package:recruit_app/widgets/list_menu_dialog.dart';
 import 'package:recruit_app/widgets/network_image.dart';
+import 'package:recruit_app/widgets/remind_column_dialog.dart';
+import 'package:recruit_app/widgets/remind_dialog.dart';
 
 enum ResumeDetailType {resume, interview,readOnly}
 
@@ -37,6 +40,7 @@ class EmployeeDetail extends StatefulWidget {
 class _EmployeeDetailState extends State<EmployeeDetail> {
   bool _isCollected=false;
   String _starId;
+  List<String> _menuItem = [];
   List<String> _reports=[];
   String _jobState='';
 
@@ -45,6 +49,9 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
   @override
   void initState() {
     // TODO: implement initState
+    _menuItem.clear();
+    _menuItem.add('举报人才');
+    _menuItem.add('屏蔽人才');
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((i) {
       getResumeDetail(widget.resumeId);
@@ -169,42 +176,7 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
               ),
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Report(reportType: ReportType.resume,reportId: widget.resumeId,)));
-//                  showGeneralDialog(
-//                    context: context,
-//                    pageBuilder: (context, animation1, animation2) { return null;},
-//                    barrierColor: Colors.black.withOpacity(0.4),
-//                    barrierDismissible: true,
-//                    barrierLabel: "Dismiss",
-//                    transitionDuration: Duration(milliseconds: 300),
-//                    transitionBuilder: (context, animation1, animation2, widget) {
-//                      final curvedValue =
-//                         Curves.easeInOut.transform(animation1.value) - 1.0;
-//                      return Transform(
-//                        transform:
-//                        Matrix4.translationValues(0.0, curvedValue * -300, 0.0),
-//                        child: Opacity(
-//                          opacity: animation1.value,
-//                          child: ListMenuDialog(
-//                            title: '举报',
-//                            cancel: () {
-//                              Navigator.pop(context);
-//                            },
-//                            confirm: () {
-//                              Navigator.pop(context);
-//                            },
-//                            itemSelected: (index){
-//                              Navigator.pop(context);
-//
-//                            },
-//                            lists: _reports,
-//                          ),
-//                        ),
-//                      );
-//                    },
-//                  );
-                },
+                onTap: _menuOperate,
                 child: Image.asset(
                   'images/img_report.png',
                   width: ScreenUtil().setWidth(36),
@@ -475,6 +447,67 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
     });
   }
 
+  _menuOperate(){
+    showDialog(
+      context: context,
+      builder: (context) {
+        return RemindColDialog(
+          items: _menuItem,
+          itemColor: Color.fromRGBO(
+              57, 57, 57, 1),
+          cancelText: '取消',
+          cancelColor: Color.fromRGBO(
+              159, 199, 235, 1),
+          cancel: () {
+            Navigator.pop(context);
+          },
+          itemClick: (index) {
+            Navigator.pop(context);
+            switch (index) {
+              case 0:
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>Report(reportType: ReportType.resume,reportId: widget.resumeId,)));
+                break;
+              case 1:
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return RemindDialog(
+                        title: '确定屏蔽该人才吗？',
+                        titleColor: Color.fromRGBO(57, 57, 57, 1),
+                        content: '系统将不会再向您推荐该人才',
+                        contentColor: Color.fromRGBO(57, 57, 57, 1),
+                        cancelText: '取消',
+                        cancelColor: Color.fromRGBO(
+                            142, 190, 245, 1),
+                        confirmText: '确定',
+                        confirmColor: Color.fromRGBO(
+                            142, 190, 245, 1),
+                        cancel: () {
+                          Navigator.pop(context);
+                        },
+                        confirm: () {
+                          Navigator.pop(context);
+                          _shieldResume(_resumeDetailData.resume.jobSeekerId);
+                        },
+                      );
+                    });
+                break;
+            }
+          },
+        );
+      },);
+  }
+
+  /// 屏蔽人才
+  _shieldResume(String id) async {
+    BaseRespEntity _baseEntity = await BossMineModel.instance.shieldSeeker(
+        context, id,Application.sp.getString('recruiterId'));
+    if (_baseEntity != null) {
+      Utils.showToast(_baseEntity.msg ?? '已屏蔽');
+    }
+  }
+
+  /// 显示工作列表
   _showJobList() {
     showGeneralDialog(
       context: context,
