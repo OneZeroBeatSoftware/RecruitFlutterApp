@@ -129,6 +129,9 @@ bossJobDetailDataJobFromJson(BossJobDetailDataJob data, Map<String, dynamic> jso
 	if (json['workDateName'] != null) {
 		data.workDateName = json['workDateName']?.toString();
 	}
+	if (json['positionTypeId'] != null) {
+		data.positionTypeId = json['positionTypeId']?.toString();
+	}
 	if (json['positionTypeName'] != null) {
 		data.positionTypeName = json['positionTypeName']?.toString();
 	}
@@ -176,6 +179,7 @@ Map<String, dynamic> bossJobDetailDataJobToJson(BossJobDetailDataJob entity) {
 	data['educationName'] = entity.educationName;
 	data['workDateId'] = entity.workDateId;
 	data['workDateName'] = entity.workDateName;
+	data['positionTypeId'] = entity.positionTypeId;
 	data['positionTypeName'] = entity.positionTypeName;
 	data['sex'] = entity.sex;
 	data['recruitsTotal'] = entity.recruitsTotal;

@@ -7,6 +7,7 @@ import 'package:recruit_app/entity/base_resp_entity.dart';
 import 'package:recruit_app/entity/boss_job_detail_entity.dart';
 import 'package:recruit_app/entity/edu_level_entity.dart';
 import 'package:recruit_app/entity/filter_data.dart';
+import 'package:recruit_app/entity/job_position_type_entity.dart';
 import 'package:recruit_app/entity/work_date_entity.dart';
 import 'package:recruit_app/model/boss_mine_model.dart';
 import 'package:recruit_app/pages/boss/company_job_candidate.dart';
@@ -74,7 +75,7 @@ class _State extends State<CompanyPostRecruit> {
 	String _sexId='2';
 	int _sexPos = 0;
 
-	List<RecruitType> _jobClassifyList = [];
+	List<JobPositionTypeData> _jobClassifyList = [];
 	String _classify='请选择岗位分类';
 	String _classifyId='';
 	int _classifyPos = 0;
@@ -104,10 +105,6 @@ class _State extends State<CompanyPostRecruit> {
 		_sexList.add(RecruitType('1', '男'));
 		_sexList.add(RecruitType('0', '女'));
 
-		_jobClassifyList.add(RecruitType('1', '技术'));
-		_jobClassifyList.add(RecruitType('2', '人事'));
-		_jobClassifyList.add(RecruitType('3', '财务'));
-
 		_jobNameController=TextEditingController(text: '');
 		_recruitNumController=TextEditingController(text: '');
 		_candidateNumController=TextEditingController(text:'');
@@ -120,6 +117,7 @@ class _State extends State<CompanyPostRecruit> {
 			}
 			getEduLevel();
 			getWorkDate();
+			getPositionTypeList();
 		});
 	}
 
@@ -699,6 +697,17 @@ class _State extends State<CompanyPostRecruit> {
 		});
 	}
 
+	/// 获取全部职位类别
+	void getPositionTypeList() async {
+		JobPositionTypeEntity positionEntity = await NetUtils.getPositionTypeList(context);
+		if(positionEntity.statusCode==200&&positionEntity.data!=null){
+			_jobClassifyList.clear();
+			_jobClassifyList.addAll(positionEntity.data);
+			setState(() {
+			});
+		}
+	}
+
 	/// 岗位状态
 	chooseJobType() {
 		showCupertinoModalPopup(
@@ -732,11 +741,11 @@ class _State extends State<CompanyPostRecruit> {
 						setState(() {
 							_classifyPos = selPos;
 							_classifyId=_jobClassifyList[selPos].id;
-							_classify = _jobClassifyList[selPos].type;
+							_classify = _jobClassifyList[selPos].name;
 						});
 					},
 					title: '岗位分类',
-					pickList: _jobClassifyList.map((item)=>item.type).toList(),
+					pickList: _jobClassifyList.map((item)=>item.name).toList(),
 					selIdx: _classifyPos,
 				);
 			},
@@ -791,16 +800,9 @@ class _State extends State<CompanyPostRecruit> {
 					}
 				}
 
-				for(var i=0; i< _jobClassifyList.length;i++){
-					if(_jobClassifyList[i].type==detail.job.positionTypeName) {
-						_classify=_jobClassifyList[i].type;
-						_classifyId=_jobClassifyList[i].id;
-						_classifyPos=i;
-						break;
-					}
-				}
-
 				setState(() {
+					_classifyId=detail.job.positionTypeId;
+					_classify=detail.job.positionTypeName;
 					_workDateId=detail.job.workDateId;
 					_workDate=detail.job.workDateName;
 					_industryId=detail.job.industryId;

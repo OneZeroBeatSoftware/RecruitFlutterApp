@@ -32,6 +32,7 @@ import 'package:recruit_app/entity/intent_list_entity.dart';
 import 'package:recruit_app/entity/interview_update_entity.dart';
 import 'package:recruit_app/entity/job_detail_entity.dart';
 import 'package:recruit_app/entity/job_list_entity.dart';
+import 'package:recruit_app/entity/job_position_type_entity.dart';
 import 'package:recruit_app/entity/job_state_entity.dart';
 import 'package:recruit_app/entity/job_type_entity.dart';
 import 'package:recruit_app/entity/main_resume_detail_entity.dart';
@@ -425,6 +426,12 @@ class NetUtils {
   static Future<ManagementEntity> getManagementList(BuildContext context) async {
     var response = await _get(context, '/management/list', params: {});
     return ManagementEntity().fromJson(response.data);
+  }
+
+  /// 获取全部职位类别
+  static Future<JobPositionTypeEntity> getPositionTypeList(BuildContext context) async {
+    var response = await _get(context, '/positionType/list', params: {});
+    return JobPositionTypeEntity().fromJson(response.data);
   }
 
   /// 获取公司列表

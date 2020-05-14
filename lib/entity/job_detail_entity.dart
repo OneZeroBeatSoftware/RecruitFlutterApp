@@ -43,6 +43,7 @@ class JobDetailDataJob with JsonConvert<JobDetailDataJob> {
 	String educationName;
 	String workDateId;
 	String workDateName;
+	String positionTypeId;
 	String positionTypeName;
 	int sex;
 	int candidatesTotal;

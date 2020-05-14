@@ -91,6 +91,8 @@ import 'package:recruit_app/entity/industry_type_entity.dart';
 import 'package:recruit_app/generated/json/industry_type_entity_helper.dart';
 import 'package:recruit_app/entity/job_list_data_record_entity.dart';
 import 'package:recruit_app/generated/json/job_list_data_record_entity_helper.dart';
+import 'package:recruit_app/entity/job_position_type_entity.dart';
+import 'package:recruit_app/generated/json/job_position_type_entity_helper.dart';
 import 'package:recruit_app/entity/boss_job_manage_entity.dart';
 import 'package:recruit_app/generated/json/boss_job_manage_entity_helper.dart';
 import 'package:recruit_app/entity/star_company_entity.dart';
@@ -229,7 +231,9 @@ class JsonConvert<T> {
 			return industryTypeDataFromJson(data as IndustryTypeData, json) as T;			case IndustrySubTypeData:
 			return industrySubTypeDataFromJson(data as IndustrySubTypeData, json) as T;			case JobListDataRecord:
 			return jobListDataRecordFromJson(data as JobListDataRecord, json) as T;			case JobListDataTreatments:
-			return jobListDataTreatmentsFromJson(data as JobListDataTreatments, json) as T;			case BossJobManageEntity:
+			return jobListDataTreatmentsFromJson(data as JobListDataTreatments, json) as T;			case JobPositionTypeEntity:
+			return jobPositionTypeEntityFromJson(data as JobPositionTypeEntity, json) as T;			case JobPositionTypeData:
+			return jobPositionTypeDataFromJson(data as JobPositionTypeData, json) as T;			case BossJobManageEntity:
 			return bossJobManageEntityFromJson(data as BossJobManageEntity, json) as T;			case BossJobManageData:
 			return bossJobManageDataFromJson(data as BossJobManageData, json) as T;			case BossJobManageDataRecord:
 			return bossJobManageDataRecordFromJson(data as BossJobManageDataRecord, json) as T;			case StarCompanyEntity:
@@ -362,7 +366,9 @@ class JsonConvert<T> {
 			return industryTypeDataToJson(data as IndustryTypeData);			case IndustrySubTypeData:
 			return industrySubTypeDataToJson(data as IndustrySubTypeData);			case JobListDataRecord:
 			return jobListDataRecordToJson(data as JobListDataRecord);			case JobListDataTreatments:
-			return jobListDataTreatmentsToJson(data as JobListDataTreatments);			case BossJobManageEntity:
+			return jobListDataTreatmentsToJson(data as JobListDataTreatments);			case JobPositionTypeEntity:
+			return jobPositionTypeEntityToJson(data as JobPositionTypeEntity);			case JobPositionTypeData:
+			return jobPositionTypeDataToJson(data as JobPositionTypeData);			case BossJobManageEntity:
 			return bossJobManageEntityToJson(data as BossJobManageEntity);			case BossJobManageData:
 			return bossJobManageDataToJson(data as BossJobManageData);			case BossJobManageDataRecord:
 			return bossJobManageDataRecordToJson(data as BossJobManageDataRecord);			case StarCompanyEntity:
@@ -495,7 +501,9 @@ class JsonConvert<T> {
 			return IndustryTypeData().fromJson(json);			case 'IndustrySubTypeData':
 			return IndustrySubTypeData().fromJson(json);			case 'JobListDataRecord':
 			return JobListDataRecord().fromJson(json);			case 'JobListDataTreatments':
-			return JobListDataTreatments().fromJson(json);			case 'BossJobManageEntity':
+			return JobListDataTreatments().fromJson(json);			case 'JobPositionTypeEntity':
+			return JobPositionTypeEntity().fromJson(json);			case 'JobPositionTypeData':
+			return JobPositionTypeData().fromJson(json);			case 'BossJobManageEntity':
 			return BossJobManageEntity().fromJson(json);			case 'BossJobManageData':
 			return BossJobManageData().fromJson(json);			case 'BossJobManageDataRecord':
 			return BossJobManageDataRecord().fromJson(json);			case 'StarCompanyEntity':
@@ -629,7 +637,9 @@ class JsonConvert<T> {
 			return List<IndustryTypeData>();			case 'IndustrySubTypeData':
 			return List<IndustrySubTypeData>();			case 'JobListDataRecord':
 			return List<JobListDataRecord>();			case 'JobListDataTreatments':
-			return List<JobListDataTreatments>();			case 'BossJobManageEntity':
+			return List<JobListDataTreatments>();			case 'JobPositionTypeEntity':
+			return List<JobPositionTypeEntity>();			case 'JobPositionTypeData':
+			return List<JobPositionTypeData>();			case 'BossJobManageEntity':
 			return List<BossJobManageEntity>();			case 'BossJobManageData':
 			return List<BossJobManageData>();			case 'BossJobManageDataRecord':
 			return List<BossJobManageDataRecord>();			case 'StarCompanyEntity':

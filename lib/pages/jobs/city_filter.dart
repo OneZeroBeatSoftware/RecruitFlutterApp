@@ -148,85 +148,85 @@ class _CityFilterState extends State<CityFilter> {
 //              ],
 //            ),
           ),
-          GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () {
-//              _cityFilterData.forEach((item1) {
-//                item1.filterSubData.forEach((item2) {
-//                  if (item2.isChecked &&
-//                      item2.filterName != '洛杉矶') {
-//                    setState(() {
-//                      item2.isChecked = false;
-//                    });
-//                  }
-//                });
-//              });
-//              showGeneralDialog(
-//                context: context,
-//                pageBuilder: (context, animation1, animation2) { return null;},
-//                barrierColor: Colors.black.withOpacity(0.4),
-//                barrierDismissible: true,
-//                barrierLabel: "Dismiss",
-//                transitionDuration: Duration(milliseconds: 300),
-//                transitionBuilder: (context, animation1, animation2, widget) {
-//                  final curvedValue =
-//                      Curves.easeInOut.transform(animation1.value) - 1.0;
-//                  return Transform(
-//                    transform:
-//                        Matrix4.translationValues(0.0, curvedValue * -300, 0.0),
-//                    child: Opacity(
-//                      opacity: animation1.value,
-//                      child: ListMenuDialog(
-//                        title: '洛杉矶',
-//                        cancel: () {
-//                          Navigator.pop(context);
-//                        },
-//                        confirm: () {
-//                          Navigator.pop(context);
-//                        },
-//                        itemSelected: (index){
-//                          Navigator.pop(context);
-//                        },
-//                        lists: _area,
-//                      ),
-//                    ),
-//                  );
-//                },
-//              );
-              Navigator.pop(context,FilterData('', '全国'));
-            },
-            child: Container(
-              margin:
-                  EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(48)),
-              width: wrapWidth,
-              height: ScreenUtil().setWidth(50),
-              alignment: Alignment.center,
-              padding: EdgeInsets.symmetric(
-                horizontal: ScreenUtil().setWidth(
-                  ScreenUtil().setWidth(18),
-                ),
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(
-                  ScreenUtil().setWidth(1000),
-                ),
-                border: Border.all(
-                  color: Color.fromRGBO(159, 199, 235, 1),
-                  width: ScreenUtil().setWidth(2),
-                ),
-              ),
-              child: Text(
-                '全国',
-                maxLines: 1,
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: Color.fromRGBO(159, 199, 235, 1),
-                  fontSize: ScreenUtil().setSp(28),
-                ),
-              ),
-            ),
-          ),
+//          GestureDetector(
+//            behavior: HitTestBehavior.opaque,
+//            onTap: () {
+////              _cityFilterData.forEach((item1) {
+////                item1.filterSubData.forEach((item2) {
+////                  if (item2.isChecked &&
+////                      item2.filterName != '洛杉矶') {
+////                    setState(() {
+////                      item2.isChecked = false;
+////                    });
+////                  }
+////                });
+////              });
+////              showGeneralDialog(
+////                context: context,
+////                pageBuilder: (context, animation1, animation2) { return null;},
+////                barrierColor: Colors.black.withOpacity(0.4),
+////                barrierDismissible: true,
+////                barrierLabel: "Dismiss",
+////                transitionDuration: Duration(milliseconds: 300),
+////                transitionBuilder: (context, animation1, animation2, widget) {
+////                  final curvedValue =
+////                      Curves.easeInOut.transform(animation1.value) - 1.0;
+////                  return Transform(
+////                    transform:
+////                        Matrix4.translationValues(0.0, curvedValue * -300, 0.0),
+////                    child: Opacity(
+////                      opacity: animation1.value,
+////                      child: ListMenuDialog(
+////                        title: '洛杉矶',
+////                        cancel: () {
+////                          Navigator.pop(context);
+////                        },
+////                        confirm: () {
+////                          Navigator.pop(context);
+////                        },
+////                        itemSelected: (index){
+////                          Navigator.pop(context);
+////                        },
+////                        lists: _area,
+////                      ),
+////                    ),
+////                  );
+////                },
+////              );
+//              Navigator.pop(context,FilterData('', '全国'));
+//            },
+//            child: Container(
+//              margin:
+//                  EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(48)),
+//              width: wrapWidth,
+//              height: ScreenUtil().setWidth(50),
+//              alignment: Alignment.center,
+//              padding: EdgeInsets.symmetric(
+//                horizontal: ScreenUtil().setWidth(
+//                  ScreenUtil().setWidth(18),
+//                ),
+//              ),
+//              decoration: BoxDecoration(
+//                borderRadius: BorderRadius.circular(
+//                  ScreenUtil().setWidth(1000),
+//                ),
+//                border: Border.all(
+//                  color: Color.fromRGBO(159, 199, 235, 1),
+//                  width: ScreenUtil().setWidth(2),
+//                ),
+//              ),
+//              child: Text(
+//                '全国',
+//                maxLines: 1,
+//                textAlign: TextAlign.center,
+//                overflow: TextOverflow.ellipsis,
+//                style: TextStyle(
+//                  color: Color.fromRGBO(159, 199, 235, 1),
+//                  fontSize: ScreenUtil().setSp(28),
+//                ),
+//              ),
+//            ),
+//          ),
           Container(
             margin: EdgeInsets.only(
               left: ScreenUtil().setWidth(48),
