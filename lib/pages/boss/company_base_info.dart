@@ -46,7 +46,7 @@ class _State extends State<CompanyBaseInfo> {
 	TextEditingController _companyController;
 
 	String _avatar='';
-	String _industry = 'o2o';
+	String _industry;
 	String _industryId = '';
 
 	String _scale;

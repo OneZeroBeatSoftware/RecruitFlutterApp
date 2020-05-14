@@ -258,7 +258,7 @@ class _BossBaseInfoState extends State<BossBaseInfo> {
   /// 添加、修改招聘者信息
   _saveRecruiter(String id,String avatar,String name) async {
     BaseInfoEntity _baseEntity = await BossMineModel.instance.saveRecruiter(
-        context, id, Application.sp.getString('userId'),avatar,name);
+        context, Application.sp.getString('userId'),id:id,avatar:avatar,realName:name);
     if (_baseEntity != null) {
       Utils.showToast(_baseEntity.msg ?? '修改成功');
       Application.sp.setString('recruiterId', _baseEntity.data.id);

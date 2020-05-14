@@ -1,12 +1,12 @@
-import 'dart:convert';
 
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:recruit_app/entity/base_resp_entity.dart';
+import 'package:recruit_app/entity/base_info_entity.dart';
 import 'package:recruit_app/entity/company_detail_entity.dart';
+import 'package:recruit_app/entity/company_info_entity.dart';
 import 'package:recruit_app/entity/management_entity.dart';
 import 'package:recruit_app/model/boss_mine_model.dart';
 import 'package:recruit_app/model/company_model.dart';
@@ -829,8 +829,21 @@ class _CompanyInfoState extends State<CompanyInfo> {
     params['licenses']=license;
     params['companyImages']=companyImages;
 
-    print(json.encode(params));
-    BaseRespEntity _baseEntity = await BossMineModel.instance.editCompany(context,params);
+    CompanyInfoEntity _baseEntity = await BossMineModel.instance.editCompany(context,params);
+    if (_baseEntity != null) {
+      if(widget.companyId!=null&&widget.companyId.isNotEmpty){
+        Utils.showToast(_baseEntity.msg??((widget.companyId!=null&&widget.companyId.isNotEmpty)?'修改成功':'添加成功'));
+        Navigator.pop(context,'success');
+      }else {
+        _saveRecruiter(_baseEntity.data.id);
+      }
+    }
+  }
+
+  /// 添加、修改招聘者信息
+  _saveRecruiter(String companyId) async {
+    BaseInfoEntity _baseEntity = await BossMineModel.instance.saveRecruiter(
+        context, Application.sp.getString('userId'),id:Application.sp.getString('recruiterId'),companyId: companyId);
     if (_baseEntity != null) {
       Utils.showToast(_baseEntity.msg??((widget.companyId!=null&&widget.companyId.isNotEmpty)?'修改成功':'添加成功'));
       Navigator.pop(context,'success');

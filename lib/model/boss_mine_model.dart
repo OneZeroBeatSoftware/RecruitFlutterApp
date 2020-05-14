@@ -8,6 +8,7 @@ import 'package:recruit_app/entity/boss_job_manage_entity.dart';
 import 'package:recruit_app/entity/candidate_entity.dart';
 import 'package:recruit_app/entity/candidate_update_entity.dart';
 import 'package:recruit_app/entity/collection_entity.dart';
+import 'package:recruit_app/entity/company_info_entity.dart';
 import 'package:recruit_app/entity/main_resume_list_entity.dart';
 import 'package:recruit_app/utils/net_utils.dart';
 import 'package:recruit_app/utils/utils.dart';
@@ -39,8 +40,8 @@ class BossMineModel{
   }
 
   /// 添加、修改招聘者信息
-  Future<BaseInfoEntity> saveRecruiter(BuildContext context,String id,String userId,String avatar,String realName) async {
-    BaseInfoEntity baseRespEntity = await NetUtils.saveRecruiter(context,id,userId,avatar,realName);
+  Future<BaseInfoEntity> saveRecruiter(BuildContext context,String userId,{String id,String avatar,String realName,String companyId}) async {
+    BaseInfoEntity baseRespEntity = await NetUtils.saveRecruiter(context,userId,id:id,avatar:avatar,realName:realName,companyId: companyId);
     if (baseRespEntity.statusCode ==200) {
       return baseRespEntity;
     }
@@ -260,8 +261,8 @@ class BossMineModel{
   }
 
   /// 添加、更新公司信息
-  Future<BaseRespEntity> editCompany(BuildContext context,Map<String,dynamic> params) async {
-    BaseRespEntity baseRespEntity = await NetUtils.editCompany(context,params);
+  Future<CompanyInfoEntity> editCompany(BuildContext context,Map<String,dynamic> params) async {
+    CompanyInfoEntity baseRespEntity = await NetUtils.editCompany(context,params);
     if (baseRespEntity.statusCode ==200) {
       return baseRespEntity;
     }

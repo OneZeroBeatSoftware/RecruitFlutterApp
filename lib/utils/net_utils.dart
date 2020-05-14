@@ -21,6 +21,7 @@ import 'package:recruit_app/entity/candidate_update_entity.dart';
 import 'package:recruit_app/entity/city_entity.dart';
 import 'package:recruit_app/entity/collection_entity.dart';
 import 'package:recruit_app/entity/company_detail_entity.dart';
+import 'package:recruit_app/entity/company_info_entity.dart';
 import 'package:recruit_app/entity/company_job_entity.dart';
 import 'package:recruit_app/entity/company_list_entity.dart';
 import 'package:recruit_app/entity/company_scale_entity.dart';
@@ -478,7 +479,7 @@ class NetUtils {
     if(state!=null&&state.isNotEmpty){
       params['state']=state;
     }
-    var response = await _post(context, '/feedBack/save', params: params,isShowLoading: true);
+    var response = await _post(context, '/feedback/save', params: params,isShowLoading: true);
     return BaseRespEntity().fromJson(response.data);
   }
 
@@ -853,11 +854,18 @@ class NetUtils {
   }
 
   /// 添加、修改招聘者信息
-  static Future<BaseInfoEntity> saveRecruiter(BuildContext context,String id,String userId,String avatar,String realName) async {
+  static Future<BaseInfoEntity> saveRecruiter(BuildContext context,String userId,{String id,String avatar,String realName,String companyId}) async {
     Map<String,dynamic> params={};
     params["userId"] = userId;
-    params["avatar"] = avatar;
-    params["realName"] = realName;
+    if (avatar != null && avatar.isNotEmpty) {
+      params["avatar"] = avatar;
+    }
+    if (realName != null && realName.isNotEmpty) {
+      params["realName"] = realName;
+    }
+    if (companyId != null && companyId.isNotEmpty) {
+      params["companyId"] = companyId;
+    }
     if (id != null && id.isNotEmpty) {
       params["id"] = id;
     }
@@ -1025,8 +1033,8 @@ class NetUtils {
   }
 
   /// 添加、更新公司信息
-  static Future<BaseRespEntity> editCompany(BuildContext context, Map<String,dynamic> params) async {
+  static Future<CompanyInfoEntity> editCompany(BuildContext context, Map<String,dynamic> params) async {
     var response = await _post(context, '/company/save',params: params);
-    return BaseRespEntity().fromJson(response.data);
+    return CompanyInfoEntity().fromJson(response.data);
   }
 }

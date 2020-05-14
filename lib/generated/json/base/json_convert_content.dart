@@ -29,6 +29,8 @@ import 'package:recruit_app/entity/candidate_entity.dart';
 import 'package:recruit_app/generated/json/candidate_entity_helper.dart';
 import 'package:recruit_app/entity/resume_list_entity.dart';
 import 'package:recruit_app/generated/json/resume_list_entity_helper.dart';
+import 'package:recruit_app/entity/company_info_entity.dart';
+import 'package:recruit_app/generated/json/company_info_entity_helper.dart';
 import 'package:recruit_app/entity/company_list_entity.dart';
 import 'package:recruit_app/generated/json/company_list_entity_helper.dart';
 import 'package:recruit_app/entity/mine_info_entity.dart';
@@ -146,7 +148,9 @@ class JsonConvert<T> {
 			return candidateDataFromJson(data as CandidateData, json) as T;			case CandidateDataRecord:
 			return candidateDataRecordFromJson(data as CandidateDataRecord, json) as T;			case ResumeListEntity:
 			return resumeListEntityFromJson(data as ResumeListEntity, json) as T;			case ResumeListData:
-			return resumeListDataFromJson(data as ResumeListData, json) as T;			case CompanyListEntity:
+			return resumeListDataFromJson(data as ResumeListData, json) as T;			case CompanyInfoEntity:
+			return companyInfoEntityFromJson(data as CompanyInfoEntity, json) as T;			case CompanyInfoData:
+			return companyInfoDataFromJson(data as CompanyInfoData, json) as T;			case CompanyListEntity:
 			return companyListEntityFromJson(data as CompanyListEntity, json) as T;			case MineInfoEntity:
 			return mineInfoEntityFromJson(data as MineInfoEntity, json) as T;			case MineInfoData:
 			return mineInfoDataFromJson(data as MineInfoData, json) as T;			case MineInfoDataJobSeeker:
@@ -277,7 +281,9 @@ class JsonConvert<T> {
 			return candidateDataToJson(data as CandidateData);			case CandidateDataRecord:
 			return candidateDataRecordToJson(data as CandidateDataRecord);			case ResumeListEntity:
 			return resumeListEntityToJson(data as ResumeListEntity);			case ResumeListData:
-			return resumeListDataToJson(data as ResumeListData);			case CompanyListEntity:
+			return resumeListDataToJson(data as ResumeListData);			case CompanyInfoEntity:
+			return companyInfoEntityToJson(data as CompanyInfoEntity);			case CompanyInfoData:
+			return companyInfoDataToJson(data as CompanyInfoData);			case CompanyListEntity:
 			return companyListEntityToJson(data as CompanyListEntity);			case MineInfoEntity:
 			return mineInfoEntityToJson(data as MineInfoEntity);			case MineInfoData:
 			return mineInfoDataToJson(data as MineInfoData);			case MineInfoDataJobSeeker:
@@ -408,7 +414,9 @@ class JsonConvert<T> {
 			return CandidateData().fromJson(json);			case 'CandidateDataRecord':
 			return CandidateDataRecord().fromJson(json);			case 'ResumeListEntity':
 			return ResumeListEntity().fromJson(json);			case 'ResumeListData':
-			return ResumeListData().fromJson(json);			case 'CompanyListEntity':
+			return ResumeListData().fromJson(json);			case 'CompanyInfoEntity':
+			return CompanyInfoEntity().fromJson(json);			case 'CompanyInfoData':
+			return CompanyInfoData().fromJson(json);			case 'CompanyListEntity':
 			return CompanyListEntity().fromJson(json);			case 'MineInfoEntity':
 			return MineInfoEntity().fromJson(json);			case 'MineInfoData':
 			return MineInfoData().fromJson(json);			case 'MineInfoDataJobSeeker':
@@ -540,7 +548,9 @@ class JsonConvert<T> {
 			return List<CandidateData>();			case 'CandidateDataRecord':
 			return List<CandidateDataRecord>();			case 'ResumeListEntity':
 			return List<ResumeListEntity>();			case 'ResumeListData':
-			return List<ResumeListData>();			case 'CompanyListEntity':
+			return List<ResumeListData>();			case 'CompanyInfoEntity':
+			return List<CompanyInfoEntity>();			case 'CompanyInfoData':
+			return List<CompanyInfoData>();			case 'CompanyListEntity':
 			return List<CompanyListEntity>();			case 'MineInfoEntity':
 			return List<MineInfoEntity>();			case 'MineInfoData':
 			return List<MineInfoData>();			case 'MineInfoDataJobSeeker':
