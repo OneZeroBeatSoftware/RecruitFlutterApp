@@ -282,7 +282,7 @@ class _CompanyInfoState extends State<CompanyInfo> {
                                 ),
                               ],),
                               SizedBox(height: ScreenUtil().setHeight(20)),
-                              Text('$_manage$_scaleName$_industry'.isNotEmpty?'$_manage $_scaleName $_industry':'请编辑公司信息',
+                              Text('$_manage$_scaleName$_industry'.isNotEmpty?'$_manage  $_scaleName  $_industry':'请编辑公司信息',
                                 style: TextStyle(color: Color.fromRGBO(100,100,100,1),
                                   fontSize: ScreenUtil().setSp(28),
                                   fontWeight: FontWeight.w300,
@@ -556,13 +556,15 @@ class _CompanyInfoState extends State<CompanyInfo> {
   void welfareResult(WelfareResult value) {
     if(value!=null){
       if(value.index==-1){
-        CompanyDetailDataWelfare welfare = CompanyDetailDataWelfare()
-          ..state = 1
-          ..welfareName = value.title
-          ..content = value.content;
-        welfare.companyId = widget.companyId;
-        welfare.id='';
-        _welfareList.add(welfare);
+        setState(() {
+          CompanyDetailDataWelfare welfare = CompanyDetailDataWelfare()
+            ..state = 1
+            ..welfareName = value.title
+            ..content = value.content;
+          welfare.companyId = widget.companyId;
+          welfare.id = '';
+          _welfareList.add(welfare);
+        });
       }else {
         setState(() {
           _welfareList[value.index].welfareName=value.title;
