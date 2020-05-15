@@ -125,10 +125,22 @@ class _CompanyImageListState extends State<CompanyImageList> {
                           _openGallery();
                         },
                         behavior: HitTestBehavior.opaque,
-                        child: Image.asset('images/img_img_add_blue.png',
-                          fit: BoxFit.fill,
+                        child: Container(
                           width: ScreenUtil().setWidth(300),
-                          height: ScreenUtil().setWidth(200),),
+                          height: ScreenUtil().setWidth(200),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  width: ScreenUtil().setWidth(3),
+                                  color: Color.fromRGBO(154, 202, 241, 1),
+                                  style: BorderStyle.solid),
+                              borderRadius: BorderRadius.circular(
+                                  ScreenUtil().setWidth(20))),
+                          child: Image.asset('images/img_add.png',
+                            fit: BoxFit.cover,
+                            width: ScreenUtil().setWidth(100),
+                            height: ScreenUtil().setWidth(100),),
+                        ),
                       );
                     }
                     return GestureDetector(
