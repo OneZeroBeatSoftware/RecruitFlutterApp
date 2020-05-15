@@ -68,7 +68,10 @@ class _CandidateBossRoomState extends State<CandidateBossRoom> {
         ),
       ),
     ));
-    if (widget.candidateData.interview == null) {
+    if (widget.candidateData.interview == null ||
+        (widget.candidateData.interview.state == '3' ||
+            widget.candidateData.interview.state == '4' ||
+            widget.candidateData.interview.state == '6')) {
       operateWidget.add(Expanded(
         flex: 1,
         child: GestureDetector(
@@ -431,7 +434,11 @@ class _CandidateBossRoomState extends State<CandidateBossRoom> {
                   widget.candidateData.interview.state
                   );
             } else {
-              _inviteInterView(null,datetime.millisecondsSinceEpoch,'1');
+              if(widget.candidateData.interview!=null){
+                _inviteInterView(widget.candidateData.interview.id,datetime.millisecondsSinceEpoch,'1');
+              }else {
+                _inviteInterView(null,datetime.millisecondsSinceEpoch,'1');
+              }
             }
           },
         );
