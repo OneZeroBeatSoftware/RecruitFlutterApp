@@ -7,7 +7,9 @@ import 'package:recruit_app/entity/boss_job_manage_entity.dart';
 import 'package:recruit_app/entity/candidate_update_entity.dart';
 import 'package:recruit_app/entity/interview_update_entity.dart';
 import 'package:recruit_app/entity/main_resume_detail_entity.dart';
+import 'package:recruit_app/main.dart';
 import 'package:recruit_app/model/boss_mine_model.dart';
+import 'package:recruit_app/model/event_bus_interview.dart';
 import 'package:recruit_app/model/seeker_interview_model.dart';
 import 'package:recruit_app/pages/employe/candidate_boss_room_intro.dart';
 import 'package:recruit_app/widgets/craft_date_time_picker.dart';
@@ -462,6 +464,7 @@ class _CandidateBossRoomState extends State<CandidateBossRoom> {
       recruiterId: widget.jobData.recruiterId,
     );
     if (_baseEntity != null) {
+      eventBus.fire(RefreshInterview('refresh'));
       CandidateUpdateDataApply interview = CandidateUpdateDataApply()
         ..id = _baseEntity.data.id
         ..interviewDate = interviewDate

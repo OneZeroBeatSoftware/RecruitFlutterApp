@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:recruit_app/entity/user_entity.dart';
+import 'package:recruit_app/main.dart';
+import 'package:recruit_app/model/event_bus_info_check.dart';
 import 'package:recruit_app/model/identity_model.dart';
 import 'package:recruit_app/model/user_model.dart';
 import 'package:recruit_app/pages/account/login/login_type.dart';
@@ -267,6 +269,7 @@ class _SettingState extends State<Setting> {
                             identityModel.identity == Identity.employee
                                 ? Identity.boss
                                 : Identity.employee);
+                        eventBus.fire(InfoCheck(false));
                       },
                     );
                   });

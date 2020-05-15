@@ -9,11 +9,14 @@ import 'package:recruit_app/entity/job_detail_entity.dart';
 import 'package:recruit_app/entity/resume_detail_entity.dart';
 import 'package:recruit_app/entity/resume_list_entity.dart';
 import 'package:recruit_app/model/boss_mine_model.dart';
+import 'package:recruit_app/model/event_bus_interview.dart';
 import 'package:recruit_app/model/mine_model.dart';
 import 'package:recruit_app/model/seeker_interview_model.dart';
 import 'package:recruit_app/pages/jobs/candidate_room_intro.dart';
 import 'package:recruit_app/widgets/craft_date_time_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../main.dart';
 
 class CandidateRoom extends StatefulWidget {
   final CandidateUpdateData candidateData;
@@ -434,6 +437,7 @@ class _CandidateRoomState extends State<CandidateRoom> {
       recruiterId: widget.jobData.job.recruiterId,
     );
     if (_baseEntity != null) {
+      eventBus.fire(RefreshInterview('refresh'));
       CandidateUpdateDataApply interview = CandidateUpdateDataApply()
         ..id = _baseEntity.data.id
         ..interviewDate = interviewDate

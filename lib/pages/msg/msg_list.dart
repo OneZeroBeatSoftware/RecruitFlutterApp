@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
@@ -7,6 +9,8 @@ import 'package:recruit_app/application.dart';
 import 'package:recruit_app/entity/base_resp_entity.dart';
 import 'package:recruit_app/entity/seeker_interview_entity.dart';
 import 'package:recruit_app/entity/seeker_notice_entity.dart';
+import 'package:recruit_app/main.dart';
+import 'package:recruit_app/model/event_bus_interview.dart';
 import 'package:recruit_app/model/msg_type.dart';
 import 'package:recruit_app/model/seeker_interview_model.dart';
 import 'package:recruit_app/model/seeker_notice_model.dart';
@@ -37,37 +41,38 @@ class _MsgListState extends State<MsgList> {
   int _interviewPage = 1;
   int _noticePage = 1;
   EasyRefreshController _refreshController;
+  StreamSubscription _refreshInterview;
 
   @override
   void initState() {
     // TODO: implement initState
     _refreshController = EasyRefreshController();
     super.initState();
-//    WidgetsBinding.instance.addPostFrameCallback((callback){
-//        _interviewPage = 1;
-//        getInterviewList(widget.msgType);
-//        _noticePage = 1;
-//        getNoticeList();
-//    });
-  }
-
-  @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
-//    WidgetsBinding.instance.addPostFrameCallback((callback){
+    WidgetsBinding.instance.addPostFrameCallback((callback){
       _interviewPage = 1;
       getInterviewList(widget.msgType, pageSize: InterviewModel
           .instance.interviewList.length < 15 ? 15 : InterviewModel
           .instance.interviewList.length);
-//    });
+//        _noticePage = 1;
+//        getNoticeList();
+    });
+    _refreshInterview=eventBus.on<RefreshInterview>().listen((event) {
+      _interviewPage = 1;
+      getInterviewList(widget.msgType, pageSize: InterviewModel
+          .instance.interviewList.length < 15 ? 15 : InterviewModel
+          .instance.interviewList.length);
+    });
   }
+
 
   @override
   void dispose() {
     // TODO: implement dispose
     if(_refreshController!=null){
       _refreshController.dispose();
+    }
+    if(_refreshInterview!=null){
+      _refreshInterview.cancel();
     }
     super.dispose();
   }

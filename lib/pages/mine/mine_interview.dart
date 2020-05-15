@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
@@ -6,6 +8,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/application.dart';
 import 'package:recruit_app/entity/base_resp_entity.dart';
 import 'package:recruit_app/entity/seeker_interview_entity.dart';
+import 'package:recruit_app/main.dart';
+import 'package:recruit_app/model/event_bus_interview.dart';
 import 'package:recruit_app/model/msg_type.dart';
 import 'package:recruit_app/model/seeker_interview_model.dart';
 import 'package:recruit_app/pages/employe/employee_detail.dart';
@@ -25,24 +29,26 @@ class MineInterView extends StatefulWidget {
 class _MineInterViewState extends State<MineInterView> {
   int _pageIndex = 1;
   EasyRefreshController _refreshController;
+  StreamSubscription _refreshInterview;
 
   @override
   void initState() {
     // TODO: implement initState
     _refreshController = EasyRefreshController();
     super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
-//    WidgetsBinding.instance.addPostFrameCallback((callback){
+    WidgetsBinding.instance.addPostFrameCallback((callback){
       _pageIndex = 1;
       getInterviewList(pageSize: InterviewModel
           .instance.interviewList.length < 15 ? 15 : InterviewModel
           .instance.interviewList.length);
-//    });
+    });
+
+    _refreshInterview=eventBus.on<RefreshInterview>().listen((event) {
+      _pageIndex = 1;
+      getInterviewList(pageSize: InterviewModel
+          .instance.interviewList.length < 15 ? 15 : InterviewModel
+          .instance.interviewList.length);
+    });
   }
 
   @override
@@ -50,6 +56,9 @@ class _MineInterViewState extends State<MineInterView> {
     // TODO: implement dispose
     if(_refreshController!=null){
       _refreshController.dispose();
+    }
+    if(_refreshInterview!=null){
+      _refreshInterview.cancel();
     }
     super.dispose();
   }
