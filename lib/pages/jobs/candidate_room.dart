@@ -275,6 +275,7 @@ class _CandidateRoomState extends State<CandidateRoom> {
                       if (widget.candidateData.candidate == null ||
                           widget.candidateData.candidate.id == null ||
                           widget.candidateData.candidate.id.isEmpty) {
+                        Navigator.pop(context);
                         return;
                       }
                       _deleteCandidate(widget.candidateData.candidate.id);
