@@ -18,8 +18,8 @@ class CompanyModel with ChangeNotifier {
   List<CompanyJobDataRecord> get jobList => _jobList;
 
   /// 获取公司列表
-  Future<CompanyListEntity> getCompanyList(BuildContext context, bool isNearby,bool isRecommend, int pageIndex,int pageSize) async {
-    CompanyListEntity comEntity = await NetUtils.getCompanyList(context, isNearby, isRecommend,pageIndex,pageSize);
+  Future<CompanyListEntity> getCompanyList(BuildContext context, bool isNearby,bool isRecommend, int pageIndex,int pageSize,{String jobSeekerId}) async {
+    CompanyListEntity comEntity = await NetUtils.getCompanyList(context, isNearby, isRecommend,pageIndex,pageSize,jobSeekerId: jobSeekerId);
     if (comEntity.statusCode ==200) {
       if(pageIndex==1){
         _companyList.clear();

@@ -15,8 +15,8 @@ class JobModel with ChangeNotifier {
 
   /// 获取岗位列表
   Future<JobListEntity> getJobList(BuildContext context, bool isNearby,
-      bool isNews, bool isRecommend, int pageIndex,int pageSize,{String city,String age,String education,String salary,String scale}) async {
-    JobListEntity jobEntity = await NetUtils.getJobList(context, isNearby, isNews,isRecommend,pageIndex,pageSize,city: city,age:age,education: education,salary: salary,scale:scale);
+      bool isNews, bool isRecommend, int pageIndex,int pageSize,{String city,String age,String education,String salary,String scale,String jobSeekerId}) async {
+    JobListEntity jobEntity = await NetUtils.getJobList(context, isNearby, isNews,isRecommend,pageIndex,pageSize,city: city,age:age,education: education,salary: salary,scale:scale,jobSeekerId: jobSeekerId);
     if (jobEntity.statusCode ==200) {
       if(pageIndex==1){
         _jobList.clear();

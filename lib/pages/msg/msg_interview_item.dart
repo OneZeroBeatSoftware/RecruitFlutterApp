@@ -74,7 +74,7 @@ class _MsgInterviewItemState extends State<MsgInterviewItem> {
             Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     Row(
                       children: <Widget>[

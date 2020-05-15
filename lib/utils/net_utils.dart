@@ -352,7 +352,7 @@ class NetUtils {
 
   /// 获取岗位列表
   static Future<JobListEntity> getJobList(BuildContext context, bool isNearby,
-      bool isNews, bool isRecommend, int pageIndex,int pageSize,{String city,String age,String education,String salary,String scale}) async {
+      bool isNews, bool isRecommend, int pageIndex,int pageSize,{String city,String age,String education,String salary,String scale,String jobSeekerId}) async {
     Map<String,dynamic> params={};
     params['isNearby']=isNearby;
     params['isNews']=isNews;
@@ -373,6 +373,9 @@ class NetUtils {
     }
     if(scale!=null&&scale.isNotEmpty){
       params['scale']=scale;
+    }
+    if(jobSeekerId!=null&&jobSeekerId.isNotEmpty){
+      params['jobSeekerId']=jobSeekerId;
     }
 
     var response = await _post(context, '/job/list', params: params,isShowLoading: false);
@@ -435,13 +438,16 @@ class NetUtils {
   }
 
   /// 获取公司列表
-  static Future<CompanyListEntity> getCompanyList(BuildContext context, bool isNearby,bool isRecommend, int pageIndex,int pageSize) async {
-    var response = await _post(context, '/company/list', params: {
-      'isNearby': isNearby,
-      'isRecommend': isRecommend,
-      'pageIndex': pageIndex,
-      'pageSize': pageSize
-    },isShowLoading: false);
+  static Future<CompanyListEntity> getCompanyList(BuildContext context, bool isNearby,bool isRecommend, int pageIndex,int pageSize,{String jobSeekerId}) async {
+    Map<String,dynamic> params={};
+    params['isNearby']=isNearby;
+    params['isRecommend']=isRecommend;
+    params['pageIndex']=pageIndex;
+    params['pageSize']=pageSize;
+    if(jobSeekerId!=null&&jobSeekerId.isNotEmpty){
+      params['jobSeekerId']=jobSeekerId;
+    }
+    var response = await _post(context, '/company/list', params: params,isShowLoading: false);
     return CompanyListEntity().fromJson(response.data);
   }
 
@@ -883,7 +889,7 @@ class NetUtils {
 
   /// 获取招聘者首页人才列表
   static Future<MainResumeListEntity> getMainResumeList(BuildContext context, bool isNearby,
-      bool isNews, bool isRecommend, int pageIndex,int pageSize,{String city,String education,String salary,String sex,String workDate}) async {
+      bool isNews, bool isRecommend, int pageIndex,int pageSize,{String city,String education,String salary,String sex,String workDate,String recruiterId}) async {
     Map<String,dynamic> params={};
     params['isNearby']=isNearby;
     params['isNews']=isNews;
@@ -904,6 +910,9 @@ class NetUtils {
     }
     if(workDate!=null&&workDate.isNotEmpty){
       params['workDate']=workDate;
+    }
+    if(recruiterId!=null&&recruiterId.isNotEmpty){
+      params['recruiterId']=recruiterId;
     }
     var response = await _post(context, '/recruiter/resume/list', params: params,isShowLoading: false);
     return MainResumeListEntity().fromJson(response.data);

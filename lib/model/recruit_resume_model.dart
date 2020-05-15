@@ -26,8 +26,8 @@ class MainResumeModel {
   List<MainResumeListDataRecord> get resumeList => _resumeList;
   /// 获取招聘者首页简历列表
   Future<MainResumeListEntity> getResumeList(BuildContext context, bool isNearby,
-      bool isNews, bool isRecommend, String jobName, int pageIndex,int pageSize,{String city,String education,String salary,String sex,String workDate}) async {
-    MainResumeListEntity resumeEntity = await NetUtils.getMainResumeList(context, isNearby, isNews,isRecommend,pageIndex,pageSize,city: city,education: education,salary: salary,sex: sex,workDate: workDate);
+      bool isNews, bool isRecommend, String jobName, int pageIndex,int pageSize,{String city,String education,String salary,String sex,String workDate,String recruiterId}) async {
+    MainResumeListEntity resumeEntity = await NetUtils.getMainResumeList(context, isNearby, isNews,isRecommend,pageIndex,pageSize,city: city,education: education,salary: salary,sex: sex,workDate: workDate,recruiterId: recruiterId);
     if (resumeEntity.statusCode ==200) {
       if(pageIndex==1){
         _resumeList.clear();

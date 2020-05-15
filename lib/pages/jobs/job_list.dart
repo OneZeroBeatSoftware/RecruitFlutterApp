@@ -530,7 +530,8 @@ class _JobListState extends State<JobList> {
          age: _age,
          salary: _salary,
          scale: _scale,
-         education: _eduLevel);
+         education: _eduLevel,
+     jobSeekerId: Application.sp.get('jobSeekerId'));
     if (_jobEntity != null && _jobEntity.data.records.length > 0) {
       _pageIndex++;
     }

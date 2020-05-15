@@ -513,7 +513,8 @@ class _EmployeeListState extends State<EmployeeList> {
         education: _eduLevel,
         salary: _salary,
         sex:_sex,
-        workDate: _workDate).then((resumeEntity) {
+        workDate: _workDate,
+    recruiterId: Application.sp.get('recruiterId')).then((resumeEntity) {
       if (resumeEntity != null) {
         _pageIndex++;
       }

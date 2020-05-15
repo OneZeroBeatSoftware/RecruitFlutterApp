@@ -4,6 +4,7 @@ import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:recruit_app/application.dart';
 import 'package:recruit_app/entity/company_list_entity.dart';
 import 'package:recruit_app/model/company_model.dart';
 import 'package:recruit_app/pages/companys/company_detail.dart';
@@ -253,7 +254,8 @@ class _CompanyListState extends State<CompanyList> {
         _selectFilterType == 1,
         _selectFilterType == 0,
         _pageIndex,
-        15);
+        15,
+    jobSeekerId: Application.sp.get('jobSeekerId'));
     if (_companyEntity != null && _companyEntity.data.records.length > 0) {
       _pageIndex++;
     }
