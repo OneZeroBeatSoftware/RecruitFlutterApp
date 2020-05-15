@@ -16,6 +16,7 @@ class ApplyListData with JsonConvert<ApplyListData> {
 
 class ApplyListDataRecord with JsonConvert<ApplyListDataRecord> {
 	String id;
+	String jobId;
 	String companyId;
 	String companyName;
 	String jobName;

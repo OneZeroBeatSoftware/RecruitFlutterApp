@@ -54,6 +54,7 @@ class _JobCompanySearchState extends State<JobCompanySearch> {
     _searchController=TextEditingController();
     _searchList=Application.sp.getStringList('search_history')??[];
     _selCity=Application.sp.get('location_city')??'请选择城市';
+    _cityId=Application.sp.get('location_city_id')??'';
     if(widget.searchType==SearchType.job){
       _filterType=FilterType.job;
     }else if(widget.searchType==SearchType.company){
@@ -152,7 +153,7 @@ class _JobCompanySearchState extends State<JobCompanySearch> {
                                   border: InputBorder.none,
                                   hintText: widget.searchType == SearchType.company
                                       ? '输入企业名称'
-                                      : (widget.searchType == SearchType.resume?"请输入人才姓名":'输入岗位名称'),
+                                      : (widget.searchType == SearchType.resume?"请输入简历名称":'输入岗位名称'),
                                   hintStyle: TextStyle(
                                     fontSize: ScreenUtil().setSp(24),
                                     color: Color.fromRGBO(176, 181, 180, 1),
@@ -567,7 +568,7 @@ class _JobCompanySearchState extends State<JobCompanySearch> {
   /// 搜索工作
   _searchJob() {
     SearchModel.instance.searchJob(context, _pageIndex,
-      city: Application.sp.get('location_city_id'),
+      city: _cityId,
       keyword: _keyword,
       scale: _scale,
       age: _age,
@@ -584,7 +585,7 @@ class _JobCompanySearchState extends State<JobCompanySearch> {
   /// 搜索公司
   _searchCompany() {
     SearchModel.instance.searchCompany(context, _pageIndex,
-      city: Application.sp.get('location_city_id'),
+      city: _cityId,
       keyword: _keyword,
       industryId: _industry,
       scale: _scale,
@@ -600,7 +601,7 @@ class _JobCompanySearchState extends State<JobCompanySearch> {
   _searchResume() {
     SearchModel.instance.searchResume(
         context, _pageIndex,
-        city: Application.sp.get('location_city_id'),
+        city: _cityId,
         keyword: _keyword,
         sex: _sex,
         salary: _salary,

@@ -61,6 +61,12 @@ seekerInterviewDataRecordFromJson(SeekerInterviewDataRecord data, Map<String, dy
 	if (json['id'] != null) {
 		data.id = json['id']?.toString();
 	}
+	if (json['resumeId'] != null) {
+		data.resumeId = json['resumeId']?.toString();
+	}
+	if (json['realName'] != null) {
+		data.realName = json['realName']?.toString();
+	}
 	if (json['jobId'] != null) {
 		data.jobId = json['jobId']?.toString();
 	}
@@ -97,6 +103,8 @@ seekerInterviewDataRecordFromJson(SeekerInterviewDataRecord data, Map<String, dy
 Map<String, dynamic> seekerInterviewDataRecordToJson(SeekerInterviewDataRecord entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	data['id'] = entity.id;
+	data['resumeId'] = entity.resumeId;
+	data['realName'] = entity.realName;
 	data['jobId'] = entity.jobId;
 	data['jobName'] = entity.jobName;
 	data['minSalary'] = entity.minSalary;

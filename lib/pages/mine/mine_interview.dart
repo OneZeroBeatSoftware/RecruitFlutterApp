@@ -104,7 +104,7 @@ class _MineInterViewState extends State<MineInterView> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => EmployeeDetail(resumeId: InterviewModel
-                                    .instance.interviewList[idx].id,resumeDetailType: ResumeDetailType.interview,),
+                                    .instance.interviewList[idx].resumeId,resumeDetailType: ResumeDetailType.interview,),
                               ));
                         }else {
                           Navigator.push(

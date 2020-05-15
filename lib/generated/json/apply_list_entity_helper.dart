@@ -61,6 +61,9 @@ applyListDataRecordFromJson(ApplyListDataRecord data, Map<String, dynamic> json)
 	if (json['id'] != null) {
 		data.id = json['id']?.toString();
 	}
+	if (json['jobId'] != null) {
+		data.jobId = json['jobId']?.toString();
+	}
 	if (json['companyId'] != null) {
 		data.companyId = json['companyId']?.toString();
 	}
@@ -124,6 +127,7 @@ applyListDataRecordFromJson(ApplyListDataRecord data, Map<String, dynamic> json)
 Map<String, dynamic> applyListDataRecordToJson(ApplyListDataRecord entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	data['id'] = entity.id;
+	data['jobId'] = entity.jobId;
 	data['companyId'] = entity.companyId;
 	data['companyName'] = entity.companyName;
 	data['jobName'] = entity.jobName;

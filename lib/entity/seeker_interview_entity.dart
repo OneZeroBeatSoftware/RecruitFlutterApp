@@ -16,6 +16,8 @@ class SeekerInterviewData with JsonConvert<SeekerInterviewData> {
 
 class SeekerInterviewDataRecord with JsonConvert<SeekerInterviewDataRecord> {
 	String id;
+	String resumeId;
+	String realName;
 	String jobId;
 	String jobName;
 	String minSalary;

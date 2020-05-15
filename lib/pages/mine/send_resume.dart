@@ -94,7 +94,7 @@ class _SendResumeJobState extends State<SendResumeJob> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => JobDetail(jobId: MineModel.instance.applyList[index].id,),
+                                builder: (context) => JobDetail(jobId: MineModel.instance.applyList[index].jobId,),
                               ));
                         });
                   }

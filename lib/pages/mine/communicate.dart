@@ -112,7 +112,7 @@ class _CommunicateJobState extends State<CommunicateJob> {
                                           resumeDetailType: ResumeDetailType
                                               .resume,
                                           resumeId: BossMineModel.instance
-                                              .applyList[index].id,),
+                                              .applyList[index].resumeId,),
                                   ));
                             });
                       }
@@ -129,7 +129,7 @@ class _CommunicateJobState extends State<CommunicateJob> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => JobDetail(jobId: MineModel.instance.applyList[index].id,),
+                                      builder: (context) => JobDetail(jobId: MineModel.instance.applyList[index].jobId,),
                                     ));
                             });
                       }

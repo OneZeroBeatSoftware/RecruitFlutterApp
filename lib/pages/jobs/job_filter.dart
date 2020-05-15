@@ -248,10 +248,20 @@ class _JobFilterState extends State<JobFilter> {
       _jobFilterData.add(JobFilterData(
           filterName: '薪资待遇',
           filterSubData: salaryListEntity.data
-              .map((item) => JobFilterSubData(
-              id: item.id,
-              filterName: '${item.minSalary}-${item.maxSalary}K', isChecked: widget.salary==item.id))
-              .toList()));
+              .map((item) {
+                String salary='${item.minSalary}-${item.maxSalary}K';
+                if(double.parse(item.minSalary)<0&&double.parse(item.maxSalary)<0){
+                  salary='不限';
+                }else if(double.parse(item.minSalary)<0&&double.parse(item.maxSalary)>0){
+                  salary='${item.maxSalary}K以下';
+                }else if(double.parse(item.minSalary)>0&&double.parse(item.maxSalary)<0){
+                  salary='${item.minSalary}K以上';
+                }
+            return JobFilterSubData(
+                id: item.id,
+                filterName: salary,
+                isChecked: widget.salary == item.id);
+          }).toList()));
       setState(() {
       });
     }

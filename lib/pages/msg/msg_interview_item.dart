@@ -103,7 +103,7 @@ class _MsgInterviewItemState extends State<MsgInterviewItem> {
                     ),
                     SizedBox(height: ScreenUtil().setWidth(10)),
                     Text(
-                      '${widget.interview.companyName}邀请您参与面试',
+                      widget.msgType==MsgType.seeker?'${widget.interview.companyName}邀请您参与面试':'您邀请${widget.interview.realName}参与面试',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(

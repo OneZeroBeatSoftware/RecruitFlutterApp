@@ -46,8 +46,8 @@ class _MsgListState extends State<MsgList> {
     WidgetsBinding.instance.addPostFrameCallback((callback){
         _interviewPage = 1;
         getInterviewList(widget.msgType);
-        _noticePage = 1;
-        getNoticeList();
+//        _noticePage = 1;
+//        getNoticeList();
     });
   }
 
@@ -267,7 +267,7 @@ class _MsgListState extends State<MsgList> {
                               builder: (context) =>
                               widget.msgType == MsgType.recruiter ?
                               EmployeeDetail(resumeId: InterviewModel
-                                  .instance.interviewList[idx].id,
+                                  .instance.interviewList[idx].resumeId,
                                 resumeDetailType: ResumeDetailType.interview,)
                                   : JobDetail(
                                 jobId: InterviewModel
