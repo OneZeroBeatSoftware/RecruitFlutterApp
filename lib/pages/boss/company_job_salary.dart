@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
@@ -124,6 +125,9 @@ class _State extends State<CompanyJobSalary> {
 									    maxLines: 1,
 									    controller: _minController,
 									    keyboardType: TextInputType.number,
+											inputFormatters: [
+												WhitelistingTextInputFormatter(RegExp("[0-9.]")),//只允许输入小数
+											],
 									    cursorColor: Color.fromRGBO(176, 181, 180, 1),
 									    textAlign: TextAlign.center,
 									    padding: EdgeInsets.only(
@@ -159,6 +163,9 @@ class _State extends State<CompanyJobSalary> {
 									    maxLines: 1,
 											controller: _maxController,
 											keyboardType: TextInputType.number,
+											inputFormatters: [
+												WhitelistingTextInputFormatter(RegExp("[0-9.]")),//只允许输入小数
+											],
 									    cursorColor: Color.fromRGBO(176, 181, 180, 1),
 									    textAlign: TextAlign.center,
 									    padding: EdgeInsets.only(

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:recruit_app/model/user_model.dart';
@@ -319,6 +320,7 @@ class _RegisterState extends State<Register> {
                       child: TextField(
                         keyboardType: TextInputType.number,
                         maxLines: 1,
+                        inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
                         controller: _codeController,
                         textAlign: TextAlign.start,
                         cursorColor: Color.fromRGBO(159, 199, 235, 1),

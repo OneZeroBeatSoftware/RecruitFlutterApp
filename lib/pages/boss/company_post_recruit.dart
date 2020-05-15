@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/entity/base_resp_entity.dart';
 import 'package:recruit_app/entity/boss_job_detail_entity.dart';
@@ -309,6 +310,7 @@ class _State extends State<CompanyPostRecruit> {
 								 TextField(
 									 controller: _recruitNumController,
 									 autofocus: false,
+									 inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],//只允许输入数字
 									 keyboardType: TextInputType.number,
 									 scrollPadding: EdgeInsets.all(0),
 									 textAlign: TextAlign.start,
@@ -362,6 +364,7 @@ class _State extends State<CompanyPostRecruit> {
 								 TextField(
 									 controller: _candidateNumController,
 									 autofocus: false,
+									 inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],//只允许输入数字
 									 keyboardType: TextInputType.number,
 									 scrollPadding: EdgeInsets.all(0),
 									 textAlign: TextAlign.start,

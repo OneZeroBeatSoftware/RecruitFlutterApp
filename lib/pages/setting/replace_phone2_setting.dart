@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:recruit_app/model/user_model.dart';
@@ -155,6 +156,7 @@ class _ReplacePhone2SettingState extends State<ReplacePhone2Setting> {
                       autofocus: false,
                       controller: _codeController,
                       keyboardType: TextInputType.number,
+                      inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
                       maxLines: 1,
                       textAlign: TextAlign.start,
                       cursorColor: Color.fromRGBO(159, 199, 235, 1),

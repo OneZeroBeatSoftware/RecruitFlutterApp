@@ -1,6 +1,7 @@
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/application.dart';
 import 'package:recruit_app/entity/base_resp_entity.dart';
@@ -666,6 +667,9 @@ class _OnlineResumeState extends State<OnlineResume> {
                         controller: _minSalaryController,
                         maxLines: 1,
                         keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          WhitelistingTextInputFormatter(RegExp("[0-9.]")),//只允许输入小数
+                        ],
                         cursorColor: Color.fromRGBO(176, 181, 180, 1),
                         textAlign: TextAlign.center,
                         padding: EdgeInsets.only(
@@ -704,6 +708,9 @@ class _OnlineResumeState extends State<OnlineResume> {
                         controller: _maxSalaryController,
                         maxLines: 1,
                         keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          WhitelistingTextInputFormatter(RegExp("[0-9.]")),//只允许输入小数
+                        ],
                         cursorColor: Color.fromRGBO(176, 181, 180, 1),
                         textAlign: TextAlign.center,
                         padding: EdgeInsets.only(
