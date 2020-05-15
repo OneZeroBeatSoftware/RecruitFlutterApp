@@ -34,6 +34,18 @@ class _MineInterViewState extends State<MineInterView> {
   }
 
   @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+//    WidgetsBinding.instance.addPostFrameCallback((callback){
+      _pageIndex = 1;
+      getInterviewList(pageSize: InterviewModel
+          .instance.interviewList.length < 15 ? 15 : InterviewModel
+          .instance.interviewList.length);
+//    });
+  }
+
+  @override
   void dispose() {
     // TODO: implement dispose
     if(_refreshController!=null){
@@ -71,7 +83,7 @@ class _MineInterViewState extends State<MineInterView> {
           Expanded(
             child: EasyRefresh.custom(
               controller: _refreshController,
-              firstRefresh: true,
+//              firstRefresh: true,
               header: MaterialHeader(),
               footer:
                   ClassicalFooter(infoColor: Color.fromRGBO(159, 199, 235, 1)),
@@ -140,12 +152,12 @@ class _MineInterViewState extends State<MineInterView> {
   }
 
   /// 获取面试邀请列表
-  getInterviewList() async {
+  getInterviewList({int pageSize=15}) async {
     SeekerInterviewEntity _interviewEntity;
     if(widget.msgType==MsgType.recruiter){
-      _interviewEntity= await InterviewModel.instance.getInterviewList(context, _pageIndex, 15,recruiterId: Application.sp.get('recruiterId'));
+      _interviewEntity= await InterviewModel.instance.getInterviewList(context, _pageIndex, pageSize,recruiterId: Application.sp.get('recruiterId'));
     }else {
-      _interviewEntity= await InterviewModel.instance.getInterviewList(context, _pageIndex, 15,jobSeekerId: Application.sp.get('jobSeekerId'),state: '2');
+      _interviewEntity= await InterviewModel.instance.getInterviewList(context, _pageIndex, pageSize,jobSeekerId: Application.sp.get('jobSeekerId'),state: '2');
     }
     if (_interviewEntity != null && _interviewEntity.data.records.length > 0) {
       _pageIndex++;

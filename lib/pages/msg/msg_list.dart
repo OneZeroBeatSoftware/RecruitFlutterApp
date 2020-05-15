@@ -43,12 +43,24 @@ class _MsgListState extends State<MsgList> {
     // TODO: implement initState
     _refreshController = EasyRefreshController();
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((callback){
-        _interviewPage = 1;
-        getInterviewList(widget.msgType);
+//    WidgetsBinding.instance.addPostFrameCallback((callback){
+//        _interviewPage = 1;
+//        getInterviewList(widget.msgType);
 //        _noticePage = 1;
 //        getNoticeList();
-    });
+//    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+//    WidgetsBinding.instance.addPostFrameCallback((callback){
+      _interviewPage = 1;
+      getInterviewList(widget.msgType, pageSize: InterviewModel
+          .instance.interviewList.length < 15 ? 15 : InterviewModel
+          .instance.interviewList.length);
+//    });
   }
 
   @override
@@ -381,12 +393,12 @@ class _MsgListState extends State<MsgList> {
   }
 
   /// 获取面试邀请列表
-  getInterviewList(MsgType msgType) async {
+  getInterviewList(MsgType msgType,{int pageSize=15}) async {
     SeekerInterviewEntity _interviewEntity;
     if(msgType==MsgType.recruiter){
-      _interviewEntity= await InterviewModel.instance.getInterviewList(context, _interviewPage, 15,recruiterId: Application.sp.get('recruiterId'),);
+      _interviewEntity= await InterviewModel.instance.getInterviewList(context, _interviewPage, pageSize,recruiterId: Application.sp.get('recruiterId'),);
     }else {
-      _interviewEntity= await InterviewModel.instance.getInterviewList(context, _interviewPage, 15,jobSeekerId: Application.sp.get('jobSeekerId'),);
+      _interviewEntity= await InterviewModel.instance.getInterviewList(context, _interviewPage, pageSize,jobSeekerId: Application.sp.get('jobSeekerId'),);
     }
 
     if (_interviewEntity != null && _interviewEntity.data.records.length > 0) {

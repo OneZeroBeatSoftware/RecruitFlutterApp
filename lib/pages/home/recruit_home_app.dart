@@ -207,7 +207,7 @@ class _RecruitHomeState extends State<RecruitHomeApp> {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+//    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       IdentityModel identityModel=Provider.of<IdentityModel>(context);
       if (identityModel.identity==Identity.boss&&Application.sp.get('recruiterId')==null){
         Navigator.push<BossBaseInfoResult>(
@@ -229,7 +229,7 @@ class _RecruitHomeState extends State<RecruitHomeApp> {
           }
         });
       }
-    });
+//    });
   }
 
   @override
