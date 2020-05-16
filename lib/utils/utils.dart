@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class Utils {
   static void showToast(String msg) {
+    Fluttertoast.cancel();
     Fluttertoast.showToast(msg: msg, gravity: ToastGravity.BOTTOM);
   }
 
