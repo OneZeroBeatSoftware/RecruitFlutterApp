@@ -215,6 +215,9 @@ class _EmployeeListState extends State<EmployeeList> {
                           height: ScreenUtil().setWidth(300),
                           child: new Swiper.children(
                             onTap: (index) {
+                              if(_bannerList[index].url==null||_bannerList[index].url.isEmpty){
+                                return;
+                              }
                               Navigator.push(context,
                                 MaterialPageRoute(builder: (context) => WebViewWidget(title: '${_bannerList[index].desc}',url: '${_bannerList[index].url}',),),);
                             },
