@@ -24,6 +24,7 @@ import 'package:recruit_app/pages/companys/company_welfare_item.dart';
 import 'package:recruit_app/pages/jobs/job_detail.dart';
 import 'package:recruit_app/pages/jobs/report.dart';
 import 'package:recruit_app/utils/utils.dart';
+import 'package:recruit_app/widgets/empty_widget.dart';
 import 'package:recruit_app/widgets/network_image.dart';
 import 'package:recruit_app/widgets/remind_column_dialog.dart';
 import 'package:recruit_app/widgets/remind_dialog.dart';
@@ -895,20 +896,7 @@ class _CompanyDetailState extends State<CompanyDetail>
             child:
             EasyRefresh.custom(
               controller: _refreshController,
-              emptyWidget: _companyModel.jobList.length>0?null:Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  SizedBox(height: ScreenUtil().setWidth(200),),
-                  Image.asset(
-                    'images/img_empty.png', width: ScreenUtil().setWidth(200),
-                    height: ScreenUtil().setWidth(200),
-                    fit: BoxFit.cover,),
-                  Text('暂无岗位', style: TextStyle(color: Color.fromRGBO(159, 199,
-                      235, 1),
-                      fontSize: ScreenUtil().setSp(25),
-                      fontWeight: FontWeight.bold),),
-                ],
-              ),
+              emptyWidget: _companyModel.jobList.length>0?null:EmptyWidget(remindText: '暂未发布岗位',),
               firstRefresh: true,
               header: MaterialHeader(),
               footer: ClassicalFooter(
