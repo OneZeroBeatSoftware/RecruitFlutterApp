@@ -4,11 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:recruit_app/model/identity_model.dart';
 import 'package:recruit_app/model/user_model.dart';
 import 'package:recruit_app/pages/account/register/register.dart';
+import 'package:recruit_app/pages/boss/boss_base_info.dart';
 import 'package:recruit_app/pages/home/recruit_home_app.dart';
+import 'package:recruit_app/pages/mine/user_base_info.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
+
+import '../../../application.dart';
 
 class EmailLoginIn extends StatefulWidget {
   @override
@@ -199,13 +204,48 @@ class _EmailLoginInState extends State<EmailLoginIn> {
                   }
                   _userModel.emailCodeLogin(context, _emailController.text, _codeController.text).then((value){
                     if(value!=null){
-                      Navigator.pop(context);
-                      Navigator.pop(context);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => RecruitHomeApp()),
-                      );
+                      IdentityModel identityModel=Provider.of<IdentityModel>(context);
+                      if (identityModel.identity==Identity.boss&&Application.sp.get('recruiterId')==null){
+                        Navigator.push<BossBaseInfoResult>(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                BossBaseInfo(enterType: BossEnterType.init,),),).then((value) {
+                          if (value != null) {
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => RecruitHomeApp()),
+                            );
+                          }
+                        });
+                      } else if(identityModel.identity==Identity.employee&&Application.sp.get('jobSeekerId')==null){
+                        Navigator.push<UserBaseInfoResult>(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                UserBaseInfo(enterType: EnterType.init,),),).then((value) {
+                          if (value != null) {
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => RecruitHomeApp()),
+                            );
+                          }
+                        });
+                      }else {
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RecruitHomeApp()),
+                        );
+                      }
                     }
                   });
                 },

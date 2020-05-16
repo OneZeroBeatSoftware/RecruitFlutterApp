@@ -2,12 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:recruit_app/application.dart';
 import 'package:recruit_app/entity/user_entity.dart';
-import 'package:recruit_app/main.dart';
-import 'package:recruit_app/model/event_bus_info_check.dart';
 import 'package:recruit_app/model/identity_model.dart';
 import 'package:recruit_app/model/user_model.dart';
 import 'package:recruit_app/pages/account/login/login_type.dart';
+import 'package:recruit_app/pages/boss/boss_base_info.dart';
+import 'package:recruit_app/pages/mine/user_base_info.dart';
 import 'package:recruit_app/pages/setting/account_bind_setting.dart';
 import 'package:recruit_app/pages/setting/notify_setting.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
@@ -264,12 +265,41 @@ class _SettingState extends State<Setting> {
                       },
                       confirm: (){
                         Navigator.pop(context);
-                        Navigator.pop(context);
-                        identityModel.changeIdentity(
-                            identityModel.identity == Identity.employee
-                                ? Identity.boss
-                                : Identity.employee);
-                        eventBus.fire(InfoCheck(false));
+                        if (identityModel.identity==Identity.employee&&Application.sp.get('recruiterId')==null){
+                          Navigator.push<BossBaseInfoResult>(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  BossBaseInfo(enterType: BossEnterType.init,),),).then((value) {
+                            if (value != null) {
+                              Navigator.pop(context);
+                              identityModel.changeIdentity(
+                                  identityModel.identity == Identity.employee
+                                      ? Identity.boss
+                                      : Identity.employee);
+                            }
+                          });
+                        } else if(identityModel.identity==Identity.boss&&Application.sp.get('jobSeekerId')==null){
+                          Navigator.push<UserBaseInfoResult>(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  UserBaseInfo(enterType: EnterType.init,),),).then((value) {
+                            if (value != null) {
+                              Navigator.pop(context);
+                              identityModel.changeIdentity(
+                                  identityModel.identity == Identity.employee
+                                      ? Identity.boss
+                                      : Identity.employee);
+                            }
+                          });
+                        }else {
+                          Navigator.pop(context);
+                          identityModel.changeIdentity(
+                              identityModel.identity == Identity.employee
+                                  ? Identity.boss
+                                  : Identity.employee);
+                        }
                       },
                     );
                   });

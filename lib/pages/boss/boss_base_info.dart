@@ -76,7 +76,7 @@ class _BossBaseInfoState extends State<BossBaseInfo> {
           Navigator.pop(context);
         },
         center: Text(
-          '基本信息',
+          'Boss基本信息',
           style: TextStyle(
               color: Color.fromRGBO(68, 77, 151, 1),
               fontSize: ScreenUtil().setSp(36),
