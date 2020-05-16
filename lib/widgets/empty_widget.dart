@@ -15,10 +15,10 @@ class EmptyWidget extends StatelessWidget {
           'images/img_empty.png', width: ScreenUtil().setWidth(120),
           height: ScreenUtil().setWidth(120),
           fit: BoxFit.cover,),
-        Offstage(child: Text('$remindText', style: TextStyle(color: Color.fromRGBO(159, 199,
-            235, 1),
-            fontSize: ScreenUtil().setSp(25),
-            fontWeight: FontWeight.bold),),offstage: remindText==null||remindText.isEmpty,)
+        SizedBox(height: ScreenUtil().setWidth(20),),
+        Offstage(child: Text('$remindText', style: TextStyle(color: Color.fromRGBO(160, 160,
+            160, 1),
+            fontSize: ScreenUtil().setSp(24),),),offstage: remindText==null||remindText.isEmpty)
       ],
     );
   }
