@@ -111,9 +111,10 @@ class _LoginTypeState extends State<LoginType> {
             ),
           ),
           Positioned(
-            bottom: ScreenUtil().setWidth(358),
+//            bottom: ScreenUtil().setWidth(358),
+            top: ScreenUtil().setWidth(760),
             child: Text(
-              'SLOGAN',
+              '你找工作  工作找你',
               style: TextStyle(
                 fontSize: ScreenUtil().setSp(44),
                 color: Color.fromRGBO(84, 128, 194, 1),
@@ -137,7 +138,7 @@ class _LoginTypeState extends State<LoginType> {
                   },
                   textColor: Color.fromRGBO(159, 199, 235, 1),
                   child: Text(
-                    "招 聘",
+                    "请 人",
                     style: TextStyle(
                       fontSize: ScreenUtil().setSp(44),
                     ),
@@ -169,7 +170,7 @@ class _LoginTypeState extends State<LoginType> {
                   },
                   textColor: Color.fromRGBO(159, 199, 235, 1),
                   child: Text(
-                    "应 聘",
+                    "找 工",
                     style: TextStyle(
                       fontSize: ScreenUtil().setSp(44),
                     ),

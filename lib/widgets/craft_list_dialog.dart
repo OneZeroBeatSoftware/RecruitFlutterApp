@@ -102,7 +102,7 @@ class ListDialog extends StatelessWidget {
                         ),
                       ),
                       child: Text(
-                        menus[index],
+                        '${menus[index]}',
                         textAlign: TextAlign.center,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
