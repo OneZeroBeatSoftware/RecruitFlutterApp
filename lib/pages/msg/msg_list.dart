@@ -24,6 +24,7 @@ import 'package:recruit_app/pages/msg/msg_notify_item.dart';
 import 'package:recruit_app/pages/msg/service_chat_room.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/badge_widget.dart';
+import 'package:recruit_app/widgets/empty_widget.dart';
 import 'package:recruit_app/widgets/slide_button.dart';
 class MsgList extends StatefulWidget {
   final MsgType msgType;
@@ -228,6 +229,7 @@ class _MsgListState extends State<MsgList> {
               child: EasyRefresh.custom(
                 controller: _refreshController,
 //                firstRefresh: true,
+                emptyWidget: childCount>0?null:EmptyWidget(remindText: '还没有面试消息哦',),
                 header: MaterialHeader(),
                 footer:
                 ClassicalFooter(infoColor: Color.fromRGBO(159, 199, 235, 1)),

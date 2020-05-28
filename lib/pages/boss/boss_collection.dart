@@ -8,6 +8,7 @@ import 'package:recruit_app/model/boss_mine_model.dart';
 import 'package:recruit_app/pages/employe/employee_detail.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
+import 'package:recruit_app/widgets/empty_widget.dart';
 import 'package:recruit_app/widgets/slide_button.dart';
 import 'package:recruit_app/pages/boss/employee_star_item.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -72,6 +73,7 @@ class _BossCollectionJobSate extends State<BossCollectionJob> {
           child: EasyRefresh.custom(
             controller: _refreshController,
             firstRefresh: true,
+            emptyWidget: content.length>0?null:EmptyWidget(remindText: widget.type==BossCollectionType.shield?'没有找到屏蔽的求职者哦':'没有找到收藏的求职者哦',),
             header: MaterialHeader(),
             footer:
             ClassicalFooter(infoColor: Color.fromRGBO(159, 199, 235, 1)),

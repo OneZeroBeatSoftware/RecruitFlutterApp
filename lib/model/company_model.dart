@@ -58,9 +58,9 @@ class CompanyModel with ChangeNotifier {
       }
       _jobList.addAll(comEntity.data.records);
       if(comEntity.data.records.length<=0&&pageIndex==1){
-        Utils.showToast('还没有找到公司哦！');
+//        Utils.showToast('还没有找到公司哦！');
       }else if(comEntity.data.records.length<=0){
-        Utils.showToast('没有更多公司啦！');
+        Utils.showToast('没有更多岗位啦！');
       }
       return comEntity;
     }

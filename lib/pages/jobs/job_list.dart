@@ -16,6 +16,7 @@ import 'package:recruit_app/pages/jobs/job_company_search.dart';
 import 'package:recruit_app/pages/jobs/job_detail.dart';
 import 'package:recruit_app/pages/jobs/job_filter.dart';
 import 'package:recruit_app/pages/jobs/job_row_item.dart';
+import 'package:recruit_app/widgets/empty_widget.dart';
 import 'package:recruit_app/widgets/web_view.dart';
 
 import '../../application.dart';
@@ -75,6 +76,42 @@ class _JobListState extends State<JobList> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    Widget sliver;
+    if(_jobModel == null){
+      sliver=SliverToBoxAdapter(
+        child: Container(
+          height: ScreenUtil().setWidth(400),
+          alignment: Alignment.center,
+          child: CupertinoActivityIndicator(),
+        ),
+      );
+    }else if(_jobModel.jobList.length<=0){
+      sliver=SliverToBoxAdapter(
+        child: EmptyWidget(remindText: '没有找到岗位哦',),
+      );
+    }else {
+      sliver=SliverList(
+          delegate:
+          SliverChildBuilderDelegate((context, index) {
+            if (index < _jobModel.jobList.length) {
+              return GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  child: JobRowItem(
+                      job: _jobModel.jobList[index],
+                      index: index,
+                      lastItem:
+                      index == _jobModel.jobList.length - 1),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => JobDetail(jobId:_jobModel.jobList[index].id),
+                        ));
+                  });
+            }
+            return null;
+          }, childCount: _jobModel.jobList.length));
+    }
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -483,35 +520,7 @@ class _JobListState extends State<JobList> {
                       ),
                     ],
                   )),
-                  _jobModel == null
-                      ? SliverToBoxAdapter(
-                          child: Container(
-                            height: ScreenUtil().setWidth(400),
-                            alignment: Alignment.center,
-                            child: CupertinoActivityIndicator(),
-                          ),
-                        )
-                      : SliverList(
-                          delegate:
-                              SliverChildBuilderDelegate((context, index) {
-                          if (index < _jobModel.jobList.length) {
-                            return GestureDetector(
-                                behavior: HitTestBehavior.opaque,
-                                child: JobRowItem(
-                                    job: _jobModel.jobList[index],
-                                    index: index,
-                                    lastItem:
-                                        index == _jobModel.jobList.length - 1),
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => JobDetail(jobId:_jobModel.jobList[index].id),
-                                      ));
-                                });
-                          }
-                          return null;
-                        }, childCount: _jobModel.jobList.length)),
+                  sliver
                 ],
               ),
             ),

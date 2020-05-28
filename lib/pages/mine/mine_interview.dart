@@ -17,6 +17,7 @@ import 'package:recruit_app/pages/jobs/job_detail.dart';
 import 'package:recruit_app/pages/msg/msg_interview_item.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
+import 'package:recruit_app/widgets/empty_widget.dart';
 import 'package:recruit_app/widgets/slide_button.dart';
 class MineInterView extends StatefulWidget {
   final MsgType msgType;
@@ -93,6 +94,7 @@ class _MineInterViewState extends State<MineInterView> {
             child: EasyRefresh.custom(
               controller: _refreshController,
 //              firstRefresh: true,
+              emptyWidget: InterviewModel.instance.interviewList.length>0?null:EmptyWidget(remindText: '没有面试消息哦',),
               header: MaterialHeader(),
               footer:
                   ClassicalFooter(infoColor: Color.fromRGBO(159, 199, 235, 1)),

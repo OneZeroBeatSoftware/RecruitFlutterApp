@@ -14,6 +14,7 @@ import 'package:recruit_app/pages/employe/employee_detail.dart';
 import 'package:recruit_app/pages/jobs/city_filter.dart';
 import 'package:recruit_app/pages/jobs/job_company_search.dart';
 import 'package:recruit_app/pages/jobs/job_filter.dart';
+import 'package:recruit_app/widgets/empty_widget.dart';
 import 'package:recruit_app/widgets/web_view.dart';
 
 class EmployeeList extends StatefulWidget {
@@ -65,6 +66,39 @@ class _EmployeeListState extends State<EmployeeList> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    Widget sliver;
+    if (MainResumeModel.instance.resumeList.length > 0) {
+      sliver = SliverList(
+          delegate:
+          SliverChildBuilderDelegate((context, index) {
+            if (index < MainResumeModel.instance.resumeList.length) {
+              return GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  child: EmployeeRowItem(
+                      employee: MainResumeModel.instance.resumeList[index],
+                      index: index,
+                      lastItem: index ==
+                          MainResumeModel.instance.resumeList.length - 1),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              EmployeeDetail(
+                                resumeDetailType: ResumeDetailType
+                                    .resume,
+                                resumeId: MainResumeModel.instance
+                                    .resumeList[index].id,),
+                        ));
+                  });
+            }
+            return null;
+          }, childCount: MainResumeModel.instance.resumeList.length));
+    } else {
+      sliver = SliverToBoxAdapter(
+        child: EmptyWidget(remindText: '没有找到简历哦',),
+      );
+    }
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -469,30 +503,7 @@ class _EmployeeListState extends State<EmployeeList> {
                           ),
                         ],
                       )),
-                  SliverList(
-                      delegate:
-                      SliverChildBuilderDelegate((context, index) {
-                        if (index < MainResumeModel.instance.resumeList.length) {
-                          return GestureDetector(
-                              behavior: HitTestBehavior.opaque,
-                              child: EmployeeRowItem(
-                                  employee: MainResumeModel.instance.resumeList[index],
-                                  index: index,
-                                  lastItem: index == MainResumeModel.instance.resumeList.length - 1),
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => EmployeeDetail(
-                                        resumeDetailType: ResumeDetailType
-                                            .resume,
-                                        resumeId: MainResumeModel.instance
-                                            .resumeList[index].id,),
-                                    ));
-                              });
-                        }
-                        return null;
-                      }, childCount: MainResumeModel.instance.resumeList.length)),
+                      sliver
                 ],
               ),
             ),

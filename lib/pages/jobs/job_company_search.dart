@@ -12,6 +12,7 @@ import 'package:recruit_app/pages/jobs/city_filter.dart';
 import 'package:recruit_app/pages/jobs/job_detail.dart';
 import 'package:recruit_app/pages/jobs/job_filter.dart';
 import 'package:recruit_app/pages/jobs/job_row_item.dart';
+import 'package:recruit_app/widgets/empty_widget.dart';
 
 import '../../application.dart';
 
@@ -82,6 +83,19 @@ class _JobCompanySearchState extends State<JobCompanySearch> {
 
   @override
   Widget build(BuildContext context) {
+    Widget emptyWidget;
+    if (widget.searchType == SearchType.job &&
+        SearchModel.instance.jobList.length<=0) {
+      emptyWidget=EmptyWidget(remindText: '空空如也',);
+    }
+    else if (widget.searchType == SearchType.company &&
+        SearchModel.instance.companyList.length<=0) {
+      emptyWidget=EmptyWidget(remindText: '空空如也',);
+    }
+    else if (widget.searchType == SearchType.resume &&
+        SearchModel.instance.resumeList.length<=0) {
+      emptyWidget=EmptyWidget(remindText: '空空如也',);
+    }
     return Scaffold(
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
@@ -457,6 +471,7 @@ class _JobCompanySearchState extends State<JobCompanySearch> {
                 child: EasyRefresh.custom(
                     controller: _refreshController,
                     firstRefresh: false,
+                    emptyWidget: emptyWidget,
                     header: MaterialHeader(),
                     footer: ClassicalFooter(
                         infoColor: Color.fromRGBO(159, 199, 235, 1)),

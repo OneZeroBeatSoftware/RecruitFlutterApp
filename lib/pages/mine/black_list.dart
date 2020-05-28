@@ -10,6 +10,7 @@ import 'package:recruit_app/pages/companys/company_detail.dart';
 import 'package:recruit_app/pages/mine/black_list_item.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
+import 'package:recruit_app/widgets/empty_widget.dart';
 import 'package:recruit_app/widgets/slide_button.dart';
 
 class BlackList extends StatefulWidget {
@@ -69,6 +70,7 @@ class _BlackListSate extends State<BlackList> {
           Expanded(
             child: EasyRefresh.custom(
               controller: _refreshController,
+              emptyWidget: MineModel.instance.shieldList.length>0?null:EmptyWidget(remindText: '没有找到屏蔽的公司哦',),
               firstRefresh: true,
               header: MaterialHeader(),
               footer:

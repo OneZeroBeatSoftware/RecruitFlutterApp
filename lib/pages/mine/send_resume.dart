@@ -8,6 +8,7 @@ import 'package:recruit_app/model/mine_model.dart';
 import 'package:recruit_app/pages/jobs/job_detail.dart';
 import 'package:recruit_app/pages/mine/send_resume_item.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
+import 'package:recruit_app/widgets/empty_widget.dart';
 
 class SendResumeJob extends StatefulWidget {
   @override
@@ -67,6 +68,7 @@ class _SendResumeJobState extends State<SendResumeJob> {
             child: EasyRefresh.custom(
               controller: _refreshController,
               firstRefresh: true,
+              emptyWidget: MineModel.instance.applyList.length>0?null:EmptyWidget(remindText: '没有投递过简历哦',),
               header: MaterialHeader(),
               footer:
                   ClassicalFooter(infoColor: Color.fromRGBO(159, 199, 235, 1)),

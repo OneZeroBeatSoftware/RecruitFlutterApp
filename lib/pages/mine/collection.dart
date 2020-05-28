@@ -11,6 +11,7 @@ import 'package:recruit_app/pages/jobs/job_detail.dart';
 import 'package:recruit_app/pages/jobs/job_row_item.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
+import 'package:recruit_app/widgets/empty_widget.dart';
 import 'package:recruit_app/widgets/slide_button.dart';
 
 import '../../application.dart';
@@ -47,6 +48,12 @@ class _CollectionSate extends State<Collection> {
 
   @override
   Widget build(BuildContext context) {
+    Widget emptyWidget;
+    if (_selectFilterType == 2 && MineModel.instance.companyList.length <= 0) {
+      emptyWidget = EmptyWidget(remindText: '没有收藏的公司哦',);
+    } else if (MineModel.instance.jobList.length <= 0) {
+      emptyWidget = EmptyWidget(remindText: '没有收藏的岗位哦',);
+    }
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: CommonAppBar(
@@ -142,6 +149,7 @@ class _CollectionSate extends State<Collection> {
               child: EasyRefresh.custom(
                 controller: _refreshController,
                 firstRefresh: true,
+                emptyWidget: emptyWidget,
                 header: MaterialHeader(),
                 footer: ClassicalFooter(
                     infoColor: Color.fromRGBO(159, 199, 235, 1)),

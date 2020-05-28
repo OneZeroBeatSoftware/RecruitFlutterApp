@@ -9,6 +9,7 @@ import 'package:recruit_app/entity/company_list_entity.dart';
 import 'package:recruit_app/model/company_model.dart';
 import 'package:recruit_app/pages/companys/company_detail.dart';
 import 'package:recruit_app/pages/jobs/job_company_search.dart';
+import 'package:recruit_app/widgets/empty_widget.dart';
 
 import 'company_row_item.dart';
 
@@ -48,6 +49,41 @@ class _CompanyListState extends State<CompanyList> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    Widget sliver;
+    if(_companyModel == null){
+      sliver=SliverToBoxAdapter(
+        child: Container(
+          height: ScreenUtil().setWidth(400),
+          alignment: Alignment.center,
+          child: CupertinoActivityIndicator(),
+        ),
+      );
+    }else if(_companyModel.companyList.length<=0){
+      sliver=SliverToBoxAdapter(
+        child: EmptyWidget(remindText: '没有找到公司哦',),
+      );
+    }else {
+      sliver=SliverList(
+          delegate: SliverChildBuilderDelegate((context, index) {
+            if (index < _companyModel.companyList.length) {
+              return GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                child: CompanyRowItem(
+                    company: _companyModel.companyList[index],
+                    index: index,
+                    lastItem: index == _companyModel.companyList.length - 1),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CompanyDetail(companyId:_companyModel.companyList[index].id),
+                      ));
+                },
+              );
+            }
+            return null;
+          }, childCount: _companyModel.companyList.length));
+    }
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -211,33 +247,7 @@ class _CompanyListState extends State<CompanyList> {
                   _refreshController.resetLoadState();
                 },
                 slivers: <Widget>[
-                  _companyModel == null
-                      ? SliverToBoxAdapter(
-                    child: Container(
-                      height: ScreenUtil().setWidth(400),
-                      alignment: Alignment.center,
-                      child: CupertinoActivityIndicator(),
-                    ),
-                  ) : SliverList(
-                      delegate: SliverChildBuilderDelegate((context, index) {
-                        if (index < _companyModel.companyList.length) {
-                          return GestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            child: CompanyRowItem(
-                                company: _companyModel.companyList[index],
-                                index: index,
-                                lastItem: index == _companyModel.companyList.length - 1),
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => CompanyDetail(companyId:_companyModel.companyList[index].id),
-                                  ));
-                            },
-                          );
-                        }
-                        return null;
-                      }, childCount: _companyModel.companyList.length)),
+                  sliver
                 ],
               ),
             ),

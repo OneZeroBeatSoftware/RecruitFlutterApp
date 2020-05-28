@@ -13,6 +13,7 @@ import 'package:recruit_app/pages/employe/employee_detail.dart';
 import 'package:recruit_app/pages/jobs/job_detail.dart';
 import 'package:recruit_app/pages/mine/communicate_row_item.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
+import 'package:recruit_app/widgets/empty_widget.dart';
 
 class CommunicateJob extends StatefulWidget {
   @override
@@ -72,6 +73,12 @@ class _CommunicateJobState extends State<CommunicateJob> {
           child: EasyRefresh.custom(
             controller: _refreshController,
             firstRefresh: true,
+            emptyWidget: identityModel.identity == Identity.boss
+                ? (BossMineModel.instance.applyList.length > 0
+                ? null
+                : EmptyWidget(remindText: '没有沟通记录哦',))
+                : (MineModel.instance.applyList.length > 0 ? null : EmptyWidget(
+              remindText: '没有沟通记录哦',)),
             header: MaterialHeader(),
             footer:
             ClassicalFooter(infoColor: Color.fromRGBO(159, 199, 235, 1)),

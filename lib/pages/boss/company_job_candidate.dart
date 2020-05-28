@@ -11,6 +11,7 @@ import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/pages/employe/employe_row_item.dart';
 import 'package:recruit_app/pages/employe/employee_detail.dart';
+import 'package:recruit_app/widgets/empty_widget.dart';
 import 'package:recruit_app/widgets/slide_button.dart';
 
 class CompanyJobCandidate extends StatefulWidget {
@@ -103,6 +104,7 @@ class _CandidateState extends State<CompanyJobCandidate> {
                  child: EasyRefresh.custom(
                    controller: _refreshController,
                    firstRefresh: true,
+                   emptyWidget: BossMineModel.instance.candidateList.length>0?null:EmptyWidget(remindText: '还没有候选人哦',),
                    header: MaterialHeader(),
                    footer:
                    ClassicalFooter(infoColor: Color.fromRGBO(159, 199, 235, 1)),

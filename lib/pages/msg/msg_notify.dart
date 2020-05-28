@@ -6,6 +6,7 @@ import 'package:recruit_app/entity/seeker_notice_entity.dart';
 import 'package:recruit_app/model/seeker_notice_model.dart';
 import 'package:recruit_app/pages/msg/notify_item.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
+import 'package:recruit_app/widgets/empty_widget.dart';
 
 class MsgNotify extends StatefulWidget {
   @override
@@ -45,6 +46,7 @@ class _MsgNotifyState extends State<MsgNotify> {
         controller: _refreshController,
         firstRefresh: true,
         header: MaterialHeader(),
+        emptyWidget: NoticeModel.instance.noticeList.length>0?null:EmptyWidget(remindText: '没有通知哦',),
         footer: ClassicalFooter(infoColor: Color.fromRGBO(159, 199, 235, 1)),
         onRefresh: () async {
           _noticePage = 1;
