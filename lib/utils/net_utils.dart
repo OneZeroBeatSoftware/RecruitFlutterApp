@@ -18,6 +18,7 @@ import 'package:recruit_app/entity/boss_job_detail_entity.dart';
 import 'package:recruit_app/entity/boss_job_manage_entity.dart';
 import 'package:recruit_app/entity/candidate_entity.dart';
 import 'package:recruit_app/entity/candidate_update_entity.dart';
+import 'package:recruit_app/entity/chat_history_entity.dart';
 import 'package:recruit_app/entity/city_entity.dart';
 import 'package:recruit_app/entity/collection_entity.dart';
 import 'package:recruit_app/entity/company_detail_entity.dart';
@@ -39,6 +40,7 @@ import 'package:recruit_app/entity/main_resume_detail_entity.dart';
 import 'package:recruit_app/entity/main_resume_list_entity.dart';
 import 'package:recruit_app/entity/management_entity.dart';
 import 'package:recruit_app/entity/mine_info_entity.dart';
+import 'package:recruit_app/entity/msg_list_entity.dart';
 import 'package:recruit_app/entity/resume_detail_entity.dart';
 import 'package:recruit_app/entity/resume_list_entity.dart';
 import 'package:recruit_app/entity/salary_list_entity.dart';
@@ -56,8 +58,9 @@ import 'custom_log_interceptor.dart';
 
 class NetUtils {
   static Dio _dio;
+  static final String baseUrl = 'http://192.168.1.173:8855/recruit';
 //  static final String baseUrl = 'https://www.onezerobeat.com/recruit';
-  static final String baseUrl = 'http://34.229.235.238/recruit';
+//  static final String baseUrl = 'http://34.229.235.238/recruit';
 
   static void init({Function() success}) async {
     Directory tempDir = await getTemporaryDirectory();
@@ -1053,5 +1056,27 @@ class NetUtils {
   static Future<CompanyInfoEntity> editCompany(BuildContext context, Map<String,dynamic> params) async {
     var response = await _post(context, '/company/save',params: params);
     return CompanyInfoEntity().fromJson(response.data);
+  }
+
+  /// 获取聊天记录
+  static Future<ChatHistoryEntity> getChatList(
+      BuildContext context, String fromId,String toId,int pageIdx) async {
+    var response = await _post(context, '/chatMessage/historyChatMessage', params: {
+      'userId': fromId,
+      'toId': toId,
+      'current': pageIdx,
+      'size': 50
+    },isShowLoading: false);
+    return ChatHistoryEntity().fromJson(response.data);
+  }
+
+  /// 获取消息列表
+  static Future<MsgListEntity> getMsgList(
+      BuildContext context, String fromId,int type) async {
+    var response = await _post(context, '/msgList/getMsgList', params: {
+      'userId': fromId,
+      'roleFlag': type,
+    },isShowLoading: false);
+    return MsgListEntity().fromJson(response.data);
   }
 }

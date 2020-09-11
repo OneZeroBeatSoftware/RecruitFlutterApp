@@ -16,6 +16,7 @@ class JobDetailData with JsonConvert<JobDetailData> {
 }
 
 class JobDetailDataJob with JsonConvert<JobDetailDataJob> {
+	String userId;
 	String id;
 	String avatar;
 	String companyId;

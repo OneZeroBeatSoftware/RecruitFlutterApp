@@ -6,6 +6,7 @@ import 'package:recruit_app/model/identity_model.dart';
 import 'package:recruit_app/model/job_model.dart';
 import 'package:recruit_app/model/user_model.dart';
 import 'package:recruit_app/pages/recruit_app.dart';
+import 'package:recruit_app/utils/web_socket_manager.dart';
 EventBus eventBus = EventBus();
 void main() => runApp(
       MultiProvider(
@@ -21,6 +22,9 @@ void main() => runApp(
           ),
           ChangeNotifierProvider<CompanyModel>(
             create: (_) => CompanyModel(),
+          ),
+          ChangeNotifierProvider<WebSocketManager>(
+            create: (_) => WebSocketManager(),
           ),
         ],
         child: RecruitApp(),

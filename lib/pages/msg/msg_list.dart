@@ -7,13 +7,17 @@ import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/application.dart';
 import 'package:recruit_app/entity/base_resp_entity.dart';
+import 'package:recruit_app/entity/msg_list_entity.dart';
 import 'package:recruit_app/entity/seeker_interview_entity.dart';
 import 'package:recruit_app/entity/seeker_notice_entity.dart';
 import 'package:recruit_app/main.dart';
+import 'package:recruit_app/model/chat_history_model.dart';
 import 'package:recruit_app/model/event_bus_interview.dart';
+import 'package:recruit_app/model/event_bus_notify.dart';
 import 'package:recruit_app/model/msg_type.dart';
 import 'package:recruit_app/model/seeker_interview_model.dart';
 import 'package:recruit_app/model/seeker_notice_model.dart';
+import 'package:recruit_app/pages/employe/boss_chat_room.dart';
 import 'package:recruit_app/pages/employe/employee_detail.dart';
 import 'package:recruit_app/pages/jobs/chat_room.dart';
 import 'package:recruit_app/pages/jobs/job_detail.dart';
@@ -40,20 +44,24 @@ class _MsgListState extends State<MsgList> {
   bool _secondType = true;
 
   int _interviewPage = 1;
+  int _msgPage = 1;
   int _noticePage = 1;
   EasyRefreshController _refreshController;
   StreamSubscription _refreshInterview;
+  StreamSubscription _newMsg;
 
   @override
   void initState() {
     // TODO: implement initState
     _refreshController = EasyRefreshController();
     super.initState();
+    ChatHistoryModel.instance.setMsgList([]);
     WidgetsBinding.instance.addPostFrameCallback((callback){
       _interviewPage = 1;
       getInterviewList(widget.msgType, pageSize: InterviewModel
           .instance.interviewList.length < 15 ? 15 : InterviewModel
           .instance.interviewList.length);
+      getMsgList(widget.msgType);
 //        _noticePage = 1;
 //        getNoticeList();
     });
@@ -62,6 +70,11 @@ class _MsgListState extends State<MsgList> {
       getInterviewList(widget.msgType, pageSize: InterviewModel
           .instance.interviewList.length < 15 ? 15 : InterviewModel
           .instance.interviewList.length);
+    });
+
+    _newMsg=eventBus.on<NotifyNewMsg>().listen((event) {
+      _msgPage=1;
+      getMsgList(widget.msgType);
     });
   }
 
@@ -75,6 +88,9 @@ class _MsgListState extends State<MsgList> {
     if(_refreshInterview!=null){
       _refreshInterview.cancel();
     }
+    if(_newMsg!=null){
+      _newMsg.cancel();
+    }
     super.dispose();
   }
 
@@ -83,11 +99,15 @@ class _MsgListState extends State<MsgList> {
     int childCount;
     if(!_firstType && _secondType){
       childCount=InterviewModel.instance.interviewList.length;
-    }else if(!_firstType && !_secondType){
-      childCount=NoticeModel.instance.noticeList.length+1;
-    }else {
-      childCount=2;
+    } else if(_firstType && _secondType){
+      childCount=ChatHistoryModel.instance.msgList.length;
     }
+//    else if(!_firstType && !_secondType){
+//      childCount=NoticeModel.instance.noticeList.length+1;
+//    }
+//    else {
+//      childCount=2;
+//    }
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -209,17 +229,49 @@ class _MsgListState extends State<MsgList> {
                 horizontal: ScreenUtil().setWidth(48),
                 vertical: ScreenUtil().setWidth(28),
               ),
-              child: BadgeView(
-                badgeSize: ScreenUtil().setWidth(10),
-                badgeColor: Color.fromRGBO(255, 0, 0, 1),
-                isShowBadge: false,
-                content: '面试',
-                fontWeight: FontWeight.bold,
-                fontSize: ScreenUtil().setSp(36),
-                textColor:Color.fromRGBO(68, 77, 151, 1),
-                onTap: () {
-                },
-              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                      BadgeView(
+                        badgeSize: ScreenUtil().setWidth(10),
+                        badgeColor: Color.fromRGBO(255, 0, 0, 1),
+                        isShowBadge: false,
+                        content: '面试',
+                        fontWeight:
+                            _firstType ? FontWeight.normal : FontWeight.bold,
+                        fontSize: ScreenUtil().setSp(36),
+                        textColor: _firstType
+                            ? Color.fromRGBO(95, 94, 94, 1)
+                            : Color.fromRGBO(68, 77, 151, 1),
+                        onTap: () {
+                          setState(() {
+                            _firstType=false;
+                            _secondType=true;
+                          });
+                        },
+                      ),
+                      SizedBox(
+                        width: ScreenUtil().setWidth(30),
+                      ),
+                      BadgeView(
+                        badgeSize: ScreenUtil().setWidth(10),
+                        badgeColor: Color.fromRGBO(255, 0, 0, 1),
+                        isShowBadge: false,
+                        content: '沟通中',
+                        fontWeight:
+                        _firstType ? FontWeight.bold : FontWeight.normal,
+                        fontSize: ScreenUtil().setSp(36),
+                        textColor: _firstType
+                            ?Color.fromRGBO(68, 77, 151, 1)
+                            : Color.fromRGBO(95, 94, 94, 1),
+                        onTap: () {
+                          setState(() {
+                            _firstType=true;
+                            _secondType=true;
+                          });
+                        },
+                      ),
+                    ])
             ),
             Container(
               height: ScreenUtil().setWidth(1),
@@ -229,7 +281,7 @@ class _MsgListState extends State<MsgList> {
               child: EasyRefresh.custom(
                 controller: _refreshController,
 //                firstRefresh: true,
-                emptyWidget: childCount>0?null:EmptyWidget(remindText: '还没有面试消息哦',),
+                emptyWidget: childCount>0?null:EmptyWidget(remindText: _firstType?'还没有消息哦':'还没有面试消息哦',),
                 header: MaterialHeader(),
                 footer:
                 ClassicalFooter(infoColor: Color.fromRGBO(159, 199, 235, 1)),
@@ -238,38 +290,57 @@ class _MsgListState extends State<MsgList> {
                     _interviewPage = 1;
                     getInterviewList(widget.msgType);
                     _refreshController.resetLoadState();
-                  }else if(!_firstType && !_secondType){
-                    _noticePage = 1;
-                    getNoticeList();
+                  } else if(_firstType&&_secondType){
+                    _msgPage = 1;
+                    getMsgList(widget.msgType);
                     _refreshController.resetLoadState();
                   }
+//                  else if(!_firstType && !_secondType){
+//                    _noticePage = 1;
+//                    getNoticeList();
+//                    _refreshController.resetLoadState();
+//                  }
                 },
                 onLoad: () async {
                   if(!_firstType && _secondType){
                     getInterviewList(widget.msgType);
                     _refreshController.resetLoadState();
-                  }else if(!_firstType && !_secondType){
-                    getNoticeList();
+                  }else if(_firstType&&_secondType){
+                    getMsgList(widget.msgType);
                     _refreshController.resetLoadState();
                   }
+//                  else if(!_firstType && !_secondType){
+//                    getNoticeList();
+//                    _refreshController.resetLoadState();
+//                  }
                 },
                 slivers: <Widget>[
                   SliverList(
                     delegate: SliverChildBuilderDelegate((cxt, idx) {
                       var key = GlobalKey<SlideButtonState>();
                       if (_firstType && _secondType) {
+//                        return GestureDetector(onTap: () {
+//                          Navigator.push(context, MaterialPageRoute(
+//                              builder: (context) => ChatRoom()));
+//                        }, behavior: HitTestBehavior.opaque, child: MsgChatItem(
+//                            btnKey: key),);
                         return GestureDetector(onTap: () {
                           Navigator.push(context, MaterialPageRoute(
-                              builder: (context) => ChatRoom()));
+                              builder: (context) =>widget.msgType==MsgType.recruiter?BossChatRoom(toId: ChatHistoryModel.instance.msgList[idx].userId.toString(),toName: ChatHistoryModel.instance.msgList[idx].toRoleName,toAvatar: ChatHistoryModel.instance.msgList[idx].toRoleImgUrl):ChatRoom(toId: ChatHistoryModel.instance.msgList[idx].userId.toString(),toName: ChatHistoryModel.instance.msgList[idx].toRoleName,toAvatar: ChatHistoryModel.instance.msgList[idx].toRoleImgUrl,)));
                         }, behavior: HitTestBehavior.opaque, child: MsgChatItem(
-                            btnKey: key),);
+                            msgListData: ChatHistoryModel.instance.msgList[idx]),);
                       } else if (_firstType && !_secondType) {
+//                        return GestureDetector(onTap: () {
+//                          Navigator.push(context, MaterialPageRoute(
+//                              builder: (context) => ChatRoom()));
+//                        },
+//                          behavior: HitTestBehavior.opaque,
+//                          child: MsgChatItem(btnKey: key),);
                         return GestureDetector(onTap: () {
                           Navigator.push(context, MaterialPageRoute(
-                              builder: (context) => ChatRoom()));
-                        },
-                          behavior: HitTestBehavior.opaque,
-                          child: MsgChatItem(btnKey: key),);
+                              builder: (context) => ChatRoom(toId: ChatHistoryModel.instance.msgList[idx].userId.toString(),toName: ChatHistoryModel.instance.msgList[idx].toRoleName,toAvatar: ChatHistoryModel.instance.msgList[idx].toRoleImgUrl,)));
+                        }, behavior: HitTestBehavior.opaque, child: MsgChatItem(
+                            msgListData: ChatHistoryModel.instance.msgList[idx]),);
                       } else if (!_firstType && _secondType) {
                         return GestureDetector(onTap: () {
                           if(InterviewModel.instance.interviewList[idx].state=='7'){
@@ -371,7 +442,8 @@ class _MsgListState extends State<MsgList> {
                               ),
                             ),
                           ),
-                          visible: _firstType || !_secondType,
+//                          visible: _firstType || !_secondType,
+                          visible: !_secondType,
                         ),
                         SizedBox(
                           height: ScreenUtil().setWidth(44),
@@ -422,6 +494,16 @@ class _MsgListState extends State<MsgList> {
       Utils.showToast(_baseEntity.msg??'删除成功');
       InterviewModel.instance.interviewList.removeAt(index);
       setState(() {});
+    }
+  }
+
+  /// 获取消息列表
+  getMsgList(MsgType msgType) async {
+    MsgListEntity msgEntity = await ChatHistoryModel.instance
+        .getMsgList(context, Application.sp.get('userId'),msgType==MsgType.recruiter?2:1);
+    if(msgEntity!=null){
+      setState(() {
+      });
     }
   }
 }

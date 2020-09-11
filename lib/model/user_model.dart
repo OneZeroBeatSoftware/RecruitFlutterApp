@@ -5,6 +5,7 @@ import 'package:recruit_app/entity/base_resp_entity.dart';
 import 'package:recruit_app/entity/user_entity.dart';
 import 'package:recruit_app/utils/net_utils.dart';
 import 'package:recruit_app/utils/utils.dart';
+import 'package:recruit_app/utils/web_socket_manager.dart';
 
 import '../application.dart';
 
@@ -25,6 +26,7 @@ class UserModel with ChangeNotifier {
   Future<UserEntity> login(BuildContext context, String phone, String pwd) async {
     UserEntity user = await NetUtils.login(context, phone, pwd);
     if (user.statusCode ==200) {
+      WebSocketManager.instance.startClient(user.data.userId);
       Utils.showToast(user.msg ?? '登录成功');
       Application.sp.setString('token', user.data.token);
       Application.sp.setString('jobSeekerId', user.data.jobSeekerId);
@@ -43,6 +45,7 @@ class UserModel with ChangeNotifier {
   Future<UserEntity> phoneCodeLogin(BuildContext context, String phone, String code) async {
     UserEntity user = await NetUtils.phoneCodeLogin(context, phone, code);
     if (user.statusCode ==200) {
+      WebSocketManager.instance.startClient(user.data.userId);
       Utils.showToast(user.msg ?? '登录成功');
       Application.sp.setString('token', user.data.token);
       Application.sp.setString('jobSeekerId', user.data.jobSeekerId);
@@ -61,6 +64,7 @@ class UserModel with ChangeNotifier {
   Future<UserEntity> emailCodeLogin(BuildContext context, String email, String code) async {
     UserEntity user = await NetUtils.emailCodeLogin(context, email, code);
     if (user.statusCode ==200) {
+      WebSocketManager.instance.startClient(user.data.userId);
       Utils.showToast(user.msg ?? '登录成功');
       Application.sp.setString('token', user.data.token);
       Application.sp.setString('jobSeekerId', user.data.jobSeekerId);
@@ -79,6 +83,7 @@ class UserModel with ChangeNotifier {
   Future<UserEntity> logout(BuildContext context) async {
     UserEntity user = await NetUtils.logout(context);
     if (user.statusCode ==200) {
+      WebSocketManager.instance.closeClient();
       Utils.showToast(user.msg ?? '退出登录成功');
       Application.sp.setString('token', '');
       return user;

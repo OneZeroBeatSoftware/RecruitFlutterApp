@@ -11,6 +11,7 @@ import 'package:recruit_app/main.dart';
 import 'package:recruit_app/model/boss_mine_model.dart';
 import 'package:recruit_app/model/event_bus_interview.dart';
 import 'package:recruit_app/model/seeker_interview_model.dart';
+import 'package:recruit_app/pages/employe/boss_chat_room.dart';
 import 'package:recruit_app/pages/employe/candidate_boss_room_intro.dart';
 import 'package:recruit_app/widgets/craft_date_time_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -70,6 +71,40 @@ class _CandidateBossRoomState extends State<CandidateBossRoom> {
         ),
       ),
     ));
+    operateWidget.add(
+      Expanded(
+        flex: 1,
+        child: GestureDetector(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => BossChatRoom(
+                          toId: widget.resumeData.resume.userId,
+                          toAvatar: widget.resumeData.resume.avatar,
+                          toName: widget.resumeData.resume.realName,
+                        )));
+          },
+          behavior: HitTestBehavior.opaque,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Image.asset('images/img_wechat_gray.png',
+                  width: ScreenUtil().setWidth(48),
+                  height: ScreenUtil().setWidth(34),
+                  fit: BoxFit.contain),
+              SizedBox(
+                height: ScreenUtil().setWidth(10),
+              ),
+              Text('聊天',
+                  style: TextStyle(
+                      fontSize: ScreenUtil().setSp(24),
+                      color: Color.fromRGBO(95, 94, 94, 1)))
+            ],
+          ),
+        ),
+      ),
+    );
     if (widget.candidateData.interview == null ||
         (widget.candidateData.interview.state == '3' ||
             widget.candidateData.interview.state == '4' ||

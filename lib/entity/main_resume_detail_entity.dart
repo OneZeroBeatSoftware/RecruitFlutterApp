@@ -15,6 +15,7 @@ class MainResumeDetailData with JsonConvert<MainResumeDetailData> {
 }
 
 class MainResumeDetailDataResume with JsonConvert<MainResumeDetailDataResume> {
+  String userId;
   String id;
   String jobSeekerId;
   String resumeName;

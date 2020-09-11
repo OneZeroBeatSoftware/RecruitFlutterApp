@@ -70,6 +70,9 @@ Map<String, dynamic> mainResumeDetailDataToJson(MainResumeDetailData entity) {
 }
 
 mainResumeDetailDataResumeFromJson(MainResumeDetailDataResume data, Map<String, dynamic> json) {
+	if (json['userId'] != null) {
+		data.userId = json['userId']?.toString();
+	}
 	if (json['id'] != null) {
 		data.id = json['id']?.toString();
 	}
@@ -147,6 +150,7 @@ mainResumeDetailDataResumeFromJson(MainResumeDetailDataResume data, Map<String, 
 
 Map<String, dynamic> mainResumeDetailDataResumeToJson(MainResumeDetailDataResume entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
+	data['userId'] = entity.userId;
 	data['id'] = entity.id;
 	data['jobSeekerId'] = entity.jobSeekerId;
 	data['resumeName'] = entity.resumeName;
