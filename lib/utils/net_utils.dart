@@ -58,9 +58,9 @@ import 'custom_log_interceptor.dart';
 
 class NetUtils {
   static Dio _dio;
-  static final String baseUrl = 'http://192.168.1.173:8855/recruit';
+//  static final String baseUrl = 'http://192.168.1.173:8855/recruit';
 //  static final String baseUrl = 'https://www.onezerobeat.com/recruit';
-//  static final String baseUrl = 'http://34.229.235.238/recruit';
+  static final String baseUrl = 'http://34.229.235.238/recruit';
 
   static void init({Function() success}) async {
     Directory tempDir = await getTemporaryDirectory();
