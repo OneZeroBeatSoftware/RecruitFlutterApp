@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/entity/socket_msg_entity.dart';
-import 'package:recruit_app/model/chat_list.dart';
 import 'package:recruit_app/pages/jobs/chat_row_item.dart';
 
 class ServiceChatRoom extends StatefulWidget {

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recruit_app/entity/resume_list_entity.dart';
 import 'package:recruit_app/widgets/slide_button.dart';
+import 'package:recruit_app/entity/resume_list_entity.dart';
 
 class JobResumeItem extends StatelessWidget {
   final GlobalKey<SlideButtonState> btnKey;
 
-  final ResumeListData resumeData;
+  final ResumeListDataResume resumeData;
   final int index;
   final Function(int) deleteResume;
 

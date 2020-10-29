@@ -6,8 +6,8 @@ import 'package:recruit_app/entity/base_resp_entity.dart';
 import 'package:recruit_app/entity/candidate_update_entity.dart';
 import 'package:recruit_app/entity/interview_update_entity.dart';
 import 'package:recruit_app/entity/job_detail_entity.dart';
-import 'package:recruit_app/entity/resume_detail_entity.dart';
 import 'package:recruit_app/entity/resume_list_entity.dart';
+import 'package:recruit_app/entity/resume_detail_entity.dart';
 import 'package:recruit_app/model/boss_mine_model.dart';
 import 'package:recruit_app/model/event_bus_interview.dart';
 import 'package:recruit_app/model/mine_model.dart';
@@ -22,7 +22,7 @@ import '../../main.dart';
 class CandidateRoom extends StatefulWidget {
   final CandidateUpdateData candidateData;
   final JobDetailData jobData;
-  final ResumeListData resumeData;
+  final ResumeListDataResume resumeData;
 
   const CandidateRoom(
       {Key key, this.candidateData, this.jobData, this.resumeData})
@@ -42,7 +42,7 @@ class _CandidateRoomState extends State<CandidateRoom> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _getResumeDetail(widget.resumeData.id);
+      _getResumeDetail('${widget.resumeData.id}');
     });
   }
 
@@ -466,7 +466,7 @@ class _CandidateRoomState extends State<CandidateRoom> {
           '${widget.jobData.job.cityName}${widget.jobData.job.workAddress}',
       companyId: widget.jobData.job.companyId,
       jobId: widget.jobData.job.id,
-      jobSeekerId: widget.resumeData.jobSeekerId,
+      jobSeekerId: '${widget.resumeData.jobSeekerId}',
       recruiterId: widget.jobData.job.recruiterId,
     );
     if (_baseEntity != null) {
@@ -476,7 +476,7 @@ class _CandidateRoomState extends State<CandidateRoom> {
         ..interviewDate = interviewDate
         ..state = state
         ..recruiterId = widget.jobData.job.recruiterId
-        ..jobSeekerId = widget.resumeData.jobSeekerId
+        ..jobSeekerId = '${widget.resumeData.jobSeekerId}'
         ..companyId = widget.jobData.job.companyId
         ..jobId = widget.jobData.job.id
         ..address =

@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:recruit_app/entity/candidate_update_entity.dart';
 import 'package:recruit_app/entity/collection_entity.dart';
 import 'package:recruit_app/entity/job_detail_entity.dart';
-import 'package:recruit_app/entity/resume_list_entity.dart';
 import 'package:recruit_app/model/boss_mine_model.dart';
 import 'package:recruit_app/model/job_model.dart';
 import 'package:recruit_app/model/mine_model.dart';
@@ -20,6 +19,7 @@ import 'package:recruit_app/widgets/craft_date_time_picker.dart';
 import 'package:recruit_app/widgets/craft_share_board.dart';
 import 'package:recruit_app/widgets/network_image.dart';
 import 'package:recruit_app/widgets/remind_dialog.dart';
+import 'package:recruit_app/entity/resume_list_entity.dart';
 
 import '../../application.dart';
 
@@ -757,9 +757,9 @@ class _JobDetailState extends State<JobDetail> {
   }
 
   /// 添加、更新候选人信息
-  _saveCandidate(String jobId,String jobSeekerId,ResumeListData resume) async {
+  _saveCandidate(String jobId,String jobSeekerId,ResumeListDataResume resume) async {
     CandidateUpdateData _baseEntity = await BossMineModel.instance
-        .saveCandidate(context,jobId,jobSeekerId,resume.id,2);
+        .saveCandidate(context,jobId,jobSeekerId,'${resume.id}',2);
     if (_baseEntity != null) {
       Navigator.push(
           context,

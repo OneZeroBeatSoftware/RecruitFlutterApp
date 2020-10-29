@@ -42,13 +42,13 @@ import 'package:recruit_app/entity/management_entity.dart';
 import 'package:recruit_app/entity/mine_info_entity.dart';
 import 'package:recruit_app/entity/msg_list_entity.dart';
 import 'package:recruit_app/entity/resume_detail_entity.dart';
-import 'package:recruit_app/entity/resume_list_entity.dart';
 import 'package:recruit_app/entity/salary_list_entity.dart';
 import 'package:recruit_app/entity/search_job_entity.dart';
 import 'package:recruit_app/entity/seeker_interview_entity.dart';
 import 'package:recruit_app/entity/seeker_notice_entity.dart';
 import 'package:recruit_app/entity/star_company_entity.dart';
 import 'package:recruit_app/entity/star_job_entity.dart';
+import 'package:recruit_app/entity/resume_list_entity.dart';
 import 'package:recruit_app/entity/user_entity.dart';
 import 'package:recruit_app/entity/work_date_entity.dart';
 import 'package:recruit_app/utils/token_interceptor.dart';
@@ -59,8 +59,8 @@ import 'custom_log_interceptor.dart';
 class NetUtils {
   static Dio _dio;
 //  static final String baseUrl = 'http://192.168.1.173:8855/recruit';
-//  static final String baseUrl = 'https://www.onezerobeat.com/recruit';
-  static final String baseUrl = 'http://34.229.235.238/recruit';
+ static final String baseUrl = 'https://www.onezerobeat.com/recruit';
+  // static final String baseUrl = 'http://34.229.235.238/recruit';
 
   static void init({Function() success}) async {
     Directory tempDir = await getTemporaryDirectory();
@@ -687,10 +687,7 @@ class NetUtils {
 
   /// 获取全部求职状态
   static Future<JobStateEntity> getJobStateList(BuildContext context) async {
-    var response = await _post(context, '/jobState/list',params: {
-      'pageIndex': 1,
-      'pageSize': 100,
-    },isShowLoading: true);
+    var response = await _get(context, '/jobState/list',params: {},isShowLoading: true);
     return JobStateEntity().fromJson(response.data);
   }
 

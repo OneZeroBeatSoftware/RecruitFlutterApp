@@ -193,8 +193,8 @@ class _ResumeListState extends State<ResumeList> {
                                 MaterialPageRoute(
                                   builder: (context) =>
                                       OnlineResume(
-                                        resumeId: MineModel.instance
-                                            .resumeList[index].id,),),).then((
+                                        resumeId:' ${MineModel.instance
+                                            .resumeList[index].id}',),),).then((
                                   value) {
                                 if (value != null && value == 'success') {
                                   _getResumeList();
@@ -206,7 +206,7 @@ class _ResumeListState extends State<ResumeList> {
                               index: index,
                               btnKey: key,
                               deleteResume: (index){
-                                _deleteResume(MineModel.instance.resumeList[index].id, index);
+                                _deleteResume('${MineModel.instance.resumeList[index].id}', index);
                               },
                             ),
                           );

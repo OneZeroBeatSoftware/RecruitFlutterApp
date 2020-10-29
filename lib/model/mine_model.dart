@@ -11,11 +11,11 @@ import 'package:recruit_app/entity/job_list_data_record_entity.dart';
 import 'package:recruit_app/entity/job_state_entity.dart';
 import 'package:recruit_app/entity/mine_info_entity.dart';
 import 'package:recruit_app/entity/resume_detail_entity.dart';
-import 'package:recruit_app/entity/resume_list_entity.dart';
 import 'package:recruit_app/entity/star_company_entity.dart';
 import 'package:recruit_app/entity/star_job_entity.dart';
 import 'package:recruit_app/utils/net_utils.dart';
 import 'package:recruit_app/utils/utils.dart';
+import 'package:recruit_app/entity/resume_list_entity.dart';
 
 class MineModel{
   static MineModel _instance;
@@ -191,14 +191,14 @@ class MineModel{
     return null;
   }
 
-  List<JobStateDataRecord> _jobStateList=[];
-  List<JobStateDataRecord> get jobStateList => _jobStateList;
+  List<JobStateData> _jobStateList=[];
+  List<JobStateData> get jobStateList => _jobStateList;
   /// 获取全部求职状态
   Future<MineModel> getJobStateList (BuildContext context) async {
     JobStateEntity stateEntity = await NetUtils.getJobStateList(context);
     if (stateEntity!=null&&stateEntity.statusCode ==200) {
       _jobStateList.clear();
-      _jobStateList.addAll(stateEntity.data.records);
+      _jobStateList.addAll(stateEntity.data);
       return this;
     }
     _jobStateList.clear();
@@ -251,14 +251,14 @@ class MineModel{
     return null;
   }
 
-  List<ResumeListData> _resumeList=[];
-  List<ResumeListData> get resumeList => _resumeList;
+  List<ResumeListDataResume> _resumeList=[];
+  List<ResumeListDataResume> get resumeList => _resumeList;
   /// 获取全部简历
   Future<MineModel> getResumeList (BuildContext context,String seekerId) async {
     ResumeListEntity resumeEntity = await NetUtils.getResumeList(context,seekerId);
     if (resumeEntity!=null&&resumeEntity.statusCode ==200) {
       _resumeList.clear();
-      _resumeList.addAll(resumeEntity.data);
+      _resumeList.addAll(resumeEntity.data.map((e) => e.resume).toList());
       return this;
     }
     _resumeList.clear();

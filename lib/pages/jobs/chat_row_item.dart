@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/application.dart';
 import 'package:recruit_app/entity/socket_msg_entity.dart';
-import 'package:recruit_app/model/chat_list.dart';
 import 'package:recruit_app/widgets/network_image.dart';
 
 class ChatRowItem extends StatelessWidget {
