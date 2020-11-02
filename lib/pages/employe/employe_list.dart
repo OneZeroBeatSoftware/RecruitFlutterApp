@@ -38,6 +38,8 @@ class _EmployeeListState extends State<EmployeeList> {
   String _workDate='';
   String _eduLevel='';
   String _salary='';
+  String _industry='';
+  String _jobType='';
 
   List<BannerData> _bannerList = [];
 
@@ -421,17 +423,31 @@ class _EmployeeListState extends State<EmployeeList> {
                                     ],
                                   ),
                                   onTap: () {
+                                    String sexVal='';
+                                    if(_sex=='1'){
+                                      sexVal='男';
+                                    }else if(_sex=='0'){
+                                      sexVal='女';
+                                    }
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => JobFilter(filterType: FilterType.resume,),
+                                        builder: (context) => JobFilter(filterType: FilterType.resume,industry: _industry,jobType: _jobType,workDate: _workDate,sex: sexVal,eduLevel: _eduLevel,salary: _salary,),
                                       ),
                                     ).then((result){
                                       if(result!=null&&(result is FilterResult)){
-                                        _sex = (result.sex=='男'?'1':'0');
+                                        if(result.sex=='男'){
+                                          _sex='1';
+                                        }else if(result.sex=='女'){
+                                          _sex='0';
+                                        }else {
+                                          _sex='';
+                                        }
                                         _workDate = result.workDate;
                                         _eduLevel = result.eduLevel;
                                         _salary = result.salary;
+                                        _industry = result.industry;
+                                        _jobType = result.jobType;
                                         _refreshController.callRefresh();
                                       }
                                     });
@@ -523,6 +539,8 @@ class _EmployeeListState extends State<EmployeeList> {
         '',
         _pageIndex,
         15,
+        industryId: _industry,
+        positionId: _jobType,
         city: _cityId,
         education: _eduLevel,
         salary: _salary,

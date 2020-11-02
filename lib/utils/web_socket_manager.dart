@@ -45,7 +45,8 @@ class WebSocketManager with ChangeNotifier {
 
   /// 初始化Socket并监听数据
   startClient(String fromId) {
-    _channel = new IOWebSocketChannel.connect("ws://34.229.235.238:7788/recruit");
+    // _channel = new IOWebSocketChannel.connect("ws://34.229.235.238:7788/recruit");
+    _channel = new IOWebSocketChannel.connect("ws://139.196.75.120:7788/recruit");
     Map<String, dynamic> loginInfo = new Map();
     loginInfo["code"] = "10000";
     loginInfo["userId"] = fromId;

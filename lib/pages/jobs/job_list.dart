@@ -438,7 +438,7 @@ class _JobListState extends State<JobList> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => JobFilter(filterType: FilterType.job,age: _age,eduLevel: _eduLevel,salary: _salary,scale: _scale,),
+                                    builder: (context) => JobFilter(filterType: FilterType.job,age: _age,eduLevel: _eduLevel,salary: _salary,scale: _scale,industry: _industry,jobType: _jobType,),
                                   ),
                                 ).then((result){
                                   if (result != null &&
@@ -538,6 +538,8 @@ class _JobListState extends State<JobList> {
          _selectFilterType == 0,
          _pageIndex,
          15,
+         industryId: _industry,
+         positionId: _jobType,
          city: _cityId,
          age: _age,
          salary: _salary,

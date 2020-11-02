@@ -63,6 +63,8 @@ class _JobFilterState extends State<JobFilter> {
         getEduLevel();
         getSalaryList();
         getScaleList();
+        getAllIndustry();
+        getAllJobType();
       } else if (widget.filterType == FilterType.company) {
         getAllIndustry();
         getScaleList();
@@ -71,6 +73,8 @@ class _JobFilterState extends State<JobFilter> {
         getSalaryList();
         getSex();
         getWorkDate();
+        getAllIndustry();
+        getAllJobType();
       } else {
         getEduLevel();
         getSalaryList();

@@ -58,7 +58,7 @@ import 'custom_log_interceptor.dart';
 
 class NetUtils {
   static Dio _dio;
-//  static final String baseUrl = 'http://192.168.1.173:8855/recruit';
+ // static final String baseUrl = 'http://192.168.0.200:8855/recruit';
  static final String baseUrl = 'https://www.onezerobeat.com/recruit';
   // static final String baseUrl = 'http://34.229.235.238/recruit';
 
@@ -356,7 +356,7 @@ class NetUtils {
 
   /// 获取岗位列表
   static Future<JobListEntity> getJobList(BuildContext context, bool isNearby,
-      bool isNews, bool isRecommend, int pageIndex,int pageSize,{String city,String age,String education,String salary,String scale,String jobSeekerId}) async {
+      bool isNews, bool isRecommend, int pageIndex,int pageSize,{String city,String age,String education,String salary,String scale,String industryId,String positionId,String jobSeekerId}) async {
     Map<String,dynamic> params={};
     params['isNearby']=isNearby;
     params['isNews']=isNews;
@@ -377,6 +377,12 @@ class NetUtils {
     }
     if(scale!=null&&scale.isNotEmpty){
       params['scale']=scale;
+    }
+    if(positionId!=null&&positionId.isNotEmpty){
+      params['positionId']=positionId;
+    }
+    if(industryId!=null&&industryId.isNotEmpty){
+      params['industryId']=industryId;
     }
     if(jobSeekerId!=null&&jobSeekerId.isNotEmpty){
       params['jobSeekerId']=jobSeekerId;
@@ -890,7 +896,7 @@ class NetUtils {
 
   /// 获取招聘者首页人才列表
   static Future<MainResumeListEntity> getMainResumeList(BuildContext context, bool isNearby,
-      bool isNews, bool isRecommend, int pageIndex,int pageSize,{String city,String education,String salary,String sex,String workDate,String recruiterId}) async {
+      bool isNews, bool isRecommend, int pageIndex,int pageSize,{String city,String education,String salary,String sex,String workDate,String industryId,String positionId,String recruiterId}) async {
     Map<String,dynamic> params={};
     params['isNearby']=isNearby;
     params['isNews']=isNews;
@@ -911,6 +917,12 @@ class NetUtils {
     }
     if(workDate!=null&&workDate.isNotEmpty){
       params['workDate']=workDate;
+    }
+    if(positionId!=null&&positionId.isNotEmpty){
+      params['positionId']=positionId;
+    }
+    if(industryId!=null&&industryId.isNotEmpty){
+      params['industryId']=industryId;
     }
     if(recruiterId!=null&&recruiterId.isNotEmpty){
       params['recruiterId']=recruiterId;
