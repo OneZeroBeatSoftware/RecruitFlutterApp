@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +22,7 @@ import 'package:recruit_app/pages/companys/company_welfare_dialog.dart';
 import 'package:recruit_app/pages/companys/company_welfare_item.dart';
 import 'package:recruit_app/pages/jobs/job_detail.dart';
 import 'package:recruit_app/pages/jobs/report.dart';
+import 'package:recruit_app/utils/net_utils.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/empty_widget.dart';
 import 'package:recruit_app/widgets/network_image.dart';
@@ -260,54 +260,57 @@ class _CompanyDetailState extends State<CompanyDetail>
                   GestureDetector(
                     behavior: HitTestBehavior.opaque,
                     onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return RemindColDialog(
-                            items: _menuItem,
-                            itemColor: Color.fromRGBO(
-                                57, 57, 57, 1),
-                            cancelText: '取消',
-                            cancelColor: Color.fromRGBO(
-                                159, 199, 235, 1),
-                            cancel: () {
-                              Navigator.pop(context);
-                            },
-                            itemClick: (index) {
-                              Navigator.pop(context);
-                              switch (index) {
-                                case 0:
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Report(reportType: ReportType.company,reportId: widget.companyId,)));
-                                  break;
-                                case 1:
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return RemindDialog(
-                                          title: '确定屏蔽该公司吗？',
-                                          titleColor: Color.fromRGBO(57, 57, 57, 1),
-                                          content: '系统将不会再向您推荐该公司及岗位',
-                                          contentColor: Color.fromRGBO(57, 57, 57, 1),
-                                          cancelText: '取消',
-                                          cancelColor: Color.fromRGBO(
-                                              142, 190, 245, 1),
-                                          confirmText: '确定',
-                                          confirmColor: Color.fromRGBO(
-                                              142, 190, 245, 1),
-                                          cancel: () {
-                                            Navigator.pop(context);
-                                          },
-                                          confirm: () {
-                                            Navigator.pop(context);
-                                            _shieldCompany(widget.companyId);
-                                          },
-                                        );
-                                      });
-                                  break;
-                              }
-                            },
-                          );
-                        },);
+                      NetUtils.validateLogin(context,
+                          isLogin: Application.sp.get('jobSeekerId') != null, callback: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return RemindColDialog(
+                                  items: _menuItem,
+                                  itemColor: Color.fromRGBO(
+                                      57, 57, 57, 1),
+                                  cancelText: '取消',
+                                  cancelColor: Color.fromRGBO(
+                                      159, 199, 235, 1),
+                                  cancel: () {
+                                    Navigator.pop(context);
+                                  },
+                                  itemClick: (index) {
+                                    Navigator.pop(context);
+                                    switch (index) {
+                                      case 0:
+                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>Report(reportType: ReportType.company,reportId: widget.companyId,)));
+                                        break;
+                                      case 1:
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return RemindDialog(
+                                                title: '确定屏蔽该公司吗？',
+                                                titleColor: Color.fromRGBO(57, 57, 57, 1),
+                                                content: '系统将不会再向您推荐该公司及岗位',
+                                                contentColor: Color.fromRGBO(57, 57, 57, 1),
+                                                cancelText: '取消',
+                                                cancelColor: Color.fromRGBO(
+                                                    142, 190, 245, 1),
+                                                confirmText: '确定',
+                                                confirmColor: Color.fromRGBO(
+                                                    142, 190, 245, 1),
+                                                cancel: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                confirm: () {
+                                                  Navigator.pop(context);
+                                                  _shieldCompany(widget.companyId);
+                                                },
+                                              );
+                                            });
+                                        break;
+                                    }
+                                  },
+                                );
+                              },);
+                          });
                     },
                     child: Image.asset(
                       'images/img_menu_white.png',
@@ -400,7 +403,10 @@ class _CompanyDetailState extends State<CompanyDetail>
                               ),
                               behavior: HitTestBehavior.opaque,
                               onTap: () {
-                                _operateStar(widget.companyId, _starId);
+                                NetUtils.validateLogin(context,
+                                    isLogin: Application.sp.get('jobSeekerId') != null, callback: () {
+                                      _operateStar(widget.companyId, _starId);
+                                    });
                               },
                             ),
                           ],
@@ -706,101 +712,101 @@ class _CompanyDetailState extends State<CompanyDetail>
                             ),
                           ],
                         ),
-                        SizedBox(
-                          height: ScreenUtil().setWidth(20),
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Text('企业法人',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    wordSpacing: 1,
-                                    letterSpacing: 1,
-                                    fontSize: ScreenUtil().setSp(26),
-                                    color: Colors.white)),
-                            SizedBox(
-                              width: ScreenUtil().setWidth(30),
-                            ),
-                            Expanded(
-                              child: Text('${_detailData.company.legalPerson}',
-                                  textAlign: TextAlign.end,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      wordSpacing: 1,
-                                      letterSpacing: 1,
-                                      fontSize: ScreenUtil().setSp(26),
-                                      color: Colors.white)),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: ScreenUtil().setWidth(20),
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Text('注册时间',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    wordSpacing: 1,
-                                    letterSpacing: 1,
-                                    fontSize: ScreenUtil().setSp(26),
-                                    color: Colors.white)),
-                            SizedBox(
-                              width: ScreenUtil().setWidth(30),
-                            ),
-                            Expanded(
-                              child: Text('${DateUtil.formatDateStr(
-                                  _detailData.company.registerDate,
-                                  format: "yyyy-MM-dd")}',
-                                  textAlign: TextAlign.end,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      wordSpacing: 1,
-                                      letterSpacing: 1,
-                                      fontSize: ScreenUtil().setSp(26),
-                                      color: Colors.white)),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: ScreenUtil().setWidth(20),
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Text('注册资本',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    wordSpacing: 1,
-                                    letterSpacing: 1,
-                                    fontSize: ScreenUtil().setSp(26),
-                                    color: Colors.white)),
-                            SizedBox(
-                              width: ScreenUtil().setWidth(30),
-                            ),
-                            Expanded(
-                              child: Text('${_detailData.company.registerCapital}',
-                                  textAlign: TextAlign.end,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      wordSpacing: 1,
-                                      letterSpacing: 1,
-                                      fontSize: ScreenUtil().setSp(26),
-                                      color: Colors.white)),
-                            ),
-                          ],
-                        ),
+                        // SizedBox(
+                        //   height: ScreenUtil().setWidth(20),
+                        // ),
+                        // Row(
+                        //   crossAxisAlignment: CrossAxisAlignment.center,
+                        //   mainAxisAlignment: MainAxisAlignment.start,
+                        //   children: <Widget>[
+                        //     Text('企业法人',
+                        //         maxLines: 1,
+                        //         overflow: TextOverflow.ellipsis,
+                        //         style: TextStyle(
+                        //             wordSpacing: 1,
+                        //             letterSpacing: 1,
+                        //             fontSize: ScreenUtil().setSp(26),
+                        //             color: Colors.white)),
+                        //     SizedBox(
+                        //       width: ScreenUtil().setWidth(30),
+                        //     ),
+                        //     Expanded(
+                        //       child: Text('${_detailData.company.legalPerson}',
+                        //           textAlign: TextAlign.end,
+                        //           maxLines: 1,
+                        //           overflow: TextOverflow.ellipsis,
+                        //           style: TextStyle(
+                        //               wordSpacing: 1,
+                        //               letterSpacing: 1,
+                        //               fontSize: ScreenUtil().setSp(26),
+                        //               color: Colors.white)),
+                        //     ),
+                        //   ],
+                        // ),
+                        // SizedBox(
+                        //   height: ScreenUtil().setWidth(20),
+                        // ),
+                        // Row(
+                        //   crossAxisAlignment: CrossAxisAlignment.center,
+                        //   mainAxisAlignment: MainAxisAlignment.start,
+                        //   children: <Widget>[
+                        //     Text('注册时间',
+                        //         maxLines: 1,
+                        //         overflow: TextOverflow.ellipsis,
+                        //         style: TextStyle(
+                        //             wordSpacing: 1,
+                        //             letterSpacing: 1,
+                        //             fontSize: ScreenUtil().setSp(26),
+                        //             color: Colors.white)),
+                        //     SizedBox(
+                        //       width: ScreenUtil().setWidth(30),
+                        //     ),
+                        //     Expanded(
+                        //       child: Text('${DateUtil.formatDateStr(
+                        //           _detailData.company.registerDate,
+                        //           format: "yyyy-MM-dd")}',
+                        //           textAlign: TextAlign.end,
+                        //           maxLines: 1,
+                        //           overflow: TextOverflow.ellipsis,
+                        //           style: TextStyle(
+                        //               wordSpacing: 1,
+                        //               letterSpacing: 1,
+                        //               fontSize: ScreenUtil().setSp(26),
+                        //               color: Colors.white)),
+                        //     ),
+                        //   ],
+                        // ),
+                        // SizedBox(
+                        //   height: ScreenUtil().setWidth(20),
+                        // ),
+                        // Row(
+                        //   crossAxisAlignment: CrossAxisAlignment.center,
+                        //   mainAxisAlignment: MainAxisAlignment.start,
+                        //   children: <Widget>[
+                        //     Text('注册资本',
+                        //         maxLines: 1,
+                        //         overflow: TextOverflow.ellipsis,
+                        //         style: TextStyle(
+                        //             wordSpacing: 1,
+                        //             letterSpacing: 1,
+                        //             fontSize: ScreenUtil().setSp(26),
+                        //             color: Colors.white)),
+                        //     SizedBox(
+                        //       width: ScreenUtil().setWidth(30),
+                        //     ),
+                        //     Expanded(
+                        //       child: Text('${_detailData.company.registerCapital}',
+                        //           textAlign: TextAlign.end,
+                        //           maxLines: 1,
+                        //           overflow: TextOverflow.ellipsis,
+                        //           style: TextStyle(
+                        //               wordSpacing: 1,
+                        //               letterSpacing: 1,
+                        //               fontSize: ScreenUtil().setSp(26),
+                        //               color: Colors.white)),
+                        //     ),
+                        //   ],
+                        // ),
                         SizedBox(
                           height: ScreenUtil().setWidth(30),
                         ),

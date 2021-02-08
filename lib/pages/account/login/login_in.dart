@@ -15,6 +15,9 @@ import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 
 class LoginIn extends StatefulWidget {
+  final bool isReLogin;
+
+  const LoginIn({Key key, this.isReLogin=false}) : super(key: key);
   @override
   _LoginInState createState() => _LoginInState();
 }
@@ -56,6 +59,7 @@ class _LoginInState extends State<LoginIn> {
         backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       ),
       body: SafeArea(
+        top:false,
         child: Stack(
           alignment: Alignment.center,
           children: <Widget>[
@@ -181,30 +185,33 @@ class _LoginInState extends State<LoginIn> {
                       ],
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.only(
-                      top: ScreenUtil().setWidth(26),
-                      bottom: ScreenUtil().setWidth(40),
-                    ),
-                    alignment: Alignment.centerRight,
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      child: Text(
-                        '切换邮箱登录',
-                        style: TextStyle(
-                          fontSize: ScreenUtil().setSp(24),
-                          color: Color.fromRGBO(159, 199, 235, 1),
-                        ),
-                      ),
-                      onTap: () {
-                        FocusScope.of(context).requestFocus(FocusNode());
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => EmailLoginIn(),
-                            ));
-                      },
-                    ),
+                  // Container(
+                  //   padding: EdgeInsets.only(
+                  //     top: ScreenUtil().setWidth(26),
+                  //     bottom: ScreenUtil().setWidth(40),
+                  //   ),
+                  //   alignment: Alignment.centerRight,
+                  //   child: GestureDetector(
+                  //     behavior: HitTestBehavior.opaque,
+                  //     child: Text(
+                  //       '切换邮箱登录',
+                  //       style: TextStyle(
+                  //         fontSize: ScreenUtil().setSp(24),
+                  //         color: Color.fromRGBO(159, 199, 235, 1),
+                  //       ),
+                  //     ),
+                  //     onTap: () {
+                  //       FocusScope.of(context).requestFocus(FocusNode());
+                  //       Navigator.push(
+                  //           context,
+                  //           MaterialPageRoute(
+                  //             builder: (context) => EmailLoginIn(),
+                  //           ));
+                  //     },
+                  //   ),
+                  // ),
+                  SizedBox(
+                    height: ScreenUtil().setWidth(66),
                   ),
                   MaterialButton(
                     elevation: 0,
@@ -257,12 +264,14 @@ class _LoginInState extends State<LoginIn> {
                               }
                             });
                           }else {
-                            Navigator.pop(context);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => RecruitHomeApp()),
-                            );
+                            Navigator.pop(context,'success');
+                            if(!widget.isReLogin){
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => RecruitHomeApp()),
+                              );
+                            }
                           }
                         }
                       });
@@ -288,7 +297,7 @@ class _LoginInState extends State<LoginIn> {
                   Container(
                     margin: EdgeInsets.only(top: ScreenUtil().setWidth(20)),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         GestureDetector(
                           behavior: HitTestBehavior.opaque,
@@ -309,25 +318,34 @@ class _LoginInState extends State<LoginIn> {
                             );
                           },
                         ),
-//                        GestureDetector(
-//                          behavior: HitTestBehavior.opaque,
-//                          child: Text(
-//                            '先逛逛',
-//                            style: TextStyle(
-//                              fontSize: ScreenUtil().setSp(24),
-//                              color: Color.fromRGBO(176, 181, 180, 1),
-//                            ),
-//                          ),
-//                          onTap: () {
-//                            FocusScope.of(context).requestFocus(FocusNode());
-//                            Navigator.push(
-//                              context,
-//                              MaterialPageRoute(
-//                                builder: (context) => RecruitHomeApp(),
-//                              ),
-//                            );
-//                          },
-//                        ),
+                       GestureDetector(
+                         behavior: HitTestBehavior.opaque,
+                         child: Text(
+                           '先逛逛',
+                           style: TextStyle(
+                             fontSize: ScreenUtil().setSp(24),
+                             color: Color.fromRGBO(176, 181, 180, 1),
+                           ),
+                         ),
+                         onTap: () {
+                           FocusScope.of(context).requestFocus(FocusNode());
+
+                           Application.sp.setString('token', '');
+                           Application.sp.setString('jobSeekerId', null);
+                           Application.sp.setString('recruiterId', null);
+                           Application.sp.setString('userId',null);
+                           Application.sp.setString('phone', '');
+                           Application.sp.setString('email', '');
+
+                           Navigator.pop(context);
+                           Navigator.push(
+                             context,
+                             MaterialPageRoute(
+                               builder: (context) => RecruitHomeApp(),
+                             ),
+                           );
+                         },
+                       ),
                       ],
                     ),
                   ),

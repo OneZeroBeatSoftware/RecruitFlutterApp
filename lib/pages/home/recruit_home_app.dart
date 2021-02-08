@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:recruit_app/application.dart';
 import 'package:recruit_app/model/identity_model.dart';
 import 'package:recruit_app/model/msg_type.dart';
 import 'package:recruit_app/pages/boss/boss.dart';
@@ -9,6 +10,7 @@ import 'package:recruit_app/pages/employe/employe_list.dart';
 import 'package:recruit_app/pages/jobs/job_list.dart';
 import 'package:recruit_app/pages/mine/me.dart';
 import 'package:recruit_app/pages/msg/msg_list.dart';
+import 'package:recruit_app/utils/net_utils.dart';
 class RecruitHomeApp extends StatefulWidget {
   @override
   _RecruitHomeState createState() {
@@ -225,6 +227,18 @@ class _RecruitHomeState extends State<RecruitHomeApp> {
         selectedFontSize: 13,
         unselectedFontSize: 12,
         onTap: (index) {
+          if(identityModel.identity == Identity.boss&&(index==1||index==2)){
+            NetUtils.validateLogin(context,isLogin: Application.sp.get('recruiterId')!=null,callback: (){
+              identityModel.changeSelectTap(index);
+            });
+            return;
+          }
+          if(identityModel.identity == Identity.employee&&(index==2||index==3)&&Application.sp.get('jobSeekerId')==null){
+            NetUtils.validateLogin(context,isLogin: Application.sp.get('jobSeekerId')!=null,callback: (){
+              identityModel.changeSelectTap(index);
+            });
+            return;
+          }
           identityModel.changeSelectTap(index);
         },
       ),

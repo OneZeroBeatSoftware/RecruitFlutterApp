@@ -100,19 +100,19 @@ class CompanyInfoDialog extends Dialog {
                             physics: BouncingScrollPhysics(),
                             shrinkWrap: true,
                             children: <Widget>[
-                              CompanyInfoItem(type: '企业法人　　', content: '${detailData.company.legalPerson}'),
-                              CompanyInfoItem(type: '注册资金　　', content: '${detailData.company.registerCapital}'),
-                              CompanyInfoItem(
-                                  type: '注册时间　　', content: '${DateUtil.formatDateStr(detailData.company.registerDate,format: 'yyyy-MM-dd')}'),
+                              // CompanyInfoItem(type: '企业法人　　', content: '${detailData.company.legalPerson}'),
+                              // CompanyInfoItem(type: '注册资金　　', content: '${detailData.company.registerCapital}'),
+                              // CompanyInfoItem(
+                              //     type: '注册时间　　', content: '${DateUtil.formatDateStr(detailData.company.registerDate,format: 'yyyy-MM-dd')}'),
                               CompanyInfoItem(
                                   type: '经营状态　　', content: '${detailData.company.managementName}'),
-                              CompanyInfoItem(
-                                  type: '注册地址　　', content: '${detailData.company.registerAddress}'),
-                              CompanyInfoItem(
-                                  type: '统一信用代码', content: '${detailData.company.unifiedCreditCode}'),
-                              CompanyInfoItem(
-                                  type: '经营范围　　',
-                                  content:'${detailData.company.scope}'),
+                              // CompanyInfoItem(
+                              //     type: '注册地址　　', content: '${detailData.company.registerAddress}'),
+                              // CompanyInfoItem(
+                              //     type: '统一信用代码', content: '${detailData.company.unifiedCreditCode}'),
+                              // CompanyInfoItem(
+                              //     type: '经营范围　　',
+                              //     content:'${detailData.company.scope}'),
                             ],
                           ),
                         ],

@@ -12,11 +12,13 @@ import 'package:recruit_app/model/mine_model.dart';
 import 'package:recruit_app/model/recruit_resume_model.dart';
 import 'package:recruit_app/pages/employe/candidate_boss_room.dart';
 import 'package:recruit_app/pages/jobs/report.dart';
+import 'package:recruit_app/utils/net_utils.dart';
 import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recruit_app/pages/employe/employee_experience.dart';
 import 'package:recruit_app/pages/employe/employee_experience2.dart';
+import 'package:recruit_app/widgets/craft_share_board.dart';
 import 'package:recruit_app/widgets/list_menu_dialog.dart';
 import 'package:recruit_app/widgets/network_image.dart';
 import 'package:recruit_app/widgets/remind_column_dialog.dart';
@@ -55,8 +57,22 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((i) {
       getResumeDetail(widget.resumeId);
-      _getJobList(true);
+      if(Application.sp.get('recruiterId')!=null){
+        _getJobList(true);
+      }
     });
+  }
+
+  /// 分享
+  void shareJob(){
+    showCupertinoModalPopup(
+      context: context,
+      builder: (context) {
+        return ShareBoard(
+          title: '分享',
+        );
+      },
+    );
   }
 
   @override
@@ -71,14 +87,20 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
 //      _bottomOperateView.add(FlexButton(btnTitle: '取消面试',));
 //      _bottomOperateView.add(FlexButton(flex: 2, btnTitle: '申请调整时间',));
 //    }else {
-      _bottomOperateView.add(FlexButton(btnTitle: '立即沟通',onPressed: (){
+    _bottomOperateView.add(FlexButton(
+      btnTitle: '立即沟通',
+      onPressed: () {
         FocusScope.of(context).requestFocus(FocusNode());
-        if(BossMineModel.instance.jobList.length<1){
-          _getJobList(false);
-          return;
-        }
-        _showJobList();
-      },));
+        NetUtils.validateLogin(context,
+            isLogin: Application.sp.get('recruiterId') != null, callback: () {
+          if (BossMineModel.instance.jobList.length < 1) {
+            _getJobList(false);
+            return;
+          }
+          _showJobList();
+        });
+      },
+    ));
 //    }
 
     if(_resumeDetailData!=null){
@@ -160,7 +182,10 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
                 behavior: HitTestBehavior.opaque,
                 onTap: () {
                   if(_resumeDetailData!=null){
-                    _operateStar(_resumeDetailData.resume.jobSeekerId, _starId);
+                    NetUtils.validateLogin(context,
+                        isLogin: Application.sp.get('recruiterId') != null, callback: () {
+                          _operateStar(_resumeDetailData.resume.jobSeekerId, _starId);
+                        });
                   }else {
                     Utils.showToast('简历信息有误');
                   }
@@ -188,7 +213,12 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
               ),
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
-                onTap: () {},
+                onTap: () {
+                  NetUtils.validateLogin(context,
+                      isLogin: Application.sp.get('recruiterId') != null, callback: () {
+                        shareJob();
+                      });
+                },
                 child: Image.asset(
                   'images/img_share.png',
                   width: ScreenUtil().setWidth(36),
@@ -446,54 +476,57 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
   }
 
   _menuOperate(){
-    showDialog(
-      context: context,
-      builder: (context) {
-        return RemindColDialog(
-          items: _menuItem,
-          itemColor: Color.fromRGBO(
-              57, 57, 57, 1),
-          cancelText: '取消',
-          cancelColor: Color.fromRGBO(
-              159, 199, 235, 1),
-          cancel: () {
-            Navigator.pop(context);
-          },
-          itemClick: (index) {
-            Navigator.pop(context);
-            switch (index) {
-              case 0:
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>Report(reportType: ReportType.resume,reportId: widget.resumeId,)));
-                break;
-              case 1:
-                showDialog(
-                    context: context,
-                    builder: (context) {
-                      return RemindDialog(
-                        title: '确定屏蔽该人才吗？',
-                        titleColor: Color.fromRGBO(57, 57, 57, 1),
-                        content: '系统将不会再向您推荐该人才',
-                        contentColor: Color.fromRGBO(57, 57, 57, 1),
-                        cancelText: '取消',
-                        cancelColor: Color.fromRGBO(
-                            142, 190, 245, 1),
-                        confirmText: '确定',
-                        confirmColor: Color.fromRGBO(
-                            142, 190, 245, 1),
-                        cancel: () {
-                          Navigator.pop(context);
-                        },
-                        confirm: () {
-                          Navigator.pop(context);
-                          _shieldResume(_resumeDetailData.resume.jobSeekerId);
-                        },
-                      );
-                    });
-                break;
-            }
-          },
-        );
-      },);
+    NetUtils.validateLogin(context,
+        isLogin: Application.sp.get('recruiterId') != null, callback: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return RemindColDialog(
+                items: _menuItem,
+                itemColor: Color.fromRGBO(
+                    57, 57, 57, 1),
+                cancelText: '取消',
+                cancelColor: Color.fromRGBO(
+                    159, 199, 235, 1),
+                cancel: () {
+                  Navigator.pop(context);
+                },
+                itemClick: (index) {
+                  Navigator.pop(context);
+                  switch (index) {
+                    case 0:
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>Report(reportType: ReportType.resume,reportId: widget.resumeId,)));
+                      break;
+                    case 1:
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return RemindDialog(
+                              title: '确定屏蔽该人才吗？',
+                              titleColor: Color.fromRGBO(57, 57, 57, 1),
+                              content: '系统将不会再向您推荐该人才',
+                              contentColor: Color.fromRGBO(57, 57, 57, 1),
+                              cancelText: '取消',
+                              cancelColor: Color.fromRGBO(
+                                  142, 190, 245, 1),
+                              confirmText: '确定',
+                              confirmColor: Color.fromRGBO(
+                                  142, 190, 245, 1),
+                              cancel: () {
+                                Navigator.pop(context);
+                              },
+                              confirm: () {
+                                Navigator.pop(context);
+                                _shieldResume(_resumeDetailData.resume.jobSeekerId);
+                              },
+                            );
+                          });
+                      break;
+                  }
+                },
+              );
+            },);
+        });
   }
 
   /// 屏蔽人才
@@ -507,6 +540,14 @@ class _EmployeeDetailState extends State<EmployeeDetail> {
 
   /// 显示工作列表
   _showJobList() {
+    if(BossMineModel.instance.jobList.length<1){
+      Utils.showToast("您还未发布岗位，请先发布岗位");
+      return;
+    }
+    if(BossMineModel.instance.jobList.length==1){
+      _saveCandidate(BossMineModel.instance.jobList[0], _resumeDetailData.resume.jobSeekerId, _resumeDetailData.resume.id);
+      return;
+    }
     showGeneralDialog(
       context: context,
       pageBuilder: (context, animation1, animation2) {

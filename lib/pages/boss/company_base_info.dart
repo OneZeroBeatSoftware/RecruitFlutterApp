@@ -126,10 +126,10 @@ class _State extends State<CompanyBaseInfo> {
 								Utils.showToast('请选择公司行业');
 								return;
 							}
-							if (_licenses.length<1) {
-								Utils.showToast('请上传营业执照');
-								return;
-							}
+							// if (_licenses.length<1) {
+							// 	Utils.showToast('请上传营业执照');
+							// 	return;
+							// }
 							Navigator.pop(context,CompanyInfoResult(_industryId, _industry, _scaleId, _scale, _companyController.text,_avatar,_licenses));
 				    },
 				    child: Text("保存",
@@ -231,41 +231,41 @@ class _State extends State<CompanyBaseInfo> {
 					    });
 				    },
 			    ),
-			    NextLevel(
-			       titleW: Text("营业执照",
-			          maxLines: 1,
-			          overflow: TextOverflow.ellipsis,
-			          style: ProfileStyle.titleStyle,
-			       ),
-				    onClick: () {
-					    Navigator.push<LicenseResult>(
-					       context,
-					       MaterialPageRoute(
-						      builder: (context) => CraftBusinessLicense(licenses: _licenses,))
-					    ).then((value){
-								if (value != null) {
-									for (var i = 0; i < (value.licenses.length); i++) {
-										if (i < _licenses.length) {
-											_licenses[i].image = value.licenses[i].image;
-										} else {
-											_licenses.add(value.licenses[i]);
-										}
-									}
-									if (_licenses.length > value.licenses.length) {
-										_licenses.removeRange(
-												value.licenses.length, _licenses.length);
-									}
-									setState(() {
-									  _licensesLength=_licenses.length;
-									});
-								}
-							});
-				    },
-				    valueW: Text(_licensesLength>0?'已验证':'未验证', style: TextStyle(
-					    color: Color.fromRGBO(176,181,180,1))
-				    ),
-			    ),
-			    ProfileStyle.divider,
+			    // NextLevel(
+			    //    titleW: Text("营业执照",
+			    //       maxLines: 1,
+			    //       overflow: TextOverflow.ellipsis,
+			    //       style: ProfileStyle.titleStyle,
+			    //    ),
+				  //   onClick: () {
+					//     Navigator.push<LicenseResult>(
+					//        context,
+					//        MaterialPageRoute(
+					// 	      builder: (context) => CraftBusinessLicense(licenses: _licenses,))
+					//     ).then((value){
+					// 			if (value != null) {
+					// 				for (var i = 0; i < (value.licenses.length); i++) {
+					// 					if (i < _licenses.length) {
+					// 						_licenses[i].image = value.licenses[i].image;
+					// 					} else {
+					// 						_licenses.add(value.licenses[i]);
+					// 					}
+					// 				}
+					// 				if (_licenses.length > value.licenses.length) {
+					// 					_licenses.removeRange(
+					// 							value.licenses.length, _licenses.length);
+					// 				}
+					// 				setState(() {
+					// 				  _licensesLength=_licenses.length;
+					// 				});
+					// 			}
+					// 		});
+				  //   },
+				  //   valueW: Text(_licensesLength>0?'已验证':'未验证', style: TextStyle(
+					//     color: Color.fromRGBO(176,181,180,1))
+				  //   ),
+			    // ),
+			    // ProfileStyle.divider,
 		    ],
 	    ),
     );

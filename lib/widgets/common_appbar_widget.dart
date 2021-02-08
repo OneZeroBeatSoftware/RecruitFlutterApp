@@ -31,7 +31,9 @@ class _CommonAppBarState extends State<CommonAppBar> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(color: widget.backgroundColor,border: widget.border??Border()),
-      child: SafeArea(child: Stack(
+      child: SafeArea(
+        bottom:false,
+        child: Stack(
         children: <Widget>[
           Align(
             alignment: Alignment.centerLeft,

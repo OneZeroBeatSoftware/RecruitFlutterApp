@@ -146,10 +146,10 @@ class _CompanyInfoState extends State<CompanyInfo> {
                 Utils.showToast('请先编辑公司简介');
                 return;
               }
-              if (_licenses.length<1) {
-                Utils.showToast('请上传营业执照');
-                return;
-              }
+              // if (_licenses.length<1) {
+              //   Utils.showToast('请上传营业执照');
+              //   return;
+              // }
               if(_companyImg.length<1){
                 Utils.showToast('请至少上传一张公司照片');
                 return;
@@ -166,30 +166,30 @@ class _CompanyInfoState extends State<CompanyInfo> {
                 Utils.showToast('请至少编辑一种员工福利');
                 return;
               }
-              if(_legalPerson==null||_legalPerson.isEmpty){
-                Utils.showToast('请先填写企业法人');
-                return;
-              }
-              if(_registerCapital==null||_registerCapital.isEmpty){
-                Utils.showToast('请先填写注册资金');
-                return;
-              }
-              if(_registerDate==null||_registerDate.isEmpty){
-                Utils.showToast('请先选择注册时间');
-                return;
-              }
+              // if(_legalPerson==null||_legalPerson.isEmpty){
+              //   Utils.showToast('请先填写企业法人');
+              //   return;
+              // }
+              // if(_registerCapital==null||_registerCapital.isEmpty){
+              //   Utils.showToast('请先填写注册资金');
+              //   return;
+              // }
+              // if(_registerDate==null||_registerDate.isEmpty){
+              //   Utils.showToast('请先选择注册时间');
+              //   return;
+              // }
               if(_manageId==null||_manageId.isEmpty){
                 Utils.showToast('请先选择运营状态');
                 return;
               }
-              if(_unifiedCreditCode==null||_unifiedCreditCode.isEmpty){
-                Utils.showToast('请先填写统一信用代码');
-                return;
-              }
-              if(_unifiedCreditCode==null||_unifiedCreditCode.isEmpty){
-                Utils.showToast('请先填写经营范围');
-                return;
-              }
+              // if(_unifiedCreditCode==null||_unifiedCreditCode.isEmpty){
+              //   Utils.showToast('请先填写统一信用代码');
+              //   return;
+              // }
+              // if(_unifiedCreditCode==null||_unifiedCreditCode.isEmpty){
+              //   Utils.showToast('请先填写经营范围');
+              //   return;
+              // }
               _editCompany();
             },
             child: Text((widget.companyId==null||widget.companyId.isEmpty) ? '保存' : '修改',
@@ -483,63 +483,63 @@ class _CompanyInfoState extends State<CompanyInfo> {
                       ),
                       ProfileDivider(),
                       
-                      Item("公司注册信息", ""),
-                      Item2("企业法人", _legalPerson.isEmpty?'请填写企业法人':_legalPerson, canClick: true, onClick: () {
-                        Navigator.push<String>(context, MaterialPageRoute(
-                          builder: (context)=> CompanyLegalPerson(legalPerson:_legalPerson)
-                        )).then((value){
-                          if(value!=null){
-                            setState(() {
-                              _legalPerson=value;
-                            });
-                          }
-                        });
-                      }),
-                      Item2("注册资金", _registerCapital.isEmpty?'请填写注册资金':_registerCapital, canClick: true, onClick: () {
-                        Navigator.push<String>(context, MaterialPageRoute(
-                           builder: (context)=> CompanyRegisterCapital(capital:_registerCapital)
-                        )).then((value){
-                          if(value!=null){
-                            setState(() {
-                              _registerCapital=value;
-                            });
-                          }
-                        });
-                      }),
-                      Item2("注册时间",_registerDate.isEmpty?'请选择注册时间':'${DateUtil.formatDateStr(
-                          _registerDate, format: "yyyy-MM-dd")}', canClick: true, onClick: () {
-                        adJustDate();
-                      }),
+                      // Item("公司注册信息", ""),
+                      // Item2("企业法人", _legalPerson.isEmpty?'请填写企业法人':_legalPerson, canClick: true, onClick: () {
+                      //   Navigator.push<String>(context, MaterialPageRoute(
+                      //     builder: (context)=> CompanyLegalPerson(legalPerson:_legalPerson)
+                      //   )).then((value){
+                      //     if(value!=null){
+                      //       setState(() {
+                      //         _legalPerson=value;
+                      //       });
+                      //     }
+                      //   });
+                      // }),
+                      // Item2("注册资金", _registerCapital.isEmpty?'请填写注册资金':_registerCapital, canClick: true, onClick: () {
+                      //   Navigator.push<String>(context, MaterialPageRoute(
+                      //      builder: (context)=> CompanyRegisterCapital(capital:_registerCapital)
+                      //   )).then((value){
+                      //     if(value!=null){
+                      //       setState(() {
+                      //         _registerCapital=value;
+                      //       });
+                      //     }
+                      //   });
+                      // }),
+                      // Item2("注册时间",_registerDate.isEmpty?'请选择注册时间':'${DateUtil.formatDateStr(
+                      //     _registerDate, format: "yyyy-MM-dd")}', canClick: true, onClick: () {
+                      //   adJustDate();
+                      // }),
                       Item2("经营状态", _manage.isEmpty?'请选择经营状态':_manage, canClick: true, onClick: () {
                         FocusScope.of(context).requestFocus(FocusNode());
                         chooseCompanyStatus();
                       }),
-                      Item2("统一信用代码", _unifiedCreditCode.isEmpty
-                          ? '请填写统一信用代码'
-                          : _unifiedCreditCode, canClick: true, onClick: () {
-                        Navigator.push<String>(context, MaterialPageRoute(
-                            builder: (context) => CompanyUnifiedCreditCode(code:_unifiedCreditCode)
-                        )).then((value) {
-                          if (value != null) {
-                            setState(() {
-                              _unifiedCreditCode = value;
-                            });
-                          }
-                        });
-                      }),
-                      Item2("经营范围", _scope.isEmpty ? '请填写经营范围' : _scope,
-                          canClick: true, onClick: () {
-                            Navigator.push<String>(context, MaterialPageRoute(
-                                builder: (context) =>
-                                    CompanyBusinessScope(scope: _scope,)
-                            )).then((value) {
-                              if (value != null) {
-                                setState(() {
-                                  _scope = value;
-                                });
-                              }
-                            });
-                          }),
+                      // Item2("统一信用代码", _unifiedCreditCode.isEmpty
+                      //     ? '请填写统一信用代码'
+                      //     : _unifiedCreditCode, canClick: true, onClick: () {
+                      //   Navigator.push<String>(context, MaterialPageRoute(
+                      //       builder: (context) => CompanyUnifiedCreditCode(code:_unifiedCreditCode)
+                      //   )).then((value) {
+                      //     if (value != null) {
+                      //       setState(() {
+                      //         _unifiedCreditCode = value;
+                      //       });
+                      //     }
+                      //   });
+                      // }),
+                      // Item2("经营范围", _scope.isEmpty ? '请填写经营范围' : _scope,
+                      //     canClick: true, onClick: () {
+                      //       Navigator.push<String>(context, MaterialPageRoute(
+                      //           builder: (context) =>
+                      //               CompanyBusinessScope(scope: _scope,)
+                      //       )).then((value) {
+                      //         if (value != null) {
+                      //           setState(() {
+                      //             _scope = value;
+                      //           });
+                      //         }
+                      //       });
+                      //     }),
                       ProfileDivider(marginBottom: 78)
                     ],
                   ),

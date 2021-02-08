@@ -87,6 +87,7 @@ class _RegisterState extends State<Register> {
         backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       ),
       body: SafeArea(
+        top:false,
         child: Container(
           padding: EdgeInsets.only(
             left: ScreenUtil().setWidth(124),
@@ -97,7 +98,42 @@ class _RegisterState extends State<Register> {
           child: ListView(
             physics: BouncingScrollPhysics(),
             children: <Widget>[
+              // Container(
+              //   decoration: BoxDecoration(
+              //     border: Border(
+              //       bottom: BorderSide(
+              //         color: Color.fromRGBO(229, 229, 229, 1),
+              //         width: ScreenUtil().setWidth(2),
+              //       ),
+              //     ),
+              //   ),
+              //   child: Row(
+              //     children: <Widget>[
+              //       Expanded(
+              //         child: TextField(
+              //           controller: _nameController,
+              //           maxLines: 1,
+              //           textAlign: TextAlign.start,
+              //           cursorColor: Color.fromRGBO(159, 199, 235, 1),
+              //           style: TextStyle(
+              //               fontSize: ScreenUtil().setSp(24),
+              //               color: Color.fromRGBO(95, 94, 94, 1)),
+              //           decoration: InputDecoration(
+              //             border: InputBorder.none,
+              //             hintText: '名称',
+              //             hintStyle: TextStyle(
+              //               fontSize: ScreenUtil().setSp(24),
+              //               color: Color.fromRGBO(176, 181, 180, 1),
+              //             ),
+              //           ),
+              //           onChanged: (text) {},
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
               Container(
+                margin: EdgeInsets.only(top: ScreenUtil().setWidth(14)),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -110,7 +146,8 @@ class _RegisterState extends State<Register> {
                   children: <Widget>[
                     Expanded(
                       child: TextField(
-                        controller: _nameController,
+                        controller: _phoneController,
+                        keyboardType: TextInputType.phone,
                         maxLines: 1,
                         textAlign: TextAlign.start,
                         cursorColor: Color.fromRGBO(159, 199, 235, 1),
@@ -118,14 +155,75 @@ class _RegisterState extends State<Register> {
                             fontSize: ScreenUtil().setSp(24),
                             color: Color.fromRGBO(95, 94, 94, 1)),
                         decoration: InputDecoration(
+                          contentPadding:
+                          EdgeInsets.only(right: ScreenUtil().setWidth(14)),
                           border: InputBorder.none,
-                          hintText: '名称',
+                          hintText: '手机号码',
                           hintStyle: TextStyle(
                             fontSize: ScreenUtil().setSp(24),
                             color: Color.fromRGBO(176, 181, 180, 1),
                           ),
                         ),
                         onChanged: (text) {},
+                      ),
+                    ),
+                    GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      child: Text(
+                        _countDownTime > 0
+                            ? "${_countDownTime}s后重新获取"
+                            : "获取验证码",
+                        style: TextStyle(
+                          fontSize: ScreenUtil().setSp(24),
+                          color: Color.fromRGBO(176, 181, 180, 1),
+                        ),
+                      ),
+                      onTap: () {
+                        FocusScope.of(context).requestFocus(FocusNode());
+                        if (_countDownTime > 0) return;
+                        if (_phoneController.text.isEmpty) {
+                          Utils.showToast('请填写手机号');
+                          return;
+                        }
+                        _getPhoneCode(_phoneController.text);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(
+                  top: ScreenUtil().setWidth(14),
+                ),
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Color.fromRGBO(229, 229, 229, 1),
+                      width: ScreenUtil().setWidth(2),
+                    ),
+                  ),
+                ),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        maxLines: 1,
+                        inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+                        controller: _codeController,
+                        textAlign: TextAlign.start,
+                        cursorColor: Color.fromRGBO(159, 199, 235, 1),
+                        style: TextStyle(
+                            fontSize: ScreenUtil().setSp(24),
+                            color: Color.fromRGBO(95, 94, 94, 1)),
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: '验证码',
+                          hintStyle: TextStyle(
+                            fontSize: ScreenUtil().setSp(24),
+                            color: Color.fromRGBO(176, 181, 180, 1),
+                          ),
+                        ),
                       ),
                     ),
                   ],
@@ -170,6 +268,7 @@ class _RegisterState extends State<Register> {
               Container(
                 margin: EdgeInsets.only(
                   top: ScreenUtil().setWidth(14),
+                  bottom: ScreenUtil().setWidth(70),
                 ),
                 decoration: BoxDecoration(
                   border: Border(
@@ -205,141 +304,43 @@ class _RegisterState extends State<Register> {
                   ],
                 ),
               ),
-              Container(
-                margin: EdgeInsets.only(
-                  top: ScreenUtil().setWidth(14),
-                ),
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Color.fromRGBO(229, 229, 229, 1),
-                      width: ScreenUtil().setWidth(2),
-                    ),
-                  ),
-                ),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: TextField(
-                        keyboardType: TextInputType.emailAddress,
-                        maxLines: 1,
-                        controller: _emailController,
-                        textAlign: TextAlign.start,
-                        cursorColor: Color.fromRGBO(159, 199, 235, 1),
-                        style: TextStyle(
-                            fontSize: ScreenUtil().setSp(24),
-                            color: Color.fromRGBO(95, 94, 94, 1)),
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: '请填写邮箱',
-                          hintStyle: TextStyle(
-                            fontSize: ScreenUtil().setSp(24),
-                            color: Color.fromRGBO(176, 181, 180, 1),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: ScreenUtil().setWidth(14)),
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Color.fromRGBO(229, 229, 229, 1),
-                      width: ScreenUtil().setWidth(2),
-                    ),
-                  ),
-                ),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: TextField(
-                        controller: _phoneController,
-                        keyboardType: TextInputType.phone,
-                        maxLines: 1,
-                        textAlign: TextAlign.start,
-                        cursorColor: Color.fromRGBO(159, 199, 235, 1),
-                        style: TextStyle(
-                            fontSize: ScreenUtil().setSp(24),
-                            color: Color.fromRGBO(95, 94, 94, 1)),
-                        decoration: InputDecoration(
-                          contentPadding:
-                              EdgeInsets.only(right: ScreenUtil().setWidth(14)),
-                          border: InputBorder.none,
-                          hintText: '手机号码',
-                          hintStyle: TextStyle(
-                            fontSize: ScreenUtil().setSp(24),
-                            color: Color.fromRGBO(176, 181, 180, 1),
-                          ),
-                        ),
-                        onChanged: (text) {},
-                      ),
-                    ),
-                    GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      child: Text(
-                        _countDownTime > 0
-                            ? "${_countDownTime}s后重新获取"
-                            : "获取验证码",
-                        style: TextStyle(
-                          fontSize: ScreenUtil().setSp(24),
-                          color: Color.fromRGBO(176, 181, 180, 1),
-                        ),
-                      ),
-                      onTap: () {
-                        FocusScope.of(context).requestFocus(FocusNode());
-                        if (_countDownTime > 0) return;
-                        if (_phoneController.text.isEmpty) {
-                          Utils.showToast('请填写手机号');
-                          return;
-                        }
-                        _getPhoneCode(_phoneController.text);
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(
-                  top: ScreenUtil().setWidth(14),
-                  bottom: ScreenUtil().setWidth(70),
-                ),
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Color.fromRGBO(229, 229, 229, 1),
-                      width: ScreenUtil().setWidth(2),
-                    ),
-                  ),
-                ),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: TextField(
-                        keyboardType: TextInputType.number,
-                        maxLines: 1,
-                        inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-                        controller: _codeController,
-                        textAlign: TextAlign.start,
-                        cursorColor: Color.fromRGBO(159, 199, 235, 1),
-                        style: TextStyle(
-                            fontSize: ScreenUtil().setSp(24),
-                            color: Color.fromRGBO(95, 94, 94, 1)),
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: '验证码',
-                          hintStyle: TextStyle(
-                            fontSize: ScreenUtil().setSp(24),
-                            color: Color.fromRGBO(176, 181, 180, 1),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              // Container(
+              //   margin: EdgeInsets.only(
+              //     top: ScreenUtil().setWidth(14),
+              //   ),
+              //   decoration: BoxDecoration(
+              //     border: Border(
+              //       bottom: BorderSide(
+              //         color: Color.fromRGBO(229, 229, 229, 1),
+              //         width: ScreenUtil().setWidth(2),
+              //       ),
+              //     ),
+              //   ),
+              //   child: Row(
+              //     children: <Widget>[
+              //       Expanded(
+              //         child: TextField(
+              //           keyboardType: TextInputType.emailAddress,
+              //           maxLines: 1,
+              //           controller: _emailController,
+              //           textAlign: TextAlign.start,
+              //           cursorColor: Color.fromRGBO(159, 199, 235, 1),
+              //           style: TextStyle(
+              //               fontSize: ScreenUtil().setSp(24),
+              //               color: Color.fromRGBO(95, 94, 94, 1)),
+              //           decoration: InputDecoration(
+              //             border: InputBorder.none,
+              //             hintText: '请填写邮箱',
+              //             hintStyle: TextStyle(
+              //               fontSize: ScreenUtil().setSp(24),
+              //               color: Color.fromRGBO(176, 181, 180, 1),
+              //             ),
+              //           ),
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
               MaterialButton(
                 elevation: 0,
                 color: Colors.white,
@@ -351,8 +352,16 @@ class _RegisterState extends State<Register> {
                   String name = _nameController.text;
                   String pwd2 = _pwd2Controller.text;
                   String code=_codeController.text;
-                  if (name.isEmpty) {
-                    Utils.showToast('请填写用户名');
+                  // if (name.isEmpty) {
+                  //   Utils.showToast('请填写用户名');
+                  //   return;
+                  // }
+                  if (phone.isEmpty) {
+                    Utils.showToast('请填写手机号');
+                    return;
+                  }
+                  if (code.isEmpty) {
+                    Utils.showToast('请填写验证码');
                     return;
                   }
                   if (pwd.isEmpty) {
@@ -371,18 +380,10 @@ class _RegisterState extends State<Register> {
                     Utils.showToast('两次密码输入不一致');
                     return;
                   }
-                  if (email.isEmpty) {
-                    Utils.showToast('请填写邮箱');
-                    return;
-                  }
-                  if (phone.isEmpty) {
-                    Utils.showToast('请填写手机号');
-                    return;
-                  }
-                  if (code.isEmpty) {
-                    Utils.showToast('请填写验证码');
-                    return;
-                  }
+                  // if (email.isEmpty) {
+                  //   Utils.showToast('请填写邮箱');
+                  //   return;
+                  // }
                   userModel.register(
                       context, name, pwd, pwd2, phone, email,code)
                       .then((value) {

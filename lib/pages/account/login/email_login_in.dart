@@ -79,6 +79,7 @@ class _EmailLoginInState extends State<EmailLoginIn> {
         backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       ),
       body: SafeArea(
+        top:false,
         child: Container(
           padding: EdgeInsets.only(
             left: ScreenUtil().setWidth(124),

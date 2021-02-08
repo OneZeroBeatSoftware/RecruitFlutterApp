@@ -11,6 +11,9 @@ import 'package:recruit_app/model/mine_model.dart';
 import 'package:recruit_app/pages/companys/company_detail.dart';
 import 'package:recruit_app/pages/jobs/candidate_room.dart';
 import 'package:recruit_app/pages/jobs/chat_room.dart';
+import 'package:recruit_app/pages/mine/online_resume.dart';
+import 'package:recruit_app/utils/net_utils.dart';
+import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/craft_list_dialog.dart';
 import 'package:recruit_app/widgets/list_menu_dialog.dart';
 import 'package:recruit_app/pages/jobs/report.dart';
@@ -59,7 +62,9 @@ class _JobDetailState extends State<JobDetail> {
     WidgetsBinding.instance.addPostFrameCallback((i) {
       _jobModel = Provider.of<JobModel>(context);
       getJobDetail(widget.jobId);
-      _getResumeList(true);
+      if(Application.sp.get('jobSeekerId')!=null){
+        _getResumeList(true);
+      }
     });
   }
 
@@ -101,7 +106,10 @@ class _JobDetailState extends State<JobDetail> {
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () {
-                  _operateStar(widget.jobId, _starId);
+                  NetUtils.validateLogin(context,
+                      isLogin: Application.sp.get('jobSeekerId') != null, callback: () {
+                        _operateStar(widget.jobId, _starId);
+                      });
                 },
                 child: Image.asset(
                   _isCollected?'images/img_heart_focus.png':'images/img_heart_unfocus.png',
@@ -115,7 +123,10 @@ class _JobDetailState extends State<JobDetail> {
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Report(reportType: ReportType.job,reportId: widget.jobId,)));
+                  NetUtils.validateLogin(context,
+                      isLogin: Application.sp.get('jobSeekerId') != null, callback: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>Report(reportType: ReportType.job,reportId: widget.jobId,)));
+                      });
 //                  showGeneralDialog(
 //                    context: context,
 //                    pageBuilder: (context, animation1, animation2) { return null;},
@@ -162,7 +173,10 @@ class _JobDetailState extends State<JobDetail> {
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () {
-                  shareJob();
+                  NetUtils.validateLogin(context,
+                      isLogin: Application.sp.get('jobSeekerId') != null, callback: () {
+                        shareJob();
+                      });
                 },
                 child: Image.asset(
                   'images/img_share.png',
@@ -510,11 +524,13 @@ class _JobDetailState extends State<JobDetail> {
                         child: MaterialButton(
                           onPressed: () {
                             FocusScope.of(context).requestFocus(FocusNode());
-                            if(MineModel.instance.resumeList.length<1){
-                              _getResumeList(false);
-                              return;
-                            }
-                            _showResumeList();
+                            NetUtils.validateLogin(context,isLogin:Application.sp.get('jobSeekerId')!=null,callback: (){
+                              if(MineModel.instance.resumeList.length<1){
+                                _getResumeList(false);
+                                return;
+                              }
+                              _showResumeList();
+                            });
                           },
                           textColor: Color.fromRGBO(159, 199, 235, 1),
                           child: Text("立即沟通",style: TextStyle(fontSize: ScreenUtil().setSp(32),),),
@@ -738,6 +754,21 @@ class _JobDetailState extends State<JobDetail> {
 
   /// 发送简历显示简历列表
   void _showResumeList() {
+    if(MineModel.instance.resumeList.length<1){
+      Utils.showToast("您还未填写简历，请先填写简历");
+      Navigator.push(context, MaterialPageRoute(
+          builder: (context) => OnlineResume()))
+          .then((value) {
+        if (value != null && value == 'success') {
+          _getResumeList(false);
+        }
+      });
+      return;
+    }
+    if(MineModel.instance.resumeList.length==1){
+      _saveCandidate(widget.jobId, Application.sp.getString('jobSeekerId'), MineModel.instance.resumeList[0]);
+      return;
+    }
     showCupertinoModalPopup(
       context: context,
       builder: (context) {

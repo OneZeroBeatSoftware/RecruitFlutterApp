@@ -164,7 +164,7 @@ class BossMineModel{
         _jobList.clear();
       }
       if (jobEntity.data.records.length <= 0 && pageIndex == 1) {
-        Utils.showToast('您还没有发布岗位哦！');
+        Utils.showToast('您还没有岗位哦！请先发布岗位');
         return null;
       } else if (jobEntity.data.records.length <= 0) {
         Utils.showToast('没有更多岗位啦！');

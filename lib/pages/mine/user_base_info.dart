@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:recruit_app/application.dart';
 import 'package:recruit_app/entity/base_info_entity.dart';
+import 'package:recruit_app/entity/base_resp_entity.dart';
 import 'package:recruit_app/model/file_model.dart';
 import 'package:recruit_app/model/mine_model.dart';
 import 'package:recruit_app/utils/utils.dart';
@@ -331,11 +332,36 @@ class _UserBaseInfoState extends State<UserBaseInfo> {
     BaseInfoEntity _baseEntity = await MineModel.instance.saveJobSeeker(
         context, id, Application.sp.getString('userId'),avatar,name);
     if (_baseEntity != null) {
+      if(widget.enterType==EnterType.init) {
+        _saveResume(_baseEntity.data.id,name,avatar);
+        return;
+      }
       Utils.showToast(_baseEntity.msg ?? '修改成功');
       Application.sp.setString('jobSeekerId',_baseEntity.data.id);
       Application.sp.setString('jobSeekerName', name);
       Application.sp.setString('jobSeekerAvatar',avatar);
       Navigator.pop(context,UserBaseInfoResult(name, avatar));
+    }
+  }
+
+  /// 设置默认的空简历
+  _saveResume(String id,String name,String avatar) async {
+    Map<String,dynamic> resume={};
+
+    resume['defaultResume']=1;
+    resume['state']=1;
+    resume['jobSeekerId']=id;
+
+    Map<String,dynamic> params={};
+    params['resume']=resume;
+
+    BaseRespEntity _baseEntity = await MineModel.instance.saveResume(context,params);
+    Utils.showToast('添加成功');
+    Application.sp.setString('jobSeekerId',id);
+    Application.sp.setString('jobSeekerName', name);
+    Application.sp.setString('jobSeekerAvatar',avatar);
+    Navigator.pop(context,UserBaseInfoResult(name, avatar));
+    if (_baseEntity != null) {
     }
   }
 

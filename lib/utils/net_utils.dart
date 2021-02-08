@@ -51,7 +51,9 @@ import 'package:recruit_app/entity/star_job_entity.dart';
 import 'package:recruit_app/entity/resume_list_entity.dart';
 import 'package:recruit_app/entity/user_entity.dart';
 import 'package:recruit_app/entity/work_date_entity.dart';
+import 'package:recruit_app/pages/account/login/login_in.dart';
 import 'package:recruit_app/utils/token_interceptor.dart';
+import 'package:recruit_app/utils/utils.dart';
 import 'package:recruit_app/widgets/loading.dart';
 
 import 'custom_log_interceptor.dart';
@@ -226,6 +228,24 @@ class NetUtils {
     }
   }
 
+  static void validateLogin(BuildContext context,{bool isLogin=true,Function callback}){
+    if(isLogin){
+      if (callback!=null) {
+        callback();
+      }
+      return;
+    }
+    Utils.showToast('还未登录，请先登录！');
+    Navigator.push<String>(
+      context,
+      MaterialPageRoute(builder: (context) => LoginIn(isReLogin: true,)),
+    ).then((value){
+      if (value != null && value == 'success'&&callback!=null) {
+        callback();
+      }
+    });
+  }
+
   /// 获取广告图
   static Future<BannerEntity> getBanner(BuildContext context) async {
     var response = await _get(context, '/banner/list',isShowLoading: false);
@@ -253,12 +273,12 @@ class NetUtils {
   static Future<UserEntity> register(BuildContext context, String userName,
       String password, String password2, String phone, String email,String code) async {
     var response = await _post(context, '/user/register', params: {
-      'userName': userName,
+      // 'userName': userName,
       'code': code,
       'password': password,
       'password2': password2,
       'phone': phone,
-      'email': email
+      // 'email': email
     });
     return UserEntity().fromJson(response.data);
   }

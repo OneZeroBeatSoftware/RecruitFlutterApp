@@ -35,6 +35,7 @@ class WebViewWidget extends StatelessWidget {
       ),
       backgroundColor: Colors.white,
       body: SafeArea(
+        top: false,
         child: WebView(
           initialUrl: url,
           javascriptMode: JavascriptMode.unrestricted,
