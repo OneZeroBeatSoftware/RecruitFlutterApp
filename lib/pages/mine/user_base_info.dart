@@ -352,6 +352,9 @@ class _UserBaseInfoState extends State<UserBaseInfo> {
     resume['state']=1;
     resume['jobSeekerId']=id;
 
+    resume['education']=8;
+    resume['workDate']=27;
+
     Map<String,dynamic> params={};
     params['resume']=resume;
 
