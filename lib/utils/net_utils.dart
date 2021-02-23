@@ -60,7 +60,7 @@ import 'custom_log_interceptor.dart';
 
 class NetUtils {
   static Dio _dio;
- // static final String baseUrl = 'http://192.168.0.200:8855/recruit';
+ // static final String baseUrl = 'http://192.168.0.109:8855/recruit';
  static final String baseUrl = 'https://www.onezerobeat.com/recruit';
   // static final String baseUrl = 'http://34.229.235.238/recruit';
 

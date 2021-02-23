@@ -237,6 +237,7 @@ class BossMineModel{
 //      Utils.showToast(baseRespEntity.msg??'');
       return baseRespEntity.data;
     }
+    Utils.showToast(baseRespEntity.msg ?? '进入房间失败');
     return null;
   }
 

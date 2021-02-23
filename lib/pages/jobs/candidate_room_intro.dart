@@ -61,7 +61,7 @@ class CandidateRoomIntro extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Expanded(
-                        child: Text('简历：${resumeData.resume.resumeName}',
+                        child: Text('简历：${resumeData.resume.resumeName??'JobPin简历'}',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -89,30 +89,32 @@ class CandidateRoomIntro extends StatelessWidget {
                     spacing: ScreenUtil().setWidth(12),
                     runSpacing: ScreenUtil().setWidth(12),
                     children: [
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: ScreenUtil().setWidth(24),
-                            vertical: ScreenUtil().setWidth(4)),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(
-                            ScreenUtil().setWidth(1000),
-                          ),
-                          border: Border.all(
-                            color: Color.fromRGBO(159, 199, 235, 1),
-                            width: ScreenUtil().setWidth(1),
-                          ),
-                        ),
-                        child: Text(
-                          '${resumeData.resume.workDateName}',
-                          textAlign: TextAlign.center,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: ScreenUtil().setSp(22),
-                            color: Color.fromRGBO(159, 199, 235, 1),
-                          ),
-                        ),
-                      ),
+                      (resumeData.resume.workDateName != null && resumeData.resume.workDateName.isNotEmpty)?
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: ScreenUtil().setWidth(24),
+                                vertical: ScreenUtil().setWidth(4)),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(
+                                ScreenUtil().setWidth(1000),
+                              ),
+                              border: Border.all(
+                                color: Color.fromRGBO(159, 199, 235, 1),
+                                width: ScreenUtil().setWidth(1),
+                              ),
+                            ),
+                            child: Text(
+                              '${resumeData.resume.workDateName}',
+                              textAlign: TextAlign.center,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: ScreenUtil().setSp(22),
+                                color: Color.fromRGBO(159, 199, 235, 1),
+                              ),
+                            ),
+                          ):Container(),
+                      (resumeData.resume.age != null && resumeData.resume.age.isNotEmpty)?
                       Container(
                         padding: EdgeInsets.symmetric(
                             horizontal: ScreenUtil().setWidth(24),
@@ -136,7 +138,8 @@ class CandidateRoomIntro extends StatelessWidget {
                             color: Color.fromRGBO(159, 199, 235, 1),
                           ),
                         ),
-                      ),
+                      ):Container(),
+                      (resumeData.resume.educationName != null && resumeData.resume.educationName.isNotEmpty)?
                       Container(
                         padding: EdgeInsets.symmetric(
                             horizontal: ScreenUtil().setWidth(24),
@@ -160,7 +163,7 @@ class CandidateRoomIntro extends StatelessWidget {
                             color: Color.fromRGBO(159, 199, 235, 1),
                           ),
                         ),
-                      ),
+                      ):Container(),
                     ],
                   ),
                   SizedBox(
