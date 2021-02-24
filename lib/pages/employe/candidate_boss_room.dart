@@ -336,8 +336,8 @@ class _CandidateBossRoomState extends State<CandidateBossRoom> {
         leading: IconButton(
             icon: Image.asset(
               'images/img_arrow_left_black.png',
-              width: ScreenUtil().setWidth(15),
-              height: ScreenUtil().setWidth(30),
+              width: ScreenUtil().setWidth(20),
+              height: ScreenUtil().setWidth(36),
               fit: BoxFit.contain,
             ),
             onPressed: () {

@@ -126,8 +126,9 @@ class _BossChatRoomState extends State<BossChatRoom> {
           leading: IconButton(
               icon: Image.asset(
                 'images/ic_back_arrow.png',
-                width: ScreenUtil().setWidth(15),
-                height: ScreenUtil().setWidth(30),
+                width: ScreenUtil().setWidth(20),
+                height: ScreenUtil().setWidth(36),
+                fit: BoxFit.contain,
               ),
               onPressed: () {
                 Navigator.pop(context);
