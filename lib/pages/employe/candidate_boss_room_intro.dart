@@ -56,7 +56,7 @@ class CandidateBossRoomIntro extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Expanded(
-                      child: Text('简历：${resumeData.resume.resumeName}',
+                      child: Text('简历：${resumeData.resume.resumeName??'JobPin简历'}',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -85,6 +85,7 @@ class CandidateBossRoomIntro extends StatelessWidget {
                   spacing: ScreenUtil().setWidth(12),
                   runSpacing: ScreenUtil().setWidth(12),
                   children: [
+                    (resumeData.resume.workDateName != null && resumeData.resume.workDateName.isNotEmpty)?
                     Container(
                       padding: EdgeInsets.symmetric(
                           horizontal: ScreenUtil().setWidth(24),
@@ -108,7 +109,8 @@ class CandidateBossRoomIntro extends StatelessWidget {
                           color: Color.fromRGBO(159, 199, 235, 1),
                         ),
                       ),
-                    ),
+                    ):Container(),
+                    (resumeData.resume.age != null && resumeData.resume.age.isNotEmpty)?
                     Container(
                       padding: EdgeInsets.symmetric(
                           horizontal: ScreenUtil().setWidth(24),
@@ -132,7 +134,8 @@ class CandidateBossRoomIntro extends StatelessWidget {
                           color: Color.fromRGBO(159, 199, 235, 1),
                         ),
                       ),
-                    ),
+                    ):Container(),
+                    (resumeData.resume.educationName != null && resumeData.resume.educationName.isNotEmpty)?
                     Container(
                       padding: EdgeInsets.symmetric(
                           horizontal: ScreenUtil().setWidth(24),
@@ -156,7 +159,7 @@ class CandidateBossRoomIntro extends StatelessWidget {
                           color: Color.fromRGBO(159, 199, 235, 1),
                         ),
                       ),
-                    ),
+                    ):Container(),
                   ],
                 ),
                 SizedBox(

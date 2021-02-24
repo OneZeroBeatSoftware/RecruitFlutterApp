@@ -354,7 +354,7 @@ class _ChatRoomState extends State<ChatRoom> {
                               return;
                             }
                             editController.text='';
-                            model.sendMsg(widget.toId,text);
+                            model.sendMsg(widget.toId,text,roleFlag: '1');
                           },
                         ),
                       ),

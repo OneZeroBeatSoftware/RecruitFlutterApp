@@ -151,7 +151,7 @@ class _BossMineState extends State<BossMine> {
                                       fontSize: ScreenUtil().setSp(28),
                                     ),
                                   ),
-                                  Text(
+                                  Flexible(child: Text(
                                     '(${_mineInfoData!=null?_mineInfoData.applyCount3:0})',
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
@@ -159,7 +159,7 @@ class _BossMineState extends State<BossMine> {
                                       color: Color.fromRGBO(227, 226, 226, 1),
                                       fontSize: ScreenUtil().setSp(28),
                                     ),
-                                  ),
+                                  ),),
                                 ],
                               ),
                               onTap: () {
@@ -172,14 +172,14 @@ class _BossMineState extends State<BossMine> {
                               },
                             ),
                           ),
-//                          Container(
-//                            margin: EdgeInsets.symmetric(
-//                              horizontal: ScreenUtil().setWidth(10),
-//                            ),
-//                            width: ScreenUtil().setWidth(1),
-//                            height: ScreenUtil().setHeight(28),
-//                            color: Colors.white,
-//                          ),
+                         // Container(
+                         //   margin: EdgeInsets.symmetric(
+                         //     horizontal: ScreenUtil().setWidth(10),
+                         //   ),
+                         //   width: ScreenUtil().setWidth(1),
+                         //   height: ScreenUtil().setHeight(28),
+                         //   color: Colors.white,
+                         // ),
                           Expanded(
                             flex: 1,
                             child: GestureDetector(
@@ -196,7 +196,7 @@ class _BossMineState extends State<BossMine> {
                                       fontSize: ScreenUtil().setSp(28),
                                     ),
                                   ),
-                                  Text(
+                                  Flexible(child: Text(
                                     '(${_mineInfoData!=null?_mineInfoData.applyCount1:0})',
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
@@ -204,7 +204,7 @@ class _BossMineState extends State<BossMine> {
                                       color: Color.fromRGBO(227, 226, 226, 1),
                                       fontSize: ScreenUtil().setSp(28),
                                     ),
-                                  ),
+                                  ),),
                                 ],
                               ),
                               onTap: () {

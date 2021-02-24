@@ -156,7 +156,7 @@ class _MineState extends State<Mine> {
                                   fontSize: ScreenUtil().setSp(28),
                                 ),
                               ),
-                              Text(
+                              Flexible(child: Text(
                                 '(${_mineInfoData!=null?_mineInfoData.applyCount3:0})',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -164,7 +164,7 @@ class _MineState extends State<Mine> {
                                   color: Color.fromRGBO(227, 226, 226, 1),
                                   fontSize: ScreenUtil().setSp(28),
                                 ),
-                              ),
+                              ),),
                             ],
                           ),
                           onTap: () {
@@ -175,14 +175,57 @@ class _MineState extends State<Mine> {
                           },
                         ),
                       ),
-                      Container(
-                        margin: EdgeInsets.symmetric(
-                          horizontal: ScreenUtil().setWidth(10),
-                        ),
-                        width: ScreenUtil().setWidth(1),
-                        height: ScreenUtil().setWidth(28),
-                        color: Colors.white,
-                      ),
+                      // Container(
+                      //   margin: EdgeInsets.symmetric(
+                      //     horizontal: ScreenUtil().setWidth(10),
+                      //   ),
+                      //   width: ScreenUtil().setWidth(1),
+                      //   height: ScreenUtil().setWidth(28),
+                      //   color: Colors.white,
+                      // ),
+                      // Expanded(
+                      //   flex: 1,
+                      //   child: GestureDetector(
+                      //     behavior: HitTestBehavior.opaque,
+                      //     child: Row(
+                      //       mainAxisAlignment: MainAxisAlignment.center,
+                      //       children: <Widget>[
+                      //         Text(
+                      //           '已投递',
+                      //           maxLines: 1,
+                      //           overflow: TextOverflow.ellipsis,
+                      //           style: TextStyle(
+                      //             color: Color.fromRGBO(227, 226, 226, 1),
+                      //             fontSize: ScreenUtil().setSp(28),
+                      //           ),
+                      //         ),
+                      //         Text(
+                      //           '(${_mineInfoData!=null?_mineInfoData.applyCount2:0})',
+                      //           maxLines: 1,
+                      //           overflow: TextOverflow.ellipsis,
+                      //           style: TextStyle(
+                      //             color: Color.fromRGBO(227, 226, 226, 1),
+                      //             fontSize: ScreenUtil().setSp(28),
+                      //           ),
+                      //         ),
+                      //       ],
+                      //     ),
+                      //     onTap: () {
+                      //       Navigator.push(
+                      //           context,
+                      //           MaterialPageRoute(
+                      //               builder: (context) => SendResumeJob()));
+                      //     },
+                      //   ),
+                      // ),
+                      // Container(
+                      //   margin: EdgeInsets.symmetric(
+                      //     horizontal: ScreenUtil().setWidth(10),
+                      //   ),
+                      //   width: ScreenUtil().setWidth(1),
+                      //   height: ScreenUtil().setWidth(28),
+                      //   color: Colors.white,
+                      // ),
                       Expanded(
                         flex: 1,
                         child: GestureDetector(
@@ -191,7 +234,7 @@ class _MineState extends State<Mine> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Text(
-                                '已投递',
+                                '面试',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
@@ -199,50 +242,7 @@ class _MineState extends State<Mine> {
                                   fontSize: ScreenUtil().setSp(28),
                                 ),
                               ),
-                              Text(
-                                '(${_mineInfoData!=null?_mineInfoData.applyCount2:0})',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  color: Color.fromRGBO(227, 226, 226, 1),
-                                  fontSize: ScreenUtil().setSp(28),
-                                ),
-                              ),
-                            ],
-                          ),
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SendResumeJob()));
-                          },
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(
-                          horizontal: ScreenUtil().setWidth(10),
-                        ),
-                        width: ScreenUtil().setWidth(1),
-                        height: ScreenUtil().setWidth(28),
-                        color: Colors.white,
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: GestureDetector(
-                          behavior: HitTestBehavior.opaque,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              Text(
-                                '待面试',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  color: Color.fromRGBO(227, 226, 226, 1),
-                                  fontSize: ScreenUtil().setSp(28),
-                                ),
-                              ),
-                              Text(
+                              Flexible(child: Text(
                                 '(${_mineInfoData!=null?_mineInfoData.applyCount1:0})',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -250,7 +250,7 @@ class _MineState extends State<Mine> {
                                   color: Color.fromRGBO(227, 226, 226, 1),
                                   fontSize: ScreenUtil().setSp(28),
                                 ),
-                              ),
+                              ),),
                             ],
                           ),
                           onTap: () {
@@ -261,6 +261,8 @@ class _MineState extends State<Mine> {
                           },
                         ),
                       ),
+                      Expanded(flex: 1,
+                          child: Text("")),
                     ],
                   )
                 ],

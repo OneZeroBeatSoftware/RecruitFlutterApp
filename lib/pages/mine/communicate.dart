@@ -5,13 +5,19 @@ import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:recruit_app/application.dart';
+import 'package:recruit_app/entity/msg_list_entity.dart';
 import 'package:recruit_app/model/boss_mine_model.dart';
+import 'package:recruit_app/model/chat_history_model.dart';
 import 'package:recruit_app/model/identity_model.dart';
 import 'package:recruit_app/model/mine_model.dart';
+import 'package:recruit_app/model/msg_type.dart';
 import 'package:recruit_app/pages/boss/boss_communicate_item.dart';
+import 'package:recruit_app/pages/employe/boss_chat_room.dart';
 import 'package:recruit_app/pages/employe/employee_detail.dart';
+import 'package:recruit_app/pages/jobs/chat_room.dart';
 import 'package:recruit_app/pages/jobs/job_detail.dart';
 import 'package:recruit_app/pages/mine/communicate_row_item.dart';
+import 'package:recruit_app/pages/msg/msg_chat_item.dart';
 import 'package:recruit_app/widgets/common_appbar_widget.dart';
 import 'package:recruit_app/widgets/empty_widget.dart';
 
@@ -73,76 +79,96 @@ class _CommunicateJobState extends State<CommunicateJob> {
           child: EasyRefresh.custom(
             controller: _refreshController,
             firstRefresh: true,
-            emptyWidget: identityModel.identity == Identity.boss
-                ? (BossMineModel.instance.applyList.length > 0
-                ? null
-                : EmptyWidget(remindText: '没有沟通记录哦',))
-                : (MineModel.instance.applyList.length > 0 ? null : EmptyWidget(
-              remindText: '没有沟通记录哦',)),
+            // emptyWidget: identityModel.identity == Identity.boss
+            //     ? (BossMineModel.instance.applyList.length > 0
+            //     ? null
+            //     : EmptyWidget(remindText: '没有沟通记录哦',))
+            //     : (MineModel.instance.applyList.length > 0 ? null : EmptyWidget(
+            //   remindText: '没有沟通记录哦',)),
+            emptyWidget: ChatHistoryModel.instance.msgList.length > 0 ? null : EmptyWidget(remindText: '没有沟通记录哦',),
             header: MaterialHeader(),
             footer:
             ClassicalFooter(infoColor: Color.fromRGBO(159, 199, 235, 1)),
             onRefresh: () async {
               _pageIndex = 1;
+              // if (identityModel.identity == Identity.boss) {
+              //   _getRecruiterApplyList();
+              // } else {
+              //   _getApplyList();
+              // }
               if (identityModel.identity == Identity.boss) {
-                _getRecruiterApplyList();
+                getMsgList(MsgType.recruiter);
               } else {
-                _getApplyList();
+                getMsgList(MsgType.seeker);
               }
               _refreshController.resetLoadState();
             },
             onLoad: () async {
               if (identityModel.identity == Identity.boss) {
-                _getRecruiterApplyList();
+                getMsgList(MsgType.recruiter);
               } else {
-                _getApplyList();
+                getMsgList(MsgType.seeker);
               }
+              // if (identityModel.identity == Identity.boss) {
+              //   _getRecruiterApplyList();
+              // } else {
+              //   _getApplyList();
+              // }
               _refreshController.resetLoadState();
             },
             slivers: <Widget>[
               SliverList(
                   delegate: SliverChildBuilderDelegate((context, index) {
-                    if(identityModel.identity==Identity.boss){
-                      if (index < BossMineModel.instance.applyList.length) {
-                        return GestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            child: BossCommunicateItem(
-                                resume: BossMineModel.instance.applyList[index],
-                                index: index,
-                                lastItem: index == BossMineModel.instance.applyList.length - 1),
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        EmployeeDetail(
-                                          resumeDetailType: ResumeDetailType
-                                              .resume,
-                                          resumeId: BossMineModel.instance
-                                              .applyList[index].resumeId,),
-                                  ));
-                            });
-                      }
-                    }else {
-                      if (index < MineModel.instance.applyList.length) {
-                        return GestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            child: CommunicateRowItem(
-                                job: MineModel.instance.applyList[index],
-                                index: index,
-                                lastItem: index == MineModel.instance.applyList.length - 1),
-                            onTap: () {
-                                //默认跳转行为
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => JobDetail(jobId: MineModel.instance.applyList[index].jobId,),
-                                    ));
-                            });
-                      }
+                    // if(identityModel.identity==Identity.boss){
+                    //   if (index < BossMineModel.instance.applyList.length) {
+                    //     return GestureDetector(
+                    //         behavior: HitTestBehavior.opaque,
+                    //         child: BossCommunicateItem(
+                    //             resume: BossMineModel.instance.applyList[index],
+                    //             index: index,
+                    //             lastItem: index == BossMineModel.instance.applyList.length - 1),
+                    //         onTap: () {
+                    //           Navigator.push(
+                    //               context,
+                    //               MaterialPageRoute(
+                    //                 builder: (context) =>
+                    //                     EmployeeDetail(
+                    //                       resumeDetailType: ResumeDetailType
+                    //                           .resume,
+                    //                       resumeId: BossMineModel.instance
+                    //                           .applyList[index].resumeId,),
+                    //               ));
+                    //         });
+                    //   }
+                    // }else {
+                    //   if (index < MineModel.instance.applyList.length) {
+                    //     return GestureDetector(
+                    //         behavior: HitTestBehavior.opaque,
+                    //         child: CommunicateRowItem(
+                    //             job: MineModel.instance.applyList[index],
+                    //             index: index,
+                    //             lastItem: index == MineModel.instance.applyList.length - 1),
+                    //         onTap: () {
+                    //             //默认跳转行为
+                    //             Navigator.push(
+                    //                 context,
+                    //                 MaterialPageRoute(
+                    //                   builder: (context) => JobDetail(jobId: MineModel.instance.applyList[index].jobId,),
+                    //                 ));
+                    //         });
+                    //   }
+                    // }
+                    if (index < ChatHistoryModel.instance.msgList.length) {
+                      return GestureDetector(onTap: () {
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context) =>identityModel.identity == Identity.boss?BossChatRoom(toId: ChatHistoryModel.instance.msgList[index].userId.toString(),toName: ChatHistoryModel.instance.msgList[index].toRoleName,toAvatar: ChatHistoryModel.instance.msgList[index].toRoleImgUrl):ChatRoom(toId: ChatHistoryModel.instance.msgList[index].userId.toString(),toName: ChatHistoryModel.instance.msgList[index].toRoleName,toAvatar: ChatHistoryModel.instance.msgList[index].toRoleImgUrl,)));
+                      }, behavior: HitTestBehavior.opaque, child: MsgChatItem(
+                          msgListData: ChatHistoryModel.instance.msgList[index]),);
                     }
                     return null;
-                  }, childCount: identityModel.identity==Identity.boss?BossMineModel.instance.applyList.length:MineModel.instance.applyList.length)),
+                  }, childCount: ChatHistoryModel.instance.msgList.length
+                        // childCount: identityModel.identity==Identity.boss?BossMineModel.instance.applyList.length:MineModel.instance.applyList.length
+                  )),
             ],
           ),
         ),
@@ -172,5 +198,15 @@ class _CommunicateJobState extends State<CommunicateJob> {
       }
       setState(() {});
     });
+  }
+
+  /// 获取消息列表
+  getMsgList(MsgType msgType) async {
+    MsgListEntity msgEntity = await ChatHistoryModel.instance
+        .getMsgList(context, Application.sp.get('userId'),msgType==MsgType.recruiter?2:1);
+    if(msgEntity!=null){
+      setState(() {
+      });
+    }
   }
 }

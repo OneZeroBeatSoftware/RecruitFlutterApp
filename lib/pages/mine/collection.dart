@@ -51,7 +51,7 @@ class _CollectionSate extends State<Collection> {
     Widget emptyWidget;
     if (_selectFilterType == 2 && MineModel.instance.companyList.length <= 0) {
       emptyWidget = EmptyWidget(remindText: '没有收藏的公司哦',);
-    } else if (MineModel.instance.jobList.length <= 0) {
+    } else if (_selectFilterType == 1&&MineModel.instance.jobList.length <= 0) {
       emptyWidget = EmptyWidget(remindText: '没有收藏的岗位哦',);
     }
     return Scaffold(

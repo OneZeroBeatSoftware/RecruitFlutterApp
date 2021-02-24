@@ -45,8 +45,8 @@ class WebSocketManager with ChangeNotifier {
 
   /// 初始化Socket并监听数据
   startClient(String fromId) {
-    // _channel = new IOWebSocketChannel.connect("ws://34.229.235.238:7788/recruit");
-    _channel = new IOWebSocketChannel.connect("ws://139.196.75.120:7788/recruit");
+    _channel = new IOWebSocketChannel.connect("ws://34.229.235.238:7788/recruit");
+    // _channel = new IOWebSocketChannel.connect("ws://139.196.75.120:7788/recruit");
     Map<String, dynamic> loginInfo = new Map();
     loginInfo["code"] = "10000";
     loginInfo["userId"] = fromId;
@@ -86,11 +86,14 @@ class WebSocketManager with ChangeNotifier {
     }
   }
 
-  sendMsg(String toId, String msg) {
+  sendMsg(String toId, String msg,{String roleFlag}) {
     Map<String, dynamic> content = new Map();
     content["code"] = "10086";
     content["content"] = msg;
     content["toId"] = toId;
+    if(roleFlag!=null&&roleFlag.isNotEmpty){
+      content["roleFlag"] = roleFlag;
+    }
     _channel.sink.add(jsonEncode(content));
   }
 
