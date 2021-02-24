@@ -328,7 +328,7 @@ class _BossChatRoomState extends State<BossChatRoom> {
                               return;
                             }
                             editController.text='';
-                            model.sendMsg(widget.toId, text,roleFlag: '2');
+                            model.sendMsg(widget.toId, text,fromRoleFlag: '2',toRoleFlag: '1');
                           },
                         ),
                       ),

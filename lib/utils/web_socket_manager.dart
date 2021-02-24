@@ -86,13 +86,16 @@ class WebSocketManager with ChangeNotifier {
     }
   }
 
-  sendMsg(String toId, String msg,{String roleFlag}) {
+  sendMsg(String toId, String msg,{String fromRoleFlag,String toRoleFlag}) {
     Map<String, dynamic> content = new Map();
     content["code"] = "10086";
     content["content"] = msg;
     content["toId"] = toId;
-    if(roleFlag!=null&&roleFlag.isNotEmpty){
-      content["roleFlag"] = roleFlag;
+    if(fromRoleFlag!=null&&fromRoleFlag.isNotEmpty){
+      content["fromRoleFlag"] = fromRoleFlag;
+    }
+    if(toRoleFlag!=null&&toRoleFlag.isNotEmpty){
+      content["toRoleFlag"] = toRoleFlag;
     }
     _channel.sink.add(jsonEncode(content));
   }
